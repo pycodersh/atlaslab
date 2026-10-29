@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T01:53:12.637Z",
+  "generated_at": "2026-10-29T02:01:59.257Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -3354,20 +3354,20 @@
     {
       "id": "20a6a58d-16e5-4a94-a063-a801329e3d35",
       "category": "Life",
-      "title": "Where Are the Trash Cans? How Tourists Deal with Street Litter in Seoul",
+      "title": "Where Are the Trash Cans in Seoul? Where to Throw Things Away and How to Sort",
       "slug": "where-are-trash-cans-in-seoul",
       "url": "/blog/en/k-patto/where-are-trash-cans-in-seoul",
       "target_keywords": [
-        "Seoul Travel",
-        "Street Litter",
-        "Recycling Korea",
-        "Travel Etiquette"
+        "seoul travel",
+        "trash cans korea",
+        "recycling korea",
+        "travel etiquette"
       ],
       "status": "Active",
       "last_updated": "2026-09-28",
-      "summary": "Learn why public trash cans are absent on Seoul streets and how to legally dispose of trash using subways, convenience stores, and cafes.",
+      "summary": "Why Seoul streets have so few public trash cans, the places you can always throw things away, how to sort cups, cans and general waste, and what to say.",
       "db_category": "Korean Culture",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "e8e0a291-a0de-43fd-b018-6875dd690d29",
