@@ -346,8 +346,11 @@ export default async function AppBlogPostPage({
           */}
 
           {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위.
-              Korean phrases / basics 글은 앱·PDF 버튼 대신 /kpatto 랜딩으로 가는 단일 CTA(lib/blog/appCta) */}
-          <ArticleAppBanner app={app} category={post.category} locale={locale} />
+              Korean phrases / basics 글은 앱·PDF 버튼 대신 /kpatto 랜딩으로 가는 단일 CTA(lib/blog/appCta).
+              개편 글(본문에 <KpattoCta /> 가 있는 Food·Life 글)은 본문 CTA 와 겹쳐서 내지 않는다 */}
+          {!post.content.includes('<KpattoCta') && (
+            <ArticleAppBanner app={app} category={post.category} locale={locale} />
+          )}
 
           {/* Klook 배너 — 앱 CTA 바로 아래. 여행·음식·생활 글에만(학습 글 phrases·basics 에는 넣지 않는다) */}
           {KLOOK_GROUPS.has(groupKeyOf(app, post.category) ?? '') && <KlookBanner />}
