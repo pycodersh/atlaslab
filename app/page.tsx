@@ -422,8 +422,10 @@ export default async function AtlasLabHome() {
           background: #F5F5F3;
           padding: 60px 0 64px;
         }
-        /* 카테고리가 세로로 이어지므로 구획이 드러나도록 사이 여백을 넉넉히 준다 */
+        /* 카테고리가 세로로 이어지므로 구획이 드러나도록 사이 여백을 넉넉히 준다.
+           전체 보기는 섹션 머리 오른쪽 'View all N →' 링크 하나로 한다(발치 버튼은 중복이라 없앴다) */
         .blog-sec + .blog-sec { margin-top: 64px; }
+        @media (max-width: 767px) { .blog-sec + .blog-sec { margin-top: 48px; } }
         /* 카드 사이 1px 구분선 — 컨테이너 배경이 아니라 카드 테두리로 그린다.
            행이 덜 찼을 때(3열에 카드 2장 등) 빈 칸이 회색 블록으로 보이지 않는다.
            위·왼쪽은 컨테이너가, 오른쪽·아래는 각 카드가 맡아 1px 로 맞물린다. */
@@ -492,21 +494,6 @@ export default async function AtlasLabHome() {
           .bexcerpt { font-size: 12.5px; line-height: 1.55; flex: 0 1 auto; }
           .bmeta { font-size: 10.5px; margin-top: 8px; }
         }
-
-        /* 섹션 발치 '전체 보기' — 가운데 아웃라인 버튼. 폰에서는 폭 전체(손가락 표적) */
-        .sec-more { display: flex; justify-content: center; margin-top: 24px; }
-        .sec-more-btn {
-          display: inline-flex; align-items: center; justify-content: center;
-          min-height: 44px; padding: 10px 24px;
-          font-family: ${BODY}; font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
-          color: var(--ink, #111); text-decoration: none;
-          border: 1.5px solid var(--ink, #111); border-radius: 999px; background: transparent;
-          transition: background 0.15s, color 0.15s;
-          -webkit-tap-highlight-color: transparent;
-        }
-        @media (hover: hover) { .sec-more-btn:hover { background: var(--ink, #111); color: #fff; } }
-        .sec-more-btn:active { background: var(--ink, #111); color: #fff; }
-        @media (max-width: 767px) { .sec-more { margin-top: 16px; } .sec-more-btn { width: 100%; } }
 
         /* ── Why section ───────────────────────────────────────────── */
         .why-wrap { padding-top: 60px; padding-bottom: 72px; }
@@ -649,12 +636,6 @@ export default async function AtlasLabHome() {
                       ))}
                     </div>
                   )}
-                  {/* 섹션 발치 가운데 '전체 보기' 버튼 — 머리 오른쪽의 작은 View all 링크는 그대로 두고, 폰에서 누르기 쉬운 큰 표적을 하나 더 둔다 */}
-                  <div className="sec-more">
-                    <a href={`/blog?tab=${section.key}`} className="sec-more-btn">
-                      Explore All {section.key === 'explore-korea' ? 'Explore Korea' : section.title} Articles →
-                    </a>
-                  </div>
                 </section>
               ),
             )}

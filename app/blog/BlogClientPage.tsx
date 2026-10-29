@@ -85,19 +85,20 @@ export function BlogClientPage({
         @media (min-width: 768px) {
           .bl-hero { padding: 52px 0 40px; }
         }
-        /* 뒤로가기 — 텍스트 링크에서 고스트 알약 버튼으로 */
+        /* 뒤로가기 — 테두리 없는 작은 대문자 텍스트 링크. 위아래 패딩은 누르는 영역용이고 음수 마진으로 자리를 되돌린다.
+           마우스를 올리면 화살표만 왼쪽으로 살짝 민다 */
         .bl-back {
           display: inline-flex; align-items: center; gap: 6px;
           font-family: ${BODY};
-          font-size: 12px; line-height: 1;
+          font-size: 12px; font-weight: 500; line-height: 1;
+          letter-spacing: 0.08em; text-transform: uppercase;
           color: #A3A3A3; text-decoration: none;
-          padding: 6px 12px; border-radius: 999px;
-          border: 1px solid #262626;
-          background: rgba(23,23,23,0.6);
-          margin-bottom: 20px;
-          transition: color 0.15s, background 0.15s;
+          padding: 8px 0; margin: -8px 0 8px;
+          transition: color 0.15s;
         }
-        .bl-back:hover { color: #fff; background: #262626; }
+        .bl-back:hover { color: #fff; }
+        .bl-back-arrow { display: inline-block; transition: transform 0.15s; }
+        .bl-back:hover .bl-back-arrow { transform: translateX(-2px); }
         .bl-kicker {
           font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
           font-size: 11px; font-weight: 500;
@@ -165,29 +166,31 @@ export function BlogClientPage({
         .bl-tab.active { color: #111; font-weight: 700; border-bottom-color: #C8102E; }
 
         /* ── Sub-category chips ────────────────────────────────────── */
-        /* 가로로 스크롤되는 알약 버튼 줄. 스크롤바는 숨기고 터치/휠로 민다.
-           줄이 화면보다 길면 오른쪽 끝이 잘려 보여 더 있다는 걸 알려 준다. */
+        /* 매거진식 텍스트 필터 — 테두리 · 배경 없이 글자와 얇은 밑줄로만 상태를 보인다.
+           가로로 스크롤되고 스크롤바는 숨긴다. 줄이 화면보다 길면 오른쪽 끝이 잘려 보여 더 있다는 걸 알려 준다.
+           위아래 패딩은 손가락 표적(높이 약 36px)을 위한 것이고, 활성 밑줄은 글자 바로 아래 오도록 border 로 그린다. */
         .bl-subbar {
-          display: flex; gap: 8px;
-          margin: -12px 0 28px;
+          display: flex; gap: 24px;
+          margin: -16px 0 28px;
           overflow-x: auto; -webkit-overflow-scrolling: touch;
           scrollbar-width: none;
-          padding: 2px 0 4px;
         }
         .bl-subbar::-webkit-scrollbar { display: none; }
         .bl-chip {
           flex-shrink: 0; white-space: nowrap;
-          display: inline-flex; align-items: center; gap: 6px;
+          display: inline-flex; align-items: baseline;
           font-family: ${BODY};
-          font-size: 13px; font-weight: 500; line-height: 1;
-          color: #555; text-decoration: none;
-          padding: 9px 14px; border-radius: 999px;
-          border: 1px solid #DAD7D1; background: #fff;
-          transition: color 0.15s, background 0.15s, border-color 0.15s;
+          font-size: 14px; font-weight: 400; line-height: 1.2;
+          color: #737373; text-decoration: none;
+          padding: 8px 0 4px;
+          border-bottom: 2px solid transparent;
+          transition: color 0.15s, border-color 0.15s;
         }
-        .bl-chip:hover { border-color: #C8102E; color: #111; }
-        .bl-chip.active { background: #111; border-color: #111; color: #fff; font-weight: 600; }
-        .bl-chip-n { font-size: 11px; opacity: 0.55; font-variant-numeric: tabular-nums; }
+        .bl-chip:hover { color: #171717; }
+        .bl-chip.active { color: #171717; font-weight: 600; border-bottom-color: #171717; }
+        .bl-chip-n { margin-left: 4px; font-size: 12px; font-weight: 400; color: #A3A3A3; font-variant-numeric: tabular-nums; }
+        .bl-chip.active .bl-chip-n { color: #404040; font-weight: 500; }
+        @media (max-width: 700px) { .bl-subbar { gap: 20px; } }
 
         /* ── Post grid ─────────────────────────────────────────────── */
         /* 카드 사이 1px 구분선 — 컨테이너 배경이 아니라 카드 테두리로 그린다.
@@ -338,7 +341,7 @@ export function BlogClientPage({
       {/* ── Hero ── */}
       <section className="bl-hero">
         <div className="bl-wrap">
-          <Link href="/" className="bl-back">← Atlas Lab</Link>
+          <Link href="/" className="bl-back"><span className="bl-back-arrow" aria-hidden="true">←</span>Atlas Lab</Link>
           <p className="bl-kicker">Articles</p>
           <h1 className="bl-h1">
             {lang === 'KO' ? '한국어 아티클' : pageTitle}
