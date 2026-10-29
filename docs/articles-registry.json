@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T05:03:41.937Z",
+  "generated_at": "2026-10-29T05:15:15.638Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -1653,20 +1653,20 @@
     {
       "id": "59d1a997-d4d9-423b-95f3-9354152b86cb",
       "category": "Food",
-      "title": "A Guide to Sikhye and Sujeonggwa: Traditional Korean Refreshments",
+      "title": "Sikhye and Sujeonggwa: Korea's Traditional Sweet Drinks",
       "slug": "guide-to-sikhye-and-sujeonggwa",
       "url": "/blog/en/k-pantry/guide-to-sikhye-and-sujeonggwa",
       "target_keywords": [
-        "korean-drinks",
-        "traditional-korean-food",
-        "korean-culture",
-        "dessert"
+        "sikhye",
+        "sujeonggwa",
+        "korean drinks",
+        "korean dessert"
       ],
       "status": "Active",
       "last_updated": "2026-10-15",
-      "summary": "Learn the essential differences between Korea’s two most iconic traditional drinks and how to enjoy them like a local.",
+      "summary": "Sikhye (sweet rice drink) and sujeonggwa (cinnamon punch) explained: taste, ingredients, where to find them, jjimjilbang and holiday traditions, and serving tips.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "5c35bc5f-6e3b-4016-ba78-a178faeee1c1",
@@ -1761,20 +1761,20 @@
     {
       "id": "af577eb0-28bf-490f-b12c-d1197e8a0982",
       "category": "Food",
-      "title": "Gyeran-jjim: The Ultimate Guide to Fluffy Korean Steamed Egg",
+      "title": "Gyeran-jjim: Korean Steamed Egg, How to Order It and Make It at Home",
       "slug": "gyeran-jjim-korean-steamed-egg-guide",
       "url": "/blog/en/k-pantry/gyeran-jjim-korean-steamed-egg-guide",
       "target_keywords": [
-        "korean-cuisine",
-        "home-cooking",
-        "korean-side-dish",
-        "dining-etiquette"
+        "gyeran jjim",
+        "korean steamed egg",
+        "korean side dish",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-13",
-      "summary": "Master the art of preparing and ordering Korea’s iconic savory steamed egg dish, a staple side that balances heat and texture in every meal.",
+      "summary": "Gyeran-jjim explained: the fluffy steamed egg served at Korean BBQ and stew restaurants, its styles, why it cools spicy food, and how to make it at home.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "4df0e9bf-6158-4762-85c5-58780ad004a0",
@@ -1815,20 +1815,20 @@
     {
       "id": "f8301740-4e5f-4b68-b1a0-46c56679f5b6",
       "category": "Food",
-      "title": "Japchae: A Practical Guide to Korea’s Signature Glass Noodle Stir-fry",
+      "title": "Japchae Guide: Korean Glass Noodles, How to Order and Make Them",
       "slug": "korean-japchae-guide",
       "url": "/blog/en/k-pantry/korean-japchae-guide",
       "target_keywords": [
-        "korean-food",
-        "recipes",
-        "korean-cuisine",
-        "dining-in-korea"
+        "japchae",
+        "glass noodles",
+        "korean food",
+        "korean cooking"
       ],
       "status": "Active",
       "last_updated": "2026-10-12",
-      "summary": "Master the art of eating and preparing japchae, the savory, chewy, and colorful glass noodle dish essential to Korean celebrations.",
+      "summary": "Japchae explained: sweet potato glass noodles stir-fried with vegetables and beef, where to eat it, how it's served, and simple tips for making it at home.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "699df36c-34e8-493c-8cc7-cb57102da1c3",
@@ -1929,14 +1929,14 @@
       "target_keywords": [
         "korean soup",
         "jjigae",
-        "guk",
-        "korean food guide"
+        "jeongol",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-07",
-      "summary": "Understand how Korean guk, tang, jjigae, and jeongol differ in broth, seasoning, and serving style so you can order the right bowl.",
+      "summary": "What guk, tang, jjigae and jeongol mean on Korean menus: broth thickness, serving style and examples, so you can order the soup or stew you actually want.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "347b050c-15b2-4cc6-876f-1116c883e3ef",
@@ -1978,21 +1978,20 @@
     {
       "id": "68c72bdc-bfc3-44cb-9c49-7313311cc65c",
       "category": "Food",
-      "title": "Shin Ramyun vs Jin Ramen vs Neoguri vs Buldak: Korean Instant Noodles Compared",
+      "title": "Korean Instant Noodles Compared: Which Ramyeon to Buy",
       "slug": "korean-instant-noodles-compared",
       "url": "/blog/en/k-pantry/korean-instant-noodles-compared",
       "target_keywords": [
-        "ramyeon",
+        "korean ramyeon",
+        "instant noodles",
         "buldak",
-        "shin-ramyun",
-        "jin-ramen",
-        "neoguri"
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-04",
-      "summary": "A direct comparison of Korea's four most popular instant noodles by Scoville heat, flavor profile, and preparation method.",
+      "summary": "The most popular Korean instant noodles compared by spice, flavor and style, from Shin Ramyun to Buldak and Jjapaguri, plus how to cook them like a local.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "3dda28bf-5fe4-41be-980c-b6cbfcd9d9fc",
@@ -2033,39 +2032,38 @@
     {
       "id": "b17c08b7-0d34-4fbe-8659-a579ba8083f5",
       "category": "Food",
-      "title": "Korean Fried Chicken vs American Fried Chicken: Why Korean Chicken Is Crunchier",
+      "title": "Korean vs American Fried Chicken: What Makes Korean Chicken Different",
       "slug": "korean-vs-american-fried-chicken",
       "url": "/blog/en/k-pantry/korean-vs-american-fried-chicken",
       "target_keywords": [
         "korean fried chicken",
+        "fried chicken",
         "chimaek",
-        "korean food",
-        "seoul dining"
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-03",
-      "summary": "Korean fried chicken gets its signature glass-like crunch from a thin potato starch batter and a mandatory double-frying technique, contrasting with the thick, single-fried flour crust of American styles.",
+      "summary": "Korean and American fried chicken compared: batter, double frying, sauces, portions and sides, plus why Korean chicken is so crispy and how locals eat it.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "7289ad76-42b2-44e3-9360-31971a198f1c",
       "category": "Food",
-      "title": "Napa Cabbage Kimchi vs Radish Kimchi (Kkakdugi): When to Eat Which",
+      "title": "Baechu Kimchi vs Kkakdugi: Cabbage Kimchi, Radish Kimchi and Other Types",
       "slug": "baechu-vs-kkakdugi-kimchi-guide",
       "url": "/blog/en/k-pantry/baechu-vs-kkakdugi-kimchi-guide",
       "target_keywords": [
         "kimchi",
-        "korean dining",
         "kkakdugi",
-        "baechu kimchi",
-        "food pairings"
+        "korean side dishes",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-03",
-      "summary": "Learn the exact pairing rules for Korea's two most popular kimchis, including current prices, flavor profiles, and proper storage methods.",
+      "summary": "The main kinds of kimchi compared: napa cabbage, cubed radish, cucumber, white and water kimchi, how they taste, what they're served with, and how to store them.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "5ca2c9c0-4519-4d06-9cbb-f0b12a060fde",
@@ -2232,20 +2230,20 @@
     {
       "id": "19c41e78-990e-4f18-afd5-9a552c06354a",
       "category": "Food",
-      "title": "Milmyeon vs Naengmyeon: Busan's Wheat Noodle Explained",
+      "title": "Milmyeon vs Naengmyeon: Korea's Cold Noodles, Explained",
       "slug": "busan-milmyeon-vs-naengmyeon",
       "url": "/blog/en/k-pantry/busan-milmyeon-vs-naengmyeon",
       "target_keywords": [
-        "milmyeon",
         "naengmyeon",
-        "busan",
-        "noodles"
+        "milmyeon",
+        "busan food",
+        "cold noodles"
       ],
       "status": "Active",
       "last_updated": "2026-08-14",
-      "summary": "Milmyeon looks like naengmyeon and is served the same way, but the noodle is wheat, not buckwheat. The swap came from wartime flour aid and changed how the whole bowl eats.",
+      "summary": "Busan's milmyeon and classic naengmyeon compared: noodles, broth and spice, mul vs bibim styles, how to eat them with vinegar and mustard, and how to order.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "f6220b8e-1c98-4cef-ac64-2ae3f6d08a59",
@@ -2254,16 +2252,16 @@
       "slug": "jeju-black-pork-vs-samgyeopsal",
       "url": "/blog/en/k-pantry/jeju-black-pork-vs-samgyeopsal",
       "target_keywords": [
-        "pork",
-        "jeju",
+        "jeju black pork",
+        "heukdwaeji",
         "samgyeopsal",
-        "grilling"
+        "jeju food"
       ],
       "status": "Active",
       "last_updated": "2026-08-14",
-      "summary": "Jeju black pork is a breed, not a cut — which is why the comparison with samgyeopsal confuses people. Here is what changes, including the anchovy sauce nobody warns you about.",
+      "summary": "Jeju black pork (heukdwaeji) compared with regular pork belly: taste, texture, price, how it's grilled and served on Jeju, and where to try it.",
       "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "3a664290-d9b8-41cb-8646-7169a6f3917a",
@@ -2358,20 +2356,20 @@
     {
       "id": "1d803289-aaae-4a99-ba4f-4239b6c5806b",
       "category": "Food",
-      "title": "A Regional Map of Korean Food: What to Eat Where, and What to Cook at Home",
+      "title": "A Regional Map of Korean Food: What to Eat Where",
       "slug": "regional-korean-food-map",
       "url": "/blog/en/k-pantry/regional-korean-food-map",
       "target_keywords": [
-        "regional food",
-        "korean cuisine",
-        "travel",
-        "guide"
+        "regional korean food",
+        "korea travel food",
+        "local specialties",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-08-14",
-      "summary": "Korean food is not one cuisine. This is a region-by-region guide to the dishes worth seeking out, what makes each one local, and which ones actually work in a home kitchen.",
+      "summary": "Korea's regional specialties by city and province: Busan, Jeonju, Jeju, Gyeongju, Chuncheon, Andong and more, so you know what to eat on each trip.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "d1c7d62a-7fe2-4180-9e38-a8fc1fadb3c0",
