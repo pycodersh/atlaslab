@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T03:16:37.104Z",
+  "generated_at": "2026-10-29T05:03:41.937Z",
   "counts": {
     "Active": {
       "Phrases": 47,
@@ -1581,21 +1581,20 @@
     {
       "id": "438214d4-2dce-403c-8c96-3fbd15ee71f1",
       "category": "Food",
-      "title": "The Ultimate Guide to Eating Bossam: Korea’s Boiled Pork Wraps",
+      "title": "How to Eat Bossam: Korean Boiled Pork Wraps Explained",
       "slug": "how-to-eat-korean-bossam",
       "url": "/blog/en/k-pantry/how-to-eat-korean-bossam",
       "target_keywords": [
-        "korean-food",
-        "dining-etiquette",
         "bossam",
-        "korean-cuisine",
-        "seoul-food"
+        "korean pork",
+        "jokbal",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-16",
-      "summary": "Master the art of assembling the perfect bossam bite with this practical guide to Korea's classic boiled pork belly dish.",
+      "summary": "Bossam explained: boiled pork belly served with kimchi and wraps, how to build a bossam wrap, how it differs from jokbal, and how to order at a restaurant.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "f1475709-8bfc-4576-8822-af72b1f0e5b8",
@@ -1636,20 +1635,20 @@
     {
       "id": "5318ee6b-aa2c-4ed5-b2ca-ede964c6efed",
       "category": "Food",
-      "title": "Korean Mandu Guide: Varieties, Flavors, and Home Cooking Techniques",
+      "title": "Mandu Guide: Korean Dumpling Types and How to Order or Cook Them",
       "slug": "korean-mandu-dumplings-types-cooking-guide",
       "url": "/blog/en/k-pantry/korean-mandu-dumplings-types-cooking-guide",
       "target_keywords": [
-        "korean-food",
         "mandu",
-        "korean-dumplings",
-        "home-cooking"
+        "korean dumplings",
+        "korean food",
+        "korean cooking"
       ],
       "status": "Active",
       "last_updated": "2026-10-15",
-      "summary": "Master the distinct types of Korean dumplings (mandu), understand filling options, and learn the exact step-by-step methods for cooking frozen or fresh mandu at home.",
+      "summary": "Korean mandu explained: steamed, pan-fried, boiled and kimchi dumplings, where to eat them, how to cook frozen mandu at home, and how to order.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "59d1a997-d4d9-423b-95f3-9354152b86cb",
@@ -1708,21 +1707,20 @@
     {
       "id": "5fe2b347-0f7f-4753-8268-cf37ce8a17cd",
       "category": "Food",
-      "title": "Haejangguk: A Guide to Korean Hangover Soups for the Morning After",
+      "title": "Haejangguk: Korean Hangover Soups and Where to Find Them",
       "slug": "haejangguk-korean-hangover-soups-guide",
       "url": "/blog/en/k-pantry/haejangguk-korean-hangover-soups-guide",
       "target_keywords": [
-        "korean-food",
-        "hangover-cure",
-        "korean-culture",
-        "dining-etiquette",
-        "travel-tips"
+        "haejangguk",
+        "hangover soup",
+        "korean soup",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-14",
-      "summary": "Master the art of the Korean hangover cure with this guide to Haejangguk, including how to order, common varieties, and essential etiquette.",
+      "summary": "Korean hangover soups explained: haejangguk, bean sprout soup, dried pollack soup and more, what each tastes like, when locals eat them, and how to order.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "f9b9c12d-8845-43b9-974a-aea72ddfae59",
@@ -1745,20 +1743,20 @@
     {
       "id": "8c110cb5-01b3-4115-aa29-8f1faf2d076a",
       "category": "Food",
-      "title": "Budae-jjigae Guide: The History of Army Stew and How to Eat It Like a Local",
+      "title": "Budae Jjigae: How to Order and Eat Korean Army Stew",
       "slug": "budae-jjigae-korean-army-stew-guide",
       "url": "/blog/en/k-pantry/budae-jjigae-korean-army-stew-guide",
       "target_keywords": [
-        "budae-jjigae",
-        "korean-stew",
-        "seoul-food-guide",
-        "korean-comfort-food"
+        "budae jjigae",
+        "army stew",
+        "korean stew",
+        "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-10-13",
-      "summary": "Discover the wartime origin of budae-jjigae (Korean army stew), how to order and customize your pot, and the exact steps to eat it like a local in Korea.",
+      "summary": "Budae jjigae (army stew) explained: its history, what goes in the pot, how shared hot pots work at the table, popular add-ons and how to order for a group.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "af577eb0-28bf-490f-b12c-d1197e8a0982",
@@ -1853,21 +1851,20 @@
     {
       "id": "ba978c77-3c06-4006-be7a-ae4d921e2abe",
       "category": "Food",
-      "title": "Bulgogi vs Galbi: A Guide to Korea's Iconic Marinated Beef",
+      "title": "Bulgogi vs Galbi: The Difference Between Korea's Two Famous Beef Dishes",
       "slug": "bulgogi-vs-galbi-korean-beef-guide",
       "url": "/blog/en/k-pantry/bulgogi-vs-galbi-korean-beef-guide",
       "target_keywords": [
-        "korean-food",
-        "dining-in-korea",
-        "beef",
         "bulgogi",
-        "galbi"
+        "galbi",
+        "korean beef",
+        "korean bbq"
       ],
       "status": "Active",
       "last_updated": "2026-10-09",
-      "summary": "Understand the fundamental differences between Bulgogi and Galbi, two of Korea's most beloved marinated beef dishes, to choose the right meal for your palate.",
+      "summary": "Bulgogi and galbi compared: cuts, marinades, cooking style and price, how each is served in restaurants, and simple tips for making them at home.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "fff8f3cc-c529-4fa2-a422-8490727a8b54",
@@ -1944,20 +1941,20 @@
     {
       "id": "347b050c-15b2-4cc6-876f-1116c883e3ef",
       "category": "Food",
-      "title": "Hotteok vs Bungeoppang vs Gyeranppang: Korea's Winter Street Snacks Compared",
+      "title": "Korean Winter Street Snacks: Hotteok, Bungeoppang, and More",
       "slug": "korean-winter-street-snacks-hotteok-bungeoppang",
       "url": "/blog/en/k-pantry/korean-winter-street-snacks-hotteok-bungeoppang",
       "target_keywords": [
-        "korean street food",
         "hotteok",
         "bungeoppang",
-        "gyeranppang"
+        "korean street food",
+        "winter in korea"
       ],
       "status": "Active",
       "last_updated": "2026-10-07",
-      "summary": "Compare Korea's three classic cold-weather street snacks, what each one is filled with, and how to order them from a stall.",
+      "summary": "The street snacks Koreans eat in winter: hotteok, bungeoppang, gyeranppang, roasted sweet potatoes and chestnuts, what they cost, and how to order and pay.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "0e713eb8-3590-4596-baf0-78a30dd7232b",
@@ -2018,21 +2015,20 @@
     {
       "id": "7dc0b77c-2956-4998-98d8-0f900ff13c66",
       "category": "Food",
-      "title": "Soju vs Makgeolli vs Cheongju: A Guide to Korean Alcohol",
+      "title": "Soju, Makgeolli, Cheongju: A Guide to Korean Alcohol and Drinking Etiquette",
       "slug": "soju-makgeolli-cheongju-korea-guide",
       "url": "/blog/en/k-pantry/soju-makgeolli-cheongju-korea-guide",
       "target_keywords": [
         "soju",
         "makgeolli",
-        "cheongju",
-        "korean-alcohol",
-        "convenience-store"
+        "korean alcohol",
+        "drinking etiquette"
       ],
       "status": "Active",
       "last_updated": "2026-10-03",
-      "summary": "Compare price, ABV, taste, and food pairings for South Korea's three most popular traditional alcoholic drinks.",
+      "summary": "Korean alcohol explained: soju, makgeolli, cheongju and somaek compared, what to pair them with, and the drinking etiquette that matters at Korean tables.",
       "db_category": "Cooking Basics",
-      "overhauled": false
+      "overhauled": true
     },
     {
       "id": "b17c08b7-0d34-4fbe-8659-a579ba8083f5",
@@ -2380,20 +2376,20 @@
     {
       "id": "d1c7d62a-7fe2-4180-9e38-a8fc1fadb3c0",
       "category": "Food",
-      "title": "Is Korean Food Always Spicy? A Guide to Heat Levels",
+      "title": "Is Korean Food Always Spicy? A Guide to Heat Levels and Mild Dishes",
       "slug": "is-korean-food-spicy",
       "url": "/blog/en/k-pantry/is-korean-food-spicy",
       "target_keywords": [
         "korean food",
-        "spicy",
-        "beginners",
-        "gochujang"
+        "spicy food",
+        "mild korean dishes",
+        "korean cooking"
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "Not all Korean food is spicy. Here is what actually brings the heat, which dishes are mild, and how to adjust the ones that aren't.",
-      "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "summary": "How spicy Korean food really is: dishes ranked from mild to very hot, where the heat comes from, mild dishes to order, and how to ask for less spice.",
+      "db_category": "Cooking Basics",
+      "overhauled": true
     },
     {
       "id": "3452bd6a-05df-4fa9-8d85-633395317599",
@@ -2416,20 +2412,20 @@
     {
       "id": "2bfa74f4-1eed-4fec-a455-1db3837c976e",
       "category": "Food",
-      "title": "What Is Banchan? Why Korean Meals Come With So Many Side Dishes",
+      "title": "What Is Banchan? Why Korean Meals Come With So Many Free Side Dishes",
       "slug": "what-is-banchan-korean-side-dishes",
       "url": "/blog/en/k-pantry/what-is-banchan-korean-side-dishes",
       "target_keywords": [
         "banchan",
-        "side dishes",
-        "korean dining",
-        "beginners"
+        "korean side dishes",
+        "korean food",
+        "dining etiquette"
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "The small plates that arrive before your order aren't appetizers. Here's what banchan is, why it's free, and how it works at home.",
-      "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "summary": "Banchan explained: the small side dishes served with Korean meals, common types, why they're free and refillable, and the etiquette for sharing them.",
+      "db_category": "Cooking Basics",
+      "overhauled": true
     },
     {
       "id": "e64ce51e-58e7-46d4-8a4b-32c2886946a2",
@@ -2470,20 +2466,20 @@
     {
       "id": "99da2781-aec9-4219-8ab3-ded2b4eff704",
       "category": "Food",
-      "title": "Is Korean Food Vegetarian-Friendly? What to Watch Out For",
+      "title": "Is Korean Food Vegetarian-Friendly? What to Order and What to Watch For",
       "slug": "is-korean-food-vegetarian-friendly",
       "url": "/blog/en/k-pantry/is-korean-food-vegetarian-friendly",
       "target_keywords": [
-        "vegetarian",
-        "vegan",
-        "kimchi",
+        "vegetarian korea",
+        "vegan korean food",
+        "temple food",
         "korean food"
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "Many Korean dishes look vegetarian but aren't. Here's where hidden seafood shows up, and which dishes are genuinely safe.",
-      "db_category": "Ingredients & Pantry",
-      "overhauled": false
+      "summary": "Eating vegetarian or vegan in Korea: hidden fish and meat ingredients, dishes that can be made vegetarian, temple food, and how to explain your diet in Korean.",
+      "db_category": "Cooking Basics",
+      "overhauled": true
     },
     {
       "id": "0f5d3314-c0fb-4cb2-aec3-9e23d0f11131",
