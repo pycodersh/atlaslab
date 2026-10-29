@@ -36,7 +36,19 @@ type Entry = {
   last_updated: string
   summary: string
   db_category?: string | null
+  /** docs/CONTENT_GUIDELINES.md 형식으로 다시 쓴 글 — content/blog/<slug>.mdx 원고가 있으면 true */
+  overhauled?: boolean
 }
+
+const CONTENT_DIR = path.resolve(process.cwd(), 'content', 'blog')
+// 원고 파일이 있어도 이미지 추가 등으로만 내보낸 글이 있으니, 가이드라인 블록(<KeyTakeaways>)이 있는 원고만 센다
+const OVERHAULED = new Set(
+  fs.existsSync(CONTENT_DIR)
+    ? fs.readdirSync(CONTENT_DIR)
+        .filter(f => f.endsWith('.mdx') && fs.readFileSync(path.join(CONTENT_DIR, f), 'utf8').includes('<KeyTakeaways>'))
+        .map(f => f.replace(/\.mdx$/, ''))
+    : [],
+)
 
 /** 아직 없는 글 — 쓰면 DB 에 들어가 Active 로 바뀌므로 여기서 지운다 */
 const PLANNED: Omit<Entry, 'url' | 'status' | 'last_updated'>[] = [
@@ -88,6 +100,7 @@ async function main() {
       last_updated: (p.published_at ?? p.created_at ?? '').slice(0, 10),
       summary: p.description ?? '',
       db_category: p.category,
+      overhauled: OVERHAULED.has(p.slug) && status !== 'Deprecated',
     }
   })
 
