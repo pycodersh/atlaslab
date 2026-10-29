@@ -9,6 +9,7 @@ import { proseCss, PROSE_FONT } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
 import { groupKeyOf } from '@/lib/blog/sections'
 import { KlookBanner } from '@/components/blog/KlookBanner'
+import { ItalkiBanner } from '@/components/blog/ItalkiBanner'
 import { SaveActions } from '@/components/SaveActions'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
@@ -18,6 +19,9 @@ import { ArticleStickyCta } from '@/components/blog/ArticleStickyCta'
 
 /** Klook 배너를 붙이는 주제 그룹(lib/blog/sections) — 여행 Explore Korea · 음식 Food · 생활 Life */
 const KLOOK_GROUPS = new Set<string>(['explore-korea', 'food', 'life'])
+/** italki 배너를 붙이는 주제 그룹 — 한국어 학습 Phrases · Basics + 생활 Life (여행 · 음식 큐레이션에는 넣지 않는다).
+ *  DB category 는 'Real-Life Korean' · 'Korean Culture' 같은 값이라 문자열로 맞추지 않고 그룹 key 로 거른다 */
+const ITALKI_GROUPS = new Set<string>(['phrases', 'basics', 'life'])
 
 export const dynamic = 'force-dynamic'
 
@@ -328,6 +332,9 @@ export default async function AppBlogPostPage({
         </article>
 
         <div className="art-wrap" style={{ paddingBottom: 8 }}>
+          {/* italki 제휴 배너 — 본문 바로 아래, 앱 CTA · Klook · 관련 글 위. Phrases · Basics · Life 글에만 */}
+          {ITALKI_GROUPS.has(groupKeyOf(app, post.category) ?? '') && <ItalkiBanner />}
+
           {/*
             ── (추후) 글 전용 예약 버튼 자리 — 본문 Summary 바로 아래 ──────────────────────
             INSPIRE 처럼 특정 리조트·액티비티 글에 Trip.com / Klook 제휴 예약 링크를 받으면 여기에 둔다.
