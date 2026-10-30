@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
-import { DEFAULT_TAB, KOREAN_TAB, PATTO_TAB, groupKeyOf, legacyTabTarget, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
+import { DEFAULT_TAB, KOREAN_TAB, groupKeyOf, legacyTabTarget, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
 import { badgeFor } from '@/lib/blog/badge'
 import { KEEP_EMPTY_SUB_CHIPS, isCrossListed, isValidSubcategory, subcategoriesFor, subcategoriesOf } from '@/lib/blog/subcategories'
 import { permanentRedirect } from 'next/navigation'
@@ -58,9 +58,8 @@ export default async function BlogIndexPage({
   }
   const currentPage = Math.max(1, parseInt(page || '1'))
   const activeTab = resolveTab(tab)
-  // Patto 탭은 항상 KO; 나머지는 lang 파라미터(기본 en)
-  const activeLang: 'en' | 'ko' =
-    activeTab === PATTO_TAB.key ? 'ko' : (lang === 'ko' ? 'ko' : 'en')
+  // 언어는 lang 파라미터(기본 en). 한국어 글만 모아 보던 Patto 탭은 없앴다
+  const activeLang: 'en' | 'ko' = lang === 'ko' ? 'ko' : 'en'
   const now = new Date().toISOString()
 
   // 한 번만 조회하고 탭 분류는 lib/blog/sections 로 코드에서 한다.

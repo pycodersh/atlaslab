@@ -11,8 +11,8 @@
  *
  * app 기준이 하나 더 있다는 점이 중요하다:
  * patto 는 한국인 대상 영어 학습 글이라 위 주제 어디에도 들어가지 않는다.
- * 그래서 주제 섹션·탭은 k-patto / k-pantry 만 대상으로 하고,
- * patto 는 app 값으로 거르는 별도 탭이 된다.
+ * 그래서 주제 섹션·탭은 k-patto / k-pantry 만 대상으로 한다.
+ * patto 글의 별도 탭은 없앴다(Patto 앱 안내는 상단 메뉴 Products 로 모았다) — 글 주소는 그대로 열린다.
  */
 
 /** 주제 섹션·탭의 대상이 되는 app. kpantry 는 k-pantry 의 옛 표기. */
@@ -95,9 +95,6 @@ export const POSTS_PER_SECTION = 3
 /** 홈에 섹션을 띄우는 최소 글 수. 카드가 하나뿐이면 비어 보이므로 감춘다. */
 export const MIN_POSTS_TO_SHOW_SECTION = 2
 
-/** Patto 탭 — category 가 아니라 app 으로 거른다 */
-export const PATTO_TAB = { key: 'patto', label: 'Patto', app: 'patto' } as const
-
 // ── 그룹: 상단 메뉴·홈·목록 탭 ─────────────────────────────────────────────────
 export const BLOG_GROUPS = [
   {
@@ -179,11 +176,10 @@ export const DEFAULT_TAB = KOREAN_TAB.key
 /** Korean 아래에 묶이는 그룹 — 탭 바에는 없지만 'View all' · 홈 섹션 링크의 목적지로 주소는 살아 있다 */
 const KOREAN_GROUPS = new Set<string>(KOREAN_TAB.sections.map(s => s.group))
 
-/** 탭 바 순서: Korean · Explore Korea · Food · Life(= 상단 메뉴의 Guides) + Patto. 전체를 섞는 All 보기는 없다 */
+/** 탭 바 순서: Korean · Explore Korea · Food · Life(= 상단 메뉴의 Guides). 전체를 섞는 All 보기도, Patto 탭도 없다 */
 export const BLOG_TABS = [
   { key: KOREAN_TAB.key as string, label: KOREAN_TAB.label as string },
   ...BLOG_GROUPS.filter(g => !KOREAN_GROUPS.has(g.key)).map(g => ({ key: g.key as string, label: g.title as string })),
-  { key: PATTO_TAB.key as string, label: PATTO_TAB.label as string },
 ]
 
 /** 탭 바에 없는 탭(Phrases · Basics 전체 보기) */
@@ -237,7 +233,6 @@ export function postMatchesTab(
   post: { app: string; category: string | null },
   tabKey: string,
 ): boolean {
-  if (tabKey === PATTO_TAB.key) return post.app === PATTO_TAB.app
   const group = groupKeyOf(post.app, post.category)
   if (tabKey === KOREAN_TAB.key) return group !== null && KOREAN_GROUPS.has(group)
   return group === tabKey
@@ -258,7 +253,7 @@ export function tabLabel(tabKey: string): string {
  *
  * 홈 섹션의 desc(한 줄 요약)와 쓰임이 달라 따로 둔다. 홈은 카드 묶음 위에
  * 붙는 짧은 안내고, 이쪽은 페이지 전체를 소개하는 문장이다.
- * 'korean' 과 'patto' 는 주제 그룹이 아니라서 BLOG_GROUPS 에 자리가 없다.
+ * 'korean' 은 주제 그룹이 아니라서 BLOG_GROUPS 에 자리가 없다.
  */
 const TAB_DESCRIPTION: Record<string, string> = {
   korean: 'Start with Hangul and the basics, then practise the real-life phrases locals use every day.',
@@ -267,7 +262,6 @@ const TAB_DESCRIPTION: Record<string, string> = {
   'explore-korea': "Hotels, destinations and hot spots — curated guides to the best of Korea.",
   food: 'Authentic culinary culture, seasonal dishes, and dining etiquette in Korea.',
   life: 'Cultural nuances, social codes, and practical guides for navigating life in Korea.',
-  patto: 'Interactive language experiments and smart tools.',
 }
 
 /** 탭 설명. 모르는 값이면 Korean 문구로 떨어진다. */
