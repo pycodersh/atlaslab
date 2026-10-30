@@ -6,7 +6,7 @@ const ITALKI_HREF = 'https://www.italki.com/affshare?ref=af34196889'
  * 노출 그룹은 글 상세 라우트의 ITALKI_GROUPS 가 정한다(lib/blog/sections 의 그룹 key 기준 — DB category 문자열이 아니다).
  *
  * 본문과 같은 밝은 톤: 아이보리 카드 + 옅은 테두리, 넓은 화면은 카피 왼쪽 · 버튼 오른쪽, 폰은 세로로 쌓는다.
- * KlookBanner 처럼 스타일을 컴포넌트 안에 둔다(본문 .blog-prose 바깥에 놓이므로 prose 규칙의 영향을 받지 않는다).
+ * 스타일을 컴포넌트 안에 둔다(본문 .blog-prose 바깥에 놓이므로 prose 규칙의 영향을 받지 않는다).
  */
 export function ItalkiBanner() {
   return (
