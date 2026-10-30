@@ -2,7 +2,8 @@
 
 import { Fragment } from 'react'
 import Link from 'next/link'
-import { BLOG_TABS, layoutForKey, tabDescription } from '@/lib/blog/sections'
+import { BLOG_TABS, DEFAULT_TAB, layoutForKey, navTabOf, tabDescription } from '@/lib/blog/sections'
+import { SectionHeader } from '@/components/SectionHeader'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { PostListRow } from '@/components/blog/PostListRow'
@@ -32,10 +33,13 @@ type Post = {
   badge: PostBadgeData | null
 }
 
-/** 탭은 화면상의 필터라 쿼리 파라미터로만 표현한다(새 라우트 없음). */
+/** Korean 탭의 섹션 하나(Basics · Phrases) — 앞쪽 몇 편과 전체 개수 */
+type Section = { key: string; title: string; desc: string; total: number; posts: Post[] }
+
+/** 탭은 화면상의 필터라 쿼리 파라미터로만 표현한다(새 라우트 없음). 기본 탭(Korean)은 /blog 그대로다. */
 function buildUrl(tab: string, opts: { lang?: 'en' | 'ko'; page?: number; sub?: string | null } = {}) {
   const params = new URLSearchParams()
-  if (tab !== 'all') params.set('tab', tab)
+  if (tab !== DEFAULT_TAB) params.set('tab', tab)
   if (opts.sub) params.set('sub', opts.sub)
   if (opts.lang === 'ko') params.set('lang', 'ko')
   if (opts.page && opts.page > 1) params.set('page', String(opts.page))
@@ -45,6 +49,7 @@ function buildUrl(tab: string, opts: { lang?: 'en' | 'ko'; page?: number; sub?: 
 
 export function BlogClientPage({
   posts,
+  sections,
   activeTab,
   activeLang,
   subChips,
@@ -55,6 +60,8 @@ export function BlogClientPage({
   pageTitle,
 }: {
   posts: Post[]
+  /** Korean 탭에서만 채워진다 — 있으면 posts 대신 섹션별로 그린다 */
+  sections: Section[]
   activeTab: string
   activeLang: 'en' | 'ko'
   subChips: { key: string; label: string; count: number }[]
@@ -67,6 +74,26 @@ export function BlogClientPage({
   const lang: 'EN' | 'KO' = activeLang === 'ko' ? 'KO' : 'EN'
   // 격자로 그릴지 세로 리스트로 그릴지는 홈과 같은 기준(sections.ts)을 본다
   const isList = layoutForKey(activeTab) === 'list'
+  // Phrases · Basics 전체 보기는 탭 바에 없으므로 Korean 탭에 밑줄을 긋는다
+  const navTab = navTabOf(activeTab)
+
+  const card = (post: Post) => (
+    <Link
+      key={post.slug}
+      href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+      className="bl-card"
+    >
+      <BlogThumb thumb={post.thumb} alt={post.title} />
+      <div className="bl-body">
+        <PostBadge badge={post.badge} />
+        <div className="bl-title">{post.title}</div>
+        {post.description && (
+          <div className="bl-desc">{post.description}</div>
+        )}
+        <div className="bl-read">{post.readMin} min read</div>
+      </div>
+    </Link>
+  )
 
   return (
     <>
@@ -336,6 +363,11 @@ export function BlogClientPage({
         /* 한국어 안내 블록을 걷어냈으므로, 페이지네이션이 없는 탭에서는
            마지막 요소가 푸터와 64px 을 유지하도록 맞춘다(.bl-pag 와 동일). */
         .bl-grid:last-child, .bl-empty:last-child, .plist:last-child { margin-bottom: 64px; }
+
+        /* Korean 탭의 섹션(Basics · Phrases) — 머리는 홈과 같은 SectionHeader(위 검은 선이 섹션 구분선).
+           섹션 사이는 격자 아래 여백(48px)에 더해 16px 을 띄워 두 구역이 확실히 갈라져 보이게 한다 */
+        .bl-sec + .bl-sec { margin-top: 16px; }
+        .bl-sec:last-child .bl-grid { margin-bottom: 64px; }
       `}</style>
 
       {/* ── Hero ── */}
@@ -361,7 +393,7 @@ export function BlogClientPage({
                 <Link
                   key={tab.key}
                   href={buildUrl(tab.key)}
-                  className={`bl-tab${activeTab === tab.key ? ' active' : ''}`}
+                  className={`bl-tab${navTab === tab.key ? ' active' : ''}`}
                 >
                   {tab.label}
                 </Link>
@@ -392,8 +424,20 @@ export function BlogClientPage({
             </nav>
           )}
 
-          {/* Post grid (EN & KO 공통) */}
-          {(!posts || posts.length === 0) ? (
+          {/* Korean 탭 — Basics 구역 위, Phrases 구역 아래. 카드는 다른 탭과 같은 .bl-card 그대로 */}
+          {sections.length > 0 ? (
+            sections.map(sec => (
+              <section key={sec.key} className="bl-sec" aria-labelledby={`bl-sec-${sec.key}`}>
+                <SectionHeader
+                  id={`bl-sec-${sec.key}`}
+                  label={sec.title}
+                  desc={sec.desc}
+                  more={sec.total > sec.posts.length ? { href: buildUrl(sec.key), text: `View all ${sec.total} ${sec.title} →` } : undefined}
+                />
+                <div className="bl-grid">{sec.posts.map(card)}</div>
+              </section>
+            ))
+          ) : (!posts || posts.length === 0) ? (
             <div className="bl-empty">
               <h3 className="bl-empty-title">No articles yet for this filter</h3>
               <p className="bl-empty-desc">Try a different filter or check back later.</p>
@@ -413,31 +457,7 @@ export function BlogClientPage({
               ))}
             </div>
           ) : (
-            <div className="bl-grid">
-              {posts.map(post => (
-                <Link
-                  key={post.slug}
-                  href={`/blog/${post.locale}/${post.app}/${post.slug}`}
-                  className="bl-card"
-                >
-                  <BlogThumb thumb={post.thumb} alt={post.title} />
-                  <div className="bl-body">
-                    <PostBadge badge={post.badge} />
-                    {/* 주제 탭에서는 탭 이름과 중복이라 라벨을 숨긴다 */}
-                    {activeTab === 'all' && (
-                      <div className="bl-cat">
-                        {post.category ?? APP_LABEL[post.app] ?? post.app}
-                      </div>
-                    )}
-                    <div className="bl-title">{post.title}</div>
-                    {post.description && (
-                      <div className="bl-desc">{post.description}</div>
-                    )}
-                    <div className="bl-read">{post.readMin} min read</div>
-                  </div>
-                </Link>
-              ))}
-            </div>
+            <div className="bl-grid">{posts.map(card)}</div>
           )}
 
           {/* Pagination */}

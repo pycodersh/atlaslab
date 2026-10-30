@@ -1,11 +1,18 @@
 import Link from 'next/link'
 import { LanguageSelector } from '@/components/LanguageSelector'
 
+/** 상단 메뉴 세 개 — 세부 탭(Basics · Phrases, Explore Korea · Food · Life)은 /blog 안에서 고른다 */
+const MENU = [
+  { href: '/#resources', label: 'Products' },   // 홈의 'Our Resources' 앱 카드
+  { href: '/blog', label: 'Korean' },           // /blog 기본 탭 = Korean(Basics 구역 + Phrases 구역)
+  { href: '/blog?tab=explore-korea', label: 'Guides' }, // 여행 · 음식 · 생활 탭의 첫 탭
+] as const
+
 /**
- * Site-wide navigation bar — 극도로 미니멀하게:
+ * Site-wide navigation bar — 미니멀하게:
  *   좌측  로고(ATLAS LAB)
- *   우측  언어 선택(🌐 EN ⌵) 하나
- * 카테고리·앱 링크는 홈의 제품 카드와 글 목록 안에서 보여 주므로 상단바에는 두지 않는다.
+ *   우측  메뉴 Products · Korean · Guides + 언어 선택(🌐 EN ⌵)
+ * Basics · Phrases 는 독립 메뉴가 아니라 Korean 아래 두 구역이다.
  * K-PATTO 구매는 /kpatto 랜딩 한 곳으로 모은다(홈 카드·글 CTA 가 그리로 보낸다).
  * 내 북마크(/bookmarks)는 푸터의 Resources 에서 들어간다.
  * Red background (#C8102E via --brand-red CSS var).
@@ -63,6 +70,12 @@ export function SiteNav() {
         </Link>
 
         <div className="site-nav-right">
+          {MENU.map(m => (
+            // 메뉴 이름은 자동 번역에서 뺀다 — 브라우저 번역이 'Korean' 을 '한국인'으로 바꿔 뜻이 달라진다
+            <Link key={m.label} href={m.href} className="nav-pill nav-pill--sub" translate="no">
+              {m.label}
+            </Link>
+          ))}
           <LanguageSelector />
         </div>
       </nav>

@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
-import { PATTO_TAB, groupKeyOf, legacyTabTarget, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
+import { DEFAULT_TAB, KOREAN_TAB, PATTO_TAB, groupKeyOf, legacyTabTarget, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
 import { badgeFor } from '@/lib/blog/badge'
 import { KEEP_EMPTY_SUB_CHIPS, isCrossListed, isValidSubcategory, subcategoriesFor, subcategoriesOf } from '@/lib/blog/subcategories'
 import { permanentRedirect } from 'next/navigation'
@@ -20,7 +20,7 @@ const supabase = createClient(
 const POSTS_PER_PAGE = 20
 
 function resolveTab(tab: string | undefined): string {
-  return tab && isValidTab(tab) ? tab : 'all'
+  return tab && isValidTab(tab) ? tab : DEFAULT_TAB
 }
 
 export async function generateMetadata({
@@ -32,9 +32,7 @@ export async function generateMetadata({
   const currentPage = Math.max(1, parseInt(page || '1'))
   const activeTab = resolveTab(tab)
   return {
-    title: activeTab === 'all'
-      ? 'Articles — Atlas Lab'
-      : `${tabLabel(activeTab)} — Atlas Lab`,
+    title: `${tabLabel(activeTab)} — Atlas Lab`,
     description:
       'Tips, guides, and insights on Korean learning, English patterns, Korean recipes, and career growth — from Atlas Lab.',
     robots: currentPage > 1 ? { index: false, follow: true } : undefined,
@@ -90,12 +88,22 @@ export default async function BlogIndexPage({
     .filter(s => s.count > 0 || KEEP_EMPTY_SUB_CHIPS.has(activeTab))   // Explore Korea 는 빈 칩도 보인다
   const matched = activeSub ? inTab.filter(p => subsOf(p).includes(activeSub)) : inTab
 
-  const totalPages = Math.ceil(matched.length / POSTS_PER_PAGE)
+  // Korean 탭은 한 목록이 아니라 Basics · Phrases 섹션 두 개다(최신순으로 섞지 않는다).
+  // 섹션마다 앞쪽 몇 편만 그리고, 페이지 번호는 쓰지 않는다 — 나머지는 섹션의 'View all' 이 맡는다.
+  const isKorean = activeTab === KOREAN_TAB.key
+  const sectionRows = isKorean
+    ? KOREAN_TAB.sections.map(s => {
+        const all = matched.filter(p => groupKeyOf(p.app, p.category) === s.group)
+        return { ...s, total: all.length, rows: all.slice(0, s.limit) }
+      })
+    : []
+
+  const totalPages = isKorean ? 0 : Math.ceil(matched.length / POSTS_PER_PAGE)
   const from = (currentPage - 1) * POSTS_PER_PAGE
-  const pageRows = matched.slice(from, from + POSTS_PER_PAGE)
+  const pageRows = isKorean ? sectionRows.flatMap(s => s.rows) : matched.slice(from, from + POSTS_PER_PAGE)
 
   // 썸네일은 본문에서 뽑아야 하는데, 위 쿼리에 content 를 넣으면 매 요청마다
-  // 전체 본문(수백 KB)을 끌어오게 된다. 화면에 나갈 20편만 따로 받는다.
+  // 전체 본문(수백 KB)을 끌어오게 된다. 화면에 나갈 글만 따로 받는다.
   // slug 는 전 테이블에서 유일하다(삽입 스크립트가 slug 단독으로 충돌을 막는다).
   const { data: bodies } = pageRows.length
     ? await supabase
@@ -105,16 +113,17 @@ export default async function BlogIndexPage({
     : { data: [] as { slug: string; content: string | null; thumbnail: string | null }[] }
 
   const bodyBySlug = new Map((bodies ?? []).map(b => [b.slug, b]))
-  const posts = pageRows.map(p => ({
+  const toCard = (p: (typeof pageRows)[number]) => ({
     ...p,
     thumb: thumbnailForPost(p.slug, bodyBySlug.get(p.slug)?.content, bodyBySlug.get(p.slug)?.thumbnail),
     readMin: readMinutes(bodyBySlug.get(p.slug)?.content),
     badge: badgeFor(p),
-  }))
+  })
 
   return (
     <BlogClientPage
-      posts={posts}
+      posts={isKorean ? [] : pageRows.map(toCard)}
+      sections={sectionRows.map(s => ({ key: s.group, title: s.title, desc: s.desc, total: s.total, posts: s.rows.map(toCard) }))}
       activeTab={activeTab}
       activeLang={activeLang}
       subChips={subChips}
@@ -122,7 +131,7 @@ export default async function BlogIndexPage({
       totalCount={inTab.length}
       totalPages={totalPages}
       currentPage={currentPage}
-      pageTitle={activeTab === 'all' ? 'All Articles' : tabLabel(activeTab)}
+      pageTitle={tabLabel(activeTab)}
     />
   )
 }

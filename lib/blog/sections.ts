@@ -162,20 +162,45 @@ export function minPostsToShow(key: string): number {
   return g?.minToShow ?? MIN_POSTS_TO_SHOW_SECTION
 }
 
-/** 목록 탭 순서: All + Phrases · Basics · Explore Korea · Food · Life + Patto */
+/**
+ * Korean 탭 — Basics · Phrases 두 그룹을 한 페이지에 섹션 두 개로 나눠 보여 준다(최신순으로 섞지 않는다).
+ * /blog 의 기본 탭이다. 섹션마다 앞쪽 몇 편만 보이고, 나머지는 'View all' 이 ?tab=basics · ?tab=phrases 로 보낸다.
+ */
+export const KOREAN_TAB = {
+  key: 'korean',
+  label: 'Korean',
+  sections: [
+    { group: 'basics', title: 'Basics', desc: 'Hangul, basic pronunciation and beginner guides.', limit: 3 },
+    { group: 'phrases', title: 'Phrases', desc: 'Real-life conversations and the webtoon Shorts dialogue series.', limit: 20 },
+  ],
+} as const
+export const DEFAULT_TAB = KOREAN_TAB.key
+
+/** Korean 아래에 묶이는 그룹 — 탭 바에는 없지만 'View all' · 홈 섹션 링크의 목적지로 주소는 살아 있다 */
+const KOREAN_GROUPS = new Set<string>(KOREAN_TAB.sections.map(s => s.group))
+
+/** 탭 바 순서: Korean · Explore Korea · Food · Life(= 상단 메뉴의 Guides) + Patto. 전체를 섞는 All 보기는 없다 */
 export const BLOG_TABS = [
-  { key: 'all', label: 'All Articles' },
-  ...BLOG_GROUPS.map(g => ({ key: g.key as string, label: g.title as string })),
+  { key: KOREAN_TAB.key as string, label: KOREAN_TAB.label as string },
+  ...BLOG_GROUPS.filter(g => !KOREAN_GROUPS.has(g.key)).map(g => ({ key: g.key as string, label: g.title as string })),
   { key: PATTO_TAB.key as string, label: PATTO_TAB.label as string },
 ]
 
+/** 탭 바에 없는 탭(Phrases · Basics 전체 보기) */
+const HIDDEN_TABS = BLOG_GROUPS.filter(g => KOREAN_GROUPS.has(g.key)).map(g => ({ key: g.key as string, label: g.title as string }))
+
+/** 탭 바에서 밑줄을 그을 탭 — Phrases · Basics 전체 보기는 Korean 아래에 있다 */
+export function navTabOf(tabKey: string): string {
+  return KOREAN_GROUPS.has(tabKey) ? KOREAN_TAB.key : tabKey
+}
+
 /**
- * 예전 탭 주소 → 현재 구조. 색인·북마크된 /blog?tab=stay-in-korea 와, 잠시 있었던 통합 Korean 보기
- * (/blog?tab=korean[&sub=basics]) 가 깨지지 않게 목록 페이지가 새 주소로 308 이동시킨다.
+ * 예전 탭 주소 → 현재 구조. 색인·북마크된 /blog?tab=stay-in-korea 와, 예전 통합 Korean 보기의 Basics 칩
+ * (/blog?tab=korean&sub=basics) 가 깨지지 않게 목록 페이지가 새 주소로 308 이동시킨다.
  */
 export function legacyTabTarget(tab: string, sub?: string): { tab: BlogGroupKey; sub?: string } | null {
   if (tab === 'stay-in-korea') return { tab: 'explore-korea', sub: 'hotels' }
-  if (tab === 'korean') return { tab: sub === 'basics' ? 'basics' : 'phrases' }
+  if (tab === KOREAN_TAB.key && sub === 'basics') return { tab: 'basics' }
   return null
 }
 
@@ -207,24 +232,25 @@ export function groupKeyOf(app: string, category: string | null): BlogGroupKey |
   return section ? GROUP_OF_SECTION.get(section) ?? null : null
 }
 
-/** 목록 탭 필터. 'all' 은 전부 통과. */
+/** 목록 탭 필터. Korean 은 Basics · Phrases 둘 다 통과(화면에서는 섹션으로 다시 나눈다). */
 export function postMatchesTab(
   post: { app: string; category: string | null },
   tabKey: string,
 ): boolean {
-  if (tabKey === 'all') return true
   if (tabKey === PATTO_TAB.key) return post.app === PATTO_TAB.app
-  return groupKeyOf(post.app, post.category) === tabKey
+  const group = groupKeyOf(post.app, post.category)
+  if (tabKey === KOREAN_TAB.key) return group !== null && KOREAN_GROUPS.has(group)
+  return group === tabKey
 }
 
-/** 유효한 탭 key 인지 */
+/** 유효한 탭 key 인지(탭 바에 없는 Phrases · Basics 전체 보기 포함) */
 export function isValidTab(tabKey: string): boolean {
-  return BLOG_TABS.some(t => t.key === tabKey)
+  return BLOG_TABS.some(t => t.key === tabKey) || HIDDEN_TABS.some(t => t.key === tabKey)
 }
 
 /** 탭 라벨 (목록 제목·메타에 쓴다) */
 export function tabLabel(tabKey: string): string {
-  return BLOG_TABS.find(t => t.key === tabKey)?.label ?? 'All Articles'
+  return [...BLOG_TABS, ...HIDDEN_TABS].find(t => t.key === tabKey)?.label ?? KOREAN_TAB.label
 }
 
 /**
@@ -232,10 +258,10 @@ export function tabLabel(tabKey: string): string {
  *
  * 홈 섹션의 desc(한 줄 요약)와 쓰임이 달라 따로 둔다. 홈은 카드 묶음 위에
  * 붙는 짧은 안내고, 이쪽은 페이지 전체를 소개하는 문장이다.
- * 'all' 과 'patto' 는 주제 그룹이 아니라서 BLOG_GROUPS 에 자리가 없다.
+ * 'korean' 과 'patto' 는 주제 그룹이 아니라서 BLOG_GROUPS 에 자리가 없다.
  */
 const TAB_DESCRIPTION: Record<string, string> = {
-  all: 'Curated stories, real-life Korean guides, and language insights by Atlas Lab.',
+  korean: 'Start with Hangul and the basics, then practise the real-life phrases locals use every day.',
   phrases: 'Essential real-life expressions used by locals in cafes, convenience stores, and daily life.',
   basics: 'From Hangul syllable blocks to core grammar — foundational rules explained simply.',
   'explore-korea': "Hotels, destinations and hot spots — curated guides to the best of Korea.",
@@ -244,9 +270,9 @@ const TAB_DESCRIPTION: Record<string, string> = {
   patto: 'Interactive language experiments and smart tools.',
 }
 
-/** 탭 설명. 모르는 값이면 'all' 문구로 떨어진다. */
+/** 탭 설명. 모르는 값이면 Korean 문구로 떨어진다. */
 export function tabDescription(tabKey: string): string {
-  return TAB_DESCRIPTION[tabKey] ?? TAB_DESCRIPTION.all
+  return TAB_DESCRIPTION[tabKey] ?? TAB_DESCRIPTION.korean
 }
 
 /**
