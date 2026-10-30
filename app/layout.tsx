@@ -45,6 +45,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Impact(제휴 네트워크) 사이트 소유 확인 — Impact 가 준 그대로 value 속성을 쓴다(content 가 아니다) */}
+        <meta name="impact-site-verification" {...{ value: '13c3e8e3-f8ce-4950-963d-4b93e327e96a' }} />
         <link
           href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
           rel="stylesheet"
