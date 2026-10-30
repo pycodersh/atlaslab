@@ -96,11 +96,19 @@ export function GrammarCheatCard() {
  * next-mdx-remote v6 는 MDX 속성의 JS 식(배열 · 객체)을 막으므로 문자열 속성만 쓴다.
  * 레이아웃은 .gcc.is-flat 그리드 — 피할 말 상자만 한 칸씩, 나머지는 한 줄 전체.
  */
+/** 영어 문장 속 한글(예: "Say 공부 안 해요.")만 자동 번역에서 뺀다 — 안 빼면 번역기가 예문까지 바꿔 뜻이 뒤집힌다 */
+const HANGUL_RUN = /([ㄱ-ㆎ가-힣]+(?:[\s/~()-]+[ㄱ-ㆎ가-힣]+)*)/
+function keepKo(text: string): ReactNode {
+  return text.split(HANGUL_RUN).map((part, i) =>
+    i % 2 ? <span key={i} lang="ko" translate="no">{part}</span> : part,
+  )
+}
+
 export function RuleCard({ badge = 'Critical rule', title, foot = 'K-Patto Webtoon Series', children }: { badge?: string; title: string; foot?: string; children?: ReactNode }) {
   return (
     <aside className="gcc is-flat" aria-label={`Cheat sheet: ${title}`}>
       <p className="gcc__badge">{badge}</p>
-      <p className="gcc__title">{title}</p>
+      <p className="gcc__title">{keepKo(title)}</p>
       {children}
       <p className="gcc__foot" translate="no">{foot}</p>
     </aside>
@@ -115,8 +123,8 @@ export function RuleAvoid({ ko, rom, note, warn }: { ko: string; rom: string; no
         <span lang="ko" translate="no">{ko}</span>{' '}
         <span className="gcc__rom" translate="no">{rom}</span>
       </p>
-      <p className="gcc__text">{note}</p>
-      <p className="gcc__warn">{warn}</p>
+      <p className="gcc__text">{keepKo(note)}</p>
+      <p className="gcc__warn">{keepKo(warn)}</p>
     </div>
   )
 }
@@ -125,7 +133,7 @@ export function RuleInstead({ title = 'Say this instead', lead, children }: { ti
   return (
     <div className="gcc__box is-instead">
       <p className="gcc__tag">{title}</p>
-      {lead && <p className="gcc__text">{lead}</p>}
+      {lead && <p className="gcc__text">{keepKo(lead)}</p>}
       {children}
     </div>
   )
@@ -136,7 +144,7 @@ export function RuleExample({ ko, rom, en }: { ko: string; rom: string; en: stri
     <p className="gcc__example">
       <span lang="ko" translate="no">{ko}</span>{' '}
       <span className="gcc__rom" translate="no">{rom}</span>
-      <span className="gcc__en">{en}</span>
+      <span className="gcc__en">{keepKo(en)}</span>
     </p>
   )
 }
