@@ -3,6 +3,7 @@ import { Blockquote } from './Blockquote'
 import { NoTranslateCode, NoTranslatePre } from './NoTranslate'
 import { KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta } from './ArticleBlocks'
 import { GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample } from './GrammarCheatCard'
+import { AiraloLink } from '../affiliate/AiraloBanner'
 
 /**
  * 블로그 본문(MDX)에서 쓸 수 있는 컴포넌트 목록.
@@ -19,4 +20,6 @@ export const blogMdxComponents = {
   YouTube, blockquote: Blockquote, code: NoTranslateCode, pre: NoTranslatePre,
   KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta,
   GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample,
+  /** AiraloLink — 본문 속 Airalo 제휴 링크(주소는 lib/affiliate/links 에서 읽는다) */
+  AiraloLink,
 }

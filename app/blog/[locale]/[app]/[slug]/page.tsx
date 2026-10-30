@@ -10,6 +10,7 @@ import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
 import { groupKeyOf } from '@/lib/blog/sections'
 import { KlookBanner } from '@/components/blog/KlookBanner'
 import { ItalkiBanner } from '@/components/blog/ItalkiBanner'
+import { AiraloBanner } from '@/components/affiliate/AiraloBanner'
 import { SaveActions } from '@/components/SaveActions'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
@@ -22,6 +23,22 @@ const KLOOK_GROUPS = new Set<string>(['explore-korea', 'food', 'life'])
 /** italki 배너를 붙이는 주제 그룹 — 한국어 학습 Phrases · Basics + 생활 Life (여행 · 음식 큐레이션에는 넣지 않는다).
  *  DB category 는 'Real-Life Korean' · 'Korean Culture' 같은 값이라 문자열로 맞추지 않고 그룹 key 로 거른다 */
 const ITALKI_GROUPS = new Set<string>(['phrases', 'basics', 'life'])
+/** Airalo eSIM 배너를 붙이는 주제 그룹 — 여행 Explore Korea · 음식 Food · 생활 Life */
+const AIRALO_GROUPS = new Set<string>(['explore-korea', 'food', 'life'])
+
+/** 제휴(외부) 배너는 글당 최대 2개 — 자체 앱 CTA(ArticleAppBanner)는 세지 않는다.
+ *  셋 다 해당하는 글(Life)은 앞에 있는 것부터 고른다: Airalo · Klook 이 나가고 italki 가 빠진다 */
+const MAX_SPONSOR_BANNERS = 2
+const SPONSOR_BANNERS = [
+  ['airalo', AIRALO_GROUPS],
+  ['klook', KLOOK_GROUPS],
+  ['italki', ITALKI_GROUPS],
+] as const
+function sponsorsFor(groupKey: string): Set<string> {
+  return new Set(
+    SPONSOR_BANNERS.filter(([, groups]) => groups.has(groupKey)).slice(0, MAX_SPONSOR_BANNERS).map(([key]) => key),
+  )
+}
 
 export const dynamic = 'force-dynamic'
 
@@ -190,6 +207,7 @@ export default async function AppBlogPostPage({
   // 카드와 같은 함수를 쓴다 — 대표 이미지가 있으면 그것을, 없으면 본문에서 뽑는다.
   // null 이면 히어로에 영역 자체를 만들지 않는다.
   const thumb = thumbnailForPost(post.slug, post.content, post.thumbnail)
+  const sponsors = sponsorsFor(groupKeyOf(app, post.category) ?? '')
 
   return (
     <div style={{ background: '#F9F8F6', minHeight: '100dvh' }}>
@@ -332,8 +350,10 @@ export default async function AppBlogPostPage({
         </article>
 
         <div className="art-wrap" style={{ paddingBottom: 8 }}>
-          {/* italki 제휴 배너 — 본문 바로 아래, 앱 CTA · Klook · 관련 글 위. Phrases · Basics · Life 글에만 */}
-          {ITALKI_GROUPS.has(groupKeyOf(app, post.category) ?? '') && <ItalkiBanner />}
+          {/* 본문 바로 아래 제휴 배너 자리 — italki(Phrases · Basics) 또는 Airalo(Explore · Food · Life).
+              어느 글에 무엇이 나갈지는 sponsorsFor() 의 글당 2개 상한이 정한다 */}
+          {sponsors.has('italki') && <ItalkiBanner />}
+          {sponsors.has('airalo') && <AiraloBanner />}
 
           {/*
             ── (추후) 글 전용 예약 버튼 자리 — 본문 Summary 바로 아래 ──────────────────────
@@ -360,7 +380,7 @@ export default async function AppBlogPostPage({
           )}
 
           {/* Klook 배너 — 앱 CTA 바로 아래. 여행·음식·생활 글에만(학습 글 phrases·basics 에는 넣지 않는다) */}
-          {KLOOK_GROUPS.has(groupKeyOf(app, post.category) ?? '') && <KlookBanner />}
+          {sponsors.has('klook') && <KlookBanner />}
 
           {/* Related posts */}
           {related && related.length > 0 && (
