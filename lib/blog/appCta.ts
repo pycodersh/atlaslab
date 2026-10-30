@@ -28,7 +28,8 @@ const K_PATTO: AppCta = {
   label: 'K-Patto',
   href: '/kpatto',
   blurb: 'Practice these patterns in a 100-episode webtoon with native audio.',
-  button: 'Study with Webtoon & Get Full 300 Patterns →',
+  // 오른쪽 버튼은 한 줄(nowrap)이라 짧게 — '300 patterns · eBook' 안내는 note 가 맡는다
+  button: 'Study with Webtoon →',
   note: 'Free sample episodes & 153-page printable eBook available.',
 }
 
@@ -37,7 +38,7 @@ const K_PATTO_CULTURE: AppCta = {
   label: 'K-Patto',
   href: '/kpatto',
   blurb: 'Want to understand Korean culture through real sentence patterns?',
-  button: 'EXPLORE K-PATTO →',
+  button: 'Explore K-Patto →',
   note: 'Master 300+ everyday patterns through 100 slice-of-life webtoon episodes with native audio.',
 }
 
