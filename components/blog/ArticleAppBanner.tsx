@@ -77,11 +77,12 @@ export function ArticleAppBanner({
         .kpc-eyebrow { display: block; font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: ${RED}; margin: 0 0 8px; }
         .kpc-title { font-size: 18px; font-weight: 600; line-height: 1.35; color: #171717; margin: 0; }
         .kpc-note { font-size: 14px; line-height: 1.6; color: #525252; margin: 6px 0 0; max-width: 576px; }
+        /* 버튼 크기는 italki 배너와 같다: 폰 가로 전체 × 48, 넓은 화면 190 × 48 */
         .kpc-btn {
-          display: block; text-align: center; white-space: nowrap;
-          padding: 12px 20px; border-radius: 12px;
+          display: flex; align-items: center; justify-content: center; white-space: nowrap;
+          width: 100%; height: 48px; padding: 0 16px; box-sizing: border-box; border-radius: 12px;
           background: ${RED}; color: #fff; text-decoration: none;
-          font-size: 15px; font-weight: 600; line-height: 1.2;
+          font-size: 14px; font-weight: 600; line-height: 1.2;
           box-shadow: 0 1px 2px rgba(0,0,0,.05);
           transition: background-color .15s;
         }
@@ -90,7 +91,7 @@ export function ArticleAppBanner({
         @media (min-width: 640px) {
           .kpc-banner { padding: 32px; }
           .kpc-row { flex-direction: row; align-items: center; gap: 24px; }
-          .kpc-btn { display: inline-block; flex-shrink: 0; }
+          .kpc-btn { width: 190px; flex-shrink: 0; }
           .kpc-title { font-size: 20px; }
         }
       `}</style>

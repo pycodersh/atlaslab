@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react'
 import { AIRALO_URL } from '@/lib/affiliate/links'
 
-/** Airalo 포인트 오렌지 — 버튼에만 쓴다(카드 자체는 italki 배너와 같은 중립 톤) */
-const ORANGE = '#FF6600'
-const ORANGE_DARK = '#E05A00'
+/** 사이트 브랜드 색 — 라벨은 레드, 버튼은 블랙(italki 배너와 같은 값). 아래 Klook 카드가 레드 버튼이라 둘을 구분한다 */
+const RED = '#C8102E'
+const BLACK = '#171717'
 
 /**
  * Airalo eSIM 제휴 배너 — Explore Korea · Food · Life 글 본문 바로 아래(italki 배너 자리).
  * 노출 그룹과 글당 제휴 배너 2개 상한은 글 상세 라우트가 정한다.
  *
- * 카드 모양 · 간격 · 꺾이는 폭(640px)은 ItalkiBanner 와 같다 — 버튼만 Airalo 오렌지.
+ * 카드 모양 · 간격 · 꺾이는 폭(640px)은 ItalkiBanner 와 같다 — 라벨은 사이트 레드, 버튼은 블랙.
  * 본문 .blog-prose 바깥에 놓이므로 스타일을 컴포넌트 안에 둔다.
  */
 export function AiraloBanner() {
@@ -24,24 +24,26 @@ export function AiraloBanner() {
           padding: 24px;
           margin: 48px 0;
         }
-        .arl-row { display: flex; flex-direction: column; align-items: stretch; justify-content: space-between; gap: 20px; }
-        .arl-eyebrow { display: block; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #737373; margin: 0 0 8px; }
+        .arl-row { width: 100%; display: flex; flex-direction: column; align-items: stretch; justify-content: space-between; gap: 20px; }
+        .arl-eyebrow { display: block; font-size: 12px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: ${RED}; margin: 0 0 8px; }
         .arl-title { font-size: 18px; font-weight: 600; line-height: 1.35; color: #171717; margin: 0; }
         .arl-desc { font-size: 14px; line-height: 1.6; color: #525252; margin: 4px 0 0; max-width: 576px; }
+        /* 버튼 크기는 italki · K-Patto 배너와 같다: 폰 가로 전체 × 48, 넓은 화면 190 × 48 */
         .arl-btn {
-          display: block; text-align: center; white-space: nowrap;
-          padding: 12px 20px; border-radius: 12px;
-          background: ${ORANGE}; color: #fff; text-decoration: none;
+          display: flex; align-items: center; justify-content: center; white-space: nowrap;
+          width: 100%; height: 48px; padding: 0 16px; box-sizing: border-box; border-radius: 12px;
+          background: ${BLACK}; color: #fff; text-decoration: none;
           font-size: 14px; font-weight: 600; line-height: 1.2;
           box-shadow: 0 1px 2px rgba(0,0,0,.05);
           transition: background-color .15s;
         }
-        .arl-btn:hover { background: ${ORANGE_DARK}; color: #fff; }
+        .arl-btn:hover { background: #000; color: #fff; }
         .arl-btn:focus-visible { outline: 3px solid #171717; outline-offset: 2px; }
         @media (min-width: 640px) {
-          .arl-banner { padding: 32px; }
+          /* 바로 아래 Klook 카드와 같은 높이 — 카피 길이가 달라도 두 카드가 한 세트로 보이게(KlookBanner 의 sm:min-h 와 같은 값) */
+          .arl-banner { padding: 32px; min-height: 200px; display: flex; flex-direction: column; justify-content: center; }
           .arl-row { flex-direction: row; align-items: center; gap: 24px; }
-          .arl-btn { display: inline-block; flex-shrink: 0; }
+          .arl-btn { width: 190px; flex-shrink: 0; }
           .arl-title { font-size: 20px; }
         }
       `}</style>
