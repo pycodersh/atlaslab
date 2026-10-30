@@ -3,7 +3,7 @@ import { LanguageSelector } from '@/components/LanguageSelector'
 
 /** 상단 메뉴 세 개 — 세부 탭(Basics · Phrases, Explore Korea · Food · Life)은 /blog 안에서 고른다 */
 const MENU = [
-  { href: '/#resources', label: 'Products' },   // 홈의 'Our Resources' 앱 카드
+  { href: '/#resources', label: 'Products' },   // 홈의 'Products' 앱 카드
   { href: '/blog', label: 'Korean' },           // /blog 기본 탭 = Korean(Basics 구역 + Phrases 구역)
   { href: '/blog?tab=explore-korea', label: 'Guides' }, // 여행 · 음식 · 생활 탭의 첫 탭
 ] as const

@@ -24,7 +24,7 @@ const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 
 /* ── Product data ─────────────────────────────────────────────────────── */
-/** 홈 'Our Resources' 카드 목록 — 외국인 여행자·학습자 대상 서비스만 둔다.
+/** 홈 'Products' 카드 목록 — 외국인 여행자·학습자 대상 서비스만 둔다.
  *  앞으로 K-PATTO PDF 패키지 같은 디지털 상품도 이 배열에 항목만 추가하면 그리드에 자연스럽게 합류한다
  *  (href 가 없으면 'Coming soon' 카드, 아이콘은 APP_ICONS 에 이름으로 추가).
  *  두 카드는 같은 구조(아이콘 · 이름 · 대상 한 줄 · 설명 · 버튼 두 개)로 높이·글꼴이 맞물린다 — 뱃지·부제·버튼 밑 문구는 두지 않는다.
@@ -557,7 +557,7 @@ export default async function AtlasLabHome() {
       {/* ── Products ── */}
       <div id="resources">
         <div className="wrap products-wrap">
-          <SectionHeader label="Our Resources" />
+          <SectionHeader label="Products" />
           <div className="products-grid">
             {PRODUCTS.map(p => (
               <div key={p.name} className="pcard">

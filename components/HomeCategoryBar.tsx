@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * 홈 카테고리 바로가기 — 히어로 아래, 'Our Resources' 위.
+ * 홈 카테고리 바로가기 — 히어로 아래, 'Products' 위.
  * 스크롤해서 히어로를 지나면 상단 메뉴(56px) 바로 아래에 붙어 따라온다(sticky + 살짝 흐린 배경).
  * 탭을 누르면 해당 섹션으로 부드럽게 이동하고, 보고 있는 섹션의 탭이 IntersectionObserver 로 켜진다.
  * 탭은 상단 메뉴와 같은 3대 축(Products · Korean · Guides) — 각 탭은 그 축의 첫 섹션 id 를 받는다.
