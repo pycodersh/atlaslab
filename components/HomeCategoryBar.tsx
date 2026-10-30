@@ -6,7 +6,9 @@ import { useEffect, useRef, useState } from 'react'
  * 홈 카테고리 바로가기 — 히어로 아래, 'Our Resources' 위.
  * 스크롤해서 히어로를 지나면 상단 메뉴(56px) 바로 아래에 붙어 따라온다(sticky + 살짝 흐린 배경).
  * 탭을 누르면 해당 섹션으로 부드럽게 이동하고, 보고 있는 섹션의 탭이 IntersectionObserver 로 켜진다.
- * 탭 목록은 홈이 실제로 그린 섹션만 받는다(글이 적어 감춘 섹션은 탭도 없다).
+ * 탭은 상단 메뉴와 같은 3대 축(Products · Korean · Guides) — 각 탭은 그 축의 첫 섹션 id 를 받는다.
+ * 축 안의 뒤쪽 섹션(예: Korean 의 두 번째 섹션)을 지나는 동안에도 그 축의 탭이 켜진 채로 있다.
+ * 맨 위(히어로)에서는 아무 탭도 켜지지 않는다 — 예전의 All 탭은 없앴다.
  */
 export type HomeTab = { id: string; label: string }
 
@@ -14,7 +16,7 @@ const NAV_H = 56   // components/SiteNav .site-nav 높이
 const BAR_H = 52
 
 export function HomeCategoryBar({ tabs }: { tabs: HomeTab[] }) {
-  const [active, setActive] = useState<string>('all')
+  const [active, setActive] = useState<string>('')
   const scrollerRef = useRef<HTMLDivElement>(null)
   // 탭을 눌러 이동하는 동안에는 관찰 결과가 탭을 이리저리 바꾸지 않게 잠깐 고정한다
   const locked = useRef(false)
@@ -31,7 +33,7 @@ export function HomeCategoryBar({ tabs }: { tabs: HomeTab[] }) {
       const line = NAV_H + BAR_H + window.innerHeight * 0.35
       const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4
       if (atBottom && window.scrollY > 0) { setActive(els[els.length - 1].id); return }
-      let current = 'all'
+      let current = ''
       for (const el of els) if (el.getBoundingClientRect().top <= line) current = el.id
       setActive(current)
     }
@@ -66,7 +68,9 @@ export function HomeCategoryBar({ tabs }: { tabs: HomeTab[] }) {
     const place = () => {
       const btn = scrollerRef.current?.querySelector<HTMLElement>(`[data-tab="${active}"]`)
       const bar = indicatorRef.current
-      if (!btn || !bar) return
+      if (!bar) return
+      // 맨 위(켜진 탭 없음)로 돌아오면 밑줄을 숨긴다
+      if (!btn) { bar.style.opacity = '0'; return }
       const text = btn.querySelector<HTMLElement>('.hcat-label') ?? btn
       bar.style.width = `${text.offsetWidth}px`
       // 탭 줄(.hcat-scroll)이 position: relative 라 글자의 offsetLeft 는 이미 줄 기준이다
@@ -84,11 +88,8 @@ export function HomeCategoryBar({ tabs }: { tabs: HomeTab[] }) {
     locked.current = true
     clearTimeout(lockTimer.current)
     lockTimer.current = setTimeout(() => { locked.current = false }, 900)
-    if (id === 'all') { window.scrollTo({ top: 0, behavior: 'smooth' }); return }
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
-
-  const all: HomeTab[] = [{ id: 'all', label: 'All' }, ...tabs]
 
   return (
     <>
@@ -138,8 +139,9 @@ export function HomeCategoryBar({ tabs }: { tabs: HomeTab[] }) {
       <nav className="hcat" aria-label="Jump to a section">
         <div className="wrap">
           <div className="hcat-scroll" ref={scrollerRef}>
-            {all.map(t => (
-              <button key={t.id} type="button" data-tab={t.id} className="hcat-tab"
+            {tabs.map(t => (
+              // 축 이름은 상단 메뉴처럼 자동 번역에서 뺀다('Korean' 이 '한국인'이 된다)
+              <button key={t.id} type="button" data-tab={t.id} className="hcat-tab" translate="no"
                 aria-current={active === t.id ? 'true' : undefined} onClick={() => go(t.id)}>
                 <span className="hcat-label" data-text={t.label}>{t.label}</span>
               </button>

@@ -12,6 +12,7 @@ import { badgeFor } from '@/lib/blog/badge'
 import { readMinutes } from '@/lib/blog/readTime'
 import {
   BLOG_GROUPS,
+  KOREAN_TAB,
   groupKeyOf,
   minPostsToShow,
   POSTS_PER_SECTION,
@@ -200,11 +201,16 @@ export default async function AtlasLabHome() {
 
   // 카테고리(Phrases → Basics → Explore Korea → Food → Life)를 BLOG_GROUPS 순서대로 세로로 바로 그린다.
   const blogSections = groupIntoSections(allPosts ?? [])
-  // 글이 적어 감추는 섹션은 바로가기 탭에서도 뺀다 — 탭 순서는 화면에 놓인 순서 그대로
+  // 바로가기 바는 상단 메뉴와 같은 3대 축(Products · Korean · Guides)이다. 탭마다 그 축에서 화면에 놓인 첫 섹션으로 간다.
+  // 글이 적어 감추는 섹션은 건너뛰고, 축에 보이는 섹션이 하나도 없으면 탭도 없다.
   const shownSections = blogSections.filter(s => s.posts.length >= minPostsToShow(s.key))
+  const firstShown = (keys: readonly string[]) => shownSections.find(s => keys.includes(s.key))
+  const koreanSec = firstShown(KOREAN_TAB.sections.map(s => s.group))
+  const guideSec = firstShown(['explore-korea', 'food', 'life'])
   const categoryTabs: HomeTab[] = [
-    { id: 'resources', label: 'Resources' },
-    ...shownSections.map(s => ({ id: anchorOf(s.key), label: s.key === 'explore-korea' ? 'Explore' : s.title })),
+    { id: 'resources', label: 'Products' },
+    ...(koreanSec ? [{ id: anchorOf(koreanSec.key), label: 'Korean' }] : []),
+    ...(guideSec ? [{ id: anchorOf(guideSec.key), label: 'Guides' }] : []),
   ]
   // 히어로 검색 색인 — 주제 섹션에 드는 글만(본문은 빼고 제목 · 태그 · 그룹 이름). 브라우저가 이것만으로 거른다.
   const groupTitle = new Map<string, string>(BLOG_GROUPS.map(g => [g.key, g.title]))
