@@ -2,7 +2,7 @@ import { YouTube } from './YouTube'
 import { Blockquote } from './Blockquote'
 import { NoTranslateCode, NoTranslatePre } from './NoTranslate'
 import { KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta } from './ArticleBlocks'
-import { GrammarCheatCard } from './GrammarCheatCard'
+import { GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample } from './GrammarCheatCard'
 
 /**
  * 블로그 본문(MDX)에서 쓸 수 있는 컴포넌트 목록.
@@ -14,9 +14,9 @@ import { GrammarCheatCard } from './GrammarCheatCard'
 /** blockquote 는 HTML 태그를 가로채는 것이라 원고를 고치지 않아도 적용된다 */
 /** code·pre 는 자동 번역(헤더 언어 선택)에서 제외한다 */
 /** KeyTakeaways · Dialogue · Line · DoDont · Do · Dont · Callout · KpattoCta — Food · Life 시각 블록(docs/CONTENT_GUIDELINES.md) */
-/** GrammarCheatCard — Basics '너 vs 당신' 글 전용 요약 인포그래픽 */
+/** GrammarCheatCard — Basics '너 vs 당신' 글 전용 요약 인포그래픽. RuleCard · RuleAvoid · RuleInstead · RuleExample — 같은 카드의 조립형(다른 Basics 글) */
 export const blogMdxComponents = {
   YouTube, blockquote: Blockquote, code: NoTranslateCode, pre: NoTranslatePre,
   KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta,
-  GrammarCheatCard,
+  GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample,
 }

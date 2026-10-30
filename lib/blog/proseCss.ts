@@ -293,10 +293,19 @@ export function proseCss(bodyFont: string): string {
         .blog-prose .gcc__say b { font-weight: 700; color: #171717; }
         .blog-prose .gcc__note { font-size: 13.5px; color: #525252; }
         .blog-prose .gcc__foot { margin-top: 14px !important; text-align: right; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: #A3A3A3 !important; }
+        /* 조립형(RuleCard) — 피할 말 상자 둘만 나란히, 나머지(뱃지 · 제목 · 대안 · 풋터)는 한 줄 전체 */
+        .blog-prose .gcc.is-flat { display: grid; grid-template-columns: 1fr 1fr; column-gap: 10px; }
+        .blog-prose .gcc.is-flat > * { grid-column: 1 / -1; }
+        .blog-prose .gcc.is-flat > .gcc__box.is-avoid { grid-column: auto; }
+        .blog-prose .gcc.is-flat > .gcc__badge { justify-self: start; }
+        .blog-prose .gcc__tag + .gcc__example { margin-top: 0 !important; }
+        .blog-prose .is-instead > .gcc__text + .gcc__example { margin-top: 12px !important; }
         @media (max-width: 560px) {
           .blog-prose .gcc { padding: 18px 16px 14px; }
           .blog-prose .gcc__title { font-size: 19px; }
           .blog-prose .gcc__avoid { grid-template-columns: 1fr; }
+          .blog-prose .gcc.is-flat { grid-template-columns: 1fr; }
+          .blog-prose .gcc.is-flat > .is-avoid + .is-avoid { margin-top: 10px; }
           .blog-prose .gcc__list li { grid-template-columns: 1fr; }
           .blog-prose .gcc__where { grid-row: auto; }
         }
