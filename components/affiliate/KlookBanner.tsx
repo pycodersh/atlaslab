@@ -29,9 +29,9 @@ export function KlookBanner() {
             sizes="144px"
             className="object-cover"
           />
+          {/* 사진 위 미니 뱃지만 Klook 오렌지 — 라벨 · 버튼은 사이트 레드 */}
           <span
-            className="absolute bottom-1.5 left-1.5 rounded px-1.5 py-0.5 text-[10px] font-bold text-white"
-            style={{ background: RED }}
+            className="absolute bottom-1.5 left-1.5 rounded bg-[#FF5B00] px-1.5 py-0.5 text-[10px] font-bold text-white"
             translate="no"
           >
             KLOOK
