@@ -51,6 +51,37 @@ export function parseIngredientIds(raw: string | null): string[] {
   return [...new Set(ids)].slice(0, 200)
 }
 
+// 이 기기에서 마지막으로 고른 재료 — 재료 화면이 쓰고 홈 카드가 읽는다(로그인 불필요)
+const SELECTION_KEY = 'kpantry_selected_ingredients'
+
+export function readSelectedIngredients(): string[] {
+  try {
+    return parseIngredientIds(localStorage.getItem(SELECTION_KEY))
+  } catch {
+    return []
+  }
+}
+
+export function writeSelectedIngredients(ids: string[]) {
+  try {
+    if (ids.length > 0) localStorage.setItem(SELECTION_KEY, ids.join(','))
+    else localStorage.removeItem(SELECTION_KEY)
+  } catch { /* 저장 못 해도 이번 화면은 그대로 동작한다 */ }
+}
+
+export async function getIngredientsByIds(ids: string[]) {
+  if (ids.length === 0) return []
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('pantry_ingredients')
+    .select('id, name, name_ko, image_url')
+    .in('id', ids)
+  if (error) throw error
+  // 고른 순서를 지킨다
+  const byId = new Map((data ?? []).map(row => [row.id, row]))
+  return ids.map(id => byId.get(id)).filter(row => row !== undefined)
+}
+
 export async function getPantryEssentials(names: string[]) {
   const supabase = createClient()
   const { data, error } = await supabase

@@ -6,7 +6,14 @@ import { useRouter } from 'next/navigation'
 import IngredientGrid from '@/components/kpantry/ingredients/IngredientGrid'
 import IngredientCategoryTabs from '@/components/kpantry/ingredients/IngredientCategoryTabs'
 import SelectedIngredients from '@/components/kpantry/ingredients/SelectedIngredients'
-import { getIngredients, savePantry, loadPantry, parseIngredientIds } from '@/lib/kpantry/ingredients'
+import {
+  getIngredients,
+  savePantry,
+  loadPantry,
+  parseIngredientIds,
+  readSelectedIngredients,
+  writeSelectedIngredients,
+} from '@/lib/kpantry/ingredients'
 import { getUserPlan, canAccess } from '@/lib/kpantry/subscription'
 import { createClient } from '@/lib/kpantry/supabase'
 import PaywallModal from '@/components/kpantry/paywall/PaywallModal'
@@ -31,22 +38,26 @@ export default function IngredientsPage() {
       const all = await getIngredients()
       setAllIngredients(all ?? [])
 
-      // 결과 화면의 Edit 에서 돌아오면 URL 의 선택을 이어받는다(저장 안 한 게스트 선택 포함)
+      // 처음 선택: URL(결과 화면 Edit 에서 돌아옴) > 이 기기에서 마지막으로 고른 것 > 계정에 저장된 pantry
       const urlIds = parseIngredientIds(new URLSearchParams(window.location.search).get('ids'))
-
-      if (user) {
-        const [pantryIds, userPlan] = await Promise.all([
-          loadPantry(user.id),
-          getUserPlan(user.id),
-        ])
-        setSelectedIds(urlIds.length > 0 ? urlIds : pantryIds)
-        setPlan(userPlan)
-      } else {
-        setSelectedIds(urlIds)
-      }
+      const localIds = readSelectedIngredients()
+      const [pantryIds, userPlan] = await Promise.all([
+        user ? loadPantry(user.id) : Promise.resolve<string[]>([]),
+        getUserPlan(user?.id),
+      ])
+      const initial = urlIds.length > 0 ? urlIds : localIds.length > 0 ? localIds : pantryIds
+      setSelectedIds(initial)
+      writeSelectedIngredients(initial)
+      setPlan(userPlan)
     }
     load()
   }, [])
+
+  // 선택이 바뀔 때마다 이 기기에 남긴다 — 홈의 My Ingredients 카드가 읽는다
+  const updateSelection = (next: string[]) => {
+    setSelectedIds(next)
+    writeSelectedIngredients(next)
+  }
 
   // 필터 결과는 상태로 따로 들고 있지 않고 매 렌더 계산한다 — 탭·검색과 목록이 어긋날 틈이 없다
   const ingredients = useMemo(() => {
@@ -66,9 +77,7 @@ export default function IngredientsPage() {
   }, [category, searchQuery, allIngredients])
 
   const handleToggle = (id: string) => {
-    setSelectedIds(prev =>
-      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
-    )
+    updateSelection(selectedIds.includes(id) ? selectedIds.filter(i => i !== id) : [...selectedIds, id])
   }
 
   const handleSave = async () => {
@@ -136,7 +145,7 @@ export default function IngredientsPage() {
         </h1>
 
         <button
-          onClick={() => setSelectedIds([])}
+          onClick={() => updateSelection([])}
           style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: 13,

@@ -2,7 +2,6 @@
 import { Play, ShoppingBasket } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import BottomNav from '@/components/kpantry/layout/BottomNav'
 import HeroSection from '@/components/kpantry/recipe-detail/HeroSection'
 import NutritionBar from '@/components/kpantry/recipe-detail/NutritionBar'
 import IngredientsSection from '@/components/kpantry/recipe-detail/IngredientsSection'
@@ -155,6 +154,8 @@ export default function RecipeDetailClient({ slug }: Props) {
 
       <StepsSection steps={recipe.pantry_recipe_steps ?? []} />
 
+      {/* 상세 화면은 이 액션 바가 하단을 차지한다 — 전역 BottomNav 는 두지 않는다(둘 다 bottom:0 고정이라 겹쳤다).
+          뒤로 가기는 HeroSection 의 버튼이 맡는다 */}
       <div style={{
         position: 'fixed',
         bottom: 0,
@@ -174,7 +175,8 @@ export default function RecipeDetailClient({ slug }: Props) {
           onClick={() => router.push('/kpantry/en/ingredients')}
           style={{
             flex: 1,
-            padding: '14px',
+            padding: '14px 10px',
+            whiteSpace: 'nowrap',
             backgroundColor: '#FFFFFF',
             color: '#1A1A1A',
             border: '1.5px solid var(--kp-rule)',
@@ -194,8 +196,9 @@ export default function RecipeDetailClient({ slug }: Props) {
 
         <button
           style={{
-            flex: 1.5,
-            padding: '14px',
+            flex: 1,
+            padding: '14px 10px',
+            whiteSpace: 'nowrap',
             backgroundColor: 'var(--kp-accent)',
             color: '#FFFFFF',
             border: 'none',
@@ -246,8 +249,6 @@ export default function RecipeDetailClient({ slug }: Props) {
           onSuccess={() => { setShowAuth(false); window.location.reload() }}
         />
       )}
-
-      <BottomNav />
     </div>
   )
 }
