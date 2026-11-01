@@ -1,6 +1,7 @@
 ﻿'use client'
 import { useState } from 'react'
 import { signIn, signUp } from '@/lib/kpantry/auth'
+import LegalLinks from '@/components/kpantry/layout/LegalLinks'
 
 interface Props {
   onClose: () => void
@@ -156,6 +157,11 @@ export default function AuthModal({ onClose, onSuccess }: Props) {
         >
           {loading ? 'Loading...' : mode === 'signin' ? 'Sign In' : 'Create Account'}
         </button>
+
+        <LegalLinks
+          prefix={mode === 'signin' ? 'By signing in, you agree to our' : 'By creating an account, you agree to our'}
+          style={{ marginBottom: 12 }}
+        />
 
         <p style={{
           fontFamily: 'Inter, sans-serif', fontSize: 13,

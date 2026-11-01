@@ -14,9 +14,11 @@ import { createHash, createHmac, timingSafeEqual } from 'crypto'
  */
 
 export const PASS_COOKIE = 'kpatto_pass'
+/** K-Pantry Pro 패스 — 같은 서명 방식, 다른 쿠키. payload.p 가 'kpantry' 라 K-PATTO 게이트(readPass)는 받지 않는다 */
+export const KPANTRY_PASS_COOKIE = 'kpantry_pass'
 export const PASS_TTL_SECONDS = 30 * 24 * 60 * 60
 
-type PassPayload = { p: 'webapp' | 'bundle'; k: string; exp: number }
+type PassPayload = { p: 'webapp' | 'bundle' | 'kpantry'; k: string; exp: number }
 
 const clean = (v?: string) => (v ?? '').replace(/^﻿/, '').trim()
 
@@ -42,8 +44,19 @@ export function createPass(product: PassPayload['p'], licenseKey: string): { val
   return { value: `${body}.${sign(body)}`, exp }
 }
 
-/** 서명·만료가 맞으면 payload, 아니면 null */
+/** K-PATTO 패스: 서명·만료가 맞고 K-PATTO 상품이면 payload, 아니면 null */
 export function readPass(value: string | undefined | null): PassPayload | null {
+  const payload = verifyPass(value)
+  return payload && (payload.p === 'webapp' || payload.p === 'bundle') ? payload : null
+}
+
+/** K-Pantry 패스: 서명·만료가 맞고 K-Pantry 상품이면 payload, 아니면 null */
+export function readKPantryPass(value: string | undefined | null): PassPayload | null {
+  const payload = verifyPass(value)
+  return payload?.p === 'kpantry' ? payload : null
+}
+
+function verifyPass(value: string | undefined | null): PassPayload | null {
   if (!value) return null
   const [body, sig] = value.split('.')
   if (!body || !sig) return null
@@ -53,7 +66,6 @@ export function readPass(value: string | undefined | null): PassPayload | null {
   try {
     const payload = JSON.parse(Buffer.from(body, 'base64url').toString()) as PassPayload
     if (typeof payload.exp !== 'number' || payload.exp * 1000 < Date.now()) return null
-    if (payload.p !== 'webapp' && payload.p !== 'bundle') return null
     return payload
   } catch {
     return null

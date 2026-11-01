@@ -13,7 +13,7 @@ export default function TermsPage() {
   return (
     <LegalPage>
       <h1>Terms of Service</h1>
-      <p className="legal-meta">Last updated: September 28, 2026 &nbsp;·&nbsp; Effective: September 28, 2026</p>
+      <p className="legal-meta">Last updated: November 1, 2026 &nbsp;·&nbsp; Effective: November 1, 2026</p>
 
       <h2>1. Acceptance of Terms</h2>
       <p>
@@ -62,6 +62,11 @@ export default function TermsPage() {
         <li>You can cancel at any time from your account settings; access continues until the current billing period ends</li>
         <li>Refunds are handled on a case-by-case basis — contact us within 7 days of a charge for assistance</li>
         <li>Prices are displayed inclusive of applicable taxes where required by law</li>
+        <li>
+          One-time digital purchases (license keys and downloads) are sold through Gumroad; for
+          K-Pantry, refunds follow the{' '}
+          <Link href="/kpantry/en/refund">K-Pantry Refund Policy</Link>
+        </li>
       </ul>
 
       <h2>5. Acceptable Use</h2>

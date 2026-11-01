@@ -1,5 +1,9 @@
 'use client'
-import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import BuyProButton from './BuyProButton'
+import LicenseKeyForm from './LicenseKeyForm'
+import LegalLinks from '@/components/kpantry/layout/LegalLinks'
+import { PRO_BENEFITS } from '@/lib/kpantry/purchase'
 
 interface Props {
   feature: string
@@ -40,12 +44,13 @@ const FEATURE_MESSAGES: Record<string, { title: string; desc: string; icon: stri
   },
 }
 
-export default function PaywallModal({ feature, onClose, onSignIn }: Props) {
-  const router = useRouter()
+// onSignIn 은 호출부 호환을 위해 받기만 한다 — Pro 는 로그인 없이 라이선스 키로 열린다
+export default function PaywallModal({ feature, onClose }: Props) {
+  const [showKeyForm, setShowKeyForm] = useState(false)
   const msg = FEATURE_MESSAGES[feature] ?? {
     icon: '⭐',
     title: 'Upgrade to K-Pantry Pro',
-    desc: 'Unlock all features with a Pro subscription.',
+    desc: 'Unlock all features with K-Pantry Pro.',
   }
 
   return (
@@ -66,6 +71,9 @@ export default function PaywallModal({ feature, onClose, onSignIn }: Props) {
         backgroundColor: '#FFFFFF',
         borderRadius: '24px 24px 0 0',
         padding: '24px 24px 40px',
+        maxHeight: '92vh',
+        overflowY: 'auto',
+        boxSizing: 'border-box',
       }}>
         <div style={{
           width: 40, height: 4, borderRadius: 2,
@@ -112,57 +120,45 @@ export default function PaywallModal({ feature, onClose, onSignIn }: Props) {
           }}>
             K-Pantry Pro includes
           </p>
-          {[
-            '✅ +1/+2 ingredient gap suggestions',
-            '✅ Unlimited recipe saves',
-            '✅ Shopping list with store finder',
-            '✅ Pantry ingredient saving',
-            '✅ All future Pro features',
-          ].map(item => (
+          {PRO_BENEFITS.map(item => (
             <p key={item} style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: 13, color: '#1A1A1A',
               margin: '0 0 6px',
             }}>
-              {item}
+              ✅ {item}
             </p>
           ))}
-        </div>
-
-        <div style={{ textAlign: 'center', marginBottom: 16 }}>
-          <span style={{
-            fontFamily: 'Playfair Display, serif',
-            fontSize: 32, fontWeight: 700, color: '#1A1A1A',
-          }}>
-            $3.99
-          </span>
-          <span style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 14, color: '#9E9E9E',
-          }}>
-            {' '}/month
-          </span>
           <p style={{
             fontFamily: 'Inter, sans-serif',
-            fontSize: 12, color: '#9E9E9E', margin: '4px 0 0',
+            fontSize: 12, color: '#6B6B6B',
+            margin: '8px 0 0',
           }}>
-            or $24.99/year · Cancel anytime
+            One-time purchase · Lifetime access · No subscription
           </p>
         </div>
 
-        <button
-          onClick={() => router.push('/kpantry/en/subscribe')}
-          style={{
-            width: '100%', padding: '16px',
-            backgroundColor: '#C4622D', color: '#FFFFFF',
-            border: 'none', borderRadius: 14,
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 15, fontWeight: 600,
-            cursor: 'pointer', marginBottom: 10,
-          }}
-        >
-          Start Free Trial · 7 days free
-        </button>
+        <BuyProButton />
+
+        <div style={{ margin: '16px 0 4px' }}>
+          {showKeyForm ? (
+            <LicenseKeyForm />
+          ) : (
+            <button
+              type="button"
+              onClick={() => setShowKeyForm(true)}
+              style={{
+                width: '100%', padding: '12px',
+                backgroundColor: 'transparent', color: '#2D5016',
+                border: '1.5px solid #2D5016', borderRadius: 14,
+                fontFamily: 'Inter, sans-serif',
+                fontSize: 14, fontWeight: 600, cursor: 'pointer',
+              }}
+            >
+              🔑 Enter License Key
+            </button>
+          )}
+        </div>
 
         <button
           onClick={onClose}
@@ -176,6 +172,8 @@ export default function PaywallModal({ feature, onClose, onSignIn }: Props) {
         >
           Maybe later
         </button>
+
+        <LegalLinks style={{ marginTop: 4 }} />
       </div>
     </div>
   )

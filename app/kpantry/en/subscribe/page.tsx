@@ -1,8 +1,24 @@
 'use client'
+import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import BuyProButton from '@/components/kpantry/paywall/BuyProButton'
+import LicenseKeyForm from '@/components/kpantry/paywall/LicenseKeyForm'
+import { deactivateLicense, hasLicensePass } from '@/lib/kpantry/license'
+import { KPANTRY_CHECKOUT_URL, KPANTRY_PRICE, PRO_BENEFITS } from '@/lib/kpantry/purchase'
 
 export default function SubscribePage() {
   const router = useRouter()
+  // null = 확인 중
+  const [active, setActive] = useState<boolean | null>(null)
+
+  useEffect(() => {
+    hasLicensePass().then(setActive)
+  }, [])
+
+  const handleDeactivate = async () => {
+    await deactivateLicense()
+    setActive(false)
+  }
 
   return (
     <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', padding: '60px 20px 40px' }}>
@@ -27,107 +43,99 @@ export default function SubscribePage() {
       </h1>
       <p style={{
         fontFamily: 'Inter, sans-serif',
-        fontSize: 14, color: '#6B6B6B', margin: '0 0 32px',
+        fontSize: 14, color: '#6B6B6B', margin: '0 0 24px',
       }}>
         Cook more Korean food with less effort.
       </p>
 
-      <div style={{
-        backgroundColor: '#FFFFFF',
-        borderRadius: 20, padding: '20px',
-        border: '2px solid #C4622D',
-        marginBottom: 12,
-        position: 'relative',
-      }}>
+      {active ? (
         <div style={{
-          position: 'absolute', top: -12, left: 20,
-          backgroundColor: '#C4622D', color: '#FFFFFF',
-          fontFamily: 'Inter, sans-serif', fontSize: 11, fontWeight: 700,
-          borderRadius: 20, padding: '3px 12px',
+          backgroundColor: '#EDF4E8',
+          border: '1.5px solid #2D5016',
+          borderRadius: 20, padding: '20px',
+          marginBottom: 24,
         }}>
-          7 DAYS FREE
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#2D5016', margin: 0 }}>
+            ✓ Pro is active on this browser
+          </p>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#3D3320', margin: '6px 0 12px', lineHeight: 1.5 }}>
+            Moving to another device? Deactivate here, then enter the same key there.
+          </p>
+          <button
+            type="button"
+            onClick={handleDeactivate}
+            style={{
+              background: 'none', border: 'none', padding: 0,
+              fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600,
+              color: '#6B6B6B', textDecoration: 'underline', cursor: 'pointer',
+            }}
+          >
+            Deactivate on this browser
+          </button>
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#1A1A1A', margin: 0 }}>
-              Monthly
-            </p>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#9E9E9E', margin: '2px 0 0' }}>
-              Cancel anytime
-            </p>
+      ) : (
+        <>
+          <div style={{
+            backgroundColor: '#FFFFFF',
+            borderRadius: 20, padding: '20px',
+            border: '2px solid #C4622D',
+            marginBottom: 16,
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
+              <div>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#1A1A1A', margin: 0 }}>
+                  Lifetime Pass
+                </p>
+                <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B', margin: '2px 0 0' }}>
+                  One-time purchase · No subscription
+                </p>
+              </div>
+              {KPANTRY_PRICE && (
+                <p style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, fontWeight: 700, color: '#1A1A1A', margin: 0 }}>
+                  {KPANTRY_PRICE}
+                </p>
+              )}
+            </div>
           </div>
-          <div style={{ textAlign: 'right' }}>
-            <p style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, fontWeight: 700, color: '#1A1A1A', margin: 0 }}>
-              $3.99
-            </p>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#9E9E9E', margin: 0 }}>
-              per month
-            </p>
-          </div>
-        </div>
-      </div>
 
-      <div style={{
-        backgroundColor: '#FFFFFF',
-        borderRadius: 20, padding: '20px',
-        border: '1.5px solid #E8E0D0',
-        marginBottom: 32,
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#1A1A1A', margin: 0 }}>
-              Yearly
+          <BuyProButton />
+          {KPANTRY_CHECKOUT_URL && (
+            <p style={{
+              fontFamily: 'Inter, sans-serif', fontSize: 12,
+              color: '#6B6B6B', textAlign: 'center', margin: '8px 0 0', lineHeight: 1.5,
+            }}>
+              Checkout opens on Gumroad. Your license key arrives on the receipt.
             </p>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#2D5016', margin: '2px 0 0', fontWeight: 600 }}>
-              Save 48% · $2.08/month
-            </p>
-          </div>
-          <div style={{ textAlign: 'right' }}>
-            <p style={{ fontFamily: 'Playfair Display, serif', fontSize: 24, fontWeight: 700, color: '#1A1A1A', margin: 0 }}>
-              $24.99
-            </p>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#9E9E9E', margin: 0 }}>
-              per year
-            </p>
-          </div>
-        </div>
-      </div>
+          )}
 
-      <button style={{
-        width: '100%', padding: '18px',
-        backgroundColor: '#C4622D', color: '#FFFFFF',
-        border: 'none', borderRadius: 14,
-        fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600,
-        cursor: 'pointer', marginBottom: 12,
-      }}>
-        Start 7-Day Free Trial
-      </button>
-
-      <p style={{
-        fontFamily: 'Inter, sans-serif', fontSize: 11,
-        color: '#B0A890', textAlign: 'center', margin: '0 0 24px',
-        lineHeight: 1.5,
-      }}>
-        Payment integration coming soon.
-        Your subscription will be activated when billing is ready.
-      </p>
+          <div style={{
+            backgroundColor: '#FFFFFF',
+            borderRadius: 20, padding: '20px',
+            border: '1.5px solid #E8E0D0',
+            margin: '20px 0 24px',
+          }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, color: '#1A1A1A', margin: '0 0 12px' }}>
+              Already bought it?
+            </p>
+            {active === null ? (
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#6B6B6B', margin: 0 }}>Checking…</p>
+            ) : (
+              <LicenseKeyForm onUnlocked={() => setActive(true)} />
+            )}
+          </div>
+        </>
+      )}
 
       <div style={{ backgroundColor: '#F0EAD8', borderRadius: 16, padding: '16px' }}>
         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600, color: '#1A1A1A', margin: '0 0 12px' }}>
           Everything in Pro
         </p>
-        {[
-          '🛒 See +1/+2 ingredient suggestions',
-          '🔖 Save unlimited recipes',
-          '📋 Shopping list with store finder',
-          '🧺 Save your pantry ingredients',
-          '⭐ Priority access to new features',
-        ].map(item => (
+        {PRO_BENEFITS.map(item => (
           <p key={item} style={{
             fontFamily: 'Inter, sans-serif', fontSize: 13,
             color: '#3D3320', margin: '0 0 8px',
           }}>
-            {item}
+            ✅ {item}
           </p>
         ))}
       </div>

@@ -13,6 +13,7 @@ const PROCESSORS = [
   { name: 'Supabase', purpose: 'Database, authentication, and file storage', url: 'https://supabase.com/privacy' },
   { name: 'Vercel', purpose: 'Web hosting and CDN', url: 'https://vercel.com/legal/privacy-policy' },
   { name: 'Paddle', purpose: 'Subscription billing and payment processing', url: 'https://www.paddle.com/legal/privacy' },
+  { name: 'Gumroad', purpose: 'One-time digital product sales and license key verification (K-Patto, K-Pantry)', url: 'https://gumroad.com/privacy' },
   { name: 'Google Analytics 4', purpose: 'Anonymous usage analytics', url: 'https://policies.google.com/privacy' },
 ]
 
@@ -20,7 +21,7 @@ export default function PrivacyPage() {
   return (
     <LegalPage>
       <h1>Privacy Policy</h1>
-      <p className="legal-meta">Last updated: September 28, 2026 &nbsp;·&nbsp; Effective: September 28, 2026</p>
+      <p className="legal-meta">Last updated: November 1, 2026 &nbsp;·&nbsp; Effective: November 1, 2026</p>
 
       <h2>1. Who We Are</h2>
       <p>

@@ -8,14 +8,18 @@ import 'server-only'
  *   GUMROAD_WEBAPP_PRODUCT_ID (또는 GUMROAD_PRODUCT_ID), GUMROAD_BUNDLE_PRODUCT_ID
  * eBook 단품은 앱을 열지 않으므로 여기 없다.
  *
+ * K-Pantry Pro(평생 이용권)도 같은 방식이다: GUMROAD_KPANTRY_PRODUCT_ID.
+ * 앱마다 상품 목록을 따로 확인한다 — K-Pantry 키로 K-PATTO 가 열리면 안 된다.
+ *
  * API: POST https://api.gumroad.com/v2/licenses/verify (product_id, license_key, increment_uses_count)
  * 처음 입력할 때만 사용 횟수를 늘린다(기기 등록 추적). 30일마다 하는 재확인은 늘리지 않는다.
  */
 
-export type LicenseProduct = 'webapp' | 'bundle'
+export type KPattoProduct = 'webapp' | 'bundle'
+export type LicenseProduct = KPattoProduct | 'kpantry'
 
-export type LicenseCheck =
-  | { ok: true; product: LicenseProduct; saleId: string | null; email: string | null }
+export type LicenseCheck<P extends LicenseProduct = LicenseProduct> =
+  | { ok: true; product: P; saleId: string | null; email: string | null }
   | { ok: false; reason: 'not_configured' | 'invalid' | 'refunded' | 'unavailable' }
 
 // Vercel 값 앞에 붙는 BOM(U+FEFF)·공백을 떼어 낸다 — 프로덕션에서만 깨지는 일을 막는다
@@ -29,14 +33,33 @@ type GumroadPurchase = {
   disputed?: boolean
 }
 
+type VerifyOptions = { incrementUses?: boolean }
+
 export async function verifyKPattoLicense(
   licenseKey: string,
-  { incrementUses = false }: { incrementUses?: boolean } = {},
-): Promise<LicenseCheck> {
+  options: VerifyOptions = {},
+): Promise<LicenseCheck<KPattoProduct>> {
   const webappId = clean(process.env.GUMROAD_WEBAPP_PRODUCT_ID) || clean(process.env.GUMROAD_PRODUCT_ID)
-  const products: [LicenseProduct, string][] = (
-    [['webapp', webappId], ['bundle', clean(process.env.GUMROAD_BUNDLE_PRODUCT_ID)]] as [LicenseProduct, string][]
-  ).filter(([, id]) => id)
+  return verifyAgainst(
+    [['webapp', webappId], ['bundle', clean(process.env.GUMROAD_BUNDLE_PRODUCT_ID)]],
+    licenseKey,
+    options,
+  )
+}
+
+export async function verifyKPantryLicense(
+  licenseKey: string,
+  options: VerifyOptions = {},
+): Promise<LicenseCheck<'kpantry'>> {
+  return verifyAgainst([['kpantry', clean(process.env.GUMROAD_KPANTRY_PRODUCT_ID)]], licenseKey, options)
+}
+
+async function verifyAgainst<P extends LicenseProduct>(
+  candidates: [P, string][],
+  licenseKey: string,
+  { incrementUses = false }: VerifyOptions,
+): Promise<LicenseCheck<P>> {
+  const products = candidates.filter(([, id]) => id)
   if (products.length === 0) return { ok: false, reason: 'not_configured' }
 
   let reachedGumroad = false

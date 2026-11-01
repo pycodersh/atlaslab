@@ -1,8 +1,16 @@
 import { createClient } from '@/lib/kpantry/supabase'
+import { hasLicensePass } from '@/lib/kpantry/license'
 
 export type Plan = 'free' | 'pro'
 
-export async function getUserPlan(userId: string): Promise<Plan> {
+/**
+ * Pro 판정 — Gumroad 라이선스 패스(로그인 불필요) 또는 계정의 pantry_subscriptions.
+ * userId 가 없으면(게스트) 패스만 본다.
+ */
+export async function getUserPlan(userId?: string): Promise<Plan> {
+  if (await hasLicensePass()) return 'pro'
+  if (!userId) return 'free'
+
   const supabase = createClient()
   const { data } = await supabase
     .from('pantry_subscriptions')

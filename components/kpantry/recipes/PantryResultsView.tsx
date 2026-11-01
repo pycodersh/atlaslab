@@ -34,7 +34,7 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
       if (ingredientIds.length > 0) {
         const [m, userPlan] = await Promise.all([
           matchRecipes(ingredientIds),
-          user ? getUserPlan(user.id) : Promise.resolve<'free' | 'pro'>('free'),
+          getUserPlan(user?.id),
         ])
         setMatches(m)
         setPantry(ingredientIds.map(id => ({ ingredient_id: id })))
