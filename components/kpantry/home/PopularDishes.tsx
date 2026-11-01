@@ -3,7 +3,7 @@ import { Flame } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { getPopularRecipes } from '@/lib/kpantry/recipes'
 import DishGridCard from '@/components/kpantry/recipes/DishGridCard'
-import SectionHeader from './SectionHeader'
+import SectionHeader, { SectionDivider } from './SectionHeader'
 
 /** 홈에는 대표 메뉴만 2×2 로 — 나머지는 View all 로 레시피 목록에서 */
 const SHOWN = 4
@@ -18,7 +18,8 @@ export default function PopularDishes() {
   if (dishes.length === 0) return null
 
   return (
-    <section style={{ padding: '28px 16px 0' }}>
+    <section style={{ padding: '0 16px' }}>
+      <SectionDivider />
       <SectionHeader
         icon={Flame}
         title="Popular Korean Dishes"

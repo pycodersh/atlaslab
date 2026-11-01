@@ -4,7 +4,7 @@ import { ShoppingCart } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { getPantryEssentials } from '@/lib/kpantry/ingredients'
 import { getRecipeCountsByIngredient } from '@/lib/kpantry/recipes'
-import SectionHeader from './SectionHeader'
+import SectionHeader, { SectionDivider } from './SectionHeader'
 
 /**
  * 한국 요리 필수 양념·재료 고정 8개(4열 × 2행). 이 세트가 전부라 View all 은 두지 않는다.
@@ -44,7 +44,8 @@ export default function KoreanPantrySection() {
   })
 
   return (
-    <section style={{ padding: '28px 16px 0' }}>
+    <section style={{ padding: '0 16px' }}>
+      <SectionDivider />
       <SectionHeader
         icon={ShoppingCart}
         title="Build Your Korean Pantry"
