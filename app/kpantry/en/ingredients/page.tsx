@@ -53,7 +53,7 @@ export default function IngredientsPage() {
     load()
   }, [])
 
-  // 선택이 바뀔 때마다 이 기기에 남긴다 — 홈의 My Ingredients 카드가 읽는다
+  // 선택이 바뀔 때마다 이 기기에 남긴다 — 다음에 이 화면을 열면 이어서 보인다
   const updateSelection = (next: string[]) => {
     setSelectedIds(next)
     writeSelectedIngredients(next)
