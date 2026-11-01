@@ -205,7 +205,7 @@ export default async function AtlasLabHome() {
   // 글이 적어 감추는 섹션은 건너뛰고, 축에 보이는 섹션이 하나도 없으면 탭도 없다.
   const shownSections = blogSections.filter(s => s.posts.length >= minPostsToShow(s.key))
   const firstShown = (keys: readonly string[]) => shownSections.find(s => keys.includes(s.key))
-  // 섹션 제목도 축을 앞에 붙인다(KOREAN - PHRASES, GUIDES - FOOD …) — 대문자는 .section-header 스타일이 만든다
+  // 섹션 제목도 축을 앞에 붙인다(KOREAN 뱃지 + PHRASES, GUIDES 뱃지 + FOOD …) — 뱃지는 SectionHeader 의 axis, 대문자는 .section-header 스타일이 만든다
   const koreanKeys: string[] = KOREAN_TAB.sections.map(s => s.group)
   const koreanSec = firstShown(koreanKeys)
   const guideSec = firstShown(['explore-korea', 'food', 'life'])
@@ -559,7 +559,7 @@ export default async function AtlasLabHome() {
       {/* ── Products ── */}
       <div id="resources">
         <div className="wrap products-wrap">
-          <SectionHeader label="Products" />
+          <SectionHeader axis="Products" />
           <div className="products-grid">
             {PRODUCTS.map(p => (
               <div key={p.name} className="pcard">
@@ -604,7 +604,8 @@ export default async function AtlasLabHome() {
                 <section key={section.key} id={anchorOf(section.key)} className="blog-sec" aria-labelledby={`sec-${section.key}`}>
                   <SectionHeader
                     id={`sec-${section.key}`}
-                    label={`${koreanKeys.includes(section.key) ? 'Korean' : 'Guides'} - ${section.title}`}
+                    axis={koreanKeys.includes(section.key) ? 'Korean' : 'Guides'}
+                    label={section.title}
                     more={{ href: `/blog?tab=${section.key}`, text: `View all ${section.total} →` }}
                     desc={section.desc}
                   />

@@ -3,7 +3,10 @@
  * 스타일은 app/globals.css 의 .section-header* 에 있다. 새 섹션도 이 컴포넌트만 쓰면 같은 모양이 된다.
  */
 type Props = {
-  label: string
+  /** 서브 타이틀(PHRASES, EXPLORE KOREA …). axis 만 있으면 비워 둔다 */
+  label?: string
+  /** 대분류(Products · Korean · Guides) — 라벨 앞에 딥레드 Pill 뱃지로 붙는다 */
+  axis?: string
   /** 우측 "View all" 같은 링크 */
   more?: { href: string; text: string }
   /** 선 아래 한 줄 설명 */
@@ -12,11 +15,15 @@ type Props = {
   id?: string
 }
 
-export function SectionHeader({ label, more, desc, id }: Props) {
+export function SectionHeader({ label, axis, more, desc, id }: Props) {
   return (
     <>
       <div className={`section-header${desc ? ' section-header--with-desc' : ''}`}>
-        <h2 id={id} className="section-header__label">{label}</h2>
+        <h2 id={id} className="section-header__label">
+          {/* 대분류 이름은 자동 번역에서 뺀다 — 브라우저 번역이 'Korean' 을 '한국인'으로 바꿔 뜻이 달라진다 */}
+          {axis && <span className="section-header__axis" translate="no">{axis}</span>}
+          {label}
+        </h2>
         {more && <a href={more.href} className="section-header__more">{more.text}</a>}
       </div>
       {desc && <p className="section-header__desc">{desc}</p>}

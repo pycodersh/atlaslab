@@ -38,8 +38,10 @@ export function HomeCategoryBar({ tabs }: { tabs: HomeTab[] }) {
       setActive(current)
     }
     // 섹션이 그 선을 넘나드는 순간은 IntersectionObserver 로 받고, 바닥 · 빠른 점프는 스크롤로 보정한다
+    // 창 높이가 아주 낮으면(약 166px 미만) 아래 여백이 음수가 되어 '--12px' 같은 잘못된 값으로 생성자가 던진다 — 0 으로 막는다
+    const bottomInset = Math.max(0, Math.round(window.innerHeight * 0.65) - NAV_H - BAR_H)
     const io = new IntersectionObserver(pick, {
-      rootMargin: `-${NAV_H + BAR_H}px 0px -${Math.round(window.innerHeight * 0.65) - NAV_H - BAR_H}px 0px`,
+      rootMargin: `-${NAV_H + BAR_H}px 0px -${bottomInset}px 0px`,
       threshold: [0, 1],
     })
     els.forEach(el => io.observe(el))

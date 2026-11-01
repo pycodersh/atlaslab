@@ -1207,6 +1207,17 @@ body { top: 0 !important; position: static !important; }
   letter-spacing: 0.16em; text-transform: uppercase;
   color: var(--ink, #111);
   margin: 0;
+  /* 대분류 뱃지와 서브 타이틀을 한 줄 가운데로 맞추고, 좁은 폰에서는 뱃지 뒤로 줄을 바꾼다 */
+  display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px 10px;
+}
+/* 대분류(PRODUCTS · KOREAN · GUIDES) Pill 뱃지 — 헤더와 같은 딥레드 글자에 옅은 붉은 바탕 */
+.section-header__axis {
+  display: inline-flex; align-items: center;
+  height: 22px; padding: 0 10px; border-radius: 999px;
+  background: rgba(200, 16, 46, 0.08);
+  border: 1px solid rgba(200, 16, 46, 0.22);
+  color: var(--brand-red, #C8102E);
+  font-size: 10.5px; font-weight: 800; letter-spacing: 0.14em;
 }
 .section-header__more {
   font-family: "DM Sans", Inter, system-ui, sans-serif;
