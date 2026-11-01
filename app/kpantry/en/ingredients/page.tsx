@@ -1,10 +1,10 @@
 ﻿'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import IngredientCarousel from '@/components/kpantry/ingredients/IngredientCarousel'
+import IngredientGrid from '@/components/kpantry/ingredients/IngredientGrid'
 import IngredientCategoryTabs from '@/components/kpantry/ingredients/IngredientCategoryTabs'
 import SelectedIngredients from '@/components/kpantry/ingredients/SelectedIngredients'
-import { getIngredients, savePantry, loadPantry } from '@/lib/kpantry/ingredients'
+import { getIngredients, savePantry, loadPantry, parseIngredientIds } from '@/lib/kpantry/ingredients'
 import { getUserPlan, canAccess } from '@/lib/kpantry/subscription'
 import { createClient } from '@/lib/kpantry/supabase'
 import PaywallModal from '@/components/kpantry/paywall/PaywallModal'
@@ -13,7 +13,6 @@ import AuthModal from '@/components/kpantry/auth/AuthModal'
 export default function IngredientsPage() {
   const router = useRouter()
   const [category, setCategory] = useState('all')
-  const [ingredients, setIngredients] = useState<any[]>([])
   const [allIngredients, setAllIngredients] = useState<any[]>([])
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
@@ -29,34 +28,39 @@ export default function IngredientsPage() {
 
       const all = await getIngredients()
       setAllIngredients(all ?? [])
-      setIngredients(all ?? [])
+
+      // 결과 화면의 Edit 에서 돌아오면 URL 의 선택을 이어받는다(저장 안 한 게스트 선택 포함)
+      const urlIds = parseIngredientIds(new URLSearchParams(window.location.search).get('ids'))
 
       if (user) {
         const [pantryIds, userPlan] = await Promise.all([
           loadPantry(user.id),
           getUserPlan(user.id),
         ])
-        setSelectedIds(pantryIds)
+        setSelectedIds(urlIds.length > 0 ? urlIds : pantryIds)
         setPlan(userPlan)
+      } else {
+        setSelectedIds(urlIds)
       }
     }
     load()
   }, [])
 
-  useEffect(() => {
+  // 필터 결과는 상태로 따로 들고 있지 않고 매 렌더 계산한다 — 탭·검색과 목록이 어긋날 틈이 없다
+  const ingredients = useMemo(() => {
     let filtered = allIngredients
     if (category !== 'all') {
       filtered = filtered.filter(ing => ing.category === category)
     }
-    if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase()
+    const q = searchQuery.trim().toLowerCase()
+    if (q) {
       filtered = filtered.filter(ing =>
         ing.name.toLowerCase().includes(q) ||
         ing.name_ko?.includes(q) ||
         ing.aliases?.some((a: string) => a.toLowerCase().includes(q))
       )
     }
-    setIngredients(filtered)
+    return filtered
   }, [category, searchQuery, allIngredients])
 
   const handleToggle = (id: string) => {
@@ -83,6 +87,11 @@ export default function IngredientsPage() {
     await savePantry(user.id, selectedIds)
     setSaving(false)
     router.push('/kpantry/en')
+  }
+
+  // 저장 없이 지금 고른 재료로 바로 매칭한다 — 로그인·Pro 가 없어도 'Ready to cook' 은 보인다
+  const handleViewRecipes = () => {
+    router.push(`/kpantry/en/recipes?mode=pantry&ids=${selectedIds.join(',')}`)
   }
 
   const selectedIngredients = allIngredients.filter(ing => selectedIds.includes(ing.id))
@@ -186,10 +195,19 @@ export default function IngredientsPage() {
         </div>
       </div>
 
+      {selectedIngredients.length > 0 && (
+        <div style={{ marginBottom: 12 }}>
+          <SelectedIngredients
+            selectedIngredients={selectedIngredients}
+            onRemove={handleToggle}
+          />
+        </div>
+      )}
+
       <IngredientCategoryTabs selected={category} onChange={cat => { setCategory(cat) }} />
 
       {ingredients.length > 0 ? (
-        <IngredientCarousel
+        <IngredientGrid
           ingredients={ingredients}
           selectedIds={selectedIds}
           onToggle={handleToggle}
@@ -202,69 +220,85 @@ export default function IngredientsPage() {
         </div>
       )}
 
-      <SelectedIngredients
-        selectedIngredients={selectedIngredients}
-        onRemove={handleToggle}
-      />
-
       {selectedIds.length > 0 && (
         <div style={{
-          margin: '12px 16px',
-          backgroundColor: '#EDF4E8',
-          borderRadius: 14,
-          padding: '14px',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 12,
-          border: '1px solid #C8E6C9',
+          position: 'fixed',
+          bottom: 0,
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '100%',
+          maxWidth: 430,
+          zIndex: 50,
+          padding: '12px 16px',
+          paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
         }}>
-          <span style={{ fontSize: 24 }}>💡</span>
-          <p style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 13,
-            color: '#2D5016',
-            margin: 0,
-          }}>
-            Find recipes you can make with what you have!
-          </p>
-        </div>
-      )}
-
-      <div style={{
-        position: 'fixed',
-        bottom: 0,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: '100%',
-        maxWidth: 430,
-        backgroundColor: '#F5F0E8',
-        borderTop: '1px solid #E8E0D0',
-        padding: '12px 16px',
-        paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
-      }}>
-        <button
-          onClick={handleSave}
-          disabled={saving || selectedIds.length === 0}
-          style={{
-            width: '100%',
-            padding: '16px',
-            backgroundColor: selectedIds.length > 0 ? '#2D5016' : '#C8C0B0',
-            color: '#FFFFFF',
-            border: 'none',
-            borderRadius: 14,
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 15,
-            fontWeight: 600,
-            cursor: selectedIds.length > 0 ? 'pointer' : 'not-allowed',
+          <div style={{
             display: 'flex',
             alignItems: 'center',
-            justifyContent: 'center',
-            gap: 8,
-          }}
-        >
-          {saving ? 'Saving...' : `💾 Save Ingredients (${selectedIds.length})`}
-        </button>
-      </div>
+            gap: 10,
+            backgroundColor: '#FFFFFF',
+            border: '1px solid #E8E0D0',
+            borderRadius: 18,
+            padding: '10px 10px 10px 16px',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
+          }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{
+                fontFamily: 'Inter, sans-serif',
+                fontSize: 14,
+                fontWeight: 700,
+                color: '#1A1A1A',
+                margin: 0,
+              }}>
+                {selectedIds.length} selected
+              </p>
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={saving}
+                style={{
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  color: '#2D5016',
+                  background: 'none',
+                  border: 'none',
+                  padding: 0,
+                  marginTop: 2,
+                  cursor: 'pointer',
+                  textDecoration: 'underline',
+                }}
+              >
+                {saving ? 'Saving...' : 'Save to my pantry'}
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={handleViewRecipes}
+              style={{
+                flexShrink: 0,
+                padding: '14px 18px',
+                backgroundColor: '#2D5016',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: 14,
+                fontFamily: 'Inter, sans-serif',
+                fontSize: 15,
+                fontWeight: 600,
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: 6,
+              }}
+            >
+              View Recipes
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="M6 3L11 8L6 13" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
 
       {showPaywall && (
         <PaywallModal

@@ -1,16 +1,5 @@
 'use client'
-
-const INGREDIENT_EMOJIS: Record<string, string> = {
-  Kimchi: '🥬', Egg: '🥚', Rice: '🍚', 'Green Onion': '🌿',
-  Onion: '🧅', Garlic: '🧄', 'Soy Sauce': '🫙', 'Sesame Oil': '🫒',
-  'Sesame Seeds': '🌰', Gochugaru: '🌶', Gochujang: '🌶',
-  Doenjang: '🫙', Sugar: '🍬', Salt: '🧂', Tofu: '⬜',
-  Beef: '🥩', Pork: '🥩', Chicken: '🍗', Tuna: '🐟',
-  Spam: '🥫', Potato: '🥔', Zucchini: '🥒', Mushroom: '🍄',
-  Carrot: '🥕', Spinach: '🌿', 'Bean Sprouts': '🌱',
-  'Glass Noodles': '🍜', 'Rice Cake': '🍡', 'Anchovy Broth': '🍵',
-  'Perilla Oil': '🫒',
-}
+import { ingredientEmoji } from '@/lib/kpantry/ingredientEmoji'
 
 interface Ingredient {
   id: string
@@ -63,7 +52,7 @@ export default function SelectedIngredients({ selectedIngredients, onRemove }: P
         scrollbarWidth: 'none',
       }}>
         {selectedIngredients.map(ing => {
-          const emoji = INGREDIENT_EMOJIS[ing.name] ?? '🥘'
+          const emoji = ingredientEmoji(ing.name)
           return (
             <div key={ing.id} style={{
               flexShrink: 0,

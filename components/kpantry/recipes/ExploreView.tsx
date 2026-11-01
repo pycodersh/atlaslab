@@ -24,6 +24,15 @@ const CATEGORY_LABELS: Record<string, string> = {
   side_dishes: 'Side Dishes',
 }
 
+// 이미지 env 가 없을 때 쓰는 아이콘. 기본 표현이 컬러인 이모지만 쓴다
+// (예전 🍽 U+1F37D 는 기본이 텍스트 표현이라 상속 글자색 #1A1A2E 로 그려져 갈색 배경에 묻혔다)
+const CATEGORY_ICONS: Record<string, string> = {
+  stews: '🍲',
+  rice: '🍚',
+  noodles: '🍜',
+  side_dishes: '🥬',
+}
+
 export default function ExploreView() {
   const router = useRouter()
   const [category, setCategory] = useState('all')
@@ -232,51 +241,76 @@ export default function ExploreView() {
             </button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            {(['stews', 'rice', 'noodles', 'side_dishes'] as const).map(cat => (
-              <div
-                key={cat}
-                onClick={() => setCategory(cat)}
-                style={{
-                  borderRadius: 16,
-                  height: 100,
-                  backgroundColor: '#3D2B1A',
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                  padding: '12px',
-                  cursor: 'pointer',
-                  position: 'relative',
-                  overflow: 'hidden',
-                }}
-              >
-                {CATEGORY_IMAGES[cat] ? (
-                  <img
-                    src={CATEGORY_IMAGES[cat]}
-                    alt={cat}
-                    style={{
-                      position: 'absolute',
-                      inset: 0,
-                      width: '100%',
-                      height: '100%',
-                      objectFit: 'cover',
-                    }}
-                  />
-                ) : (
-                  <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-60%)', fontSize: 40 }}>
-                    🍽
-                  </div>
-                )}
-                <div style={{
-                  position: 'absolute',
-                  inset: 0,
-                  background: 'linear-gradient(transparent 30%, rgba(0,0,0,0.65))',
-                }} />
-                <div style={{ position: 'relative', zIndex: 1 }}>
-                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 600, color: '#FFFFFF', margin: 0 }}>
+            {(['stews', 'rice', 'noodles', 'side_dishes'] as const).map(cat => {
+              const image = CATEGORY_IMAGES[cat]
+              return (
+                <button
+                  key={cat}
+                  type="button"
+                  onClick={() => setCategory(cat)}
+                  style={{
+                    borderRadius: 16,
+                    height: 100,
+                    // 사진이 있으면 어두운 오버레이 위 흰 글씨, 없으면 크림 카드 위 진한 글씨
+                    backgroundColor: image ? '#3D2B1A' : '#FFFFFF',
+                    border: image ? 'none' : '1px solid #E8E0D0',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'flex-start',
+                    justifyContent: image ? 'flex-end' : 'space-between',
+                    padding: '12px',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    textAlign: 'left',
+                  }}
+                >
+                  {image ? (
+                    <>
+                      <img
+                        src={image}
+                        alt=""
+                        style={{
+                          position: 'absolute',
+                          inset: 0,
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                        }}
+                      />
+                      <div style={{
+                        position: 'absolute',
+                        inset: 0,
+                        background: 'linear-gradient(transparent 30%, rgba(0,0,0,0.65))',
+                      }} />
+                    </>
+                  ) : (
+                    <span aria-hidden="true" style={{
+                      width: 40,
+                      height: 40,
+                      borderRadius: 12,
+                      backgroundColor: '#F5F0E8',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: 22,
+                    }}>
+                      {CATEGORY_ICONS[cat]}
+                    </span>
+                  )}
+                  <span style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: 14,
+                    fontWeight: 600,
+                    color: image ? '#FFFFFF' : '#1A1A1A',
+                  }}>
                     {CATEGORY_LABELS[cat]}
-                  </p>
-                </div>
-              </div>
-            ))}
+                  </span>
+                </button>
+              )
+            })}
           </div>
         </section>
       )}

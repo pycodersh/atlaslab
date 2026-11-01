@@ -2,14 +2,22 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import RecipeCard from './RecipeCard'
-import { getPantryMatches, getUserPantry } from '@/lib/kpantry/recipes'
+import { getPantryMatches, getUserPantry, matchRecipes } from '@/lib/kpantry/recipes'
 import { getUserPlan, canAccess } from '@/lib/kpantry/subscription'
 import { createClient } from '@/lib/kpantry/supabase'
 import PaywallModal from '@/components/kpantry/paywall/PaywallModal'
 import AuthModal from '@/components/kpantry/auth/AuthModal'
 
-export default function PantryResultsView() {
+interface Props {
+  /** 재료 화면에서 막 고른 재료(?ids=). 비어 있으면 로그인 사용자의 저장된 pantry 를 쓴다 */
+  ingredientIds?: string[]
+}
+
+export default function PantryResultsView({ ingredientIds = [] }: Props) {
   const router = useRouter()
+  const editHref = ingredientIds.length > 0
+    ? `/kpantry/en/ingredients?ids=${ingredientIds.join(',')}`
+    : '/kpantry/en/ingredients'
   const [matches, setMatches] = useState<{ ready: any[], addOne: any[], addTwo: any[] } | null>(null)
   const [pantry, setPantry] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -21,6 +29,19 @@ export default function PantryResultsView() {
     async function load() {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
+
+      // 고른 재료가 넘어왔으면 저장·로그인 없이 바로 매칭한다(+1/+2 는 아래 Pro 잠금 그대로)
+      if (ingredientIds.length > 0) {
+        const [m, userPlan] = await Promise.all([
+          matchRecipes(ingredientIds),
+          user ? getUserPlan(user.id) : Promise.resolve<'free' | 'pro'>('free'),
+        ])
+        setMatches(m)
+        setPantry(ingredientIds.map(id => ({ ingredient_id: id })))
+        setPlan(userPlan)
+        setLoading(false)
+        return
+      }
 
       if (!user) {
         setLoading(false)
@@ -127,7 +148,7 @@ export default function PantryResultsView() {
           ))}
         </div>
         <button
-          onClick={() => router.push('/kpantry/en/ingredients')}
+          onClick={() => router.push(editHref)}
           style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: 13,
@@ -350,7 +371,7 @@ export default function PantryResultsView() {
           </div>
         </div>
         <button
-          onClick={() => router.push('/kpantry/en/ingredients')}
+          onClick={() => router.push(editHref)}
           style={{
             flexShrink: 0,
             padding: '10px 14px',

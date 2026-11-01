@@ -26,15 +26,3 @@ export function canAccess(feature: string, plan: Plan): boolean {
   if (PRO_FEATURES.includes(feature)) return plan === 'pro'
   return false
 }
-
-export async function upgradeToProDev(userId: string) {
-  const supabase = createClient()
-  await supabase
-    .from('pantry_subscriptions')
-    .upsert({
-      user_id: userId,
-      plan: 'pro',
-      status: 'active',
-      expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(),
-    })
-}

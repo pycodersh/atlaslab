@@ -177,7 +177,12 @@ export async function getPantryMatches(userId: string) {
     .select('ingredient_id')
     .eq('user_id', userId)
 
-  const pantryIds = pantry?.map(p => p.ingredient_id) ?? []
+  return matchRecipes(pantry?.map(p => p.ingredient_id) ?? [])
+}
+
+// 가진 재료 id 목록으로 레시피를 나눈다 — 저장된 pantry 든 화면에서 막 고른 선택이든 같은 기준
+export async function matchRecipes(pantryIds: string[]) {
+  const supabase = createClient()
 
   const { data: recipes, error } = await supabase
     .from('pantry_recipes')

@@ -42,6 +42,15 @@ export async function loadPantry(userId: string) {
   return data?.map(p => p.ingredient_id) ?? []
 }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+// URL 의 ?ids=a,b,c 를 재료 UUID 배열로 — 형식이 틀린 값과 중복은 버린다
+export function parseIngredientIds(raw: string | null): string[] {
+  if (!raw) return []
+  const ids = raw.split(',').map(s => s.trim()).filter(s => UUID_RE.test(s))
+  return [...new Set(ids)].slice(0, 200)
+}
+
 export async function getPantryEssentials(names: string[]) {
   const supabase = createClient()
   const { data, error } = await supabase
