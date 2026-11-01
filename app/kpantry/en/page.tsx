@@ -19,7 +19,7 @@ const HERO_IMG = process.env.NEXT_PUBLIC_IMG_HERO
 
 export default function KPantryHomePage() {
   return (
-    <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', paddingBottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
+    <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
       {/* Hero Banner */}
       {HERO_IMG && (
         <div style={{
@@ -67,7 +67,7 @@ export default function KPantryHomePage() {
               fontFamily: 'Playfair Display, serif',
               fontSize: 34,
               fontWeight: 700,
-              color: '#FAF7F2',
+              color: '#FAFAFA',
               margin: 0,
               lineHeight: 1.1,
               textShadow: '0 2px 8px rgba(0,0,0,0.4)',

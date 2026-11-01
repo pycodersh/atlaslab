@@ -1,4 +1,6 @@
 'use client'
+import { ArrowLeft, Check, CircleCheck } from 'lucide-react'
+import { META_ICON, INLINE_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import BuyProButton from '@/components/kpantry/paywall/BuyProButton'
@@ -21,7 +23,7 @@ export default function SubscribePage() {
   }
 
   return (
-    <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', padding: '60px 20px 40px' }}>
+    <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', padding: '60px 20px 40px' }}>
       <button
         onClick={() => router.back()}
         style={{
@@ -31,7 +33,7 @@ export default function SubscribePage() {
           fontFamily: 'Inter, sans-serif', fontSize: 14, color: '#6B6B6B',
         }}
       >
-        ← Back
+        <ArrowLeft {...META_ICON} />Back
       </button>
 
       <h1 style={{
@@ -50,15 +52,15 @@ export default function SubscribePage() {
 
       {active ? (
         <div style={{
-          backgroundColor: '#EDF4E8',
-          border: '1.5px solid #2D5016',
+          backgroundColor: 'var(--kp-accent-soft)',
+          border: '1.5px solid var(--kp-accent)',
           borderRadius: 20, padding: '20px',
           marginBottom: 24,
         }}>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#2D5016', margin: 0 }}>
-            ✓ Pro is active on this browser
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: 'var(--kp-accent)', margin: 0 }}>
+            <CircleCheck {...INLINE_ICON} />Pro is active on this browser
           </p>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#3D3320', margin: '6px 0 12px', lineHeight: 1.5 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#333333', margin: '6px 0 12px', lineHeight: 1.5 }}>
             Moving to another device? Deactivate here, then enter the same key there.
           </p>
           <button
@@ -78,7 +80,7 @@ export default function SubscribePage() {
           <div style={{
             backgroundColor: '#FFFFFF',
             borderRadius: 20, padding: '20px',
-            border: '2px solid #C4622D',
+            border: '2px solid var(--kp-accent)',
             marginBottom: 16,
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 12 }}>
@@ -111,7 +113,7 @@ export default function SubscribePage() {
           <div style={{
             backgroundColor: '#FFFFFF',
             borderRadius: 20, padding: '20px',
-            border: '1.5px solid #E8E0D0',
+            border: '1.5px solid var(--kp-rule)',
             margin: '20px 0 24px',
           }}>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, color: '#1A1A1A', margin: '0 0 12px' }}>
@@ -126,16 +128,16 @@ export default function SubscribePage() {
         </>
       )}
 
-      <div style={{ backgroundColor: '#F0EAD8', borderRadius: 16, padding: '16px' }}>
+      <div style={{ backgroundColor: 'var(--kp-surface-muted)', borderRadius: 16, padding: '16px' }}>
         <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600, color: '#1A1A1A', margin: '0 0 12px' }}>
           Everything in Pro
         </p>
         {PRO_BENEFITS.map(item => (
           <p key={item} style={{
             fontFamily: 'Inter, sans-serif', fontSize: 13,
-            color: '#3D3320', margin: '0 0 8px',
+            color: '#333333', margin: '0 0 8px',
           }}>
-            ✅ {item}
+            <Check {...META_ICON} color="#C8102E" />{item}
           </p>
         ))}
       </div>

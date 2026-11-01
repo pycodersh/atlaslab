@@ -19,7 +19,7 @@ interface CategoryTabsProps {
 export default function CategoryTabs({
   selected,
   onChange,
-  accentColor = '#2D5016',
+  accentColor = 'var(--kp-accent)',
 }: CategoryTabsProps) {
   return (
     <div style={{
@@ -37,7 +37,7 @@ export default function CategoryTabs({
             flexShrink: 0,
             padding: '8px 16px',
             borderRadius: 20,
-            border: selected === cat.key ? 'none' : '1px solid #E8E0D0',
+            border: selected === cat.key ? 'none' : '1px solid var(--kp-rule)',
             backgroundColor: selected === cat.key ? accentColor : '#FFFFFF',
             color: selected === cat.key ? '#FFFFFF' : '#6B6B6B',
             fontFamily: 'Inter, sans-serif',

@@ -1,4 +1,6 @@
-﻿'use client'
+'use client'
+import { ShoppingCart } from 'lucide-react'
+import { INLINE_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getPantryEssentials } from '@/lib/kpantry/ingredients'
@@ -49,7 +51,7 @@ export default function KoreanPantrySection() {
           alignItems: 'center',
           gap: 6,
         }}>
-          🛒 Build Your Korean Pantry
+          <ShoppingCart {...INLINE_ICON} color="#C8102E" />Build Your Korean Pantry
         </h3>
         <p style={{
           fontFamily: 'Inter, sans-serif',
@@ -93,8 +95,8 @@ export default function KoreanPantrySection() {
               width: 60,
               height: 60,
               borderRadius: '50%',
-              backgroundColor: '#F5E8D8',
-              border: '1.5px solid #E8D8C4',
+              backgroundColor: 'var(--kp-surface-muted)',
+              border: '1.5px solid var(--kp-rule)',
               overflow: 'hidden',
               display: 'flex',
               alignItems: 'center',

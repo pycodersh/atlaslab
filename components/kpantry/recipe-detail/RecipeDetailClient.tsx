@@ -1,4 +1,5 @@
 'use client'
+import { Play, ShoppingBasket } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import BottomNav from '@/components/kpantry/layout/BottomNav'
@@ -105,7 +106,7 @@ export default function RecipeDetailClient({ slug }: Props) {
 
   if (loading) {
     return (
-      <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ fontFamily: 'Inter, sans-serif', color: '#9E9E9E' }}>Loading recipe...</p>
       </div>
     )
@@ -113,9 +114,9 @@ export default function RecipeDetailClient({ slug }: Props) {
 
   if (!recipe) {
     return (
-      <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
+      <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
         <p style={{ fontFamily: 'Inter, sans-serif', color: '#1A1A1A', fontWeight: 600 }}>Recipe not found</p>
-        <button onClick={() => router.back()} style={{ fontFamily: 'Inter, sans-serif', color: '#2D5016', background: 'none', border: 'none', cursor: 'pointer' }}>
+        <button onClick={() => router.back()} style={{ fontFamily: 'Inter, sans-serif', color: 'var(--kp-accent)', background: 'none', border: 'none', cursor: 'pointer' }}>
           Go back
         </button>
       </div>
@@ -123,7 +124,7 @@ export default function RecipeDetailClient({ slug }: Props) {
   }
 
   return (
-    <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', paddingBottom: 120 }}>
+    <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 120 }}>
       <HeroSection
         nameEn={recipe.name_en}
         nameKo={recipe.name_ko}
@@ -150,7 +151,7 @@ export default function RecipeDetailClient({ slug }: Props) {
         onAddToShoppingList={handleAddToShoppingList}
       />
 
-      <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: '#E8E0D0' }} />
+      <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: 'var(--kp-rule)' }} />
 
       <StepsSection steps={recipe.pantry_recipe_steps ?? []} />
 
@@ -161,8 +162,8 @@ export default function RecipeDetailClient({ slug }: Props) {
         transform: 'translateX(-50%)',
         width: '100%',
         maxWidth: 430,
-        backgroundColor: '#F5F0E8',
-        borderTop: '1px solid #E8E0D0',
+        backgroundColor: 'var(--kp-bg)',
+        borderTop: '1px solid var(--kp-rule)',
         padding: '12px 16px',
         paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
         display: 'flex',
@@ -176,7 +177,7 @@ export default function RecipeDetailClient({ slug }: Props) {
             padding: '14px',
             backgroundColor: '#FFFFFF',
             color: '#1A1A1A',
-            border: '1.5px solid #E8E0D0',
+            border: '1.5px solid var(--kp-rule)',
             borderRadius: 14,
             fontFamily: 'Inter, sans-serif',
             fontSize: 13,
@@ -188,14 +189,14 @@ export default function RecipeDetailClient({ slug }: Props) {
             gap: 6,
           }}
         >
-          🧺 I Have Ingredients
+          <ShoppingBasket size={16} strokeWidth={2} aria-hidden="true" />I Have Ingredients
         </button>
 
         <button
           style={{
             flex: 1.5,
             padding: '14px',
-            backgroundColor: '#C4622D',
+            backgroundColor: 'var(--kp-accent)',
             color: '#FFFFFF',
             border: 'none',
             borderRadius: 14,
@@ -209,7 +210,7 @@ export default function RecipeDetailClient({ slug }: Props) {
             gap: 6,
           }}
         >
-          ▶ Watch How to Cook
+          <Play size={16} strokeWidth={2} aria-hidden="true" />Watch How to Cook
         </button>
       </div>
 

@@ -1,4 +1,6 @@
-﻿'use client'
+'use client'
+import { Clock, CookingPot, Flame, Salad, Soup, Star, UtensilsCrossed, Wheat, type LucideIcon } from 'lucide-react'
+import { META_ICON, INLINE_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import RecipeCard from './RecipeCard'
@@ -26,11 +28,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 
 // 이미지 env 가 없을 때 쓰는 아이콘. 기본 표현이 컬러인 이모지만 쓴다
 // (예전 🍽 U+1F37D 는 기본이 텍스트 표현이라 상속 글자색 #1A1A2E 로 그려져 갈색 배경에 묻혔다)
-const CATEGORY_ICONS: Record<string, string> = {
-  stews: '🍲',
-  rice: '🍚',
-  noodles: '🍜',
-  side_dishes: '🥬',
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  stews: Soup,
+  rice: Wheat,
+  noodles: CookingPot,
+  side_dishes: Salad,
 }
 
 export default function ExploreView() {
@@ -110,7 +112,7 @@ export default function ExploreView() {
           width: 40,
           height: 40,
           borderRadius: 12,
-          border: '1px solid #E8E0D0',
+          border: '1px solid var(--kp-rule)',
           backgroundColor: '#FFFFFF',
           display: 'flex',
           alignItems: 'center',
@@ -152,7 +154,7 @@ export default function ExploreView() {
                 justifyContent: 'center',
                 fontSize: 80,
               }}>
-                🍲
+                <UtensilsCrossed size={64} {...PLACEHOLDER_ICON} />
               </div>
             )}
             <div style={{
@@ -171,7 +173,7 @@ export default function ExploreView() {
                 textTransform: 'uppercase',
                 letterSpacing: '0.06em',
               }}>
-                ⭐ Featured Recipe
+                <Star {...META_ICON} fill="currentColor" />Featured Recipe
               </span>
               <h2 style={{
                 fontFamily: 'Playfair Display, serif',
@@ -192,10 +194,10 @@ export default function ExploreView() {
               </p>
               <div style={{ display: 'flex', gap: 12, marginTop: 6 }}>
                 <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>
-                  ⏱ {featured.cooking_time_min} min
+                  <Clock {...META_ICON} />{featured.cooking_time_min} min
                 </span>
                 <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>
-                  🔥 {featured.calories} kcal
+                  <Flame {...META_ICON} />{featured.calories} kcal
                 </span>
               </div>
             </div>
@@ -207,7 +209,7 @@ export default function ExploreView() {
         <section style={{ padding: '20px 0 0' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px', marginBottom: 12 }}>
             <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#1A1A1A', margin: 0 }}>
-              🔥 Popular Recipes
+              <Flame {...INLINE_ICON} color="#C8102E" />Popular Recipes
             </h3>
             <button style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#6B6B6B', background: 'none', border: 'none', cursor: 'pointer' }}>
               View all
@@ -243,6 +245,7 @@ export default function ExploreView() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
             {(['stews', 'rice', 'noodles', 'side_dishes'] as const).map(cat => {
               const image = CATEGORY_IMAGES[cat]
+              const CategoryIcon = CATEGORY_ICONS[cat]
               return (
                 <button
                   key={cat}
@@ -253,7 +256,7 @@ export default function ExploreView() {
                     height: 100,
                     // 사진이 있으면 어두운 오버레이 위 흰 글씨, 없으면 크림 카드 위 진한 글씨
                     backgroundColor: image ? '#3D2B1A' : '#FFFFFF',
-                    border: image ? 'none' : '1px solid #E8E0D0',
+                    border: image ? 'none' : '1px solid var(--kp-rule)',
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'flex-start',
@@ -289,13 +292,13 @@ export default function ExploreView() {
                       width: 40,
                       height: 40,
                       borderRadius: 12,
-                      backgroundColor: '#F5F0E8',
+                      backgroundColor: 'var(--kp-bg)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       fontSize: 22,
                     }}>
-                      {CATEGORY_ICONS[cat]}
+                      <CategoryIcon size={22} strokeWidth={1.75} color="#C8102E" />
                     </span>
                   )}
                   <span style={{

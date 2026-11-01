@@ -1,4 +1,6 @@
-﻿'use client'
+'use client'
+import { Bookmark, Lock, ShoppingCart } from 'lucide-react'
+import { META_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useState } from 'react'
 import BottomNav from '@/components/kpantry/layout/BottomNav'
 import SavedRecipesTab from '@/components/kpantry/saved/SavedRecipesTab'
@@ -62,7 +64,7 @@ export default function SavedPage() {
 
   if (loading) {
     return (
-      <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ fontFamily: 'Inter, sans-serif', color: '#9E9E9E' }}>Loading...</p>
       </div>
     )
@@ -70,7 +72,7 @@ export default function SavedPage() {
 
   if (!userId) {
     return (
-      <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', paddingBottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
+      <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
         <div style={{ padding: '60px 20px 0', textAlign: 'center' }}>
           <h1 style={{
             fontFamily: 'Playfair Display, serif',
@@ -82,7 +84,7 @@ export default function SavedPage() {
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#9E9E9E', margin: '0 0 32px' }}>
             Your favorite recipes & shopping list
           </p>
-          <span style={{ fontSize: 52 }}>🔒</span>
+          <Lock size={48} {...PLACEHOLDER_ICON} />
           <p style={{
             fontFamily: 'Inter, sans-serif', fontSize: 15,
             fontWeight: 600, color: '#1A1A1A', margin: '16px 0 8px',
@@ -96,7 +98,7 @@ export default function SavedPage() {
             onClick={() => setShowAuth(true)}
             style={{
               padding: '14px 32px',
-              backgroundColor: '#2D5016',
+              backgroundColor: 'var(--kp-accent)',
               color: '#FFFFFF',
               border: 'none',
               borderRadius: 14,
@@ -120,7 +122,7 @@ export default function SavedPage() {
   }
 
   return (
-    <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', paddingBottom: 100 }}>
+    <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 100 }}>
       <div style={{
         padding: '52px 20px 16px',
         display: 'flex',
@@ -143,7 +145,7 @@ export default function SavedPage() {
           width: 36, height: 36,
           borderRadius: 10,
           backgroundColor: '#FFFFFF',
-          border: '1px solid #E8E0D0',
+          border: '1px solid var(--kp-rule)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: 'pointer',
         }}>
@@ -157,7 +159,7 @@ export default function SavedPage() {
       <div style={{
         margin: '0 16px 4px',
         display: 'flex',
-        backgroundColor: '#EDE8DC',
+        backgroundColor: 'var(--kp-surface-muted)',
         borderRadius: 14,
         padding: 4,
       }}>
@@ -181,7 +183,7 @@ export default function SavedPage() {
             boxShadow: activeTab === 'recipes' ? '0 1px 4px rgba(0,0,0,0.08)' : 'none',
           }}
         >
-          🔖 Recipes
+          <Bookmark {...META_ICON} />Recipes
         </button>
         <button
           onClick={() => setActiveTab('shopping')}
@@ -204,7 +206,7 @@ export default function SavedPage() {
             position: 'relative',
           }}
         >
-          🛒 Shopping List
+          <ShoppingCart {...META_ICON} />Shopping List
           {shoppingList.filter(i => !i.is_checked).length > 0 && (
             <span style={{
               position: 'absolute',
@@ -213,7 +215,7 @@ export default function SavedPage() {
               width: 18,
               height: 18,
               borderRadius: '50%',
-              backgroundColor: '#C4622D',
+              backgroundColor: 'var(--kp-accent)',
               color: '#FFFFFF',
               fontFamily: 'Inter, sans-serif',
               fontSize: 10,

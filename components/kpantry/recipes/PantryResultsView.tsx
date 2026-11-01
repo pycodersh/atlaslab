@@ -1,4 +1,5 @@
-﻿'use client'
+'use client'
+import { Leaf, Lightbulb, Lock } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import RecipeCard from './RecipeCard'
@@ -83,7 +84,7 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
           style={{
             marginTop: 16,
             padding: '12px 24px',
-            backgroundColor: '#2D5016',
+            backgroundColor: 'var(--kp-accent)',
             color: '#FFFFFF',
             border: 'none',
             borderRadius: 12,
@@ -134,7 +135,7 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
         backgroundColor: '#FFFFFF',
         borderRadius: 14,
         padding: '12px 14px',
-        border: '1px solid #E8E0D0',
+        border: '1px solid var(--kp-rule)',
         display: 'flex',
         alignItems: 'center',
         gap: 10,
@@ -144,7 +145,7 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
         </span>
         <div style={{ display: 'flex', gap: 4, overflowX: 'auto', flex: 1 }}>
           {pantry.slice(0, 8).map((p: any) => (
-            <span key={p.ingredient_id} style={{ fontSize: 18 }}>🥬</span>
+            <Leaf key={p.ingredient_id} size={16} strokeWidth={2} color="var(--kp-icon)" aria-hidden="true" />
           ))}
         </div>
         <button
@@ -153,9 +154,9 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
             fontFamily: 'Inter, sans-serif',
             fontSize: 13,
             fontWeight: 600,
-            color: '#2D5016',
+            color: 'var(--kp-secondary)',
             background: 'none',
-            border: '1.5px solid #2D5016',
+            border: '1px solid var(--kp-secondary-border)',
             borderRadius: 8,
             padding: '4px 10px',
             cursor: 'pointer',
@@ -177,8 +178,8 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
                 <span style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: 11,
-                  color: '#2D5016',
-                  backgroundColor: '#EDF4E8',
+                  color: 'var(--kp-accent)',
+                  backgroundColor: 'var(--kp-accent-soft)',
                   borderRadius: 20,
                   padding: '2px 8px',
                   fontWeight: 500,
@@ -203,7 +204,7 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
                     top: 8,
                     left: 8,
                     zIndex: 2,
-                    backgroundColor: '#2D5016',
+                    backgroundColor: 'var(--kp-accent)',
                     color: '#FFFFFF',
                     borderRadius: 20,
                     padding: '3px 8px',
@@ -266,12 +267,12 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
               gap: 8,
               zIndex: 10,
             }}>
-              <span style={{ fontSize: 28 }}>🔒</span>
+              <Lock size={26} strokeWidth={2} color="#1A1A1A" aria-hidden="true" />
               <button
                 onClick={() => setPaywallFeature('pantry_plus1')}
                 style={{
                   padding: '10px 20px',
-                  backgroundColor: '#C4622D',
+                  backgroundColor: 'var(--kp-accent)',
                   color: '#FFFFFF',
                   border: 'none',
                   borderRadius: 20,
@@ -327,12 +328,12 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
               gap: 8,
               zIndex: 10,
             }}>
-              <span style={{ fontSize: 28 }}>🔒</span>
+              <Lock size={26} strokeWidth={2} color="#1A1A1A" aria-hidden="true" />
               <button
                 onClick={() => setPaywallFeature('pantry_plus2')}
                 style={{
                   padding: '10px 20px',
-                  backgroundColor: '#C4622D',
+                  backgroundColor: 'var(--kp-accent)',
                   color: '#FFFFFF',
                   border: 'none',
                   borderRadius: 20,
@@ -351,16 +352,16 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
 
       <div style={{
         margin: '0 16px 20px',
-        backgroundColor: '#F5F0E8',
+        backgroundColor: 'var(--kp-bg)',
         borderRadius: 16,
         padding: '16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        border: '1px solid #E8E0D0',
+        border: '1px solid var(--kp-rule)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 20 }}>💡</span>
+          <Lightbulb size={20} strokeWidth={2} color="var(--kp-icon)" aria-hidden="true" />
           <div>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600, color: '#1A1A1A', margin: 0 }}>
               Want to see more recipes?
@@ -375,7 +376,7 @@ export default function PantryResultsView({ ingredientIds = [] }: Props) {
           style={{
             flexShrink: 0,
             padding: '10px 14px',
-            backgroundColor: '#2D5016',
+            backgroundColor: 'var(--kp-accent)',
             color: '#FFFFFF',
             border: 'none',
             borderRadius: 10,

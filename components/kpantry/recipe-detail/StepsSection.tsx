@@ -41,7 +41,7 @@ export default function StepsSection({ steps }: StepsSectionProps) {
                 borderRadius: 8,
                 overflow: 'hidden',
                 flexShrink: 0,
-                backgroundColor: '#F5F0E8',
+                backgroundColor: 'var(--kp-bg)',
                 position: 'relative',
               }}
             >
@@ -62,8 +62,8 @@ export default function StepsSection({ steps }: StepsSectionProps) {
               width: 32,
               height: 32,
               borderRadius: '50%',
-              backgroundColor: '#F5F0E8',
-              border: '1.5px solid #E8E0D0',
+              backgroundColor: 'var(--kp-bg)',
+              border: '1.5px solid var(--kp-rule)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -101,7 +101,7 @@ export default function StepsSection({ steps }: StepsSectionProps) {
                 <div style={{
                   marginTop: 16,
                   height: 1,
-                  backgroundColor: '#F0EAD8',
+                  backgroundColor: 'var(--kp-surface-muted)',
                 }} />
               )}
             </div>

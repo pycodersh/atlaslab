@@ -1,4 +1,6 @@
 'use client'
+import { ChefHat, Clock, Flame, UtensilsCrossed } from 'lucide-react'
+import { META_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useRouter } from 'next/navigation'
 
 interface RecipeCardProps {
@@ -14,7 +16,7 @@ interface RecipeCardProps {
   variant?: 'default' | 'featured' | 'horizontal' | 'pantry'
 }
 
-function ImageBox({ heroImageUrl, size, fallbackColor = '#F5E8D8' }: {
+function ImageBox({ heroImageUrl, size, fallbackColor = 'var(--kp-surface-muted)' }: {
   heroImageUrl?: string
   size: { width?: string | number; height: number }
   fallbackColor?: string
@@ -34,7 +36,7 @@ function ImageBox({ heroImageUrl, size, fallbackColor = '#F5E8D8' }: {
         <img src={heroImageUrl} alt=""
           style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       ) : (
-        <span style={{ fontSize: size.height * 0.4 }}>🍲</span>
+        <UtensilsCrossed size={Math.round(size.height * 0.32)} {...PLACEHOLDER_ICON} />
       )}
     </div>
   )
@@ -58,7 +60,7 @@ export default function RecipeCard({
           backgroundColor: '#FFFFFF',
           borderRadius: 16,
           overflow: 'hidden',
-          border: '1px solid #E8E0D0',
+          border: '1px solid var(--kp-rule)',
           cursor: 'pointer',
           position: 'relative',
         }}
@@ -75,7 +77,7 @@ export default function RecipeCard({
             display: 'flex',
             alignItems: 'center',
             gap: 4,
-            border: '1px solid #E8E0D0',
+            border: '1px solid var(--kp-rule)',
           }}>
             <span style={{ fontSize: 12 }}>+</span>
             {missingIngredients.map((ing, i) => (
@@ -83,7 +85,7 @@ export default function RecipeCard({
                 fontFamily: 'Inter, sans-serif',
                 fontSize: 11,
                 fontWeight: 600,
-                color: '#C4622D',
+                color: 'var(--kp-accent)',
               }}>
                 {ing}{i < missingIngredients.length - 1 ? ' +' : ''}
               </span>
@@ -105,16 +107,16 @@ export default function RecipeCard({
           </p>
           <div style={{ display: 'flex', gap: 6, marginTop: 6, alignItems: 'center' }}>
             <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#6B6B6B' }}>
-              ⏱ {cookingTimeMin} min
+              <Clock {...META_ICON} />{cookingTimeMin} min
             </span>
             {difficulty && (
               <span style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: 11,
-                color: difficulty === 'easy' ? '#2D5016' : '#C4622D',
+                color: difficulty === 'easy' ? 'var(--kp-accent)' : 'var(--kp-accent)',
                 fontWeight: 500,
               }}>
-                📊 {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+                <ChefHat {...META_ICON} />{difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
               </span>
             )}
           </div>
@@ -133,7 +135,7 @@ export default function RecipeCard({
           backgroundColor: '#FFFFFF',
           borderRadius: 14,
           padding: '12px',
-          border: '1px solid #E8E0D0',
+          border: '1px solid var(--kp-rule)',
           cursor: 'pointer',
           alignItems: 'center',
         }}
@@ -163,11 +165,11 @@ export default function RecipeCard({
           )}
           <div style={{ display: 'flex', gap: 8 }}>
             <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B' }}>
-              ⏱ {cookingTimeMin} min
+              <Clock {...META_ICON} />{cookingTimeMin} min
             </span>
             {calories && (
               <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B' }}>
-                🔥 {calories} kcal
+                <Flame {...META_ICON} />{calories} kcal
               </span>
             )}
           </div>
@@ -189,7 +191,7 @@ export default function RecipeCard({
         backgroundColor: '#FFFFFF',
         borderRadius: 16,
         overflow: 'hidden',
-        border: '1px solid #E8E0D0',
+        border: '1px solid var(--kp-rule)',
         cursor: 'pointer',
       }}
     >
@@ -216,11 +218,11 @@ export default function RecipeCard({
         )}
         <div style={{ display: 'flex', gap: 6 }}>
           <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#6B6B6B' }}>
-            ⏱ {cookingTimeMin} min
+            <Clock {...META_ICON} />{cookingTimeMin} min
           </span>
           {calories && (
             <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#6B6B6B' }}>
-              🔥 {calories} kcal
+              <Flame {...META_ICON} />{calories} kcal
             </span>
           )}
         </div>

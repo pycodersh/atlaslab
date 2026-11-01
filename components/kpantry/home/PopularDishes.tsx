@@ -1,4 +1,6 @@
-﻿'use client'
+'use client'
+import { Clock, Flame, UtensilsCrossed } from 'lucide-react'
+import { META_ICON, INLINE_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getPopularRecipes } from '@/lib/kpantry/recipes'
@@ -26,7 +28,7 @@ export default function PopularDishes() {
           alignItems: 'center',
           gap: 6,
         }}>
-          🔥 Popular Korean Dishes
+          <Flame {...INLINE_ICON} color="#C8102E" />Popular Korean Dishes
         </h3>
         <button
           onClick={() => router.push('/kpantry/en/recipes')}
@@ -55,13 +57,13 @@ export default function PopularDishes() {
               backgroundColor: '#FFFFFF',
               borderRadius: 16,
               overflow: 'hidden',
-              border: '1px solid #E8E0D0',
+              border: '1px solid var(--kp-rule)',
               cursor: 'pointer',
             }}
           >
             <div style={{
               height: 100,
-              backgroundColor: '#F5E8D8',
+              backgroundColor: 'var(--kp-surface-muted)',
               overflow: 'hidden',
               display: 'flex',
               alignItems: 'center',
@@ -71,7 +73,7 @@ export default function PopularDishes() {
                 <img src={dish.hero_image_url} alt={dish.name_en}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
-                <span style={{ fontSize: 44 }}>🍲</span>
+                <UtensilsCrossed size={36} {...PLACEHOLDER_ICON} />
               )}
             </div>
             <div style={{ padding: '10px 10px 12px' }}>
@@ -98,7 +100,7 @@ export default function PopularDishes() {
                 color: '#6B6B6B',
                 margin: 0,
               }}>
-                ⏱ {dish.cooking_time_min} min
+                <Clock {...META_ICON} />{dish.cooking_time_min} min
               </p>
             </div>
           </div>

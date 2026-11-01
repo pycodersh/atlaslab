@@ -1,4 +1,6 @@
-﻿'use client'
+'use client'
+import { Lightbulb, ShoppingBasket } from 'lucide-react'
+import { META_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getPantryEssentials } from '@/lib/kpantry/ingredients'
@@ -39,7 +41,7 @@ export default function HaveIngredientsCard() {
       borderRadius: 20,
       padding: '20px',
       boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-      border: '1px solid #E8E0D0',
+      border: '1px solid var(--kp-rule)',
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ flex: 1 }}>
@@ -47,16 +49,16 @@ export default function HaveIngredientsCard() {
             width: 44,
             height: 44,
             borderRadius: 12,
-            backgroundColor: '#EDF4E8',
+            backgroundColor: 'var(--kp-accent-soft)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: 12,
           }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <rect x="3" y="6" width="18" height="15" rx="2" stroke="#2D5016" strokeWidth="1.5"/>
-              <path d="M8 6V4C8 3.45 8.45 3 9 3H15C15.55 3 16 3.45 16 4V6" stroke="#2D5016" strokeWidth="1.5"/>
-              <path d="M8 11H16M8 15H12" stroke="#2D5016" strokeWidth="1.5" strokeLinecap="round"/>
+              <rect x="3" y="6" width="18" height="15" rx="2" stroke="#C8102E" strokeWidth="1.5"/>
+              <path d="M8 6V4C8 3.45 8.45 3 9 3H15C15.55 3 16 3.45 16 4V6" stroke="#C8102E" strokeWidth="1.5"/>
+              <path d="M8 11H16M8 15H12" stroke="#C8102E" strokeWidth="1.5" strokeLinecap="round"/>
             </svg>
           </div>
 
@@ -87,7 +89,7 @@ export default function HaveIngredientsCard() {
           borderRadius: 12,
           overflow: 'hidden',
           flexShrink: 0,
-          backgroundColor: '#F0EAD8',
+          backgroundColor: 'var(--kp-surface-muted)',
         }}>
           {IMG_URL ? (
             <img src={IMG_URL} alt="Ingredients"
@@ -97,7 +99,7 @@ export default function HaveIngredientsCard() {
               width: '100%', height: '100%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 52,
-            }}>🧺</div>
+            }}><ShoppingBasket size={44} {...PLACEHOLDER_ICON} /></div>
           )}
         </div>
       </div>
@@ -112,7 +114,7 @@ export default function HaveIngredientsCard() {
             style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: 13,
-              color: '#2D5016',
+              color: 'var(--kp-secondary)',
               fontWeight: 600,
               background: 'none',
               border: 'none',
@@ -137,8 +139,8 @@ export default function HaveIngredientsCard() {
                 width: 52,
                 height: 52,
                 borderRadius: 14,
-                backgroundColor: '#F5F0E8',
-                border: '1px solid #E8E0D0',
+                backgroundColor: 'var(--kp-bg)',
+                border: '1px solid var(--kp-rule)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -182,8 +184,8 @@ export default function HaveIngredientsCard() {
               width: 52,
               height: 52,
               borderRadius: 14,
-              backgroundColor: '#F5F0E8',
-              border: '1px solid #E8E0D0',
+              backgroundColor: 'var(--kp-bg)',
+              border: '1px solid var(--kp-rule)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -204,7 +206,7 @@ export default function HaveIngredientsCard() {
           marginTop: 16,
           width: '100%',
           padding: '16px',
-          backgroundColor: '#111111',
+          backgroundColor: 'var(--kp-accent)',
           color: '#FFFFFF',
           border: 'none',
           borderRadius: 14,
@@ -232,7 +234,7 @@ export default function HaveIngredientsCard() {
         color: '#9E9E9E',
         margin: '8px 0 0',
       }}>
-        💡 See what you can cook with what you have!
+        <Lightbulb {...META_ICON} />See what you can cook with what you have!
       </p>
     </div>
   )

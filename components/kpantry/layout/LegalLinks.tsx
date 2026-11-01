@@ -23,7 +23,7 @@ export default function LegalLinks({ prefix, style }: Props) {
       {LEGAL_LINKS.map((l, i) => (
         <span key={l.href}>
           {i > 0 && <span aria-hidden="true"> · </span>}
-          <Link href={l.href} style={{ color: '#2D5016', fontWeight: 600, textDecoration: 'underline' }}>
+          <Link href={l.href} style={{ color: 'var(--kp-accent)', fontWeight: 600, textDecoration: 'underline' }}>
             {l.label}
           </Link>
         </span>

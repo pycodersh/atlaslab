@@ -1,4 +1,6 @@
 'use client'
+import { Bookmark, Check, ClipboardList, KeyRound, MapPin, ShoppingBasket, ShoppingCart, Sparkles, Star, type LucideIcon } from 'lucide-react'
+import { META_ICON, INLINE_ICON } from '@/components/kpantry/ui/icon'
 import { useState } from 'react'
 import BuyProButton from './BuyProButton'
 import LicenseKeyForm from './LicenseKeyForm'
@@ -11,34 +13,34 @@ interface Props {
   onSignIn: () => void
 }
 
-const FEATURE_MESSAGES: Record<string, { title: string; desc: string; icon: string }> = {
+const FEATURE_MESSAGES: Record<string, { title: string; desc: string; icon: LucideIcon }> = {
   pantry_plus1: {
-    icon: '🛒',
+    icon: ShoppingCart,
     title: 'Unlock +1 ingredient suggestions',
     desc: 'See which one ingredient to add to unlock more Korean recipes.',
   },
   pantry_plus2: {
-    icon: '✨',
+    icon: Sparkles,
     title: 'Unlock +2 ingredient suggestions',
     desc: 'Discover even more recipes by adding just two ingredients.',
   },
   shopping_list: {
-    icon: '📋',
+    icon: ClipboardList,
     title: 'Unlock Shopping List',
     desc: 'Save missing ingredients and find stores near you.',
   },
   save_pantry: {
-    icon: '🧺',
+    icon: ShoppingBasket,
     title: 'Unlock Pantry Saving',
     desc: "Save your ingredients so you don't have to re-enter them every time.",
   },
   saved_unlimited: {
-    icon: '🔖',
+    icon: Bookmark,
     title: 'Save unlimited recipes',
     desc: 'Free accounts can save up to 3 recipes. Upgrade to save as many as you want.',
   },
   find_stores: {
-    icon: '📍',
+    icon: MapPin,
     title: 'Find Nearby Stores',
     desc: 'Locate Korean and Asian grocery stores near you.',
   },
@@ -48,7 +50,7 @@ const FEATURE_MESSAGES: Record<string, { title: string; desc: string; icon: stri
 export default function PaywallModal({ feature, onClose }: Props) {
   const [showKeyForm, setShowKeyForm] = useState(false)
   const msg = FEATURE_MESSAGES[feature] ?? {
-    icon: '⭐',
+    icon: Star,
     title: 'Upgrade to K-Pantry Pro',
     desc: 'Unlock all features with K-Pantry Pro.',
   }
@@ -77,17 +79,17 @@ export default function PaywallModal({ feature, onClose }: Props) {
       }}>
         <div style={{
           width: 40, height: 4, borderRadius: 2,
-          backgroundColor: '#E8E0D0', margin: '0 auto 24px',
+          backgroundColor: 'var(--kp-rule)', margin: '0 auto 24px',
         }} />
 
         <div style={{
           width: 64, height: 64, borderRadius: 20,
-          backgroundColor: '#FDF5EE',
+          backgroundColor: 'var(--kp-accent-soft)',
           display: 'flex', alignItems: 'center',
           justifyContent: 'center', fontSize: 32,
           margin: '0 auto 16px',
         }}>
-          {msg.icon}
+          <msg.icon size={30} strokeWidth={1.75} color="#C8102E" aria-hidden="true" />
         </div>
 
         <h2 style={{
@@ -108,7 +110,7 @@ export default function PaywallModal({ feature, onClose }: Props) {
         </p>
 
         <div style={{
-          backgroundColor: '#F5F0E8',
+          backgroundColor: 'var(--kp-bg)',
           borderRadius: 14, padding: '16px',
           marginBottom: 20,
         }}>
@@ -126,7 +128,7 @@ export default function PaywallModal({ feature, onClose }: Props) {
               fontSize: 13, color: '#1A1A1A',
               margin: '0 0 6px',
             }}>
-              ✅ {item}
+              <Check {...META_ICON} color="#C8102E" />{item}
             </p>
           ))}
           <p style={{
@@ -149,13 +151,13 @@ export default function PaywallModal({ feature, onClose }: Props) {
               onClick={() => setShowKeyForm(true)}
               style={{
                 width: '100%', padding: '12px',
-                backgroundColor: 'transparent', color: '#2D5016',
-                border: '1.5px solid #2D5016', borderRadius: 14,
+                backgroundColor: 'transparent', color: 'var(--kp-accent)',
+                border: '1.5px solid var(--kp-accent)', borderRadius: 14,
                 fontFamily: 'Inter, sans-serif',
                 fontSize: 14, fontWeight: 600, cursor: 'pointer',
               }}
             >
-              🔑 Enter License Key
+              <KeyRound {...INLINE_ICON} />Enter License Key
             </button>
           )}
         </div>

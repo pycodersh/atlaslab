@@ -1,4 +1,6 @@
-﻿'use client'
+'use client'
+import { RotateCcw } from 'lucide-react'
+import { META_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import IngredientGrid from '@/components/kpantry/ingredients/IngredientGrid'
@@ -97,7 +99,7 @@ export default function IngredientsPage() {
   const selectedIngredients = allIngredients.filter(ing => selectedIds.includes(ing.id))
 
   return (
-    <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', paddingBottom: 120 }}>
+    <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 120 }}>
       <div style={{
         padding: '52px 20px 16px',
         display: 'flex',
@@ -111,7 +113,7 @@ export default function IngredientsPage() {
             height: 36,
             borderRadius: '50%',
             backgroundColor: '#FFFFFF',
-            border: '1px solid #E8E0D0',
+            border: '1px solid var(--kp-rule)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -140,7 +142,7 @@ export default function IngredientsPage() {
             fontSize: 13,
             color: '#6B6B6B',
             background: 'none',
-            border: '1px solid #E8E0D0',
+            border: '1px solid var(--kp-rule)',
             borderRadius: 20,
             padding: '6px 12px',
             cursor: 'pointer',
@@ -149,7 +151,7 @@ export default function IngredientsPage() {
             gap: 4,
           }}
         >
-          ↺ Clear
+          <RotateCcw {...META_ICON} />Clear
         </button>
       </div>
 
@@ -171,7 +173,7 @@ export default function IngredientsPage() {
           backgroundColor: '#FFFFFF',
           borderRadius: 14,
           padding: '12px 16px',
-          border: '1px solid #E8E0D0',
+          border: '1px solid var(--kp-rule)',
         }}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <circle cx="7" cy="7" r="5" stroke="#9E9E9E" strokeWidth="1.3"/>
@@ -237,7 +239,7 @@ export default function IngredientsPage() {
             alignItems: 'center',
             gap: 10,
             backgroundColor: '#FFFFFF',
-            border: '1px solid #E8E0D0',
+            border: '1px solid var(--kp-rule)',
             borderRadius: 18,
             padding: '10px 10px 10px 16px',
             boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
@@ -260,7 +262,7 @@ export default function IngredientsPage() {
                   fontFamily: 'Inter, sans-serif',
                   fontSize: 12,
                   fontWeight: 600,
-                  color: '#2D5016',
+                  color: 'var(--kp-secondary)',
                   background: 'none',
                   border: 'none',
                   padding: 0,
@@ -278,7 +280,7 @@ export default function IngredientsPage() {
               style={{
                 flexShrink: 0,
                 padding: '14px 18px',
-                backgroundColor: '#2D5016',
+                backgroundColor: 'var(--kp-accent)',
                 color: '#FFFFFF',
                 border: 'none',
                 borderRadius: 14,

@@ -67,7 +67,7 @@ export default function IngredientsSection({
         <span style={{
           fontFamily: 'Inter, sans-serif',
           fontSize: 13,
-          color: '#C4622D',
+          color: 'var(--kp-accent)',
           fontWeight: 500,
         }}>
           {totalCount} items
@@ -76,7 +76,7 @@ export default function IngredientsSection({
 
       <div style={{
         display: 'flex',
-        backgroundColor: '#F0EAD8',
+        backgroundColor: 'var(--kp-surface-muted)',
         borderRadius: 12,
         padding: 4,
         marginBottom: 16,
@@ -109,7 +109,7 @@ export default function IngredientsSection({
             >
               {activeTab === tab.key && (
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 6L5 9L10 3" stroke="#2D5016" strokeWidth="1.5" strokeLinecap="round"/>
+                  <path d="M2 6L5 9L10 3" stroke="#C8102E" strokeWidth="1.5" strokeLinecap="round"/>
                 </svg>
               )}
               {tab.label} {count}
@@ -142,8 +142,8 @@ export default function IngredientsSection({
                 width: 64,
                 height: 64,
                 borderRadius: 16,
-                backgroundColor: isOwned ? '#EDF4E8' : '#F5F0E8',
-                border: isOwned ? '2px solid #2D5016' : '1.5px solid #E8E0D0',
+                backgroundColor: isOwned ? 'var(--kp-accent-soft)' : 'var(--kp-bg)',
+                border: isOwned ? '2px solid var(--kp-accent)' : '1.5px solid var(--kp-rule)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -165,7 +165,7 @@ export default function IngredientsSection({
                     width: 16,
                     height: 16,
                     borderRadius: '50%',
-                    backgroundColor: '#2D5016',
+                    backgroundColor: 'var(--kp-accent)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
@@ -184,7 +184,7 @@ export default function IngredientsSection({
                       width: 16,
                       height: 16,
                       borderRadius: '50%',
-                      backgroundColor: '#C4622D',
+                      backgroundColor: 'var(--kp-accent)',
                       border: 'none',
                       display: 'flex',
                       alignItems: 'center',

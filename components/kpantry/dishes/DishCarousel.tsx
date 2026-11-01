@@ -1,4 +1,6 @@
 'use client'
+import { ChefHat, Clock, Flame, Heart } from 'lucide-react'
+import { META_ICON } from '@/components/kpantry/ui/icon'
 import { useState, useRef } from 'react'
 
 const DISH_EMOJIS: Record<string, string> = {
@@ -124,7 +126,7 @@ export default function DishCarousel({ dishes, onSelect }: DishCarouselProps) {
                 backgroundColor: '#FFFFFF',
                 borderRadius: 20,
                 overflow: 'hidden',
-                border: '1.5px solid #E8E0D0',
+                border: '1.5px solid var(--kp-rule)',
                 boxShadow: isCenter
                   ? '0 12px 40px rgba(0,0,0,0.14)'
                   : '0 2px 8px rgba(0,0,0,0.06)',
@@ -155,9 +157,9 @@ export default function DishCarousel({ dishes, onSelect }: DishCarouselProps) {
                       fontFamily: 'Inter, sans-serif',
                       fontSize: 11,
                       fontWeight: 600,
-                      color: '#C4622D',
+                      color: 'var(--kp-accent)',
                     }}>
-                      📊 {dish.difficulty.charAt(0).toUpperCase() + dish.difficulty.slice(1)}
+                      <ChefHat {...META_ICON} />{dish.difficulty.charAt(0).toUpperCase() + dish.difficulty.slice(1)}
                     </div>
                   )}
 
@@ -177,7 +179,7 @@ export default function DishCarousel({ dishes, onSelect }: DishCarouselProps) {
                       cursor: 'pointer',
                       fontSize: 14,
                     }}>
-                      ♡
+                      <Heart size={16} strokeWidth={2} aria-hidden="true" />
                     </button>
                   )}
                 </div>
@@ -211,11 +213,11 @@ export default function DishCarousel({ dishes, onSelect }: DishCarouselProps) {
                     marginBottom: 12,
                   }}>
                     <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B' }}>
-                      ⏱ {dish.cooking_time_min} min
+                      <Clock {...META_ICON} />{dish.cooking_time_min} min
                     </span>
                     {dish.calories && (
                       <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B' }}>
-                        🔥 {dish.calories} kcal
+                        <Flame {...META_ICON} />{dish.calories} kcal
                       </span>
                     )}
                   </div>
@@ -226,7 +228,7 @@ export default function DishCarousel({ dishes, onSelect }: DishCarouselProps) {
                       style={{
                         width: '100%',
                         padding: '12px',
-                        backgroundColor: '#C4622D',
+                        backgroundColor: 'var(--kp-accent)',
                         color: '#FFFFFF',
                         border: 'none',
                         borderRadius: 12,
@@ -255,7 +257,7 @@ export default function DishCarousel({ dishes, onSelect }: DishCarouselProps) {
               width: isActive ? 20 : 6,
               height: 6,
               borderRadius: 3,
-              backgroundColor: isActive ? '#C4622D' : '#D0C8B8',
+              backgroundColor: isActive ? 'var(--kp-accent)' : '#D4D4D4',
               transition: 'all 0.2s',
             }} />
           )

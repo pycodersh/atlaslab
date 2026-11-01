@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import RecipeCard from './RecipeCard'
@@ -49,7 +49,7 @@ export default function IngredientFilterView({ ingredientId }: Props) {
             width: 36,
             height: 36,
             borderRadius: 10,
-            border: '1px solid #E8E0D0',
+            border: '1px solid var(--kp-rule)',
             backgroundColor: '#FFFFFF',
             display: 'flex',
             alignItems: 'center',
@@ -69,7 +69,7 @@ export default function IngredientFilterView({ ingredientId }: Props) {
             height: 40,
             borderRadius: '50%',
             overflow: 'hidden',
-            border: '1.5px solid #E8D8C4',
+            border: '1.5px solid var(--kp-rule)',
             flexShrink: 0,
           }}>
             <img

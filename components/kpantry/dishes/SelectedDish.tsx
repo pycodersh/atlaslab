@@ -1,4 +1,6 @@
 'use client'
+import { BookOpen, Camera, ChartNoAxesColumn, ChefHat, Clock, Lightbulb, ShoppingBasket } from 'lucide-react'
+import { META_ICON } from '@/components/kpantry/ui/icon'
 import { useRouter } from 'next/navigation'
 
 const DISH_EMOJIS: Record<string, string> = {
@@ -26,16 +28,16 @@ export default function SelectedDish({ dish, onChange }: Props) {
   return (
     <div style={{
       margin: '16px 16px 0',
-      backgroundColor: '#FDF5EE',
+      backgroundColor: 'var(--kp-accent-soft)',
       borderRadius: 16,
       padding: '14px',
-      border: '1px solid #F0E0D0',
+      border: '1px solid var(--kp-rule)',
     }}>
       <p style={{
         fontFamily: 'Inter, sans-serif',
         fontSize: 11,
         fontWeight: 600,
-        color: '#C4622D',
+        color: 'var(--kp-accent)',
         margin: '0 0 8px',
         letterSpacing: '0.05em',
         textTransform: 'uppercase',
@@ -48,7 +50,7 @@ export default function SelectedDish({ dish, onChange }: Props) {
           width: 56,
           height: 56,
           borderRadius: 12,
-          backgroundColor: '#F5E0C8',
+          backgroundColor: 'var(--kp-surface-muted)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -74,10 +76,10 @@ export default function SelectedDish({ dish, onChange }: Props) {
           </p>
           <div style={{ display: 'flex', gap: 8 }}>
             <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B' }}>
-              ⏱ {dish.cookingTimeMin} min
+              <Clock {...META_ICON} />{dish.cookingTimeMin} min
             </span>
             <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B' }}>
-              📊 {dish.difficulty.charAt(0).toUpperCase() + dish.difficulty.slice(1)}
+              <ChefHat {...META_ICON} />{dish.difficulty.charAt(0).toUpperCase() + dish.difficulty.slice(1)}
             </span>
           </div>
           <p style={{
@@ -96,9 +98,9 @@ export default function SelectedDish({ dish, onChange }: Props) {
           style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: 13,
-            color: '#C4622D',
+            color: 'var(--kp-secondary)',
             background: 'none',
-            border: '1.5px solid #C4622D',
+            border: '1px solid var(--kp-secondary-border)',
             borderRadius: 10,
             padding: '6px 12px',
             cursor: 'pointer',
@@ -120,10 +122,10 @@ export default function SelectedDish({ dish, onChange }: Props) {
         </p>
         <div style={{ display: 'flex', gap: 8 }}>
           {[
-            { icon: '🧺', label: 'Ingredients list' },
-            { icon: '📷', label: 'Step-by-step photos' },
-            { icon: '📊', label: 'Nutrition info' },
-            { icon: '💡', label: 'Tips & Variations' },
+            { icon: ShoppingBasket, label: 'Ingredients list' },
+            { icon: Camera, label: 'Step-by-step photos' },
+            { icon: ChartNoAxesColumn, label: 'Nutrition info' },
+            { icon: Lightbulb, label: 'Tips & Variations' },
           ].map(item => (
             <div key={item.label} style={{
               flex: 1,
@@ -134,9 +136,9 @@ export default function SelectedDish({ dish, onChange }: Props) {
               padding: '8px 4px',
               backgroundColor: '#FFFFFF',
               borderRadius: 10,
-              border: '1px solid #F0E0D0',
+              border: '1px solid var(--kp-rule)',
             }}>
-              <span style={{ fontSize: 16 }}>{item.icon}</span>
+              <item.icon size={16} strokeWidth={2} color="var(--kp-icon)" aria-hidden="true" />
               <span style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: 9,
@@ -157,7 +159,7 @@ export default function SelectedDish({ dish, onChange }: Props) {
           marginTop: 12,
           width: '100%',
           padding: '14px',
-          backgroundColor: '#C4622D',
+          backgroundColor: 'var(--kp-accent)',
           color: '#FFFFFF',
           border: 'none',
           borderRadius: 12,
@@ -171,7 +173,7 @@ export default function SelectedDish({ dish, onChange }: Props) {
           gap: 8,
         }}
       >
-        📖 View Recipe
+        <BookOpen size={16} strokeWidth={2} aria-hidden="true" />View Recipe
       </button>
     </div>
   )

@@ -34,7 +34,7 @@ export default function NutritionBar({
           style={{
             flex: 1,
             textAlign: 'center',
-            borderLeft: idx > 0 ? '1px solid #F0EBE3' : 'none',
+            borderLeft: idx > 0 ? '1px solid var(--kp-surface-muted)' : 'none',
           }}
         >
           <p style={{

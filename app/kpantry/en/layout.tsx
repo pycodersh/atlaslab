@@ -10,13 +10,37 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 }
 
+/**
+ * K-Pantry 테마 — Atlas Lab 브랜드 토큰(app/globals.css :root)에 맞춘다.
+ * 컴포넌트는 인라인 스타일에서 var(--kp-*) 만 쓴다. 주 액션은 --kp-accent(브랜드 레드) 하나.
+ * 호버·누름은 버튼·링크 자신의 --kp-accent 를 바꿔서 처리한다 — 인라인 background 는 그대로 둬도
+ * var() 가 요소 자신의 값으로 풀리므로 :hover 가 먹는다.
+ */
+const THEME_CSS = `
+.kp-app {
+  --kp-accent: var(--brand-red, #C8102E);
+  --kp-accent-hover: var(--brand-red-dark, #A30D25);
+  --kp-accent-active: #8A0B20;
+  --kp-accent-soft: #FBEEF0;
+  --kp-bg: var(--paper-warm, #F7F5F2);
+  --kp-surface-muted: #F1EFEC;
+  --kp-rule: var(--rule, #E5E1DC);
+  --kp-secondary: #475569;
+  --kp-secondary-border: #CBD5E1;
+  --kp-icon: #4B5563;
+}
+.kp-app :is(button, a):not(:disabled):hover { --kp-accent: var(--kp-accent-hover); }
+.kp-app :is(button, a):not(:disabled):active { --kp-accent: var(--kp-accent-active); }
+`
+
 export default function KPantryLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh' }}>
+    <div className="kp-app" style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh' }}>
+      <style>{THEME_CSS}</style>
       {children}
       {/* 모든 K-Pantry 화면 맨 아래 — 고정 하단 탭(BottomNav)·CTA 바에 가리지 않게 그만큼 띄운다 */}
       <footer style={{ padding: '8px 16px calc(96px + env(safe-area-inset-bottom))' }}>

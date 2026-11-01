@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useState } from 'react'
 import { signIn, signUp } from '@/lib/kpantry/auth'
 import LegalLinks from '@/components/kpantry/layout/LegalLinks'
@@ -58,7 +58,7 @@ export default function AuthModal({ onClose, onSuccess }: Props) {
       }}>
         <div style={{
           width: 40, height: 4, borderRadius: 2,
-          backgroundColor: '#E8E0D0',
+          backgroundColor: 'var(--kp-rule)',
           margin: '0 auto 24px',
         }} />
 
@@ -95,12 +95,12 @@ export default function AuthModal({ onClose, onSuccess }: Props) {
               width: '100%',
               padding: '14px 16px',
               borderRadius: 12,
-              border: '1.5px solid #E8E0D0',
+              border: '1.5px solid var(--kp-rule)',
               fontFamily: 'Inter, sans-serif',
               fontSize: 14, color: '#1A1A1A',
               outline: 'none',
               boxSizing: 'border-box',
-              backgroundColor: '#FAFAF8',
+              backgroundColor: '#FAFAFA',
             }}
           />
         </div>
@@ -122,12 +122,12 @@ export default function AuthModal({ onClose, onSuccess }: Props) {
               width: '100%',
               padding: '14px 16px',
               borderRadius: 12,
-              border: '1.5px solid #E8E0D0',
+              border: '1.5px solid var(--kp-rule)',
               fontFamily: 'Inter, sans-serif',
               fontSize: 14, color: '#1A1A1A',
               outline: 'none',
               boxSizing: 'border-box',
-              backgroundColor: '#FAFAF8',
+              backgroundColor: '#FAFAFA',
             }}
           />
         </div>
@@ -146,7 +146,7 @@ export default function AuthModal({ onClose, onSuccess }: Props) {
           disabled={loading}
           style={{
             width: '100%', padding: '16px',
-            backgroundColor: '#2D5016', color: '#FFFFFF',
+            backgroundColor: 'var(--kp-accent)', color: '#FFFFFF',
             border: 'none', borderRadius: 14,
             fontFamily: 'Inter, sans-serif',
             fontSize: 15, fontWeight: 600,
@@ -171,7 +171,7 @@ export default function AuthModal({ onClose, onSuccess }: Props) {
           <button
             onClick={() => setMode(mode === 'signin' ? 'signup' : 'signin')}
             style={{
-              color: '#2D5016', fontWeight: 600,
+              color: 'var(--kp-accent)', fontWeight: 600,
               background: 'none', border: 'none',
               cursor: 'pointer', fontSize: 13,
             }}

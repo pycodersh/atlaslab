@@ -18,7 +18,7 @@ export default function SelectedIngredients({ selectedIngredients, onRemove }: P
   return (
     <div style={{
       margin: '0 16px',
-      backgroundColor: '#F0EAD8',
+      backgroundColor: 'var(--kp-surface-muted)',
       borderRadius: 16,
       padding: '14px',
     }}>
@@ -67,7 +67,7 @@ export default function SelectedIngredients({ selectedIngredients, onRemove }: P
                   height: 52,
                   borderRadius: 14,
                   backgroundColor: '#FFFFFF',
-                  border: '1.5px solid #E8E0D0',
+                  border: '1.5px solid var(--kp-rule)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -88,7 +88,7 @@ export default function SelectedIngredients({ selectedIngredients, onRemove }: P
                     width: 18,
                     height: 18,
                     borderRadius: '50%',
-                    backgroundColor: '#2D5016',
+                    backgroundColor: 'var(--kp-accent)',
                     border: 'none',
                     display: 'flex',
                     alignItems: 'center',

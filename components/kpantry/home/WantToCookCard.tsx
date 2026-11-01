@@ -1,4 +1,6 @@
-﻿'use client'
+'use client'
+import { BookOpen, ChefHat, Clock, CookingPot } from 'lucide-react'
+import { META_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { getSelectedDish, SelectedDish } from '@/lib/kpantry/dishes'
@@ -26,7 +28,7 @@ export default function WantToCookCard() {
       borderRadius: 20,
       padding: '20px',
       boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-      border: '1px solid #E8E0D0',
+      border: '1px solid var(--kp-rule)',
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ flex: 1 }}>
@@ -34,14 +36,14 @@ export default function WantToCookCard() {
             width: 44,
             height: 44,
             borderRadius: 12,
-            backgroundColor: '#FDF0E8',
+            backgroundColor: 'var(--kp-accent-soft)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             marginBottom: 12,
           }}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#C4622D"/>
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="#C8102E"/>
             </svg>
           </div>
 
@@ -71,7 +73,7 @@ export default function WantToCookCard() {
           borderRadius: 12,
           overflow: 'hidden',
           flexShrink: 0,
-          backgroundColor: '#F5E8D8',
+          backgroundColor: 'var(--kp-surface-muted)',
         }}>
           {IMG_URL ? (
             <img src={IMG_URL} alt="Cooking"
@@ -81,12 +83,12 @@ export default function WantToCookCard() {
               width: '100%', height: '100%',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 52,
-            }}>🍳</div>
+            }}><CookingPot size={44} {...PLACEHOLDER_ICON} /></div>
           )}
         </div>
       </div>
 
-      <div style={{ marginTop: 16, padding: '14px', backgroundColor: '#FDF5EE', borderRadius: 14, border: '1px solid #F0E0D0' }}>
+      <div style={{ marginTop: 16, padding: '14px', backgroundColor: 'var(--kp-accent-soft)', borderRadius: 14, border: '1px solid var(--kp-rule)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <p style={{
             fontFamily: 'Playfair Display, serif',
@@ -102,7 +104,7 @@ export default function WantToCookCard() {
             style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: 13,
-              color: '#C4622D',
+              color: 'var(--kp-secondary)',
               fontWeight: 600,
               background: 'none',
               border: 'none',
@@ -114,8 +116,8 @@ export default function WantToCookCard() {
           </button>
         </div>
         <div style={{ display: 'flex', gap: 12, marginTop: 6 }}>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B' }}>⏱ {displayTime} min</span>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B' }}>📊 {displayDiff}</span>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B' }}><Clock {...META_ICON} />{displayTime} min</span>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#6B6B6B' }}><ChefHat {...META_ICON} />{displayDiff}</span>
         </div>
       </div>
 
@@ -128,7 +130,7 @@ export default function WantToCookCard() {
           marginTop: 12,
           width: '100%',
           padding: '16px',
-          backgroundColor: '#C4622D',
+          backgroundColor: 'var(--kp-accent)',
           color: '#FFFFFF',
           border: 'none',
           borderRadius: 14,
@@ -142,7 +144,7 @@ export default function WantToCookCard() {
           gap: 8,
         }}
       >
-        📖 View Recipe
+        <BookOpen size={16} strokeWidth={2} aria-hidden="true" />View Recipe
       </button>
     </div>
   )

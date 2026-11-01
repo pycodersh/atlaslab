@@ -14,7 +14,7 @@ function RecipesContent() {
   const selectedIds = searchParams.get('ids')
 
   return (
-    <div style={{ backgroundColor: '#F5F0E8', minHeight: '100vh', paddingBottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
+    <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
       {ingredientId
         ? <IngredientFilterView ingredientId={ingredientId} />
         : mode === 'pantry'

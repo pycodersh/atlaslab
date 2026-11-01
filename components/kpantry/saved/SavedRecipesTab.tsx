@@ -1,4 +1,6 @@
 'use client'
+import { BookOpen, Bookmark, ChefHat, Clock, Heart, Lock, UtensilsCrossed } from 'lucide-react'
+import { META_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useRouter } from 'next/navigation'
 
 const DISH_EMOJIS: Record<string, string> = {
@@ -50,7 +52,7 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
   if (savedRecipes.length === 0) {
     return (
       <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-        <span style={{ fontSize: 48 }}>🍽</span>
+        <UtensilsCrossed size={44} {...PLACEHOLDER_ICON} />
         <p style={{
           fontFamily: 'Inter, sans-serif',
           fontSize: 15,
@@ -66,13 +68,13 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
           color: '#9E9E9E',
           margin: '0 0 20px',
         }}>
-          Tap ♡ on any recipe to save it here.
+          Tap the bookmark on any recipe to save it here.
         </p>
         <button
           onClick={() => router.push('/kpantry/en/recipes')}
           style={{
             padding: '12px 24px',
-            backgroundColor: '#2D5016',
+            backgroundColor: 'var(--kp-accent)',
             color: '#FFFFFF',
             border: 'none',
             borderRadius: 12,
@@ -110,7 +112,7 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
           <span style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: 13,
-            color: '#2D5016',
+            color: 'var(--kp-accent)',
             fontWeight: 600,
           }}>
             {savedRecipes.length}
@@ -144,7 +146,7 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
                 backgroundColor: '#FFFFFF',
                 borderRadius: 14,
                 overflow: 'hidden',
-                border: '1px solid #E8E0D0',
+                border: '1px solid var(--kp-rule)',
                 cursor: 'pointer',
                 position: 'relative',
               }}
@@ -183,7 +185,7 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
                     color: '#E53E3E',
                   }}
                 >
-                  ♥
+                  <Heart size={14} strokeWidth={2} fill="currentColor" aria-hidden="true" />
                 </button>
               </div>
 
@@ -208,22 +210,22 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
                 </p>
                 <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
                   <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 10, color: '#6B6B6B' }}>
-                    ⏱ {recipe.cooking_time_min}m
+                    <Clock {...META_ICON} />{recipe.cooking_time_min}m
                   </span>
                   <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 10, color: '#6B6B6B' }}>
-                    📊 {recipe.difficulty}
+                    <ChefHat {...META_ICON} />{recipe.difficulty}
                   </span>
                 </div>
                 <p style={{
                   fontFamily: 'Inter, sans-serif',
                   fontSize: 10,
-                  color: '#B0A890',
+                  color: '#8A8A8A',
                   margin: '4px 0 0',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 3,
                 }}>
-                  🔖 {getTimeAgo(created_at)}
+                  <Bookmark {...META_ICON} />{getTimeAgo(created_at)}
                 </p>
               </div>
             </div>
@@ -233,16 +235,16 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
 
       {isFree && hiddenCount > 0 && (
         <div style={{
-          backgroundColor: '#FDF5EE',
+          backgroundColor: 'var(--kp-accent-soft)',
           borderRadius: 16,
           padding: '16px',
           display: 'flex',
           alignItems: 'center',
           gap: 12,
           marginBottom: 16,
-          border: '1.5px solid #C4622D',
+          border: '1.5px solid var(--kp-accent)',
         }}>
-          <span style={{ fontSize: 28 }}>🔒</span>
+          <Lock size={26} strokeWidth={2} color="#1A1A1A" aria-hidden="true" />
           <div style={{ flex: 1 }}>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600, color: '#1A1A1A', margin: '0 0 2px' }}>
               {hiddenCount} more recipe{hiddenCount > 1 ? 's' : ''} hidden
@@ -256,7 +258,7 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
             style={{
               flexShrink: 0,
               padding: '8px 14px',
-              backgroundColor: '#C4622D',
+              backgroundColor: 'var(--kp-accent)',
               color: '#FFFFFF',
               border: 'none',
               borderRadius: 10,
@@ -273,11 +275,11 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
 
       {isFree && savedRecipes.length >= FREE_LIMIT && (
         <div style={{
-          backgroundColor: '#F5F0E8',
+          backgroundColor: 'var(--kp-bg)',
           borderRadius: 14,
           padding: '12px 14px',
           marginBottom: 16,
-          border: '1px dashed #C8C0B0',
+          border: '1px dashed #D4D4D4',
           textAlign: 'center',
         }}>
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#9E9E9E', margin: 0 }}>
@@ -287,7 +289,7 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
       )}
 
       <div style={{
-        backgroundColor: '#F0EAD8',
+        backgroundColor: 'var(--kp-surface-muted)',
         borderRadius: 14,
         padding: '14px',
         display: 'flex',
@@ -295,7 +297,7 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
         gap: 12,
         marginBottom: 20,
       }}>
-        <span style={{ fontSize: 24 }}>📖</span>
+        <BookOpen size={22} strokeWidth={2} color="#C8102E" aria-hidden="true" />
         <div style={{ flex: 1 }}>
           <p style={{
             fontFamily: 'Inter, sans-serif',
@@ -320,7 +322,7 @@ export default function SavedRecipesTab({ savedRecipes, onUnsave, plan = 'free',
           style={{
             flexShrink: 0,
             padding: '8px 14px',
-            backgroundColor: '#2D5016',
+            backgroundColor: 'var(--kp-accent)',
             color: '#FFFFFF',
             border: 'none',
             borderRadius: 10,

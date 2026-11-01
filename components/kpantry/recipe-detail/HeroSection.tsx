@@ -1,4 +1,6 @@
 'use client'
+import { UtensilsCrossed } from 'lucide-react'
+import { PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useRouter } from 'next/navigation'
 
 interface HeroSectionProps {
@@ -50,7 +52,7 @@ export default function HeroSection({
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         ) : (
-          <span>🍲</span>
+          <UtensilsCrossed size={64} {...PLACEHOLDER_ICON} />
         )}
 
         <div style={{

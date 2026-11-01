@@ -1,4 +1,6 @@
 'use client'
+import { CircleCheck } from 'lucide-react'
+import { INLINE_ICON } from '@/components/kpantry/ui/icon'
 import { useState } from 'react'
 import { unlockWithKey } from '@/lib/kpantry/license'
 
@@ -36,10 +38,10 @@ export default function LicenseKeyForm({ onUnlocked }: Props) {
     return (
       <p role="status" style={{
         fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 600,
-        color: '#2D5016', backgroundColor: '#EDF4E8',
+        color: 'var(--kp-accent)', backgroundColor: 'var(--kp-accent-soft)',
         borderRadius: 12, padding: '12px 14px', margin: 0, textAlign: 'center',
       }}>
-        ✓ K-Pantry Pro unlocked
+        <CircleCheck {...INLINE_ICON} />K-Pantry Pro unlocked
       </p>
     )
   }
@@ -67,11 +69,11 @@ export default function LicenseKeyForm({ onUnlocked }: Props) {
             minWidth: 0,
             padding: '12px 14px',
             borderRadius: 12,
-            border: '1.5px solid #E8E0D0',
+            border: '1.5px solid var(--kp-rule)',
             fontFamily: 'ui-monospace, Menlo, monospace',
             fontSize: 13,
             color: '#1A1A1A',
-            backgroundColor: '#FAFAF8',
+            backgroundColor: '#FAFAFA',
             outline: 'none',
           }}
         />
@@ -81,7 +83,7 @@ export default function LicenseKeyForm({ onUnlocked }: Props) {
           style={{
             flexShrink: 0,
             padding: '12px 16px',
-            backgroundColor: '#2D5016',
+            backgroundColor: 'var(--kp-accent)',
             color: '#FFFFFF',
             border: 'none',
             borderRadius: 12,

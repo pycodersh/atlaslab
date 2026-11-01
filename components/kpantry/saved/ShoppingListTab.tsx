@@ -1,4 +1,6 @@
-﻿'use client'
+'use client'
+import { MapPin, ShoppingCart, Store, X } from 'lucide-react'
+import { PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useState } from 'react'
 import { toggleShoppingItem, deleteShoppingItem, clearCheckedItems } from '@/lib/kpantry/saved'
 
@@ -50,7 +52,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
   if (items.length === 0) {
     return (
       <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-        <span style={{ fontSize: 48 }}>🛒</span>
+        <ShoppingCart size={44} {...PLACEHOLDER_ICON} />
         <p style={{
           fontFamily: 'Inter, sans-serif',
           fontSize: 15,
@@ -94,7 +96,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
           <span style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: 13,
-            color: '#C4622D',
+            color: 'var(--kp-accent)',
             fontWeight: 600,
           }}>
             {unchecked.length}
@@ -108,7 +110,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
               fontSize: 12,
               color: '#9E9E9E',
               background: 'none',
-              border: '1px solid #E8E0D0',
+              border: '1px solid var(--kp-rule)',
               borderRadius: 20,
               padding: '4px 10px',
               cursor: 'pointer',
@@ -129,7 +131,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
               backgroundColor: '#FFFFFF',
               borderRadius: 14,
               padding: '12px 14px',
-              border: '1px solid #E8E0D0',
+              border: '1px solid var(--kp-rule)',
               display: 'flex',
               alignItems: 'center',
               gap: 12,
@@ -141,7 +143,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                   width: 22,
                   height: 22,
                   borderRadius: 6,
-                  border: '1.5px solid #D0C8B8',
+                  border: '1.5px solid #D4D4D4',
                   backgroundColor: '#FFFFFF',
                   display: 'flex',
                   alignItems: 'center',
@@ -155,7 +157,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                 width: 44,
                 height: 44,
                 borderRadius: 10,
-                backgroundColor: '#F5F0E8',
+                backgroundColor: 'var(--kp-bg)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -198,7 +200,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                     fontFamily: 'Inter, sans-serif',
                     fontSize: 12,
                     color: '#6B6B6B',
-                    backgroundColor: '#F5F0E8',
+                    backgroundColor: 'var(--kp-bg)',
                     borderRadius: 8,
                     padding: '3px 8px',
                   }}>
@@ -209,13 +211,13 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                   width: 28,
                   height: 28,
                   borderRadius: 8,
-                  backgroundColor: '#F5F0E8',
+                  backgroundColor: 'var(--kp-bg)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontSize: 14,
                 }}>
-                  🏪
+                  <Store size={14} strokeWidth={2} color="var(--kp-icon)" aria-hidden="true" />
                 </div>
               </div>
             </div>
@@ -243,7 +245,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                   backgroundColor: '#FAFAFA',
                   borderRadius: 14,
                   padding: '12px 14px',
-                  border: '1px solid #F0EAD8',
+                  border: '1px solid var(--kp-surface-muted)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 12,
@@ -256,7 +258,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                       height: 22,
                       borderRadius: 6,
                       border: 'none',
-                      backgroundColor: '#2D5016',
+                      backgroundColor: 'var(--kp-accent)',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -271,7 +273,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
 
                   <div style={{
                     width: 44, height: 44, borderRadius: 10,
-                    backgroundColor: '#F0EAD8',
+                    backgroundColor: 'var(--kp-surface-muted)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 22, flexShrink: 0,
                   }}>
@@ -293,7 +295,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                       <p style={{
                         fontFamily: 'Inter, sans-serif',
                         fontSize: 12,
-                        color: '#B0A890',
+                        color: '#8A8A8A',
                         margin: '2px 0 0',
                         fontStyle: 'italic',
                       }}>
@@ -309,11 +311,11 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
                       border: 'none',
                       cursor: 'pointer',
                       fontSize: 14,
-                      color: '#C0B8A8',
+                      color: '#D4D4D4',
                       padding: 4,
                     }}
                   >
-                    ✕
+                    <X size={14} strokeWidth={2} aria-hidden="true" />
                   </button>
                 </div>
               )
@@ -323,23 +325,23 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
       )}
 
       <div style={{
-        backgroundColor: '#FDF5EE',
+        backgroundColor: 'var(--kp-accent-soft)',
         borderRadius: 16,
         padding: '16px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        border: '1px solid #F0E0D0',
+        border: '1px solid var(--kp-rule)',
         marginBottom: 20,
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <span style={{ fontSize: 20, color: '#C4622D' }}>📍</span>
+          <MapPin size={20} strokeWidth={2} color="#C8102E" aria-hidden="true" />
           <div>
             <p style={{
               fontFamily: 'Inter, sans-serif',
               fontSize: 13,
               fontWeight: 600,
-              color: '#C4622D',
+              color: 'var(--kp-accent)',
               margin: 0,
             }}>
               Find Nearby Stores
@@ -369,7 +371,7 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
           style={{
             flexShrink: 0,
             padding: '10px 16px',
-            backgroundColor: '#C4622D',
+            backgroundColor: 'var(--kp-accent)',
             color: '#FFFFFF',
             border: 'none',
             borderRadius: 10,
