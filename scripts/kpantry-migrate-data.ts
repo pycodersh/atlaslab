@@ -27,7 +27,8 @@ config({ path: resolve(process.cwd(), '.env.local') })
 
 // ── 설정 ──────────────────────────────────────────────────────
 const SRC_URL = 'https://mzcdowxmmuefowcayzfk.supabase.co'
-const SRC_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im16Y2Rvd3htbXVlZm93Y2F5emZrIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NTA0NjM1MSwiZXhwIjoyMTAwNjIyMzUxfQ.TGy4ghXZv-CkYGTCSDBk3HsiSgyDrYqHnbj-gL7lRa0'
+// 옛 k-pantry 프로젝트의 서비스 키 — 코드에 적지 않는다(공개 저장소). 실행할 때만 환경 변수로 넣는다
+const SRC_KEY = process.env.KPANTRY_OLD_SUPABASE_KEY!
 
 const DST_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const DST_KEY = (process.env.SUPABASE_SECRET_KEY ?? process.env.SUPABASE_SERVICE_ROLE_KEY)!
