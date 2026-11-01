@@ -4,6 +4,7 @@ import { META_ICON, INLINE_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/u
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import RecipeCard from './RecipeCard'
+import DishGridCard from './DishGridCard'
 import CategoryTabs from './CategoryTabs'
 import {
   getFeaturedRecipe,
@@ -206,25 +207,18 @@ export default function ExploreView() {
       )}
 
       {category === 'all' && popular.length > 0 && (
-        <section style={{ padding: '20px 0 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px', marginBottom: 12 }}>
-            <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#1A1A1A', margin: 0 }}>
-              <Flame {...INLINE_ICON} color="#C8102E" />Popular Recipes
-            </h3>
-            <button style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#6B6B6B', background: 'none', border: 'none', cursor: 'pointer' }}>
-              View all
-            </button>
-          </div>
-          <div style={{ display: 'flex', gap: 12, overflowX: 'auto', padding: '0 16px', scrollbarWidth: 'none' }}>
-            {popular.map(r => (
-              <RecipeCard
+        <section style={{ padding: '20px 16px 0' }}>
+          <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#1A1A1A', margin: '0 0 12px' }}>
+            <Flame {...INLINE_ICON} color="#C8102E" />Popular Recipes
+          </h3>
+          {/* 가로 캐러셀 대신 대표 4개만 2×2 — 375px 에서 잘리지 않는다 */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+            {popular.slice(0, 4).map(r => (
+              <DishGridCard
                 key={r.id}
                 slug={r.slug}
                 nameEn={r.name_en}
-                description={r.description}
                 cookingTimeMin={r.cooking_time_min}
-                calories={r.calories}
-                difficulty={r.difficulty}
                 heroImageUrl={r.hero_image_url}
               />
             ))}
