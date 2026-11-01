@@ -2,8 +2,9 @@ import type { MetadataRoute } from 'next'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
 import { createAdminClient } from '@/lib/supabase/admin'
 
-// 블로그 신규 포스트가 재배포 없이 즉시 사이트맵에 반영되도록
-export const dynamic = 'force-dynamic'
+// 블로그 신규 포스트가 재배포 없이 반영되도록 한 시간마다 다시 굽는다
+// (예전엔 force-dynamic 이라 크롤러가 올 때마다 서버 함수가 돌았다)
+export const revalidate = 3600
 
 // Strip leading BOM (U+FEFF) that PowerShell stdin piping can inject into env vars
 const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com').replace(/^﻿/, '')

@@ -81,26 +81,20 @@ const nextConfig: NextConfig = {
     ]
   },
   images: {
-    minimumCacheTTL: 0,
+    // 최적화한 이미지를 31일 동안 캐시한다. 예전엔 0(에피소드 배너를 같은 파일명으로 바꿔 끼우려고)이라
+    // 원본 캐시 헤더가 짧은 /public 이미지는 사실상 요청마다 다시 변환됐다.
+    // 이미지를 교체할 때는 파일명을 바꾼다(ep4.png → ep4-v2.png).
+    minimumCacheTTL: 2678400,
+    // 변환 개수(무료 플랜 한도)는 원본 × 폭 × 품질 조합마다 센다 — 폭 후보를 줄여 조합 수를 줄인다
+    deviceSizes: [640, 828, 1080, 1920],
+    // 외부 이미지는 next/image 로 쓰는 곳이 없다(블로그 썸네일 · 온보딩 Unsplash 는 전부 <img>).
+    // unsplash · picsum · pexels 를 허용해 두면 누구나 /_next/image 로 그 호스트의 아무 이미지나
+    // 변환시켜 한도를 태울 수 있어 뺐다. Supabase 는 공개 스토리지 경로만 연다.
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-      },
-      {
-        // generate-global-post.mjs 가 저장하는 Pexels 썸네일.
-        // 현재 블로그 썸네일은 전부 <img> 로 렌더링해 이 설정과 무관하지만,
-        // 나중에 next/image 로 바꿔도 바로 되도록 미리 허용해 둔다.
-        protocol: 'https',
-        hostname: 'images.pexels.com',
-      },
-      {
-        protocol: 'https',
         hostname: 'eecvvgkihtcgfikaimao.supabase.co',
+        pathname: '/storage/v1/object/public/**',
       },
     ],
   },

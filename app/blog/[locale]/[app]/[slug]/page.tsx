@@ -40,7 +40,11 @@ function sponsorsFor(groupKey: string): Set<string> {
   )
 }
 
-export const dynamic = 'force-dynamic'
+// 글은 빌드 때 전부 정적 HTML 로 굽는다(요청마다 서버 함수가 돌지 않게 — 무료 플랜 Fluid Active CPU 한도).
+// 빌드 뒤에 발행된 글은 첫 방문 때 한 번 렌더링해 캐시하고(dynamicParams 기본값 true),
+// 이미 구운 글은 하루에 한 번만 다시 굽는다 — 본문 수정이 반영되는 데 최대 하루 걸린다.
+export const dynamic = 'force-static'
+export const revalidate = 86400
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
@@ -51,6 +55,16 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 )
+
+export async function generateStaticParams() {
+  const { data } = await supabase
+    .from('blog_posts')
+    .select('locale, app, slug')
+    .eq('is_paused', false)
+    .lte('published_at', new Date().toISOString())
+  // /blog/{locale}/patto/{slug} 는 정적 세그먼트 patto/[slug] 가 맡는다
+  return (data ?? []).filter(p => p.app !== 'patto').map(p => ({ locale: p.locale, app: p.app, slug: p.slug }))
+}
 
 // ── App display info ──────────────────────────────────────────────────────────
 const APP_INFO: Record<string, {

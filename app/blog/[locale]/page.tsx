@@ -1,9 +1,16 @@
-import { Fragment } from 'react'
+import { Suspense } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
 import type { Metadata } from 'next'
+import { PagedList, PagedListView } from '@/components/blog/PagedList'
 
-export const dynamic = 'force-dynamic'
+// 정적 페이지 — 한 시간에 한 번만 다시 굽는다. ?page= 는 PagedList 가 브라우저에서 적용한다
+export const dynamic = 'force-static'
+export const revalidate = 3600
+
+export function generateStaticParams() {
+  return [{ locale: 'en' }, { locale: 'ko' }]
+}
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 
@@ -30,14 +37,10 @@ const LOCALE_LABEL: Record<string, string> = { en: 'English', ko: '한국어' }
 
 export async function generateMetadata({
   params,
-  searchParams,
 }: {
   params: Promise<{ locale: string }>
-  searchParams: Promise<{ page?: string }>
 }): Promise<Metadata> {
   const { locale } = await params
-  const { page } = await searchParams
-  const currentPage = Math.max(1, parseInt(page || '1'))
   const otherLocale = locale === 'ko' ? 'en' : 'ko'
 
   const title = locale === 'ko' ? 'Blog — Atlas Lab (한국어)' : 'Blog — Atlas Lab (English)'
@@ -49,7 +52,6 @@ export async function generateMetadata({
   return {
     title,
     description,
-    robots: currentPage > 1 ? { index: false, follow: true } : undefined,
     alternates: {
       canonical: `${BASE}/blog/${locale}`,
       languages: {
@@ -62,27 +64,11 @@ export async function generateMetadata({
 
 export default async function BlogLocalePage({
   params,
-  searchParams,
 }: {
   params: Promise<{ locale: string }>
-  searchParams: Promise<{ page?: string }>
 }) {
   const { locale } = await params
-  const { page } = await searchParams
-  const currentPage = Math.max(1, parseInt(page || '1'))
-  const from = (currentPage - 1) * POSTS_PER_PAGE
-  const to = from + POSTS_PER_PAGE - 1
   const now = new Date().toISOString()
-
-  const { data: countRows } = await supabase
-    .from('blog_posts')
-    .select('id')
-    .eq('locale', locale)
-    .eq('is_paused', false)
-    .lte('published_at', now)
-
-  const totalCount = countRows?.length || 0
-  const totalPages = Math.ceil(totalCount / POSTS_PER_PAGE)
 
   const { data: posts } = await supabase
     .from('blog_posts')
@@ -91,21 +77,51 @@ export default async function BlogLocalePage({
     .eq('is_paused', false)
     .lte('published_at', now)
     .order('published_at', { ascending: false })
-    .range(from, to)
+
+  const totalCount = posts?.length || 0
 
   // Category chips for this locale
-  const { data: catRows } = await supabase
-    .from('blog_posts')
-    .select('app')
-    .eq('locale', locale)
-    .eq('is_paused', false)
-    .lte('published_at', now)
-
   const seenApps = new Set<string>()
   const apps: string[] = []
-  for (const r of catRows || []) {
+  for (const r of posts || []) {
     if (!seenApps.has(r.app)) { seenApps.add(r.app); apps.push(r.app) }
   }
+
+  const items = (posts || []).map(post => {
+    const meta = getAppMeta(post.app)
+    return (
+      <div key={post.slug} style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+        <Link
+          href={`/blog/${locale}/${post.app}/${post.slug}`}
+          style={{ textDecoration: 'none', display: 'block', padding: '16px 0' }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
+            <span style={{
+              fontSize: 10, fontWeight: 700, letterSpacing: '0.05em',
+              color: meta.color, background: `${meta.color}22`,
+              borderRadius: 4, padding: '1px 6px',
+            }}>
+              {meta.label}
+            </span>
+            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.28)' }}>
+              {new Date(post.published_at).toLocaleDateString(
+                locale === 'ko' ? 'ko-KR' : 'en-US',
+                { year: 'numeric', month: 'short', day: 'numeric' },
+              )}
+            </span>
+          </div>
+          <p style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700, color: 'rgba(255,255,255,0.9)', lineHeight: 1.4 }}>
+            {post.title}
+          </p>
+          <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.55 }}>
+            {post.description}
+          </p>
+        </Link>
+      </div>
+    )
+  })
+
+  const list = { items, perPage: POSTS_PER_PAGE, basePath: `/blog/${locale}`, variant: 'compact' as const }
 
   const otherLocale = locale === 'ko' ? 'en' : 'ko'
 
@@ -182,88 +198,15 @@ export default async function BlogLocalePage({
         <div style={{ height: 1, background: 'rgba(255,255,255,0.07)' }} />
 
         {/* Post list */}
-        {(!posts || posts.length === 0) ? (
+        {items.length === 0 ? (
           <p style={{ color: 'rgba(255,255,255,0.3)', paddingTop: 24 }}>No posts yet.</p>
         ) : (
-          <div>
-            {posts.map(post => {
-              const meta = getAppMeta(post.app)
-              return (
-                <div key={post.slug} style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-                  <Link
-                    href={`/blog/${locale}/${post.app}/${post.slug}`}
-                    style={{ textDecoration: 'none', display: 'block', padding: '16px 0' }}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
-                      <span style={{
-                        fontSize: 10, fontWeight: 700, letterSpacing: '0.05em',
-                        color: meta.color, background: `${meta.color}22`,
-                        borderRadius: 4, padding: '1px 6px',
-                      }}>
-                        {meta.label}
-                      </span>
-                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.28)' }}>
-                        {new Date(post.published_at).toLocaleDateString(
-                          locale === 'ko' ? 'ko-KR' : 'en-US',
-                          { year: 'numeric', month: 'short', day: 'numeric' },
-                        )}
-                      </span>
-                    </div>
-                    <p style={{ margin: '0 0 4px', fontSize: 15, fontWeight: 700, color: 'rgba(255,255,255,0.9)', lineHeight: 1.4 }}>
-                      {post.title}
-                    </p>
-                    <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.4)', lineHeight: 1.55 }}>
-                      {post.description}
-                    </p>
-                  </Link>
-                </div>
-              )
-            })}
-          </div>
-        )}
-
-        {/* Pagination */}
-        {totalPages > 1 && (
-          <div style={{ display: 'flex', gap: 6, marginTop: 28, justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}>
-            {currentPage > 1 && (
-              <Link href={`/blog/${locale}?page=${currentPage - 1}`} style={pagLinkStyle(false)}>← Prev</Link>
-            )}
-            {Array.from({ length: totalPages }, (_, i) => i + 1)
-              .filter(p => p === 1 || p === totalPages || Math.abs(p - currentPage) <= 1)
-              .map((p, idx, arr) => (
-                <Fragment key={p}>
-                  {idx > 0 && arr[idx - 1] !== p - 1 && (
-                    <span style={{ color: 'rgba(255,255,255,0.3)', padding: '0 2px' }}>…</span>
-                  )}
-                  <Link href={`/blog/${locale}?page=${p}`} style={pagLinkStyle(p === currentPage)}>{p}</Link>
-                </Fragment>
-              ))}
-            {currentPage < totalPages && (
-              <Link href={`/blog/${locale}?page=${currentPage + 1}`} style={pagLinkStyle(false)}>Next →</Link>
-            )}
-          </div>
-        )}
-        {totalPages > 1 && (
-          <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.25)', fontSize: 12, marginTop: 10 }}>
-            Page {currentPage} of {totalPages} · {totalCount} posts
-          </p>
+          <Suspense fallback={<PagedListView {...list} page={1} />}>
+            <PagedList {...list} />
+          </Suspense>
         )}
 
       </div>
     </div>
   )
-}
-
-function pagLinkStyle(active: boolean) {
-  return {
-    fontSize: 13,
-    fontWeight: active ? 700 : 500,
-    padding: '5px 12px',
-    borderRadius: 8 as const,
-    textDecoration: 'none' as const,
-    background: active ? '#7c6fff' : 'rgba(255,255,255,0.05)',
-    border: `1px solid ${active ? '#7c6fff' : 'rgba(255,255,255,0.1)'}`,
-    color: active ? 'white' : 'rgba(255,255,255,0.55)',
-    display: 'inline-block' as const,
-  }
 }

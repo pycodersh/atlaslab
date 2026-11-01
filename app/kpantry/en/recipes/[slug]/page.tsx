@@ -14,6 +14,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: true },
 }
 
+// 레시피 목록은 빌드 때 정적으로 굽는다. 빌드 뒤에 추가된 레시피는 첫 방문 때 한 번 렌더링해 캐시한다
+export const dynamic = 'force-static'
+export const revalidate = 86400
+
+export async function generateStaticParams() {
+  const { data } = await createAdminClient().from('pantry_recipes').select('slug')
+  return (data ?? []).map(r => ({ slug: r.slug }))
+}
+
 /**
  * 존재하지 않는 슬러그에 실제 HTTP 404 를 반환한다.
  * 이전에는 클라이언트 컴포넌트뿐이라 어떤 슬러그든 200 을 돌려주는 soft 404 였다.

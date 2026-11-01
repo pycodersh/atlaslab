@@ -12,7 +12,9 @@ import { thumbnailForPost } from '@/lib/blog/thumbnail'
 import { readMinutes } from '@/lib/blog/readTime'
 import { ArticleJsonLd } from '@/components/blog/ArticleJsonLd'
 
-export const revalidate = 3600
+// 정적 생성 정책은 ../../[app]/[slug]/page.tsx 와 같다
+export const dynamic = 'force-static'
+export const revalidate = 86400
 export const dynamicParams = true
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
@@ -24,6 +26,16 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 )
+
+export async function generateStaticParams() {
+  const { data } = await supabase
+    .from('blog_posts')
+    .select('locale, slug')
+    .eq('app', 'patto')
+    .eq('is_paused', false)
+    .lte('published_at', new Date().toISOString())
+  return (data ?? []).map(p => ({ locale: p.locale, slug: p.slug }))
+}
 
 export async function generateMetadata({
   params,

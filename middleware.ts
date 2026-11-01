@@ -58,8 +58,11 @@ export async function middleware(request: NextRequest) {
   return supabaseResponse
 }
 
+// 미들웨어는 페이지가 정적이어도 요청마다 돌고, 돌 때마다 Supabase 세션을 확인한다(Fluid Active CPU).
+// 서버에서 로그인 정보를 쓰지 않는 정적 콘텐츠(블로그 · 사이트맵 · 표현 사전 · 오디오)와
+// 정적 파일은 건너뛴다. 관리자 경로(ADMIN_PATHS)는 여기에 걸리지 않는다.
 export const config = {
   matcher: [
-    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+    '/((?!_next/static|_next/image|favicon.ico|blog|sitemap.xml|robots.txt|kpatto/expressions|audio/|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|mp3|mp4|wav|json|txt|xml|webmanifest|woff2?)$).*)',
   ],
 }
