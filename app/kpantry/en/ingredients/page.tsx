@@ -45,7 +45,10 @@ export default function IngredientsPage() {
         user ? loadPantry(user.id) : Promise.resolve<string[]>([]),
         getUserPlan(user?.id),
       ])
-      const initial = urlIds.length > 0 ? urlIds : localIds.length > 0 ? localIds : pantryIds
+      // 목록에서 빠진 재료(레시피 없음·정리된 중복)가 예전 선택에 남아 있으면 버린다 — 개수만 세고 칩은 안 보이는 상태를 막는다
+      const visible = new Set((all ?? []).map(ing => ing.id))
+      const initial = (urlIds.length > 0 ? urlIds : localIds.length > 0 ? localIds : pantryIds)
+        .filter(id => visible.has(id))
       setSelectedIds(initial)
       writeSelectedIngredients(initial)
       setPlan(userPlan)

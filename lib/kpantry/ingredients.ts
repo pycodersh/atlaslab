@@ -1,5 +1,10 @@
 import { createClient } from '@/lib/kpantry/supabase'
 
+/**
+ * 재료 선택 화면 목록 — 레시피에 하나라도 연결된 재료만 준다.
+ * 마스터(pantry_ingredients)에는 레시피가 없는 재료·옛 seed 중복이 섞여 있어서, 고르면 아무것도 안 나오는
+ * 재료를 보여 주지 않으려는 것이다(2026-11-01 실측 95개 중 84개만 연결). 행은 지우지 않는다.
+ */
 export async function getIngredients(category?: string) {
   const supabase = createClient()
   let query = supabase
@@ -11,9 +16,14 @@ export async function getIngredients(category?: string) {
     query = query.eq('category', category)
   }
 
-  const { data, error } = await query
+  const [{ data, error }, { data: links, error: linkError }] = await Promise.all([
+    query,
+    supabase.from('pantry_recipe_ingredients').select('ingredient_id').limit(10000),
+  ])
   if (error) throw error
-  return data
+  if (linkError) throw linkError
+  const used = new Set((links ?? []).map(l => l.ingredient_id))
+  return (data ?? []).filter(ing => used.has(ing.id))
 }
 
 export async function savePantry(userId: string, ingredientIds: string[]) {
