@@ -7,10 +7,12 @@ interface Props {
   nameEn: string
   cookingTimeMin?: number | null
   heroImageUrl?: string | null
+  /** 홈처럼 다른 섹션과 면적을 나눠 쓰는 곳 — 사진을 낮게(2:1), 글자·여백을 줄인다 */
+  compact?: boolean
 }
 
 /** 2열 그리드용 레시피 카드 — 카드 전체가 상세로 가는 링크. 홈 Popular · /recipes Popular 가 같이 쓴다 */
-export default function DishGridCard({ slug, nameEn, cookingTimeMin, heroImageUrl }: Props) {
+export default function DishGridCard({ slug, nameEn, cookingTimeMin, heroImageUrl, compact = false }: Props) {
   return (
     <Link
       href={`/kpantry/en/recipes/${slug}`}
@@ -25,7 +27,7 @@ export default function DishGridCard({ slug, nameEn, cookingTimeMin, heroImageUr
       }}
     >
       <div style={{
-        aspectRatio: '4 / 3',
+        aspectRatio: compact ? '2 / 1' : '4 / 3',
         backgroundColor: 'var(--kp-surface-muted)',
         display: 'flex',
         alignItems: 'center',
@@ -39,13 +41,13 @@ export default function DishGridCard({ slug, nameEn, cookingTimeMin, heroImageUr
           <UtensilsCrossed size={36} {...PLACEHOLDER_ICON} />
         )}
       </div>
-      <div style={{ padding: '10px 12px 12px' }}>
+      <div style={{ padding: compact ? '8px 10px 10px' : '10px 12px 12px' }}>
         <p style={{
           fontFamily: 'Inter, sans-serif',
-          fontSize: 14,
+          fontSize: compact ? 13 : 14,
           fontWeight: 600,
           color: '#1A1A1A',
-          margin: '0 0 4px',
+          margin: compact ? '0 0 2px' : '0 0 4px',
           whiteSpace: 'nowrap',
           overflow: 'hidden',
           textOverflow: 'ellipsis',

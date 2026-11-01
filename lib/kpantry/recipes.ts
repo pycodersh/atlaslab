@@ -169,6 +169,24 @@ export async function getRecipesByIngredient(ingredientId: string) {
   return data ?? []
 }
 
+/** 재료별로 그 재료가 들어가는 레시피 수 — 홈 Pantry 그리드의 'N recipes' */
+export async function getRecipeCountsByIngredient(ingredientIds: string[]): Promise<Record<string, number>> {
+  if (ingredientIds.length === 0) return {}
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('pantry_recipe_ingredients')
+    .select('recipe_id, ingredient_id')
+    .in('ingredient_id', ingredientIds)
+  if (error) throw error
+  const recipesById = new Map<string, Set<string>>()
+  for (const row of data ?? []) {
+    const set = recipesById.get(row.ingredient_id) ?? new Set<string>()
+    set.add(row.recipe_id)
+    recipesById.set(row.ingredient_id, set)
+  }
+  return Object.fromEntries([...recipesById].map(([id, set]) => [id, set.size]))
+}
+
 export async function getPantryMatches(userId: string) {
   const supabase = createClient()
 

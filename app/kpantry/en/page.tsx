@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import BottomNav from '@/components/kpantry/layout/BottomNav'
 import HomeHeader from '@/components/kpantry/home/HomeHeader'
-import QuickStartCards from '@/components/kpantry/home/QuickStartCards'
+import CookWithIngredientsCard from '@/components/kpantry/home/CookWithIngredientsCard'
 import PopularDishes from '@/components/kpantry/home/PopularDishes'
 import KoreanPantrySection from '@/components/kpantry/home/KoreanPantrySection'
 
@@ -21,7 +21,7 @@ export default function KPantryHomePage() {
   return (
     <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
       <HomeHeader heroImg={HERO_IMG} />
-      <QuickStartCards />
+      <CookWithIngredientsCard />
       <PopularDishes />
       <KoreanPantrySection />
 
