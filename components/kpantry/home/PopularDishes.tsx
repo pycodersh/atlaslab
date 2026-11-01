@@ -1,23 +1,25 @@
 'use client'
-import { Clock, Flame, UtensilsCrossed } from 'lucide-react'
+import Link from 'next/link'
+import { ArrowRight, Clock, Flame, UtensilsCrossed } from 'lucide-react'
 import { META_ICON, INLINE_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { getPopularRecipes } from '@/lib/kpantry/recipes'
 
+/** 홈에는 대표 메뉴만 2×2 로 — 나머지는 View all 로 레시피 목록에서 */
+const SHOWN = 4
+
 export default function PopularDishes() {
-  const router = useRouter()
   const [dishes, setDishes] = useState<any[]>([])
 
   useEffect(() => {
-    getPopularRecipes().then(d => setDishes(d ?? [])).catch(() => {})
+    getPopularRecipes().then(d => setDishes((d ?? []).slice(0, SHOWN))).catch(() => {})
   }, [])
 
   if (dishes.length === 0) return null
 
   return (
-    <section style={{ padding: '8px 16px 0' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
+    <section style={{ padding: '16px 16px 0' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
         <h3 style={{
           fontFamily: 'Inter, sans-serif',
           fontSize: 16,
@@ -30,80 +32,75 @@ export default function PopularDishes() {
         }}>
           <Flame {...INLINE_ICON} color="#C8102E" />Popular Korean Dishes
         </h3>
-        <button
-          onClick={() => router.push('/kpantry/en/recipes')}
+        <Link
+          href="/kpantry/en/recipes"
           style={{
             fontFamily: 'Inter, sans-serif',
             fontSize: 13,
-            color: '#6B6B6B',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 0,
+            fontWeight: 600,
+            color: 'var(--kp-secondary)',
+            textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 4,
           }}
         >
-          View all
-        </button>
+          View all <ArrowRight size={14} strokeWidth={2} aria-hidden="true" />
+        </Link>
       </div>
 
-      <div style={{ display: 'flex', gap: 12, overflowX: 'auto', paddingBottom: 8, scrollbarWidth: 'none' }}>
-        {dishes.map((dish) => (
-          <div
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        {dishes.map(dish => (
+          <Link
             key={dish.id}
-            onClick={() => router.push(`/kpantry/en/recipes/${dish.slug}`)}
+            href={`/kpantry/en/recipes/${dish.slug}`}
             style={{
-              flexShrink: 0,
-              width: 140,
+              display: 'block',
               backgroundColor: '#FFFFFF',
               borderRadius: 16,
               overflow: 'hidden',
               border: '1px solid var(--kp-rule)',
-              cursor: 'pointer',
+              textDecoration: 'none',
             }}
           >
             <div style={{
-              height: 100,
+              aspectRatio: '4 / 3',
               backgroundColor: 'var(--kp-surface-muted)',
-              overflow: 'hidden',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
+              overflow: 'hidden',
             }}>
               {dish.hero_image_url ? (
-                <img src={dish.hero_image_url} alt={dish.name_en}
+                <img src={dish.hero_image_url} alt="" loading="lazy"
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
               ) : (
                 <UtensilsCrossed size={36} {...PLACEHOLDER_ICON} />
               )}
             </div>
-            <div style={{ padding: '10px 10px 12px' }}>
+            <div style={{ padding: '10px 12px 12px' }}>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: 13,
+                fontSize: 14,
                 fontWeight: 600,
                 color: '#1A1A1A',
-                margin: 0,
+                margin: '0 0 4px',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
               }}>
                 {dish.name_en}
               </p>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: 11,
-                color: '#9E9E9E',
-                margin: '2px 0 4px',
-              }}>
-                {dish.description?.slice(0, 28) ?? ''}
-              </p>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: 11,
+                fontSize: 12,
                 color: '#6B6B6B',
                 margin: 0,
               }}>
                 <Clock {...META_ICON} />{dish.cooking_time_min} min
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>

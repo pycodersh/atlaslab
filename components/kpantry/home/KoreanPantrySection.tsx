@@ -14,9 +14,8 @@ const PANTRY_ESSENTIALS = [
   { name: 'Kimchi',            recipeCount: 15, emoji: '🥬' },
   { name: 'Tofu',              recipeCount: 14, emoji: '⬜' },
   { name: 'Rice',              recipeCount: 16, emoji: '🍚' },
-  { name: 'Zucchini',          recipeCount: 12, emoji: '🥒' },
-  { name: 'Shiitake Mushroom', recipeCount: 10, emoji: '🍄' },
 ]
+// 홈에서는 4열 × 2행 그리드 하나에 들어가는 8개만 보인다(가로 스크롤 없음)
 
 type IngredientRow = { id: string; name: string; image_url: string | null }
 
@@ -63,15 +62,14 @@ export default function KoreanPantrySection() {
         </p>
       </div>
 
-      {/* Horizontal scroll row */}
+      {/* 4 × 2 grid */}
       <div style={{
-        display: 'flex',
-        gap: 10,
-        overflowX: 'auto',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        rowGap: 14,
+        columnGap: 8,
         padding: '4px 16px 12px',
-        scrollbarWidth: 'none',
-        WebkitOverflowScrolling: 'touch',
-      } as React.CSSProperties}>
+      }}>
         {items.map((item) => (
           <button
             key={item.name}
@@ -79,8 +77,7 @@ export default function KoreanPantrySection() {
               if (item.id) router.push(`/kpantry/en/recipes?ingredient=${item.id}`)
             }}
             style={{
-              flexShrink: 0,
-              width: 76,
+              minWidth: 0,
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -92,8 +89,8 @@ export default function KoreanPantrySection() {
           >
             {/* Circular image */}
             <div style={{
-              width: 60,
-              height: 60,
+              width: 56,
+              height: 56,
               borderRadius: '50%',
               backgroundColor: 'var(--kp-surface-muted)',
               border: '1.5px solid var(--kp-rule)',
