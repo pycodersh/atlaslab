@@ -4,7 +4,6 @@ import type { Metadata } from 'next'
 import { BlogClientPage } from './BlogClientPage'
 import { BlogIndexFromQuery } from './BlogIndexFromQuery'
 import { DEFAULT_TAB, tabLabel } from '@/lib/blog/sections'
-import { badgeFor } from '@/lib/blog/badge'
 import { blogIndexView, type BlogCard } from '@/lib/blog/indexView'
 import { readMinutes } from '@/lib/blog/readTime'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
@@ -43,7 +42,6 @@ export default async function BlogIndexPage() {
     ...p,
     thumb: thumbnailForPost(p.slug, content, thumbnail),
     readMin: readMinutes(content),
-    badge: badgeFor(p),
   }))
 
   // 쿼리를 읽기 전(정적 HTML · 크롤러)에는 기본 탭 화면을 그대로 보여 준다

@@ -5,7 +5,7 @@
 type Props = {
   /** 서브 타이틀(PHRASES, EXPLORE KOREA …). axis 만 있으면 비워 둔다 */
   label?: string
-  /** 대분류(Products · Korean · Guides) — 라벨 앞에 딥레드 Pill 뱃지로 붙는다 */
+  /** 대분류(Products · Korean · Guides) — 라벨 앞에 딥레드 굵은 글자로 붙는다(바탕 · 테두리 없음) */
   axis?: string
   /** 우측 "View all" 같은 링크 */
   more?: { href: string; text: string }
@@ -22,6 +22,7 @@ export function SectionHeader({ label, axis, more, desc, id }: Props) {
         <h2 id={id} className="section-header__label">
           {/* 대분류 이름은 자동 번역에서 뺀다 — 브라우저 번역이 'Korean' 을 '한국인'으로 바꿔 뜻이 달라진다 */}
           {axis && <span className="section-header__axis" translate="no">{axis}</span>}
+          {axis && label && ' '}
           {label}
         </h2>
         {more && <a href={more.href} className="section-header__more">{more.text}</a>}

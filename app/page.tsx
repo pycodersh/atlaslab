@@ -7,8 +7,6 @@ import { SectionHeader } from '@/components/SectionHeader'
 import { HomeCategoryBar, type HomeTab } from '@/components/HomeCategoryBar'
 import { HomeSearch, type SearchDoc } from '@/components/HomeSearch'
 import { LeadMagnetBanner } from '@/components/LeadMagnetBanner'
-import { PostBadge } from '@/components/blog/PostBadge'
-import { badgeFor } from '@/lib/blog/badge'
 import { readMinutes } from '@/lib/blog/readTime'
 import {
   BLOG_GROUPS,
@@ -110,7 +108,6 @@ function groupIntoSections(posts: BlogRow[]) {
         ...post,
         thumb: thumbnailForPost(post.slug, post.content, post.thumbnail),
         readMin: readMinutes(post.content),
-        badge: badgeFor(post),
       })),
     }
   })
@@ -457,8 +454,9 @@ export default async function AtlasLabHome() {
           transition: background 0.15s;
         }
         .bcard:hover { background: #ECEAE7; }
+        /* 뱃지를 걷어내 제목이 카드 글의 첫 줄이다 — 썸네일 바로 아래에서 시작하도록 위쪽만 20px */
         .bbody {
-          padding: 24px;
+          padding: 20px 24px 24px;
           display: flex; flex-direction: column; flex: 1;
         }
         .btitle {
@@ -615,7 +613,6 @@ export default async function AtlasLabHome() {
                         <PostListRow
                           key={`${post.locale}/${post.app}/${post.slug}`}
                           href={`/blog/${post.locale}/${post.app}/${post.slug}`}
-                          badge={post.badge}
                           title={post.title}
                           excerpt={post.description}
                           readMin={post.readMin}
@@ -632,7 +629,6 @@ export default async function AtlasLabHome() {
                         >
                           <BlogThumb thumb={post.thumb} alt={post.title} />
                           <div className="bbody">
-                            <PostBadge badge={post.badge} />
                             <div className="btitle">{post.title}</div>
                             {post.description && (
                               <div className="bexcerpt">{post.description}</div>

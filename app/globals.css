@@ -1047,21 +1047,6 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
   margin-bottom: 6px;
 }
 
-/* 카드 뱃지(components/blog/PostBadge · lib/blog/badge) — 홈 카드 · /blog 카드 · 세로 리스트 공통.
-   연한 바탕 + 진한 글자로 색만 갈라 둔다(초보 = 초록, 여행 = 코랄 레드, 음식 = 앰버, 생활 = 퍼플 그레이). */
-.pbadge {
-  display: inline-flex; align-items: center; align-self: flex-start;
-  font-family: "DM Sans", Inter, system-ui, sans-serif;
-  font-size: 10.5px; font-weight: 700; letter-spacing: 0.04em; line-height: 1;
-  padding: 4px 8px 4px; border-radius: 999px; white-space: nowrap;
-  margin-bottom: 8px;
-}
-.pbadge--beginner { background: #E3F4EA; color: #166534; }
-.pbadge--travel   { background: #FDE8E6; color: #B4232F; }
-.pbadge--food     { background: #FEF0D7; color: #9A4A07; }
-.pbadge--life     { background: #EEEAF5; color: #5B4B7A; }
-.plist-main .pbadge { margin-bottom: 6px; }
-
 .plist-title {
   font-family: "Playfair Display", Georgia, serif;
   font-size: 18px;
@@ -1207,17 +1192,13 @@ body { top: 0 !important; position: static !important; }
   letter-spacing: 0.16em; text-transform: uppercase;
   color: var(--ink, #111);
   margin: 0;
-  /* 대분류 뱃지와 서브 타이틀을 한 줄 가운데로 맞추고, 좁은 폰에서는 뱃지 뒤로 줄을 바꾼다 */
-  display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px 10px;
 }
-/* 대분류(PRODUCTS · KOREAN · GUIDES) Pill 뱃지 — 헤더와 같은 딥레드 글자에 옅은 붉은 바탕 */
+/* 대분류(PRODUCTS · KOREAN · GUIDES) — 바탕 · 테두리 없이 딥레드 굵은 글자만. 뒤의 서브 타이틀은 라벨의 잉크색 그대로.
+   둘 사이는 마크업의 실제 띄어쓰기 + 여백이라 화면 읽기 · 복사에서도 "Korean Phrases" 두 단어로 남는다 */
 .section-header__axis {
-  display: inline-flex; align-items: center;
-  height: 22px; padding: 0 10px; border-radius: 999px;
-  background: rgba(200, 16, 46, 0.08);
-  border: 1px solid rgba(200, 16, 46, 0.22);
   color: var(--brand-red, #C8102E);
-  font-size: 10.5px; font-weight: 800; letter-spacing: 0.14em;
+  font-weight: 800;
+  margin-right: 0.35em;
 }
 .section-header__more {
   font-family: "DM Sans", Inter, system-ui, sans-serif;

@@ -7,8 +7,6 @@ import { SectionHeader } from '@/components/SectionHeader'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { PostListRow } from '@/components/blog/PostListRow'
-import { PostBadge } from '@/components/blog/PostBadge'
-import type { PostBadge as PostBadgeData } from '@/lib/blog/badge'
 
 const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans","Inter",system-ui,sans-serif'
@@ -30,7 +28,6 @@ type Post = {
   published_at: string
   thumb: BlogThumbnail | null
   readMin: number
-  badge: PostBadgeData | null
 }
 
 /** Korean 탭의 섹션 하나(Basics · Phrases) — 앞쪽 몇 편과 전체 개수 */
@@ -85,7 +82,6 @@ export function BlogClientPage({
     >
       <BlogThumb thumb={post.thumb} alt={post.title} />
       <div className="bl-body">
-        <PostBadge badge={post.badge} />
         <div className="bl-title">{post.title}</div>
         {post.description && (
           <div className="bl-desc">{post.description}</div>
@@ -244,8 +240,9 @@ export function BlogClientPage({
           transition: background 0.15s;
         }
         /* 썸네일은 카드 가장자리에 붙고 글은 안쪽에 — 패딩을 본문 래퍼로 옮겼다 */
+        /* 뱃지를 걷어내 제목이 카드 글의 첫 줄이다 — 썸네일 바로 아래에서 시작하도록 위쪽만 22px */
         .bl-body {
-          padding: 28px 24px;
+          padding: 22px 24px 28px;
           display: flex; flex-direction: column; flex: 1;
         }
         .bl-card:hover { background: #ECEAE7; }
@@ -449,7 +446,6 @@ export function BlogClientPage({
                   key={post.slug}
                   href={`/blog/${post.locale}/${post.app}/${post.slug}`}
                   kicker={post.category ?? APP_LABEL[post.app] ?? post.app}
-                  badge={post.badge}
                   title={post.title}
                   excerpt={post.description}
                   readMin={post.readMin}

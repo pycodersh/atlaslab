@@ -1,7 +1,6 @@
 import { DEFAULT_TAB, KOREAN_TAB, groupKeyOf, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
 import { KEEP_EMPTY_SUB_CHIPS, isCrossListed, isValidSubcategory, subcategoriesFor, subcategoriesOf } from '@/lib/blog/subcategories'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
-import type { PostBadge } from '@/lib/blog/badge'
 
 /**
  * /blog 목록 화면 계산 — 빌드 때 받은 전체 글(cards)에 쿼리(tab · sub · lang · page)를 적용한다.
@@ -19,7 +18,6 @@ export type BlogCard = {
   published_at: string
   thumb: BlogThumbnail | null
   readMin: number
-  badge: PostBadge | null
 }
 
 export type BlogQuery = { page?: string | null; tab?: string | null; lang?: string | null; sub?: string | null }
