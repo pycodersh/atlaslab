@@ -2,36 +2,41 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { ArrowRight, CookingPot } from 'lucide-react'
-import { getPantryEssentials } from '@/lib/kpantry/ingredients'
+import { getPopularRecipes } from '@/lib/kpantry/recipes'
 import SectionHeader from './SectionHeader'
 
-/** 냉장고에 흔히 있는 재료 미리보기 — 사진이 오기 전·없을 때는 이모지(두부는 맞는 이모지가 없어 사진만 의미가 있다) */
-const STAPLES = [
-  { name: 'Rice',   emoji: '🍚' },
-  { name: 'Kimchi', emoji: '🥬' },
-  { name: 'Egg',    emoji: '🥚' },
-  { name: 'Onion',  emoji: '🧅' },
-  { name: 'Beef',   emoji: '🥩' },
-  { name: 'Tofu',   emoji: '⬜' },
-]
+/**
+ * 무한 마키 — 같은 사진 줄을 두 번 이어 붙이고 트랙을 -50% 까지 옮긴 뒤 처음으로 되돌린다.
+ * 두 번째 줄이 첫 줄 자리에 정확히 겹치는 순간 되돌아가므로 이음매가 보이지 않는다.
+ * transform 만 움직여 GPU 합성으로 돈다(레이아웃·페인트 없음). 움직임 줄이기 설정이면 멈춘다.
+ */
+const MARQUEE_CSS = `
+@keyframes kp-marquee { from { transform: translate3d(0, 0, 0) } to { transform: translate3d(-50%, 0, 0) } }
+.kp-marquee-track { display: flex; width: max-content; animation: kp-marquee 40s linear infinite; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .kp-marquee-track { animation: none; } }
+`
+
+const TILE = 60
+const GAP = 10
 
 /**
  * 홈 섹션 1 — 재료로 레시피 찾기. 머리는 섹션 2·3 과 같은 SectionHeader,
- * 본문은 재료 칩 미리보기 + 빨간 버튼이 든 카드. 카드 전체가 /ingredients 링크다.
+ * 본문은 레시피 사진이 천천히 흐르는 띠 + 빨간 버튼이 든 카드. 카드 전체가 /ingredients 링크다.
  */
 export default function CookWithIngredientsCard() {
-  const [images, setImages] = useState<Record<string, string>>({})
+  const [photos, setPhotos] = useState<{ id: string; src: string }[]>([])
 
   useEffect(() => {
-    getPantryEssentials(STAPLES.map(s => s.name))
-      .then(rows => setImages(Object.fromEntries(
-        (rows ?? []).filter(r => r.image_url).map(r => [r.name, r.image_url as string]),
-      )))
+    getPopularRecipes()
+      .then(rows => setPhotos(
+        (rows ?? []).filter(r => r.hero_image_url).map(r => ({ id: r.id, src: r.hero_image_url as string })),
+      ))
       .catch(() => {})
   }, [])
 
   return (
     <section style={{ padding: '12px 16px 0' }}>
+      <style>{MARQUEE_CSS}</style>
       <SectionHeader
         icon={CookingPot}
         title="Cook with What You Have"
@@ -48,63 +53,60 @@ export default function CookWithIngredientsCard() {
           backgroundColor: '#FAFAF9',
           border: '1px solid rgba(231, 229, 228, 0.8)',
           borderRadius: 16,
+          overflow: 'hidden',
           textDecoration: 'none',
         }}
       >
-        <span style={{
-          fontFamily: 'Inter, sans-serif',
-          fontSize: 12,
-          fontWeight: 600,
-          color: '#78716C',
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
+        {/* 사진 띠 — 양 끝은 마스크로 흐리게. 사진이 오기 전에도 높이를 잡아 둬 아래가 밀리지 않는다 */}
+        <span aria-hidden="true" style={{
+          display: 'block',
+          height: TILE + 4,
+          overflow: 'hidden',
+          maskImage: 'linear-gradient(to right, transparent, #000 12%, #000 88%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent, #000 12%, #000 88%, transparent)',
         }}>
-          Popular Fridge Staples
-        </span>
-
-        <span style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          {STAPLES.map(s => (
-            <span key={s.name} style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 6,
-              padding: '6px 10px 6px 6px',
-              backgroundColor: '#FFFFFF',
-              border: '1px solid #E7E5E4',
-              borderRadius: 8,
-              boxShadow: '0 1px rgba(0,0,0,0.05)',
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 12,
-              fontWeight: 500,
-              color: '#44403C',
-            }}>
-              {images[s.name] ? (
-                <img src={images[s.name]} alt="" style={{ width: 18, height: 18, borderRadius: '50%', objectFit: 'cover' }} />
-              ) : (
-                <span aria-hidden="true" style={{ width: 18, textAlign: 'center', fontSize: 13, lineHeight: 1 }}>{s.emoji}</span>
-              )}
-              {s.name}
+          {photos.length > 0 && (
+            <span className="kp-marquee-track" style={{ paddingTop: 2 }}>
+              {[...photos, ...photos].map((p, i) => (
+                <img
+                  key={`${p.id}-${i}`}
+                  src={p.src}
+                  alt=""
+                  width={TILE}
+                  height={TILE}
+                  style={{
+                    width: TILE,
+                    height: TILE,
+                    marginRight: GAP,
+                    flexShrink: 0,
+                    borderRadius: 12,
+                    objectFit: 'cover',
+                    boxShadow: '0 1px rgba(0,0,0,0.05)',
+                  }}
+                />
+              ))}
             </span>
-          ))}
+          )}
         </span>
 
         <span style={{
-          padding: '12px 16px',
+          padding: '12px 14px',
           borderRadius: 12,
           backgroundColor: 'var(--kp-accent)',
           color: '#FFFFFF',
           fontFamily: 'Inter, sans-serif',
-          fontSize: 14,
+          // (100+) 가 붙어 길어져서 375px 카드 안 한 줄에 들어가도록 13px — 화살표는 줄어들지 않게 고정
+          fontSize: 13,
           fontWeight: 500,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 8,
+          gap: 6,
           whiteSpace: 'nowrap',
           boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
         }}>
-          Select Ingredients &amp; Find Recipes
-          <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+          Select Ingredients &amp; Find Recipes (100+)
+          <ArrowRight size={16} strokeWidth={2} aria-hidden="true" style={{ flexShrink: 0 }} />
         </span>
       </Link>
     </section>
