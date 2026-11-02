@@ -44,7 +44,7 @@ export default function KPantryLayout({
       {children}
       {/* 모든 K-Pantry 화면 맨 아래 — 레시피 상세 액션 바·재료 화면 CTA 바(하단 고정)에 가리지 않게 그만큼 띄운다 */}
       <footer style={{ padding: '8px 16px calc(96px + env(safe-area-inset-bottom))' }}>
-        <LegalLinks prefix="© Atlas Lab Studios ·" />
+        <LegalLinks prefix="© Atlas Lab ·" />
       </footer>
     </div>
   )
