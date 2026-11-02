@@ -38,7 +38,7 @@ export default function PopularDishes() {
         icon={Flame}
         title="Popular Korean Dishes"
         desc="Explore Korea's most loved dishes."
-        viewAllHref="/kpantry/en/recipes"
+        viewAllHref="/kpantry/en/recipes?filter=popular"
       />
 
       {/* 섹션 좌우 여백(16px)을 상쇄해 화면 끝까지 스크롤되게, 첫·끝 카드는 다시 16px 띄운다 */}

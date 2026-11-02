@@ -1,8 +1,9 @@
 'use client'
 import Link from 'next/link'
-import { Bookmark, Clock, Flame, UtensilsCrossed } from 'lucide-react'
+import { Bookmark, Clock, Flame, UtensilsCrossed, X } from 'lucide-react'
 import { META_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useMemo, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import CategoryTabs from './CategoryTabs'
 import { getRecipes, toggleSaveRecipe } from '@/lib/kpantry/recipes'
 import { getSavedRecipeIds } from '@/lib/kpantry/saved'
@@ -15,10 +16,16 @@ type Sort = 'popular' | 'name'
  * Recipes 탭 — 레시피 103개 카탈로그. 배너·인기·카테고리 카드·최근 추가 섹션은 홈·탭과 겹쳐서 없앴다.
  * 전체를 한 번 받아 두고 탭·정렬은 화면에서 거른다 — 탭을 눌러도 다시 불러오지 않아 바로 바뀐다.
  * 인기순은 is_popular 를 앞에 두고 그 안은 이름순(조회수 같은 숫자 컬럼이 없다).
+ *
+ * URL: ?filter=popular — is_popular 레시피만(홈 'Popular Korean Dishes' 의 View all), 칩의 ✕ 로 해제.
+ *      ?sort=name|popular — 처음 정렬.
  */
 export default function ExploreView() {
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const popularOnly = searchParams.get('filter') === 'popular'
   const [category, setCategory] = useState('all')
-  const [sort, setSort] = useState<Sort>('popular')
+  const [sort, setSort] = useState<Sort>(searchParams.get('sort') === 'name' ? 'name' : 'popular')
   const [recipes, setRecipes] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [userId, setUserId] = useState<string | null>(null)
@@ -44,13 +51,23 @@ export default function ExploreView() {
     load()
   }, [])
 
+  // 인기 필터가 켜져 있으면 탭 숫자(All)도 그 안에서 센다
+  const base = useMemo(() => (popularOnly ? recipes.filter(r => r.is_popular) : recipes), [recipes, popularOnly])
+
   const list = useMemo(() => {
-    const rows = category === 'all' ? recipes : recipes.filter(r => r.category === category)
+    const rows = category === 'all' ? base : base.filter(r => r.category === category)
     const byName = (a: any, b: any) => a.name_en.localeCompare(b.name_en)
     return [...rows].sort(sort === 'name'
       ? byName
       : (a, b) => Number(!!b.is_popular) - Number(!!a.is_popular) || byName(a, b))
-  }, [recipes, category, sort])
+  }, [base, category, sort])
+
+  const clearPopular = () => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.delete('filter')
+    const qs = params.toString()
+    router.replace(`/kpantry/en/recipes${qs ? `?${qs}` : ''}`, { scroll: false })
+  }
 
   const handleToggleSave = async (recipeId: string) => {
     if (!userId) {
@@ -103,17 +120,46 @@ export default function ExploreView() {
         padding: '8px 0 0',
         borderBottom: '1px solid rgba(231, 229, 228, 0.6)',
       }}>
-        <CategoryTabs selected={category} onChange={setCategory} counts={{ all: recipes.length }} />
+        <CategoryTabs selected={category} onChange={setCategory} counts={{ all: base.length }} />
         <div style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
+          gap: 8,
           padding: '12px 16px 10px',
         }}>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600, color: '#1A1A1A' }}>
-            {loading ? '' : `${list.length} Recipe${list.length === 1 ? '' : 's'}`}
+          <span style={{ display: 'flex', alignItems: 'center', gap: 8, minWidth: 0 }}>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600, color: '#1A1A1A', whiteSpace: 'nowrap' }}>
+              {loading ? '' : `${list.length} Recipe${list.length === 1 ? '' : 's'}`}
+            </span>
+            {popularOnly && (
+              <button
+                type="button"
+                onClick={clearPopular}
+                aria-label="Show all recipes"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 4,
+                  padding: '3px 6px 3px 8px',
+                  border: 'none',
+                  borderRadius: 999,
+                  backgroundColor: 'var(--kp-accent-soft)',
+                  color: 'var(--kp-accent)',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: 11,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <Flame size={11} strokeWidth={2.25} aria-hidden="true" />
+                Popular only
+                <X size={12} strokeWidth={2.25} aria-hidden="true" />
+              </button>
+            )}
           </span>
-          <div role="group" aria-label="Sort" style={{ display: 'flex', gap: 2 }}>
+          <div role="group" aria-label="Sort" style={{ display: 'flex', gap: 2, flexShrink: 0 }}>
             {(['popular', 'name'] as const).map(s => (
               <button
                 key={s}
@@ -130,6 +176,7 @@ export default function ExploreView() {
                   fontWeight: sort === s ? 600 : 400,
                   color: sort === s ? '#1A1A1A' : '#78716C',
                   cursor: 'pointer',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {s === 'popular' ? 'Popular' : 'A–Z'}
