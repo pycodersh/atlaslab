@@ -1,62 +1,40 @@
 'use client'
-import { Clock, CookingPot, Flame, Salad, Soup, Star, UtensilsCrossed, Wheat, type LucideIcon } from 'lucide-react'
-import { META_ICON, INLINE_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import RecipeCard from './RecipeCard'
-import DishGridCard from './DishGridCard'
+import Link from 'next/link'
+import { Bookmark, Clock, Flame, UtensilsCrossed } from 'lucide-react'
+import { META_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
+import { useEffect, useMemo, useState } from 'react'
 import CategoryTabs from './CategoryTabs'
-import {
-  getFeaturedRecipe,
-  getPopularRecipes,
-  getRecentRecipes,
-  getRecipes,
-} from '@/lib/kpantry/recipes'
+import { getRecipes, toggleSaveRecipe } from '@/lib/kpantry/recipes'
+import { getSavedRecipeIds } from '@/lib/kpantry/saved'
+import { createClient } from '@/lib/kpantry/supabase'
+import AuthModal from '@/components/kpantry/auth/AuthModal'
 
-const CATEGORY_IMAGES: Record<string, string | undefined> = {
-  stews:      process.env.NEXT_PUBLIC_IMG_CAT_STEWS,
-  rice:       process.env.NEXT_PUBLIC_IMG_CAT_RICE,
-  noodles:    process.env.NEXT_PUBLIC_IMG_CAT_NOODLES,
-  side_dishes: process.env.NEXT_PUBLIC_IMG_CAT_SIDES,
-}
+type Sort = 'popular' | 'name'
 
-const CATEGORY_LABELS: Record<string, string> = {
-  stews: 'Stews & Soups',
-  rice: 'Rice & Grains',
-  noodles: 'Noodles',
-  side_dishes: 'Side Dishes',
-}
-
-// 이미지 env 가 없을 때 쓰는 아이콘. 기본 표현이 컬러인 이모지만 쓴다
-// (예전 🍽 U+1F37D 는 기본이 텍스트 표현이라 상속 글자색 #1A1A2E 로 그려져 갈색 배경에 묻혔다)
-const CATEGORY_ICONS: Record<string, LucideIcon> = {
-  stews: Soup,
-  rice: Wheat,
-  noodles: CookingPot,
-  side_dishes: Salad,
-}
-
+/**
+ * Recipes 탭 — 레시피 103개 카탈로그. 배너·인기·카테고리 카드·최근 추가 섹션은 홈·탭과 겹쳐서 없앴다.
+ * 전체를 한 번 받아 두고 탭·정렬은 화면에서 거른다 — 탭을 눌러도 다시 불러오지 않아 바로 바뀐다.
+ * 인기순은 is_popular 를 앞에 두고 그 안은 이름순(조회수 같은 숫자 컬럼이 없다).
+ */
 export default function ExploreView() {
-  const router = useRouter()
   const [category, setCategory] = useState('all')
-  const [featured, setFeatured] = useState<any>(null)
-  const [popular, setPopular] = useState<any[]>([])
-  const [recent, setRecent] = useState<any[]>([])
-  const [filtered, setFiltered] = useState<any[]>([])
+  const [sort, setSort] = useState<Sort>('popular')
+  const [recipes, setRecipes] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [userId, setUserId] = useState<string | null>(null)
+  const [savedIds, setSavedIds] = useState<Set<string>>(new Set())
+  const [showAuth, setShowAuth] = useState(false)
 
   useEffect(() => {
     async function load() {
-      setLoading(true)
       try {
-        const [f, p, r] = await Promise.all([
-          getFeaturedRecipe(),
-          getPopularRecipes().catch(e => { console.error('[ExploreView] getPopularRecipes:', e); return [] }),
-          getRecentRecipes().catch(e => { console.error('[ExploreView] getRecentRecipes:', e); return [] }),
-        ])
-        setFeatured(f)
-        setPopular((p as any[]) ?? [])
-        setRecent((r as any[]) ?? [])
+        const supabase = createClient()
+        const [data, { data: { user } }] = await Promise.all([getRecipes(), supabase.auth.getUser()])
+        setRecipes(data ?? [])
+        if (user) {
+          setUserId(user.id)
+          setSavedIds(new Set(await getSavedRecipeIds(user.id).catch(() => [])))
+        }
       } catch (e) {
         console.error('[ExploreView] load error:', e)
       } finally {
@@ -66,296 +44,206 @@ export default function ExploreView() {
     load()
   }, [])
 
-  useEffect(() => {
-    async function loadFiltered() {
-      try {
-        const data = await getRecipes(category === 'all' ? undefined : category)
-        setFiltered(data ?? [])
-      } catch (e) {
-        console.error('[ExploreView] loadFiltered:', e)
-        setFiltered([])
-      }
-    }
-    loadFiltered()
-  }, [category])
+  const list = useMemo(() => {
+    const rows = category === 'all' ? recipes : recipes.filter(r => r.category === category)
+    const byName = (a: any, b: any) => a.name_en.localeCompare(b.name_en)
+    return [...rows].sort(sort === 'name'
+      ? byName
+      : (a, b) => Number(!!b.is_popular) - Number(!!a.is_popular) || byName(a, b))
+  }, [recipes, category, sort])
 
-  if (loading) {
-    return (
-      <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-        <p style={{ fontFamily: 'Inter, sans-serif', color: '#9E9E9E' }}>Loading recipes...</p>
-      </div>
-    )
+  const handleToggleSave = async (recipeId: string) => {
+    if (!userId) {
+      setShowAuth(true)
+      return
+    }
+    const wasSaved = savedIds.has(recipeId)
+    const flip = (on: boolean) => setSavedIds(prev => {
+      const next = new Set(prev)
+      if (on) next.add(recipeId)
+      else next.delete(recipeId)
+      return next
+    })
+    flip(!wasSaved)
+    try {
+      await toggleSaveRecipe(recipeId, userId, wasSaved)
+    } catch {
+      flip(wasSaved)
+    }
   }
 
   return (
     <div>
-      <div style={{ padding: '52px 20px 16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div>
-          <h1 style={{
-            fontFamily: 'Playfair Display, serif',
-            fontSize: 28,
-            fontWeight: 700,
-            color: '#1A1A1A',
-            margin: 0,
-          }}>
-            Recipes
-          </h1>
-          <p style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 13,
-            color: '#6B6B6B',
-            margin: '2px 0 0',
-          }}>
-            Discover Korean recipes
-          </p>
-        </div>
-        <button style={{
-          width: 40,
-          height: 40,
-          borderRadius: 12,
-          border: '1px solid var(--kp-rule)',
-          backgroundColor: '#FFFFFF',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
+      <div style={{ padding: '52px 20px 16px' }}>
+        <h1 style={{
+          fontFamily: 'Playfair Display, serif',
+          fontSize: 28,
+          fontWeight: 700,
+          color: '#1A1A1A',
+          margin: 0,
         }}>
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <circle cx="8" cy="8" r="5.5" stroke="#6B6B6B" strokeWidth="1.5"/>
-            <path d="M12.5 12.5L16 16" stroke="#6B6B6B" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
-        </button>
+          Recipes
+        </h1>
+        <p style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: 13,
+          color: '#6B6B6B',
+          margin: '2px 0 0',
+        }}>
+          Discover Korean recipes
+        </p>
       </div>
 
-      <CategoryTabs selected={category} onChange={setCategory} />
-
-      {category === 'all' && featured && (
-        <div style={{ padding: '16px 16px 0' }}>
-          <div
-            onClick={() => router.push(`/kpantry/en/recipes/${featured.slug}`)}
-            style={{
-              borderRadius: 20,
-              overflow: 'hidden',
-              position: 'relative',
-              height: 200,
-              backgroundColor: '#2D2D2D',
-              cursor: 'pointer',
-            }}
-          >
-            {featured.hero_image_url ? (
-              <img src={featured.hero_image_url} alt={featured.name_en}
-                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
-            ) : (
-              <div style={{
-                position: 'absolute',
-                inset: 0,
-                backgroundColor: '#3D2B1A',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 80,
-              }}>
-                <UtensilsCrossed size={64} {...PLACEHOLDER_ICON} />
-              </div>
-            )}
-            <div style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              padding: '20px',
-              background: 'linear-gradient(transparent, rgba(0,0,0,0.75))',
-            }}>
-              <span style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: 11,
-                fontWeight: 600,
-                color: '#FFD700',
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-              }}>
-                <Star {...META_ICON} fill="currentColor" />Featured Recipe
-              </span>
-              <h2 style={{
-                fontFamily: 'Playfair Display, serif',
-                fontSize: 22,
-                fontWeight: 700,
-                color: '#FFFFFF',
-                margin: '4px 0 0',
-              }}>
-                {featured.name_en}
-              </h2>
-              <p style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: 12,
-                color: 'rgba(255,255,255,0.8)',
-                margin: '4px 0 0',
-              }}>
-                {featured.description}
-              </p>
-              <div style={{ display: 'flex', gap: 12, marginTop: 6 }}>
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>
-                  <Clock {...META_ICON} />{featured.cooking_time_min} min
-                </span>
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: 'rgba(255,255,255,0.7)' }}>
-                  <Flame {...META_ICON} />{featured.calories} kcal
-                </span>
-              </div>
-            </div>
+      {/* 탭·개수·정렬은 위에 붙여 둔다 — 목록을 내려도 다른 카테고리로 바로 옮길 수 있다 */}
+      <div style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 10,
+        backgroundColor: 'var(--kp-bg)',
+        padding: '8px 0 0',
+        borderBottom: '1px solid rgba(231, 229, 228, 0.6)',
+      }}>
+        <CategoryTabs selected={category} onChange={setCategory} counts={{ all: recipes.length }} />
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '12px 16px 10px',
+        }}>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600, color: '#1A1A1A' }}>
+            {loading ? '' : `${list.length} Recipe${list.length === 1 ? '' : 's'}`}
+          </span>
+          <div role="group" aria-label="Sort" style={{ display: 'flex', gap: 2 }}>
+            {(['popular', 'name'] as const).map(s => (
+              <button
+                key={s}
+                type="button"
+                aria-pressed={sort === s}
+                onClick={() => setSort(s)}
+                style={{
+                  padding: '4px 8px',
+                  border: 'none',
+                  borderRadius: 8,
+                  background: sort === s ? 'var(--kp-surface-muted)' : 'none',
+                  fontFamily: 'Inter, sans-serif',
+                  fontSize: 12,
+                  fontWeight: sort === s ? 600 : 400,
+                  color: sort === s ? '#1A1A1A' : '#78716C',
+                  cursor: 'pointer',
+                }}
+              >
+                {s === 'popular' ? 'Popular' : 'A–Z'}
+              </button>
+            ))}
           </div>
         </div>
-      )}
+      </div>
 
-      {category === 'all' && popular.length > 0 && (
-        <section style={{ padding: '20px 16px 0' }}>
-          <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#1A1A1A', margin: '0 0 12px' }}>
-            <Flame {...INLINE_ICON} color="#C8102E" />Popular Recipes
-          </h3>
-          {/* 가로 캐러셀 대신 대표 4개만 2×2 — 375px 에서 잘리지 않는다 */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            {popular.slice(0, 4).map(r => (
-              <DishGridCard
-                key={r.id}
-                slug={r.slug}
-                nameEn={r.name_en}
-                cookingTimeMin={r.cooking_time_min}
-                heroImageUrl={r.hero_image_url}
-              />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {category === 'all' && (
-        <section style={{ padding: '20px 16px 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#1A1A1A', margin: 0 }}>
-              Explore by Category
-            </h3>
-            <button style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#6B6B6B', background: 'none', border: 'none', cursor: 'pointer' }}>
-              View all
-            </button>
-          </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-            {(['stews', 'rice', 'noodles', 'side_dishes'] as const).map(cat => {
-              const image = CATEGORY_IMAGES[cat]
-              const CategoryIcon = CATEGORY_ICONS[cat]
-              return (
-                <button
-                  key={cat}
-                  type="button"
-                  onClick={() => setCategory(cat)}
-                  style={{
-                    borderRadius: 16,
-                    height: 100,
-                    // 사진이 있으면 어두운 오버레이 위 흰 글씨, 없으면 크림 카드 위 진한 글씨
-                    backgroundColor: image ? '#3D2B1A' : '#FFFFFF',
-                    border: image ? 'none' : '1px solid var(--kp-rule)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    justifyContent: image ? 'flex-end' : 'space-between',
-                    padding: '12px',
-                    cursor: 'pointer',
-                    position: 'relative',
+      {loading ? (
+        <p style={{ padding: '40px 20px', textAlign: 'center', fontFamily: 'Inter, sans-serif', color: '#9E9E9E' }}>
+          Loading recipes...
+        </p>
+      ) : (
+        <ul style={{ listStyle: 'none', margin: 0, padding: '12px 16px 0', display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {list.map(r => {
+            const saved = savedIds.has(r.id)
+            return (
+              <li key={r.id} style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4,
+                backgroundColor: '#FFFFFF',
+                border: '1px solid #F5F5F4',
+                borderRadius: 14,
+                boxShadow: '0 1px rgba(0,0,0,0.05)',
+              }}>
+                <Link href={`/kpantry/en/recipes/${r.slug}`} style={{
+                  flex: 1,
+                  minWidth: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: 10,
+                  textDecoration: 'none',
+                }}>
+                  <span style={{
+                    width: 72,
+                    height: 72,
+                    flexShrink: 0,
+                    borderRadius: 12,
                     overflow: 'hidden',
-                    textAlign: 'left',
+                    backgroundColor: 'var(--kp-surface-muted)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    {r.hero_image_url ? (
+                      <img src={r.hero_image_url} alt="" loading="lazy" width={72} height={72}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <UtensilsCrossed size={24} {...PLACEHOLDER_ICON} />
+                    )}
+                  </span>
+                  <span style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <span style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: 14,
+                      fontWeight: 700,
+                      color: '#1C1917',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}>
+                      {r.name_en}
+                    </span>
+                    {r.name_ko && (
+                      <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#A8A29E' }}>
+                        {r.name_ko}
+                      </span>
+                    )}
+                    <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#78716C', marginTop: 2 }}>
+                      {r.cooking_time_min != null && <><Clock {...META_ICON} />{r.cooking_time_min} min</>}
+                      {r.calories != null && <span style={{ marginLeft: 10 }}><Flame {...META_ICON} />{r.calories} kcal</span>}
+                    </span>
+                  </span>
+                </Link>
+                <button
+                  type="button"
+                  aria-pressed={saved}
+                  aria-label={saved ? `Remove ${r.name_en} from saved` : `Save ${r.name_en}`}
+                  onClick={() => handleToggleSave(r.id)}
+                  style={{
+                    width: 44,
+                    height: 44,
+                    marginRight: 6,
+                    flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'none',
+                    border: 'none',
+                    borderRadius: 12,
+                    cursor: 'pointer',
                   }}
                 >
-                  {image ? (
-                    <>
-                      <img
-                        src={image}
-                        alt=""
-                        style={{
-                          position: 'absolute',
-                          inset: 0,
-                          width: '100%',
-                          height: '100%',
-                          objectFit: 'cover',
-                        }}
-                      />
-                      <div style={{
-                        position: 'absolute',
-                        inset: 0,
-                        background: 'linear-gradient(transparent 30%, rgba(0,0,0,0.65))',
-                      }} />
-                    </>
-                  ) : (
-                    <span aria-hidden="true" style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 12,
-                      backgroundColor: 'var(--kp-bg)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: 22,
-                    }}>
-                      <CategoryIcon size={22} strokeWidth={1.75} color="#C8102E" />
-                    </span>
-                  )}
-                  <span style={{
-                    position: 'relative',
-                    zIndex: 1,
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: 14,
-                    fontWeight: 600,
-                    color: image ? '#FFFFFF' : '#1A1A1A',
-                  }}>
-                    {CATEGORY_LABELS[cat]}
-                  </span>
+                  <Bookmark
+                    size={20}
+                    strokeWidth={1.75}
+                    color={saved ? '#C8102E' : '#A8A29E'}
+                    fill={saved ? '#C8102E' : 'none'}
+                  />
                 </button>
-              )
-            })}
-          </div>
-        </section>
+              </li>
+            )
+          })}
+        </ul>
       )}
 
-      {category === 'all' && recent.length > 0 && (
-        <section style={{ padding: '20px 16px 0' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#1A1A1A', margin: 0 }}>
-              Recently Added
-            </h3>
-            <button style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#6B6B6B', background: 'none', border: 'none', cursor: 'pointer' }}>
-              View all
-            </button>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {recent.map(r => (
-              <RecipeCard
-                key={r.id}
-                slug={r.slug}
-                nameEn={r.name_en}
-                nameKo={r.name_ko}
-                cookingTimeMin={r.cooking_time_min}
-                calories={r.calories}
-                heroImageUrl={r.hero_image_url}
-                variant="horizontal"
-              />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {category !== 'all' && (
-        <section style={{ padding: '16px 16px 0' }}>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
-            {filtered.map(r => (
-              <RecipeCard
-                key={r.id}
-                slug={r.slug}
-                nameEn={r.name_en}
-                description={r.description}
-                cookingTimeMin={r.cooking_time_min}
-                calories={r.calories}
-                difficulty={r.difficulty}
-                heroImageUrl={r.hero_image_url}
-              />
-            ))}
-          </div>
-        </section>
+      {showAuth && (
+        <AuthModal
+          onClose={() => setShowAuth(false)}
+          onSuccess={() => { setShowAuth(false); window.location.reload() }}
+        />
       )}
     </div>
   )

@@ -18,6 +18,17 @@ export async function getSavedRecipes(userId: string) {
   return data ?? []
 }
 
+/** 저장한 레시피 id 만 — 목록 화면 북마크 아이콘 상태용 */
+export async function getSavedRecipeIds(userId: string): Promise<string[]> {
+  const supabase = createClient()
+  const { data, error } = await supabase
+    .from('pantry_saved_recipes')
+    .select('recipe_id')
+    .eq('user_id', userId)
+  if (error) throw error
+  return (data ?? []).map(r => r.recipe_id)
+}
+
 export async function getShoppingList(userId: string) {
   const supabase = createClient()
   const { data, error } = await supabase
