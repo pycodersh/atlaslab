@@ -69,23 +69,30 @@ export default function KoreanPantrySection() {
         {items.map(item => {
           const tile = (
             <>
+              {/* 1번 섹션 재료 칩과 같은 원형 — 48px, 흰 바탕, 얇은 테두리, 안쪽 4px 띄우고 사진도 원으로 */}
               <span style={{
-                width: 40,
-                height: 40,
+                width: 48,
+                height: 48,
+                flexShrink: 0,
+                borderRadius: '50%',
+                backgroundColor: '#FFFFFF',
+                border: '1px solid rgba(231, 229, 228, 0.8)',
+                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+                padding: 4,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginBottom: 6,
               }}>
                 {item.imageUrl ? (
-                  <img src={item.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+                  <img src={item.imageUrl} alt="" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
                 ) : (
-                  <span aria-hidden="true" style={{ fontSize: 24, lineHeight: 1 }}>{item.emoji}</span>
+                  <span aria-hidden="true" style={{ fontSize: 20, lineHeight: 1 }}>{item.emoji}</span>
                 )}
               </span>
               <span style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: 11,
+                fontSize: 12,
                 fontWeight: 500,
                 color: '#292524',
                 textAlign: 'center',
@@ -99,10 +106,10 @@ export default function KoreanPantrySection() {
               </span>
               <span style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: 10,
+                fontSize: 11,
                 color: '#A8A29E',
                 marginTop: 2,
-                minHeight: 13,
+                minHeight: 14,
               }}>
                 {item.count != null ? `${item.count} recipe${item.count === 1 ? '' : 's'}` : ''}
               </span>
