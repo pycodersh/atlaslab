@@ -1,7 +1,6 @@
 'use client'
 import { useSearchParams } from 'next/navigation'
 import { Suspense } from 'react'
-import BottomNav from '@/components/kpantry/layout/BottomNav'
 import ExploreView from '@/components/kpantry/recipes/ExploreView'
 import PantryResultsView from '@/components/kpantry/recipes/PantryResultsView'
 import IngredientFilterView from '@/components/kpantry/recipes/IngredientFilterView'
@@ -14,14 +13,13 @@ function RecipesContent() {
   const selectedIds = searchParams.get('ids')
 
   return (
-    <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
+    <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 24 }}>
       {ingredientId
         ? <IngredientFilterView ingredientId={ingredientId} />
         : mode === 'pantry'
           ? <PantryResultsView key={selectedIds ?? ''} ingredientIds={parseIngredientIds(selectedIds)} />
           : <ExploreView />
       }
-      <BottomNav />
     </div>
   )
 }

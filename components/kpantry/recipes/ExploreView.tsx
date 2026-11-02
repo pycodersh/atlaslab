@@ -9,6 +9,7 @@ import { getRecipes, toggleSaveRecipe } from '@/lib/kpantry/recipes'
 import { getSavedRecipeIds } from '@/lib/kpantry/saved'
 import { createClient } from '@/lib/kpantry/supabase'
 import AuthModal from '@/components/kpantry/auth/AuthModal'
+import HomeLink from '@/components/kpantry/layout/HomeLink'
 
 type Sort = 'popular' | 'name'
 
@@ -91,7 +92,8 @@ export default function ExploreView() {
 
   return (
     <div>
-      <div style={{ padding: '52px 20px 16px' }}>
+      <div style={{ padding: '40px 20px 16px' }}>
+        <div style={{ marginBottom: 14 }}><HomeLink /></div>
         <h1 style={{
           fontFamily: 'Playfair Display, serif',
           fontSize: 28,

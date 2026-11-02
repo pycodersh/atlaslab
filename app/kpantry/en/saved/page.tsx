@@ -1,8 +1,9 @@
 'use client'
-import { Bookmark, Lock, ShoppingCart } from 'lucide-react'
+import Link from 'next/link'
+import { Bookmark, Lock, ShoppingCart, UserRound } from 'lucide-react'
 import { META_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useState } from 'react'
-import BottomNav from '@/components/kpantry/layout/BottomNav'
+import HomeLink from '@/components/kpantry/layout/HomeLink'
 import SavedRecipesTab from '@/components/kpantry/saved/SavedRecipesTab'
 import ShoppingListTab from '@/components/kpantry/saved/ShoppingListTab'
 import { getSavedRecipes, getShoppingList, unsaveRecipe } from '@/lib/kpantry/saved'
@@ -72,8 +73,9 @@ export default function SavedPage() {
 
   if (!userId) {
     return (
-      <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 'calc(64px + env(safe-area-inset-bottom))' }}>
-        <div style={{ padding: '60px 20px 0', textAlign: 'center' }}>
+      <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 24 }}>
+        <div style={{ padding: '40px 20px 0' }}><HomeLink /></div>
+        <div style={{ padding: '20px 20px 0', textAlign: 'center' }}>
           <h1 style={{
             fontFamily: 'Playfair Display, serif',
             fontSize: 28, fontWeight: 700,
@@ -116,20 +118,20 @@ export default function SavedPage() {
             onSuccess={() => { setShowAuth(false); window.location.reload() }}
           />
         )}
-        <BottomNav />
       </div>
     )
   }
 
   return (
-    <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 100 }}>
+    <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 24 }}>
       <div style={{
-        padding: '52px 20px 16px',
+        padding: '40px 20px 16px',
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
+        alignItems: 'flex-end',
       }}>
         <div>
+          <div style={{ marginBottom: 14 }}><HomeLink /></div>
           <h1 style={{
             fontFamily: 'Playfair Display, serif',
             fontSize: 28, fontWeight: 700,
@@ -141,19 +143,16 @@ export default function SavedPage() {
             Your favorite recipes & shopping list
           </p>
         </div>
-        <button style={{
+        {/* 계정 — 홈 헤더의 프로필 버튼이 저장 아이콘으로 바뀌어서 Pro·라이선스 관리는 여기서 연다 */}
+        <Link href="/kpantry/en/subscribe" aria-label="Account" style={{
           width: 36, height: 36,
-          borderRadius: 10,
+          borderRadius: '50%',
           backgroundColor: '#FFFFFF',
           border: '1px solid var(--kp-rule)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          cursor: 'pointer',
         }}>
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <circle cx="9" cy="9" r="2" stroke="#6B6B6B" strokeWidth="1.3"/>
-            <path d="M9 2V4M9 14V16M2 9H4M14 9H16M4.22 4.22L5.64 5.64M12.36 12.36L13.78 13.78M4.22 13.78L5.64 12.36M12.36 5.64L13.78 4.22" stroke="#6B6B6B" strokeWidth="1.3" strokeLinecap="round"/>
-          </svg>
-        </button>
+          <UserRound size={18} strokeWidth={1.75} color="#4B5563" aria-hidden="true" />
+        </Link>
       </div>
 
       <div style={{
@@ -258,8 +257,6 @@ export default function SavedPage() {
           onSuccess={() => { setShowAuth(false); window.location.reload() }}
         />
       )}
-
-      <BottomNav />
     </div>
   )
 }

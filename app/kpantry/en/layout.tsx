@@ -22,7 +22,7 @@ const THEME_CSS = `
   --kp-accent-hover: var(--brand-red-dark, #A30D25);
   --kp-accent-active: #8A0B20;
   --kp-accent-soft: #FBEEF0;
-  --kp-bg: #FAF8F5;
+  --kp-bg: #FDFBF7;
   --kp-surface-muted: #F1EFEC;
   --kp-rule: var(--rule, #E5E1DC);
   --kp-secondary: #475569;
@@ -42,7 +42,7 @@ export default function KPantryLayout({
     <div className="kp-app" style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh' }}>
       <style>{THEME_CSS}</style>
       {children}
-      {/* 모든 K-Pantry 화면 맨 아래 — 고정 하단 탭(BottomNav)·CTA 바에 가리지 않게 그만큼 띄운다 */}
+      {/* 모든 K-Pantry 화면 맨 아래 — 레시피 상세 액션 바·재료 화면 CTA 바(하단 고정)에 가리지 않게 그만큼 띄운다 */}
       <footer style={{ padding: '8px 16px calc(96px + env(safe-area-inset-bottom))' }}>
         <LegalLinks prefix="© Atlas Lab Studios ·" />
       </footer>
