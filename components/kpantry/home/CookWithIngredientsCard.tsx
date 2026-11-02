@@ -2,106 +2,144 @@
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { ArrowRight, CookingPot } from 'lucide-react'
-import { getPopularRecipes } from '@/lib/kpantry/recipes'
+import { getPantryEssentials } from '@/lib/kpantry/ingredients'
 import SectionHeader from './SectionHeader'
 
 /**
- * 무한 마키 — 같은 사진 줄을 두 번 이어 붙이고 트랙을 -50% 까지 옮긴 뒤 처음으로 되돌린다.
- * 두 번째 줄이 첫 줄 자리에 정확히 겹치는 순간 되돌아가므로 이음매가 보이지 않는다.
- * transform 만 움직여 GPU 합성으로 돈다(레이아웃·페인트 없음). 움직임 줄이기 설정이면 멈춘다.
- * 한 바퀴 시간은 사진 수에서 계산한다 — 사진 크기·개수가 바뀌어도 속도(SPEED)가 그대로다.
+ * 대표 재료 5개 — label 은 화면에 보이는 이름, name 은 pantry_ingredients 의 실제 이름.
+ * 'Pork' 행은 레시피에 연결된 게 없어(2026-11-02 실측 0개) 재료 화면에서 숨겨지므로,
+ * 돼지고기 중 레시피가 가장 많은 Pork Belly(9개)로 잇는다.
  */
-const MARQUEE_CSS = `
-@keyframes kp-marquee { from { transform: translate3d(0, 0, 0) } to { transform: translate3d(-50%, 0, 0) } }
-.kp-marquee-track { display: flex; width: max-content; animation-name: kp-marquee; animation-timing-function: linear; animation-iteration-count: infinite; will-change: transform; }
-@media (prefers-reduced-motion: reduce) { .kp-marquee-track { animation: none; } }
-`
+const SHOWCASE = [
+  { label: 'Kimchi', name: 'Kimchi',     emoji: '🥬' },
+  { label: 'Egg',    name: 'Egg',        emoji: '🥚' },
+  { label: 'Onion',  name: 'Onion',      emoji: '🧅' },
+  { label: 'Pork',   name: 'Pork Belly', emoji: '🥓' },
+  { label: 'Tofu',   name: 'Tofu',       emoji: '⬜' },
+]
 
-// 96×96 정사각 — 375px 카드 안쪽(약 310px)에 약 2.9장 보인다
-const TILE_W = 96
-const TILE_H = 96
-const GAP = 12
-/** 초당 이동 px — 요리를 보며 따라갈 수 있게 느리게 */
-const SPEED = 15
+type IngredientRow = { id: string; name: string; image_url: string | null }
 
 /**
- * 홈 섹션 1 — 재료로 레시피 찾기. 머리는 섹션 2·3 과 같은 SectionHeader,
- * 본문은 레시피 사진이 천천히 흐르는 띠 + 빨간 버튼이 든 카드. 카드 전체가 /ingredients 링크다.
+ * 홈 섹션 1 — 재료로 레시피 찾기. 섹션 2(완성 요리 사진 가로 스크롤)와 겹치지 않게
+ * 요리 사진 대신 원형 재료 5개를 보여 준다. 재료를 탭해 고르면 버튼이 그 재료를 미리 고른 채로
+ * /ingredients 를 연다(?ids=). 아무것도 안 고르면 빈 선택으로 연다.
  */
 export default function CookWithIngredientsCard() {
-  const [photos, setPhotos] = useState<{ id: string; src: string }[]>([])
+  const [rows, setRows] = useState<IngredientRow[]>([])
+  const [picked, setPicked] = useState<string[]>([])
 
   useEffect(() => {
-    getPopularRecipes()
-      .then(rows => setPhotos(
-        (rows ?? []).filter(r => r.hero_image_url).map(r => ({ id: r.id, src: r.hero_image_url as string })),
-      ))
+    getPantryEssentials(SHOWCASE.map(i => i.name))
+      .then(d => setRows(d as IngredientRow[]))
       .catch(() => {})
   }, [])
 
+  const items = SHOWCASE.map(item => {
+    const row = rows.find(r => r.name === item.name)
+    return { ...item, id: row?.id ?? null, imageUrl: row?.image_url ?? null }
+  })
+
+  const toggle = (id: string) =>
+    setPicked(prev => (prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]))
+
+  const href = picked.length > 0
+    ? `/kpantry/en/ingredients?ids=${picked.join(',')}`
+    : '/kpantry/en/ingredients'
+
   return (
     <section style={{ padding: '12px 16px 0' }}>
-      <style>{MARQUEE_CSS}</style>
       <SectionHeader
         icon={CookingPot}
         title="Cook with What You Have"
         desc="Select ingredients in your fridge to discover matching recipes."
       />
 
-      <Link
-        href="/kpantry/en/ingredients"
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 14,
-          padding: 16,
-          backgroundColor: '#FAFAF9',
-          border: '1px solid rgba(231, 229, 228, 0.8)',
-          borderRadius: 16,
-          overflow: 'hidden',
-          textDecoration: 'none',
-        }}
-      >
-        {/* 사진 띠 — 양 끝은 마스크로 흐리게. 사진이 오기 전에도 높이를 잡아 둬 아래가 밀리지 않는다 */}
-        <span aria-hidden="true" style={{
-          display: 'block',
-          height: TILE_H + 6,
-          overflow: 'hidden',
-          maskImage: 'linear-gradient(to right, transparent, #000 12%, #000 88%, transparent)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent, #000 12%, #000 88%, transparent)',
-        }}>
-          {photos.length > 0 && (
-            <span
-              className="kp-marquee-track"
-              style={{
-                paddingTop: 3,
-                // 한 줄(= 트랙 절반) 폭 ÷ 속도 = 한 바퀴 시간
-                animationDuration: `${(photos.length * (TILE_W + GAP)) / SPEED}s`,
-              }}
-            >
-              {[...photos, ...photos].map((p, i) => (
-                <img
-                  key={`${p.id}-${i}`}
-                  src={p.src}
-                  alt=""
-                  width={TILE_W}
-                  height={TILE_H}
-                  style={{
-                    width: TILE_W,
-                    height: TILE_H,
-                    marginRight: GAP,
-                    flexShrink: 0,
-                    borderRadius: 12,
-                    objectFit: 'cover',
-                    boxShadow: '0 1px rgba(0,0,0,0.05)',
-                  }}
-                />
-              ))}
-            </span>
-          )}
-        </span>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 14,
+        padding: 16,
+        backgroundColor: '#FAFAF9',
+        border: '1px solid rgba(231, 229, 228, 0.8)',
+        borderRadius: 16,
+      }}>
+        <div>
+          <p style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 12,
+            fontWeight: 500,
+            color: '#78716C',
+            margin: '0 0 10px',
+          }}>
+            Tap ingredients you already have
+          </p>
 
-        <span style={{
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            {items.map(item => {
+              const on = item.id != null && picked.includes(item.id)
+              return (
+                <button
+                  key={item.label}
+                  type="button"
+                  disabled={!item.id}
+                  aria-pressed={on}
+                  onClick={() => item.id && toggle(item.id)}
+                  style={{
+                    flex: '1 1 0',
+                    minWidth: 0,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    cursor: item.id ? 'pointer' : 'default',
+                  }}
+                >
+                  <span style={{
+                    width: 48,
+                    height: 48,
+                    borderRadius: '50%',
+                    backgroundColor: '#FFFFFF',
+                    // 고른 재료는 테두리만 브랜드 레드로 — 두께가 같아 크기가 흔들리지 않는다
+                    border: `1px solid ${on ? 'var(--kp-accent)' : '#E7E5E4'}`,
+                    boxShadow: on ? '0 0 0 1px var(--kp-accent)' : '0 1px rgba(0,0,0,0.05)',
+                    padding: 4,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    overflow: 'hidden',
+                    transition: 'border-color 0.15s, box-shadow 0.15s',
+                  }}>
+                    {item.imageUrl ? (
+                      <img src={item.imageUrl} alt="" style={{
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                      }} />
+                    ) : (
+                      <span aria-hidden="true" style={{ fontSize: 20, lineHeight: 1 }}>{item.emoji}</span>
+                    )}
+                  </span>
+                  <span style={{
+                    fontFamily: 'Inter, sans-serif',
+                    fontSize: 12,
+                    fontWeight: 500,
+                    color: on ? 'var(--kp-accent)' : '#44403C',
+                    marginTop: 4,
+                    textAlign: 'center',
+                  }}>
+                    {item.label}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </div>
+
+        <Link href={href} style={{
           padding: '12px 16px',
           borderRadius: 12,
           backgroundColor: 'var(--kp-accent)',
@@ -116,11 +154,12 @@ export default function CookWithIngredientsCard() {
           gap: 6,
           whiteSpace: 'nowrap',
           boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+          textDecoration: 'none',
         }}>
           Select Ingredients &amp; Find Recipes (100+)
           <ArrowRight size={14} strokeWidth={2} aria-hidden="true" style={{ flexShrink: 0 }} />
-        </span>
-      </Link>
+        </Link>
+      </div>
     </section>
   )
 }
