@@ -22,7 +22,14 @@ const PANTRY_ESSENTIALS = [
   { name: 'Rice',       emoji: '🍚' },
 ]
 
-type IngredientRow = { id: string; name: string; image_url: string | null }
+// 테두리는 :hover·:focus-visible 로 바꿔야 해서 인라인이 아니라 클래스에 둔다
+const TILE_CSS = `
+.kp-pantry-tile { border: 1px solid #EFEDEB; transition: border-color 0.15s; }
+a.kp-pantry-tile:hover, a.kp-pantry-tile:focus-visible { border-color: #D6D3D1; }
+a.kp-pantry-tile:active { border-color: #C8102E; }
+`
+
+type IngredientRow ={ id: string; name: string; image_url: string | null }
 
 export default function KoreanPantrySection() {
   const [dbData, setDbData] = useState<IngredientRow[]>([])
@@ -49,39 +56,37 @@ export default function KoreanPantrySection() {
       <SectionHeader
         icon={ShoppingCart}
         title="Build Your Korean Pantry"
-        desc="Tap an essential to see the recipes that use it."
+        desc="Essential ingredients for Korean cooking."
       />
+      <style>{TILE_CSS}</style>
 
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: 8,
+        gap: 10,
       }}>
         {items.map(item => {
           const tile = (
             <>
               <span style={{
-                width: 48,
-                height: 48,
-                borderRadius: '50%',
-                backgroundColor: 'var(--kp-surface-muted)',
-                overflow: 'hidden',
+                width: 40,
+                height: 40,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 marginBottom: 6,
               }}>
                 {item.imageUrl ? (
-                  <img src={item.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  <img src={item.imageUrl} alt="" style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
                 ) : (
                   <span aria-hidden="true" style={{ fontSize: 24, lineHeight: 1 }}>{item.emoji}</span>
                 )}
               </span>
               <span style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: 12,
-                fontWeight: 600,
-                color: '#1A1A1A',
+                fontSize: 11,
+                fontWeight: 500,
+                color: '#292524',
                 textAlign: 'center',
                 lineHeight: 1.2,
                 width: '100%',
@@ -93,10 +98,10 @@ export default function KoreanPantrySection() {
               </span>
               <span style={{
                 fontFamily: 'Inter, sans-serif',
-                fontSize: 11,
-                color: '#6B6B6B',
+                fontSize: 10,
+                color: '#A8A29E',
                 marginTop: 2,
-                minHeight: 14,
+                minHeight: 13,
               }}>
                 {item.count != null ? `${item.count} recipe${item.count === 1 ? '' : 's'}` : ''}
               </span>
@@ -107,18 +112,20 @@ export default function KoreanPantrySection() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            padding: '10px 4px 8px',
+            justifyContent: 'center',
+            // 좌우는 4px — 375px 에서 타일이 78px 라 10px 씩 띄우면 'Gochugaru'·'Sesame Oil' 이 잘린다
+            padding: '10px 4px',
             backgroundColor: '#FFFFFF',
-            border: '1px solid var(--kp-rule)',
-            borderRadius: 14,
+            borderRadius: 12,
+            boxShadow: '0 1px rgba(0,0,0,0.04)',
             textDecoration: 'none',
           }
           return item.id ? (
-            <Link key={item.name} href={`/kpantry/en/recipes?ingredient=${item.id}`} style={tileStyle}>
+            <Link key={item.name} href={`/kpantry/en/recipes?ingredient=${item.id}`} className="kp-pantry-tile" style={tileStyle}>
               {tile}
             </Link>
           ) : (
-            <div key={item.name} style={tileStyle}>{tile}</div>
+            <div key={item.name} className="kp-pantry-tile" style={tileStyle}>{tile}</div>
           )
         })}
       </div>

@@ -1,16 +1,19 @@
 'use client'
 import Link from 'next/link'
-import { Clock, Flame, UtensilsCrossed } from 'lucide-react'
+import { Flame, UtensilsCrossed } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { getPopularRecipes } from '@/lib/kpantry/recipes'
-import { META_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
+import { PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import SectionHeader, { SectionDivider } from './SectionHeader'
 
 /**
- * 375px 에서 카드 2.5장이 보이는 폭 — 스크롤 띠가 화면 오른쪽 끝까지 뻗어서(아래 margin -16px)
- * 화면 359px ÷ (136 + 간격 14) ≈ 2.4장. 160px 이면 2장만 보여 옆으로 넘길 수 있다는 단서(잘린 세 번째 카드)가 안 생긴다.
+ * 375px 에서 카드 약 2.3장이 보이는 폭 — 스크롤 띠가 화면 오른쪽 끝까지 뻗어서(아래 margin -16px)
+ * 첫 카드 왼쪽 16px 뒤로 359px 가 보인다: 144×2 + 간격 14×2 = 316, 세 번째 카드가 43px 걸친다.
+ * 160px 이면 세 번째 카드가 11px 만 보여(≈2.07장) 옆으로 넘길 수 있다는 단서가 약하다.
  */
-const CARD_W = 136
+const CARD_W = 144
+
+const DIFFICULTY_LABEL: Record<string, string> = { easy: 'Easy', medium: 'Medium', hard: 'Hard' }
 
 const SCROLL_CSS = `
 .kp-hscroll { scrollbar-width: none; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch; }
@@ -34,7 +37,7 @@ export default function PopularDishes() {
       <SectionHeader
         icon={Flame}
         title="Popular Korean Dishes"
-        desc="Most loved classic Korean dishes."
+        desc="Explore Korea's most loved dishes."
         viewAllHref="/kpantry/en/recipes"
       />
 
@@ -56,16 +59,18 @@ export default function PopularDishes() {
             style={{
               width: CARD_W,
               flexShrink: 0,
+              display: 'flex',
+              flexDirection: 'column',
               backgroundColor: '#FFFFFF',
-              border: '1px solid #F5F5F4',
-              borderRadius: 12,
+              border: '1px solid rgba(231, 229, 228, 0.7)',
+              borderRadius: 16,
               overflow: 'hidden',
-              boxShadow: '0 1px rgba(0,0,0,0.05)',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
               textDecoration: 'none',
             }}
           >
             <div style={{
-              height: 88,
+              height: 112,
               backgroundColor: 'var(--kp-surface-muted)',
               display: 'flex',
               alignItems: 'center',
@@ -78,7 +83,7 @@ export default function PopularDishes() {
                 <UtensilsCrossed size={28} {...PLACEHOLDER_ICON} />
               )}
             </div>
-            <div style={{ padding: 10, display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <div style={{ padding: 12, display: 'flex', flexDirection: 'column', gap: 4 }}>
               <span style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: 12,
@@ -90,23 +95,12 @@ export default function PopularDishes() {
               }}>
                 {dish.name_en}
               </span>
-              {dish.description && (
-                <span style={{
-                  fontFamily: 'Inter, sans-serif',
-                  fontSize: 10,
-                  color: '#A8A29E',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}>
-                  {dish.description}
-                </span>
-              )}
-              {dish.cooking_time_min != null && (
-                <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 10, color: '#78716C' }}>
-                  <Clock {...META_ICON} size={11} />{dish.cooking_time_min}m
-                </span>
-              )}
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 11, color: '#78716C' }}>
+                {[
+                  dish.cooking_time_min != null ? `${dish.cooking_time_min} min` : null,
+                  DIFFICULTY_LABEL[dish.difficulty] ?? null,
+                ].filter(Boolean).join(' · ')}
+              </span>
             </div>
           </Link>
         ))}
