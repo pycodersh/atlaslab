@@ -1,17 +1,17 @@
-interface Step {
-  id: string
-  step_order: number
-  title: string
-  description: string
-  image_url?: string
-}
+import { placeStepImages, type StepRow } from '@/lib/kpantry/stepImages'
 
 interface StepsSectionProps {
-  steps: Step[]
+  /** 과정 사진을 어느 스텝에 붙일지 레시피별 매핑을 찾는 키 */
+  slug: string
+  steps: StepRow[]
 }
 
-export default function StepsSection({ steps }: StepsSectionProps) {
-  const stepsWithImages = steps.filter(s => s.image_url)
+/**
+ * 조리 순서 — 각 스텝 설명 바로 아래에 그 스텝 사진을 붙인다(위에 모아 두던 3장 갤러리는 없앴다).
+ * 사진이 없는 스텝은 글만. 한 스텝에 두 장이면 같은 크기로 위아래로.
+ */
+export default function StepsSection({ slug, steps }: StepsSectionProps) {
+  const placed = placeStepImages(slug, steps)
 
   return (
     <section style={{ padding: '0 16px 20px' }}>
@@ -25,38 +25,8 @@ export default function StepsSection({ steps }: StepsSectionProps) {
         Steps
       </h2>
 
-      {stepsWithImages.length > 0 && (
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: 6,
-          marginBottom: 20,
-        }}>
-          {stepsWithImages.map((step) => (
-            <div
-              key={step.id}
-              style={{
-                width: 'calc((100vw - 48px) / 3)',
-                height: 'calc((100vw - 48px) / 3)',
-                borderRadius: 8,
-                overflow: 'hidden',
-                flexShrink: 0,
-                backgroundColor: 'var(--kp-bg)',
-                position: 'relative',
-              }}
-            >
-              <img
-                src={step.image_url}
-                alt={`Step ${step.step_order}`}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-            </div>
-          ))}
-        </div>
-      )}
-
       <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-        {steps.map((step) => (
+        {placed.map((step, index) => (
           <div key={step.id} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
             <div style={{
               width: 32,
@@ -77,7 +47,7 @@ export default function StepsSection({ steps }: StepsSectionProps) {
               {step.step_order}
             </div>
 
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
                 fontSize: 14,
@@ -97,7 +67,27 @@ export default function StepsSection({ steps }: StepsSectionProps) {
                 {step.description}
               </p>
 
-              {step.step_order < steps.length && (
+              {/* 사진은 설명문 블록과 같은 폭, 16:10 — 두 장이면 같은 규격으로 위아래로 */}
+              {step.images.map((src, i) => (
+                <img
+                  key={src}
+                  src={src}
+                  alt={step.images.length > 1 ? `Step ${step.step_order}: ${step.title} (${i + 1})` : `Step ${step.step_order}: ${step.title}`}
+                  loading="lazy"
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    aspectRatio: '16 / 10',
+                    objectFit: 'cover',
+                    marginTop: 12,
+                    borderRadius: 12,
+                    border: '1px solid rgba(231, 229, 228, 0.6)',
+                    backgroundColor: 'var(--kp-surface-muted)',
+                  }}
+                />
+              ))}
+
+              {index < placed.length - 1 && (
                 <div style={{
                   marginTop: 16,
                   height: 1,
