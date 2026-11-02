@@ -22,7 +22,7 @@ const THEME_CSS = `
   --kp-accent-hover: var(--brand-red-dark, #A30D25);
   --kp-accent-active: #8A0B20;
   --kp-accent-soft: #FBEEF0;
-  --kp-bg: var(--paper-warm, #F7F5F2);
+  --kp-bg: #FAFAF9;
   --kp-surface-muted: #F1EFEC;
   --kp-rule: var(--rule, #E5E1DC);
   --kp-secondary: #475569;
