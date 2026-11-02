@@ -9,6 +9,9 @@
  *
  * 값: 지금 붙어 있는 순서대로 n번째 사진이 가야 할 step_order. 같은 스텝에 두 장이 가면 나란히 보여 준다.
  * 목록에 없는 레시피(새로 추가된 것)는 DB 에 붙은 그대로 둔다.
+ *
+ * 같은 매핑을 DB 에 옮기는 SQL: supabase/migrations/20261102_kpantry_step_images.sql (실행 보류).
+ * 실행하면 image_urls 를 읽도록 바꾸고 이 표는 지운다.
  */
 const STEP_FOR_IMAGE: Record<string, number[]> = {
   'altang': [1, 3, 4],
@@ -128,8 +131,12 @@ export type StepWithImages = Omit<StepRow, 'image_url'> & { images: string[] }
 
 /** 스텝마다 그 스텝에 보여 줄 사진 목록을 붙인다(없으면 빈 배열). steps 는 step_order 순이어야 한다 */
 export function placeStepImages(slug: string, steps: StepRow[]): StepWithImages[] {
-  const attached = steps.filter(s => s.image_url).map(s => s.image_url as string)
-  const targets = STEP_FOR_IMAGE[slug]
+  const withImage = steps.filter(s => s.image_url)
+  const attached = withImage.map(s => s.image_url as string)
+  // 사진이 아직 원래 자리(step 1, 2, 3…)에 있을 때만 매핑을 적용한다 — DB 를 이미 고쳤으면
+  // (supabase/migrations/20261102_kpantry_step_images.sql) 사진을 한 번 더 옮기지 않고 DB 를 따른다
+  const untouched = withImage.every((s, i) => s.step_order === i + 1)
+  const targets = untouched ? STEP_FOR_IMAGE[slug] : undefined
   const byStep = new Map<number, string[]>()
 
   attached.forEach((url, i) => {
