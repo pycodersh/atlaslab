@@ -58,45 +58,52 @@ export default function KPantryHomePage() {
           </Link>
         </header>
 
-        <img
-          src={HERO_IMG}
-          alt=""
-          width={1280}
-          height={853}
-          fetchPriority="high"
-          style={{
-            display: 'block',
-            width: '100%',
-            height: 'auto',
-            aspectRatio: '16 / 9',
-            objectFit: 'cover',
-            borderRadius: 16,
-            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-            backgroundColor: 'var(--kp-surface-muted)',
-          }}
-        />
-
-        <div style={{ padding: '20px 4px 28px' }}>
-          <h2 style={{
-            fontFamily: 'Playfair Display, serif',
-            fontSize: 24,
-            fontWeight: 700,
-            lineHeight: 1.25,
-            letterSpacing: '-0.025em',
-            color: '#1C1917',
-            margin: 0,
-          }}>
-            What are you cooking today?
-          </h2>
-          <p style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 14,
-            lineHeight: 1.5,
-            color: '#78716C',
-            margin: '6px 0 0',
-          }}>
-            Choose your path to authentic Korean home cooking.
-          </p>
+        {/* 사진 안 왼쪽 아래에 카피 — 아래쪽만 어둡게 깔아 흰 글씨를 읽히게 하고 위쪽 상차림은 그대로 보인다 */}
+        <div style={{
+          position: 'relative',
+          aspectRatio: '16 / 9',
+          borderRadius: 16,
+          overflow: 'hidden',
+          boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+          backgroundColor: '#292524',
+          marginBottom: 28,
+        }}>
+          <img
+            src={HERO_IMG}
+            alt=""
+            width={1280}
+            height={853}
+            fetchPriority="high"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+          <div aria-hidden="true" style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 45%, rgba(0,0,0,0) 75%)',
+          }} />
+          <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, padding: '0 16px 14px' }}>
+            <h2 style={{
+              fontFamily: 'Playfair Display, serif',
+              fontSize: 22,
+              fontWeight: 700,
+              lineHeight: 1.2,
+              letterSpacing: '-0.025em',
+              color: '#FFFFFF',
+              margin: 0,
+              textShadow: '0 1px 6px rgba(0,0,0,0.35)',
+            }}>
+              What are you cooking today?
+            </h2>
+            <p style={{
+              fontFamily: 'Inter, sans-serif',
+              fontSize: 13,
+              lineHeight: 1.45,
+              color: 'rgba(255, 255, 255, 0.85)',
+              margin: '4px 0 0',
+            }}>
+              Choose your path to authentic Korean home cooking.
+            </p>
+          </div>
         </div>
       </div>
 

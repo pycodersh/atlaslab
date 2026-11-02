@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { getPopularRecipes } from '@/lib/kpantry/recipes'
 import { PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import SectionHeader, { SectionDivider } from './SectionHeader'
+import SectionButton from './SectionButton'
 
 /**
  * 375px 에서 카드 약 2.3장이 보이는 폭 — 스크롤 띠가 화면 오른쪽 끝까지 뻗어서(아래 margin -16px)
@@ -38,7 +39,6 @@ export default function PopularDishes() {
         icon={Flame}
         title="Popular Korean Dishes"
         desc="Explore Korea's most loved dishes."
-        viewAllHref="/kpantry/en/recipes?filter=popular"
       />
 
       {/* 섹션 좌우 여백(16px)을 상쇄해 화면 끝까지 스크롤되게, 첫·끝 카드는 다시 16px 띄운다 */}
@@ -105,6 +105,8 @@ export default function PopularDishes() {
           </Link>
         ))}
       </div>
+
+      <SectionButton href="/kpantry/en/recipes?filter=popular">Explore All Popular Recipes</SectionButton>
     </section>
   )
 }

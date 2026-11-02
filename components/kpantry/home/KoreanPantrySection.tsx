@@ -5,9 +5,10 @@ import { useEffect, useState } from 'react'
 import { getPantryEssentials } from '@/lib/kpantry/ingredients'
 import { getRecipeCountsByIngredient } from '@/lib/kpantry/recipes'
 import SectionHeader, { SectionDivider } from './SectionHeader'
+import SectionButton from './SectionButton'
 
 /**
- * 한국 요리 필수 양념·재료 고정 8개(4열 × 2행). 이 세트가 전부라 View all 은 두지 않는다.
+ * 한국 요리 필수 양념·재료 고정 8개(4열 × 2행). 아래 버튼은 같은 8개를 크게 보여 주는 /essentials 로.
  * 탭하면 /recipes?ingredient=<id> — 그 재료가 들어가는 레시피 목록(IngredientFilterView).
  * 'N recipes' 는 pantry_recipe_ingredients 에서 매번 센다(예전엔 손으로 적은 숫자였다).
  */
@@ -129,6 +130,8 @@ export default function KoreanPantrySection() {
           )
         })}
       </div>
+
+      <SectionButton href="/kpantry/en/essentials">View All 8 Essentials &amp; Dishes</SectionButton>
     </section>
   )
 }

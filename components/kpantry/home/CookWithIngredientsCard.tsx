@@ -1,9 +1,9 @@
 'use client'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { ArrowRight, Check, CookingPot } from 'lucide-react'
+import { Check, CookingPot } from 'lucide-react'
 import { getPantryEssentials } from '@/lib/kpantry/ingredients'
 import SectionHeader from './SectionHeader'
+import SectionButton from './SectionButton'
 
 /**
  * 대표 재료 5개 — label 은 화면에 보이는 이름, name 은 pantry_ingredients 의 실제 이름.
@@ -173,27 +173,7 @@ export default function CookWithIngredientsCard() {
           })}
         </div>
 
-        <Link href={href} style={{
-          marginTop: 16,
-          padding: '14px 16px',
-          borderRadius: 12,
-          backgroundColor: 'var(--kp-accent)',
-          color: '#FFFFFF',
-          fontFamily: 'Inter, sans-serif',
-          fontSize: 14,
-          fontWeight: 500,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 6,
-          whiteSpace: 'nowrap',
-          boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-          textDecoration: 'none',
-          transition: 'background-color 0.15s',
-        }}>
-          Find Recipes with My Ingredients
-          <ArrowRight size={16} strokeWidth={2} aria-hidden="true" style={{ flexShrink: 0 }} />
-        </Link>
+        <SectionButton href={href}>Find Recipes with Ingredients</SectionButton>
       </div>
     </section>
   )
