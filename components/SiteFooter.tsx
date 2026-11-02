@@ -87,7 +87,7 @@ export function SiteFooter() {
             </a>
           </div>
           <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', margin: 0, fontFamily: F }}>
-            © 2025 Atlas Lab Studios · atlaslabstudios.com
+            © 2025 Atlas Lab · atlaslabstudios.com
           </p>
         </div>
       </div>
