@@ -10,6 +10,7 @@ import { getSavedRecipeIds } from '@/lib/kpantry/saved'
 import { createClient } from '@/lib/kpantry/supabase'
 import AuthModal from '@/components/kpantry/auth/AuthModal'
 import HomeLink from '@/components/kpantry/layout/HomeLink'
+import PageBanner from '@/components/kpantry/layout/PageBanner'
 
 type Sort = 'popular' | 'name'
 
@@ -92,8 +93,9 @@ export default function ExploreView() {
 
   return (
     <div>
-      <div style={{ padding: '40px 20px 16px' }}>
-        <div style={{ marginBottom: 14 }}><HomeLink /></div>
+      <PageBanner src="/kpantry/banner-recipes.jpg" back={<HomeLink />} />
+      {/* 제목은 배너 페이드 구간에 20px 겹친다 — 배너가 본문을 많이 밀어내지 않게 */}
+      <div style={{ position: 'relative', marginTop: -20, padding: '0 20px 16px' }}>
         <h1 style={{
           fontFamily: 'Playfair Display, serif',
           fontSize: 28,

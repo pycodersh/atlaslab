@@ -2,6 +2,7 @@
 import { ChevronLeft } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import PageBanner from '@/components/kpantry/layout/PageBanner'
 import IngredientGrid from '@/components/kpantry/ingredients/IngredientGrid'
 import IngredientCategoryTabs from '@/components/kpantry/ingredients/IngredientCategoryTabs'
 import SelectedIngredients from '@/components/kpantry/ingredients/SelectedIngredients'
@@ -119,27 +120,30 @@ export default function IngredientsPage() {
     <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 120 }}>
       {/* 머리는 Recipes 화면(ExploreView)과 같은 틀 — 둥근 뒤로 버튼, 그 아래 왼쪽 정렬 세리프 제목 + 설명 */}
       <style>{CLEAR_CSS}</style>
-      <div style={{ padding: '40px 20px 16px' }}>
-        <button
-          type="button"
-          onClick={() => router.back()}
-          aria-label="Back"
-          style={{
-            width: 36,
-            height: 36,
-            marginBottom: 14,
-            borderRadius: '50%',
-            backgroundColor: '#FFFFFF',
-            border: '1px solid var(--kp-rule)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}
-        >
-          <ChevronLeft size={18} strokeWidth={1.75} color="#1A1A1A" aria-hidden="true" />
-        </button>
-
+      <PageBanner
+        src="/kpantry/banner-ingredients.jpg"
+        back={
+          <button
+            type="button"
+            onClick={() => router.back()}
+            aria-label="Back"
+            style={{
+              width: 36,
+              height: 36,
+              borderRadius: '50%',
+              backgroundColor: '#FFFFFF',
+              border: '1px solid var(--kp-rule)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+            }}
+          >
+            <ChevronLeft size={18} strokeWidth={1.75} color="#1A1A1A" aria-hidden="true" />
+          </button>
+        }
+      />
+      <div style={{ position: 'relative', marginTop: -20, padding: '0 20px 16px' }}>
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
           <h1 style={{
             fontFamily: 'Playfair Display, serif',
