@@ -117,8 +117,8 @@ export default function KoreanPantrySection() {
             // 좌우는 4px — 375px 에서 타일이 78px 라 10px 씩 띄우면 'Gochugaru'·'Sesame Oil' 이 잘린다
             padding: '10px 4px',
             backgroundColor: '#FFFFFF',
-            borderRadius: 12,
-            boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+            borderRadius: 16,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
             textDecoration: 'none',
           }
           return item.id ? (

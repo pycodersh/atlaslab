@@ -65,7 +65,7 @@ export default function PopularDishes() {
               border: '1px solid rgba(231, 229, 228, 0.7)',
               borderRadius: 16,
               overflow: 'hidden',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
               textDecoration: 'none',
             }}
           >

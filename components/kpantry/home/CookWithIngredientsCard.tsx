@@ -59,7 +59,7 @@ export default function CookWithIngredientsCard() {
         backgroundColor: '#FFFFFF',
         border: '1px solid rgba(231, 229, 228, 0.8)',
         borderRadius: 16,
-        boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+        boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
       }}>
         {/* 고른 개수 뱃지는 자리를 미리 잡아 둬서 나타날 때 줄이 흔들리지 않는다 */}
         <div style={{
@@ -173,7 +173,7 @@ export default function CookWithIngredientsCard() {
           })}
         </div>
 
-        <SectionButton href={href}>Find Recipes with Ingredients</SectionButton>
+        <SectionButton href={href} badge>Find Recipes with Ingredients</SectionButton>
       </div>
     </section>
   )
