@@ -1,4 +1,5 @@
 'use client'
+import { UNDERLINE_TABS_CSS } from '@/components/kpantry/ui/underlineTabs'
 
 /**
  * key 는 pantry_recipes.category 값. vegetables(9개)는 요청 목록에 없었지만 빼면
@@ -20,46 +21,42 @@ interface CategoryTabsProps {
   onChange: (key: string) => void
   /** 탭 옆 괄호 숫자 — 넘긴 키만 붙는다 */
   counts?: Record<string, number>
-  accentColor?: string
 }
 
+/** 재료 화면(IngredientCategoryTabs)과 같은 언더라인 탭 */
 export default function CategoryTabs({
   selected,
   onChange,
   counts = {},
-  accentColor = 'var(--kp-accent)',
 }: CategoryTabsProps) {
   return (
-    <div style={{
-      display: 'flex',
-      gap: 8,
-      overflowX: 'auto',
-      padding: '0 16px',
-      scrollbarWidth: 'none',
-    }}>
-      {EXPLORE_CATEGORIES.map(cat => (
-        <button
-          key={cat.key}
-          type="button"
-          aria-pressed={selected === cat.key}
-          onClick={() => onChange(cat.key)}
-          style={{
-            flexShrink: 0,
-            padding: '8px 16px',
-            borderRadius: 20,
-            border: selected === cat.key ? '1px solid transparent' : '1px solid var(--kp-rule)',
-            backgroundColor: selected === cat.key ? accentColor : '#FFFFFF',
-            color: selected === cat.key ? '#FFFFFF' : '#6B6B6B',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 13,
-            fontWeight: selected === cat.key ? 600 : 400,
-            cursor: 'pointer',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {cat.label}{counts[cat.key] != null ? ` (${counts[cat.key]})` : ''}
-        </button>
-      ))}
-    </div>
+    <>
+      <style>{UNDERLINE_TABS_CSS}</style>
+      <div
+        role="tablist"
+        aria-label="Recipe categories"
+        className="kp-utabs"
+        style={{
+          display: 'flex',
+          gap: 24,
+          overflowX: 'auto',
+          padding: '0 16px',
+          borderBottom: '1px solid #E7E5E4',
+        }}
+      >
+        {EXPLORE_CATEGORIES.map(cat => (
+          <button
+            key={cat.key}
+            type="button"
+            role="tab"
+            aria-selected={selected === cat.key}
+            className="kp-utab"
+            onClick={() => onChange(cat.key)}
+          >
+            {cat.label}{counts[cat.key] != null ? ` (${counts[cat.key]})` : ''}
+          </button>
+        ))}
+      </div>
+    </>
   )
 }

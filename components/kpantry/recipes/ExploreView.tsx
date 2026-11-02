@@ -119,7 +119,7 @@ export default function ExploreView() {
         top: 0,
         zIndex: 10,
         backgroundColor: 'var(--kp-bg)',
-        padding: '8px 0 0',
+        padding: '12px 0 0',
         borderBottom: '1px solid rgba(231, 229, 228, 0.6)',
       }}>
         <CategoryTabs selected={category} onChange={setCategory} counts={{ all: base.length }} />
