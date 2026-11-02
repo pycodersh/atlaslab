@@ -67,24 +67,33 @@ export default function StepsSection({ slug, steps }: StepsSectionProps) {
                 {step.description}
               </p>
 
-              {/* 사진은 설명문 블록과 같은 폭, 16:10 — 두 장이면 같은 규격으로 위아래로 */}
+              {/* 사진은 설명문 블록과 같은 폭(최대 360px), 16:10 — 두 장이면 같은 규격으로 위아래로.
+                  테두리·둥근 모서리는 감싼 틀이 맡고, 사진은 2% 키워 원본 가장자리의 얇은 흰 줄을 틀 밖으로 밀어낸다 */}
               {step.images.map((src, i) => (
-                <img
-                  key={src}
-                  src={src}
-                  alt={step.images.length > 1 ? `Step ${step.step_order}: ${step.title} (${i + 1})` : `Step ${step.step_order}: ${step.title}`}
-                  loading="lazy"
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    aspectRatio: '16 / 10',
-                    objectFit: 'cover',
-                    marginTop: 12,
-                    borderRadius: 12,
-                    border: '1px solid rgba(231, 229, 228, 0.6)',
-                    backgroundColor: 'var(--kp-surface-muted)',
-                  }}
-                />
+                <div key={src} style={{
+                  width: '100%',
+                  maxWidth: 360,
+                  aspectRatio: '16 / 10',
+                  marginTop: 12,
+                  borderRadius: 12,
+                  overflow: 'hidden',
+                  border: '1px solid rgba(231, 229, 228, 0.6)',
+                  backgroundColor: 'var(--kp-surface-muted)',
+                }}>
+                  <img
+                    src={src}
+                    alt={step.images.length > 1 ? `Step ${step.step_order}: ${step.title} (${i + 1})` : `Step ${step.step_order}: ${step.title}`}
+                    loading="lazy"
+                    sizes="(max-width: 768px) 100vw, 360px"
+                    style={{
+                      display: 'block',
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transform: 'scale(1.02)',
+                    }}
+                  />
+                </div>
               ))}
 
               {index < placed.length - 1 && (

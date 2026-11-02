@@ -124,35 +124,38 @@ export default function RecipeDetailClient({ slug }: Props) {
 
   return (
     <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 120 }}>
-      <HeroSection
-        nameEn={recipe.name_en}
-        nameKo={recipe.name_ko}
-        description={recipe.description}
-        category={recipe.category}
-        cookingTimeMin={recipe.cooking_time_min}
-        difficulty={recipe.difficulty}
-        heroImageUrl={recipe.hero_image_url}
-        isSaved={saved}
-        onToggleSave={handleToggleSave}
-      />
+      {/* PC 에서도 모바일 폭(430px) 한 줄로 가운데 — 아래 고정 액션 바와 같은 폭. 사진이 늘어나 흐려지지 않는다 */}
+      <div style={{ maxWidth: 430, margin: '0 auto' }}>
+        <HeroSection
+          nameEn={recipe.name_en}
+          nameKo={recipe.name_ko}
+          description={recipe.description}
+          category={recipe.category}
+          cookingTimeMin={recipe.cooking_time_min}
+          difficulty={recipe.difficulty}
+          heroImageUrl={recipe.hero_image_url}
+          isSaved={saved}
+          onToggleSave={handleToggleSave}
+        />
 
-      <NutritionBar
-        calories={recipe.calories}
-        proteinG={recipe.protein_g}
-        carbsG={recipe.carbs_g}
-        fatG={recipe.fat_g}
-        servings={recipe.servings}
-      />
+        <NutritionBar
+          calories={recipe.calories}
+          proteinG={recipe.protein_g}
+          carbsG={recipe.carbs_g}
+          fatG={recipe.fat_g}
+          servings={recipe.servings}
+        />
 
-      <IngredientsSection
-        recipeIngredients={recipe.pantry_recipe_ingredients ?? []}
-        userPantryIds={userPantryIds}
-        onAddToShoppingList={handleAddToShoppingList}
-      />
+        <IngredientsSection
+          recipeIngredients={recipe.pantry_recipe_ingredients ?? []}
+          userPantryIds={userPantryIds}
+          onAddToShoppingList={handleAddToShoppingList}
+        />
 
-      <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: 'var(--kp-rule)' }} />
+        <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: 'var(--kp-rule)' }} />
 
-      <StepsSection slug={recipe.slug} steps={recipe.pantry_recipe_steps ?? []} />
+        <StepsSection slug={recipe.slug} steps={recipe.pantry_recipe_steps ?? []} />
+      </div>
 
       {/* 상세 화면은 이 액션 바가 하단을 차지한다 — 전역 BottomNav 는 두지 않는다(둘 다 bottom:0 고정이라 겹쳤다).
           뒤로 가기는 HeroSection 의 버튼이 맡는다 */}
