@@ -1,91 +1,124 @@
+'use client'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { ArrowRight, CookingPot } from 'lucide-react'
+import { getPopularRecipes } from '@/lib/kpantry/recipes'
+import SectionHeader from './SectionHeader'
 
 /**
- * 배경: 질그릇·고추·마늘·샬롯 식재료 사진(Unsplash License, 무료 상업 이용 가능).
- * 원본 https://unsplash.com/photos/yBeL0XChO8o — 저장소에 넣지 않고 Unsplash CDN 에서 크기를 줄여 받는다.
+ * 무한 마키 — 같은 사진 줄을 두 번 이어 붙이고 트랙을 -50% 까지 옮긴 뒤 처음으로 되돌린다.
+ * 두 번째 줄이 첫 줄 자리에 정확히 겹치는 순간 되돌아가므로 이음매가 보이지 않는다.
+ * transform 만 움직여 GPU 합성으로 돈다(레이아웃·페인트 없음). 움직임 줄이기 설정이면 멈춘다.
+ * 한 바퀴 시간은 사진 수에서 계산한다 — 사진 크기·개수가 바뀌어도 속도(SPEED)가 그대로다.
  */
-const BG_IMAGE = 'https://images.unsplash.com/photo-1504632236107-4ae29a44f388?w=900&q=70&auto=format&fit=crop'
+const MARQUEE_CSS = `
+@keyframes kp-marquee { from { transform: translate3d(0, 0, 0) } to { transform: translate3d(-50%, 0, 0) } }
+.kp-marquee-track { display: flex; width: max-content; animation-name: kp-marquee; animation-timing-function: linear; animation-iteration-count: infinite; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { .kp-marquee-track { animation: none; } }
+`
+
+// 96×96 정사각 — 375px 카드 안쪽(약 310px)에 약 2.9장 보인다
+const TILE_W = 96
+const TILE_H = 96
+const GAP = 12
+/** 초당 이동 px — 요리를 보며 따라갈 수 있게 느리게 */
+const SPEED = 15
 
 /**
- * 홈 섹션 1 — 재료로 레시피 찾기 히어로 배너(카드 전체가 /ingredients 링크).
- * 사진 위 40% 어둡게 + 글자·버튼이 올라가는 안쪽 판에만 유리 효과(blur·반투명 흰색). 다른 화면에는 쓰지 않는다.
+ * 홈 섹션 1 — 재료로 레시피 찾기. 머리는 섹션 2·3 과 같은 SectionHeader,
+ * 본문은 레시피 사진이 천천히 흐르는 띠 + 빨간 버튼이 든 카드. 카드 전체가 /ingredients 링크다.
  */
 export default function CookWithIngredientsCard() {
+  const [photos, setPhotos] = useState<{ id: string; src: string }[]>([])
+
+  useEffect(() => {
+    getPopularRecipes()
+      .then(rows => setPhotos(
+        (rows ?? []).filter(r => r.hero_image_url).map(r => ({ id: r.id, src: r.hero_image_url as string })),
+      ))
+      .catch(() => {})
+  }, [])
+
   return (
     <section style={{ padding: '12px 16px 0' }}>
+      <style>{MARQUEE_CSS}</style>
+      <SectionHeader
+        icon={CookingPot}
+        title="Cook with What You Have"
+        desc="Select ingredients in your fridge to discover matching recipes."
+      />
+
       <Link
         href="/kpantry/en/ingredients"
         style={{
-          position: 'relative',
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'flex-end',
-          minHeight: 170,
-          padding: 20,
+          gap: 14,
+          padding: 16,
+          backgroundColor: '#FAFAF9',
+          border: '1px solid rgba(231, 229, 228, 0.8)',
           borderRadius: 16,
           overflow: 'hidden',
           textDecoration: 'none',
-          backgroundColor: '#3D2B1A',
         }}
       >
-        <img
-          src={BG_IMAGE}
-          alt=""
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
-        />
-        <span aria-hidden="true" style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.4)' }} />
+        {/* 사진 띠 — 양 끝은 마스크로 흐리게. 사진이 오기 전에도 높이를 잡아 둬 아래가 밀리지 않는다 */}
+        <span aria-hidden="true" style={{
+          display: 'block',
+          height: TILE_H + 6,
+          overflow: 'hidden',
+          maskImage: 'linear-gradient(to right, transparent, #000 12%, #000 88%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent, #000 12%, #000 88%, transparent)',
+        }}>
+          {photos.length > 0 && (
+            <span
+              className="kp-marquee-track"
+              style={{
+                paddingTop: 3,
+                // 한 줄(= 트랙 절반) 폭 ÷ 속도 = 한 바퀴 시간
+                animationDuration: `${(photos.length * (TILE_W + GAP)) / SPEED}s`,
+              }}
+            >
+              {[...photos, ...photos].map((p, i) => (
+                <img
+                  key={`${p.id}-${i}`}
+                  src={p.src}
+                  alt=""
+                  width={TILE_W}
+                  height={TILE_H}
+                  style={{
+                    width: TILE_W,
+                    height: TILE_H,
+                    marginRight: GAP,
+                    flexShrink: 0,
+                    borderRadius: 12,
+                    objectFit: 'cover',
+                    boxShadow: '0 1px rgba(0,0,0,0.05)',
+                  }}
+                />
+              ))}
+            </span>
+          )}
+        </span>
 
         <span style={{
-          position: 'relative',
-          display: 'block',
-          padding: 14,
-          borderRadius: 14,
-          backgroundColor: 'rgba(255,255,255,0.1)',
-          border: '1px solid rgba(255,255,255,0.2)',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
-          boxShadow: '0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1)',
+          padding: '12px 16px',
+          borderRadius: 12,
+          backgroundColor: 'var(--kp-accent)',
+          color: '#FFFFFF',
+          fontFamily: 'Inter, sans-serif',
+          // (100+) 가 붙어 길어져서 375px 카드 안 한 줄에 들어가도록 12px — 화살표는 줄어들지 않게 고정
+          fontSize: 12,
+          fontWeight: 500,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 6,
+          whiteSpace: 'nowrap',
+          boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
         }}>
-          <span style={{
-            display: 'block',
-            fontFamily: 'Playfair Display, serif',
-            fontSize: 16,
-            fontWeight: 700,
-            color: '#FFFFFF',
-          }}>
-            Cook with What You Have
-          </span>
-          <span style={{
-            display: 'block',
-            marginTop: 4,
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 11,
-            color: '#E7E5E4',
-          }}>
-            Select ingredients to find matching recipes.
-          </span>
-
-          {/* 버튼 모양 — 링크 안이라 span. 호버는 레이아웃 테마의 --kp-accent 전환(#A30D25)을 따른다 */}
-          <span style={{
-            marginTop: 16,
-            padding: '12px 14px',
-            borderRadius: 12,
-            backgroundColor: 'var(--kp-accent)',
-            color: '#FFFFFF',
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 12,
-            fontWeight: 500,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 6,
-            whiteSpace: 'nowrap',
-            transition: 'background-color 0.15s',
-          }}>
-            Select Ingredients &amp; Find Recipes
-            <ArrowRight size={14} strokeWidth={2} aria-hidden="true" style={{ flexShrink: 0 }} />
-          </span>
+          Select Ingredients &amp; Find Recipes (100+)
+          <ArrowRight size={14} strokeWidth={2} aria-hidden="true" style={{ flexShrink: 0 }} />
         </span>
       </Link>
     </section>
