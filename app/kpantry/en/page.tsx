@@ -12,12 +12,8 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
-/**
- * 커버 사진 — NEXT_PUBLIC_IMG_HERO 가 있으면 그것, 없으면 갈비찜 레시피 사진(512px, 저장소에서 가장 큰 편).
- * 다이닝 컷을 따로 쓰려면 env 만 넣으면 된다.
- */
-const HERO_IMG = process.env.NEXT_PUBLIC_IMG_HERO
-  || 'https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/pantry-recipe-images/galbi-jjim-done.png'
+/** 커버 사진 — 한식 코스 다이닝 테이블 컷(1280×853). 바꾸려면 이 파일을 교체한다 */
+const HERO_IMG = '/kpantry/home-hero.jpg'
 
 /** 목차 카드 3개 — 01 재료 매칭 · 02 요리로 찾기 · 03 기본 양념 8가지 */
 const PATHS = [
@@ -93,6 +89,9 @@ export default function KPantryHomePage() {
         <img
           src={HERO_IMG}
           alt=""
+          width={1280}
+          height={853}
+          fetchPriority="high"
           style={{
             display: 'block',
             width: '100%',
