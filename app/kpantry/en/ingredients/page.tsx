@@ -1,6 +1,5 @@
 'use client'
-import { RotateCcw } from 'lucide-react'
-import { META_ICON } from '@/components/kpantry/ui/icon'
+import { ChevronLeft } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import IngredientGrid from '@/components/kpantry/ingredients/IngredientGrid'
@@ -18,6 +17,12 @@ import { getUserPlan, canAccess } from '@/lib/kpantry/subscription'
 import { createClient } from '@/lib/kpantry/supabase'
 import PaywallModal from '@/components/kpantry/paywall/PaywallModal'
 import AuthModal from '@/components/kpantry/auth/AuthModal'
+
+// Clear — 튀지 않는 회색 글자 버튼. 호버 색은 인라인으로 못 줘서 클래스로 둔다
+const CLEAR_CSS = `
+.kp-clear { flex-shrink: 0; padding: 4px 0; background: none; border: none; font-family: Inter, sans-serif; font-size: 12px; color: #A8A29E; cursor: pointer; transition: color 0.15s; }
+.kp-clear:hover, .kp-clear:focus-visible { color: #44403C; }
+`
 
 export default function IngredientsPage() {
   const router = useRouter()
@@ -112,17 +117,17 @@ export default function IngredientsPage() {
 
   return (
     <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 120 }}>
-      <div style={{
-        padding: '52px 20px 16px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-      }}>
+      {/* 머리는 Recipes 화면(ExploreView)과 같은 틀 — 둥근 뒤로 버튼, 그 아래 왼쪽 정렬 세리프 제목 + 설명 */}
+      <style>{CLEAR_CSS}</style>
+      <div style={{ padding: '40px 20px 16px' }}>
         <button
+          type="button"
           onClick={() => router.back()}
+          aria-label="Back"
           style={{
             width: 36,
             height: 36,
+            marginBottom: 14,
             borderRadius: '50%',
             backgroundColor: '#FFFFFF',
             border: '1px solid var(--kp-rule)',
@@ -132,50 +137,34 @@ export default function IngredientsPage() {
             cursor: 'pointer',
           }}
         >
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
-            <path d="M11 4L6 9L11 14" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round"/>
-          </svg>
+          <ChevronLeft size={18} strokeWidth={1.75} color="#1A1A1A" aria-hidden="true" />
         </button>
 
-        <h1 style={{
-          fontFamily: 'Playfair Display, serif',
-          fontSize: 20,
-          fontWeight: 700,
-          color: '#1A1A1A',
-          margin: 0,
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
+          <h1 style={{
+            fontFamily: 'Playfair Display, serif',
+            fontSize: 28,
+            fontWeight: 700,
+            color: '#1A1A1A',
+            margin: 0,
+          }}>
+            I Have Ingredients
+          </h1>
+          {selectedIds.length > 0 && (
+            <button type="button" className="kp-clear" onClick={() => updateSelection([])}>
+              Clear
+            </button>
+          )}
+        </div>
+        <p style={{
+          fontFamily: 'Inter, sans-serif',
+          fontSize: 13,
+          color: '#6B6B6B',
+          margin: '2px 0 0',
         }}>
-          I Have Ingredients
-        </h1>
-
-        <button
-          onClick={() => updateSelection([])}
-          style={{
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 13,
-            color: '#6B6B6B',
-            background: 'none',
-            border: '1px solid var(--kp-rule)',
-            borderRadius: 20,
-            padding: '6px 12px',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 4,
-          }}
-        >
-          <RotateCcw {...META_ICON} />Clear
-        </button>
+          Select the ingredients you have.
+        </p>
       </div>
-
-      <p style={{
-        fontFamily: 'Inter, sans-serif',
-        fontSize: 13,
-        color: '#9E9E9E',
-        textAlign: 'center',
-        margin: '0 0 16px',
-      }}>
-        Select the ingredients you have.
-      </p>
 
       <div style={{ padding: '0 16px 12px' }}>
         <div style={{
