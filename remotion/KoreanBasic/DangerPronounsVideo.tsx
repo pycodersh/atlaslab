@@ -7,12 +7,15 @@
  *
  * 블로그에서는 components/blog/DangerPronounsPlayer 가 <Player> 로 띄우고,
  * MP4 는 `npm run render:dangsin` (remotion/index.ts 의 DangerPronouns 컴포지션)으로 뽑는다.
+ * 영어 보이스오버(0 / 3.5 / 8초에 한 줄씩)는 scripts/generate-dangsin-voiceover.py 가 12초 한 파일로 만든다.
  * Tailwind 가 없는 렌더 환경이라 스타일은 전부 인라인이다.
  */
 import type { CSSProperties, ReactNode } from 'react'
 import {
   AbsoluteFill,
+  Audio,
   Sequence,
+  staticFile,
   interpolate,
   interpolateColors,
   spring,
@@ -62,6 +65,7 @@ function usePop(delay: number, damping = 12) {
 export function DangerPronounsVideo() {
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg, fontFamily: FONT, color: C.ink }}>
+      <Audio src={staticFile('audio/korean-basic/dangsin-guide.mp3')} volume={1} />
       <Sequence durationInFrames={SCENE} name="Hook & Warning">
         <HookScene />
       </Sequence>
