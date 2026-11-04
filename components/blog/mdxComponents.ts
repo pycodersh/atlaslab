@@ -3,8 +3,12 @@ import { Blockquote } from './Blockquote'
 import { NoTranslateCode, NoTranslatePre } from './NoTranslate'
 import { KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta } from './ArticleBlocks'
 import { GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample } from './GrammarCheatCard'
-import { AiraloLink } from '../affiliate/AiraloBanner'
 import { DangerPronounsPlayer } from './DangerPronounsPlayer'
+import { createElement, Fragment, type JSX, type ReactNode } from 'react'
+
+function LegacyPlainText({ children }: { children?: ReactNode }): JSX.Element {
+  return createElement(Fragment, null, children)
+}
 
 /**
  * 블로그 본문(MDX)에서 쓸 수 있는 컴포넌트 목록.
@@ -21,8 +25,10 @@ export const blogMdxComponents = {
   YouTube, blockquote: Blockquote, code: NoTranslateCode, pre: NoTranslatePre,
   KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta,
   GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample,
-  /** AiraloLink — 본문 속 Airalo 제휴 링크(주소는 lib/affiliate/links 에서 읽는다) */
-  AiraloLink,
   /** DangerPronounsVideo — Basics '너 vs 당신' 글 상단 12초 Remotion 쇼트(remotion/KoreanBasic) */
   DangerPronounsVideo: DangerPronounsPlayer,
+  /** 임시: 제휴 링크를 걷어낸 옛 태그 — 링크 없이 안쪽 글자만 낸다. 원고 · DB 에서는 이미 지웠지만
+   *  글 fetch 캐시(revalidate 하루)가 옛 본문을 하루 동안 돌려줄 수 있어, 그동안 빌드가 깨지지 않게 둔다.
+   *  2026-11-06 이후 지울 것 */
+  AiraloLink: LegacyPlainText,
 }

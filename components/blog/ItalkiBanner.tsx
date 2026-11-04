@@ -24,7 +24,7 @@ export function ItalkiBanner() {
         .itk-eyebrow { display: block; font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #737373; margin: 0 0 8px; }
         .itk-title { font-size: 18px; font-weight: 600; line-height: 1.35; color: #171717; margin: 0; }
         .itk-desc { font-size: 14px; line-height: 1.6; color: #525252; margin: 4px 0 0; max-width: 576px; }
-        /* 버튼 크기는 글 하단 배너 넷(italki · K-Patto · Airalo · Klook)이 같다: 폰 가로 전체 × 48, 넓은 화면 190 × 48 */
+        /* 버튼 크기는 글 하단 배너 셋(italki · K-Patto · Klook)이 같다: 폰 가로 전체 × 48, 넓은 화면 190 × 48 */
         .itk-btn {
           white-space: nowrap; display: flex; align-items: center; justify-content: center;
           width: 100%; height: 48px; padding: 0 16px; box-sizing: border-box; border-radius: 12px;
