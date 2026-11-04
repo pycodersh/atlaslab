@@ -349,8 +349,11 @@ export function proseCss(bodyFont: string): string {
           width: 100%; border-collapse: collapse; margin: 24px 0;
           font-size: 14px; display: block; overflow-x: auto;
         }
+        /* 한국어는 기본값이면 음절마다 줄이 바뀌어 좁은 칸에서 '예약하셨어 / 요?' 처럼 낱말 가운데가 끊긴다.
+           keep-all 로 띄어쓰기에서만 꺾고, 한 낱말이 칸보다 길 때만 anywhere 가 마저 꺾는다(표가 넘치지 않게) */
         .blog-prose th, .blog-prose td {
           padding: 10px 16px; text-align: left; border: 1px solid #E5E1DC;
+          word-break: keep-all; overflow-wrap: anywhere;
         }
         .blog-prose th {
           background: #F0EADF; font-weight: 700;

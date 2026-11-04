@@ -1,6 +1,6 @@
 import { YouTube } from './YouTube'
 import { Blockquote } from './Blockquote'
-import { NoTranslateCode, NoTranslatePre } from './NoTranslate'
+import { NoTranslateCode, NoTranslatePre, KoreanTd, KoreanTh, KoreanStrong, KoreanEm } from './NoTranslate'
 import { KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta } from './ArticleBlocks'
 import { GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample } from './GrammarCheatCard'
 import { KoreanBasicPlayer, DangerPronounsPlayer } from './KoreanBasicPlayer'
@@ -18,11 +18,12 @@ function LegacyPlainText({ children }: { children?: ReactNode }): JSX.Element {
  * 새 컴포넌트는 여기에 추가할 것.
  */
 /** blockquote 는 HTML 태그를 가로채는 것이라 원고를 고치지 않아도 적용된다 */
-/** code·pre 는 자동 번역(헤더 언어 선택)에서 제외한다 */
+/** code·pre 는 자동 번역(헤더 언어 선택)에서 제외한다. 표 칸 · 굵게 · 기울임도 한국어가 들어 있으면 제외한다(예문이 망가지지 않게) */
 /** KeyTakeaways · Dialogue · Line · DoDont · Do · Dont · Callout · KpattoCta — Food · Life 시각 블록(docs/CONTENT_GUIDELINES.md) */
 /** GrammarCheatCard — Basics '너 vs 당신' 글 전용 요약 인포그래픽. RuleCard · RuleAvoid · RuleInstead · RuleExample — 같은 카드의 조립형(다른 Basics 글) */
 export const blogMdxComponents = {
   YouTube, blockquote: Blockquote, code: NoTranslateCode, pre: NoTranslatePre,
+  td: KoreanTd, th: KoreanTh, strong: KoreanStrong, em: KoreanEm,
   KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta,
   GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample,
   /** KoreanBasicVideo slug="..." — Basics 글 상단 12초 Remotion 쇼트(remotion/KoreanBasic/videos.json). DangerPronounsVideo 는 '너 vs 당신' 글의 첫 태그 */
