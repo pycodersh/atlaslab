@@ -1,5 +1,5 @@
 /**
- * 블로그 하위 분류(서브 카테고리) — Korean food / Life in Korea 목록의 칩 필터.
+ * 블로그 하위 분류(서브 카테고리) — Basics / Korean food / Life in Korea 목록의 칩 필터(Explore Korea 는 category 로).
  *
  * 저장 위치: DB 컬럼이 아니라 이 파일이다.
  *  - blog_posts 에 컬럼을 추가하면 마이그레이션을 사람이 SQL 에디터에서 따로 돌려야 하고,
@@ -24,6 +24,13 @@ export const SUBCATEGORIES: Partial<Record<BlogGroupKey, readonly Subcategory[]>
   'explore-korea': [
     { key: 'hotels', label: 'Hotels' },
     { key: 'places', label: 'Places' },
+  ],
+  // Basics(/blog?tab=basics) — DB category 는 그대로(Korean Grammar · Hangul & Pronunciation …) 두고 칩만 여기서 나눈다
+  basics: [
+    { key: 'hangul', label: 'Hangul & Pronunciation' },
+    { key: 'numbers', label: 'Numbers & Counters' },
+    { key: 'endings', label: 'Sentence Endings & Nuances' },
+    { key: 'grammar', label: 'Core Grammar & Particles' },
   ],
   food: [
     { key: 'bbq', label: 'BBQ & Meat' },
@@ -56,6 +63,53 @@ export function isValidSubcategory(section: string, sub: string | undefined): su
 
 /** 기존 글의 확정 분류 (slug → 서브 카테고리 key). 섹션은 슬러그가 속한 섹션으로 정해진다. */
 export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
+  // ── Basics ─────────────────────────────────────────────────
+  // 겹치는 글 두 쌍(숫자 체계 ×2, 은/는 vs 이/가 ×2)은 지금은 둘 다 두고 같은 칩에 묶는다
+  // Hangul & Pronunciation — 자모 · 발음 · 받침 · 표기 · 입력 · 방언
+  'how-to-read-hangul-in-one-day': 'hangul',
+  'korean-vowels-all-21-explained': 'hangul',
+  'korean-consonants-19-basic-sounds': 'hangul',
+  'korean-batchim-final-consonants-explained': 'hangul',
+  'korean-syllable-structure-why-every-block-matters': 'hangul',
+  'common-pronunciation-mistakes-korean-learners-make': 'hangul',
+  'how-long-to-learn-hangul': 'hangul',
+  'why-hangul-is-called-scientific-alphabet': 'hangul',
+  'korean-romanization-two-spellings': 'hangul',
+  'how-to-type-korean-phone-computer': 'hangul',
+  'busan-dialect-vs-seoul-korean': 'hangul',
+  // Numbers & Counters — 숫자 체계 · 단위명사 · 가격 · 날짜 · 나이
+  'why-korean-has-two-number-systems': 'numbers',
+  'korean-two-number-systems': 'numbers',
+  'korean-counters-gae-myeong-jan-byeong': 'numbers',
+  'korean-prices-money-eolmayeyo': 'numbers',
+  'korean-dates-days-of-week': 'numbers',
+  'korean-age-sal-man-nai': 'numbers',
+  // Sentence Endings & Nuances — 어미 활용 · 시제 · 높임 · 연결 · 부탁
+  'korean-verb-conjugation-ayo-eoyo': 'endings',
+  'korean-past-tense-explained': 'endings',
+  'korean-future-tense-eul-geoyeyo': 'endings',
+  'korean-irregular-verbs-seven-types': 'endings',
+  'korean-have-you-ever-eo-boda': 'endings',
+  'korean-can-su-itda-eopda': 'endings',
+  'korean-connecting-go-vs-myeonseo': 'endings',
+  'korean-politeness-levels-explained': 'endings',
+  'formal-vs-casual-korean-when-to-drop-yo': 'endings',
+  'korean-never-say-dangsin-neo': 'endings',
+  'korean-requests-a-eo-juseyo': 'endings',
+  'korean-because-aseo-vs-euni-kka': 'endings',
+  // Core Grammar & Particles — 조사 · 어순 · 부정 · 문법 비교, 입문 개관 글
+  'korean-particle-euro-by-to-as': 'grammar',
+  'korean-particles-e-vs-eseo': 'grammar',
+  'eun-neun-vs-i-ga-difference': 'grammar',
+  'korean-topic-vs-subject-particle': 'grammar',
+  'korean-object-particle-eul-reul': 'grammar',
+  'korean-an-vs-mot-negation': 'grammar',
+  'korean-sentence-structure-sov-why-the-verb-goes-last': 'grammar',
+  'why-korean-has-no-articles': 'grammar',
+  'is-korean-hard-to-learn-for-english-speakers': 'grammar',
+  'korean-vs-japanese-what-transfers': 'grammar',
+  'what-k-drama-titles-teach-you-about-korean': 'grammar',
+
   // ── Korean food ────────────────────────────────────────────
   // BBQ & Meat
   'how-to-eat-korean-bossam': 'bbq',
@@ -241,6 +295,11 @@ type Rule = { sub: string; test: RegExp }
  * 더 구체적인 분류(국물, 길거리)를 먼저, 넓은 분류(재료·문화)는 기본값으로 둔다.
  */
 const RULES: Partial<Record<BlogGroupKey, readonly Rule[]>> = {
+  basics: [
+    { sub: 'hangul', test: /\b(hangul|pronunciation|pronounce|vowels?|consonants?|batchim|romanization|syllables?|alphabet|typing|keyboard|dialect|accent)\b/ },
+    { sub: 'numbers', test: /\b(numbers?|counters?|counting|prices?|money|won|dates?|days of the week|age|time|clock)\b/ },
+    { sub: 'endings', test: /\b(endings?|tense|conjugation|politeness|polite|formal|casual|honorific|irregular|because|requests?|juseyo|connecting)\b/ },
+  ],
   food: [
     { sub: 'pantry', test: /\b(substitutes?|pantry|staples|shelf life|storage|ingredients? to buy|soy sauce|sesame oil|perilla oil)\b/ },
     { sub: 'soups', test: /\b(jjigae|tang|guk|gukbap|stew|soup|broth|kalguksu|ramyeon soup|ttukbaegi)\b/ },

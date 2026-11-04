@@ -1051,5 +1051,197 @@
       [4, "Six vowels, then fourteen consonants. Then stack them."],
       [8, "Your first real word? Bee-bim-bap."]
     ]
+  },
+
+  "korean-counters-gae-myeong-jan-byeong": {
+    "audio": "audio/korean-basic/korean-counters-gae-myeong-jan-byeong.mp3",
+    "timing": {"scenes": [[0.0, 6.36], [6.36, 12.62], [12.62, 17.57]], "total": 17.57},
+    "hook": {
+      "cue": { "label": "English:", "word": "TWO COFFEES" },
+      "cards": [{ "ko": "하나 개", "rom": "hana gae" }, { "ko": "두 커피", "rom": "English word order" }],
+      "caption": "⚠️ Two counter slips"
+    },
+    "contrast": {
+      "heading": "Noun · number · counter",
+      "cards": [
+        { "ko": "커피 두 잔", "rom": "keopi du jan", "tone": "navy", "lines": ["**Things**: cups, bottles, items", "잔 · 병 · 개"] },
+        { "ko": "두 명", "rom": "du myeong", "tone": "green", "lines": ["**People**: 명, or 분 politely", "몇 분이세요? · How many?"] }
+      ],
+      "banner": { "text": "1–4 shrink: 한 · 두 · 세 · 네", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Order it today",
+      "cards": [
+        { "title": "Coffee", "ex": "커피 두 잔 주세요", "exRom": "Two coffees, please." },
+        { "title": "Beer", "ex": "맥주 한 병 주세요", "exRom": "A bottle of beer, please." },
+        { "title": "Party size", "ex": "두 명이요", "exRom": "Two of us." }
+      ],
+      "slogan": "Not sure? 개 works for most things ✅"
+    },
+    "voice": [
+      [["en", "In Korean, you never say two coffee. You add a counter."], ["ko", "커피 두 잔."]],
+      [["en", "Cups, bottles, and people each have their own counter."], ["ko", "잔, 병, 명."]],
+      [["en", "At the cafe, just say:"], ["ko", "커피 두 잔 주세요."]]
+    ]
+  },
+
+  "korean-prices-money-eolmayeyo": {
+    "audio": "audio/korean-basic/korean-prices-money-eolmayeyo.mp3",
+    "timing": {"scenes": [[0.0, 4.28], [4.28, 10.74], [10.74, 14.98]], "total": 14.98},
+    "hook": {
+      "cue": { "label": "English:", "word": "TEN THOUSAND" },
+      "cards": [{ "ko": "십천 원", "rom": "sip-cheon won" }, { "ko": "일만 원", "rom": "ilman won" }],
+      "caption": "⚠️ Korean groups by 10,000"
+    },
+    "contrast": {
+      "heading": "Split four digits from the right",
+      "cards": [
+        { "ko": "만 원", "rom": "man won", "tone": "navy", "lines": ["**10,000** has its own word", "만 · 십만 · 백만"] },
+        { "ko": "삼만 오천 원", "rom": "samman ocheon won", "tone": "green", "lines": ["**35,000** = 3 × 만 + 5,000", "3 | 5000"] }
+      ],
+      "banner": { "text": "Money always uses Sino-Korean numbers", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "At the counter",
+      "cards": [
+        { "title": "How much?", "ex": "이거 얼마예요?", "exRom": "How much is this?" },
+        { "title": "Altogether", "ex": "다 해서 얼마예요?", "exRom": "How much in total?" },
+        { "title": "Card?", "ex": "카드 돼요?", "exRom": "Can I pay by card?" }
+      ],
+      "slogan": "Listen for 만 first ✅"
+    },
+    "voice": [
+      [["en", "Ten thousand won has its own word in Korean."], ["ko", "만 원."]],
+      [["en", "Split four digits from the right. Thirty-five thousand is"], ["ko", "삼만 오천 원."]],
+      [["en", "Then ask the price:"], ["ko", "이거 얼마예요?"]]
+    ]
+  },
+
+  "korean-dates-days-of-week": {
+    "audio": "audio/korean-basic/korean-dates-days-of-week.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 8.68], [8.68, 13.88]], "total": 13.88},
+    "hook": {
+      "cue": { "label": "English:", "word": "JUNE · OCTOBER" },
+      "cards": [{ "ko": "육월", "rom": "yug-wol" }, { "ko": "십월", "rom": "sib-wol" }],
+      "caption": "⚠️ The two irregular months"
+    },
+    "contrast": {
+      "heading": "Months are numbers, except two",
+      "cards": [
+        { "ko": "유월", "rom": "yuwol", "tone": "navy", "lines": ["**June**: 육 drops its ㄱ", "6월 is read 유월"] },
+        { "ko": "시월", "rom": "siwol", "tone": "green", "lines": ["**October**: 십 drops its ㅂ", "10월 is read 시월"] }
+      ],
+      "banner": { "text": "Days end in 요일: 월 · 화 · 수 · 목 · 금 · 토 · 일", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Book it today",
+      "cards": [
+        { "title": "The date", "ex": "오늘 며칠이에요?", "exRom": "What’s the date today?" },
+        { "title": "The day", "ex": "무슨 요일이에요?", "exRom": "What day is it?" },
+        { "title": "Booking", "ex": "토요일에 예약하고 싶어요", "exRom": "I’d like to book for Saturday." }
+      ],
+      "slogan": "Year, month, day: big to small ✅"
+    },
+    "voice": [
+      [["en", "Korean months are just numbers, with two exceptions."]],
+      [["en", "June is"], ["ko", "유월,"], ["en", "and October is"], ["ko", "시월."]],
+      [["en", "To book a table, say:"], ["ko", "토요일에 예약하고 싶어요."]]
+    ]
+  },
+
+  "korean-age-sal-man-nai": {
+    "audio": "audio/korean-basic/korean-age-sal-man-nai.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 10.55], [10.55, 16.0]], "total": 16.0},
+    "hook": {
+      "cue": { "label": "English:", "word": "I’M TWENTY" },
+      "cards": [{ "ko": "이십 살", "rom": "isip sal" }, { "ko": "몇 살이에요?", "rom": "to an elder" }],
+      "caption": "⚠️ Two age slips"
+    },
+    "contrast": {
+      "heading": "Speech vs forms",
+      "cards": [
+        { "ko": "스무 살", "rom": "seumu sal", "tone": "navy", "lines": ["**살** + native number", "In conversation"] },
+        { "ko": "이십 세", "rom": "isip se", "tone": "green", "lines": ["**세** + Sino-Korean", "On forms and in the news"] }
+      ],
+      "banner": { "text": "Since June 2023: official age = 만 나이", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Ask it politely",
+      "cards": [
+        { "title": "Polite", "ex": "나이가 어떻게 되세요?", "exRom": "May I ask your age?" },
+        { "title": "To elders", "ex": "연세가 어떻게 되세요?", "exRom": "For someone older" },
+        { "title": "Birth year", "ex": "몇 년생이에요?", "exRom": "What year were you born?" }
+      ],
+      "slogan": "Same age? You’re 동갑 ✅"
+    },
+    "voice": [
+      [["en", "How do you say you're twenty in Korean?"], ["ko", "스무 살이에요."]],
+      [["en", "Native numbers in conversation. Sino-Korean numbers on forms."], ["ko", "이십 세."]],
+      [["en", "To ask an adult politely, say:"], ["ko", "나이가 어떻게 되세요?"]]
+    ]
+  },
+
+  "korean-requests-a-eo-juseyo": {
+    "audio": "audio/korean-basic/korean-requests-a-eo-juseyo.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 8.72], [8.72, 14.67]], "total": 14.67},
+    "hook": {
+      "cue": { "label": "In a taxi:", "word": "STOP HERE" },
+      "cards": [{ "ko": "여기 세우세요", "rom": "sounds like an order" }, { "ko": "찍어요 주세요", "rom": "an extra 요" }],
+      "caption": "⚠️ Two request slips"
+    },
+    "contrast": {
+      "heading": "Give me, or do it for me?",
+      "cards": [
+        { "ko": "물 주세요", "rom": "mul juseyo", "tone": "navy", "lines": ["**Noun** + 주세요", "Please give me water"] },
+        { "ko": "세워 주세요", "rom": "sewo juseyo", "tone": "green", "lines": ["**Verb** + 아/어 주세요", "Please stop, for me"] }
+      ],
+      "banner": { "text": "Add 좀 to soften: 사진 좀 찍어 주세요", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Say it today",
+      "cards": [
+        { "title": "Taxi", "ex": "여기 세워 주세요", "exRom": "Please stop here." },
+        { "title": "Food", "ex": "덜 맵게 해 주세요", "exRom": "Less spicy, please." },
+        { "title": "To go", "ex": "포장해 주세요", "exRom": "To go, please." }
+      ],
+      "slogan": "Asking a favor? Use 주세요, not -세요 ✅"
+    },
+    "voice": [
+      [["ko", "물 주세요."], ["en", "means: please give me water."]],
+      [["en", "Put it after a verb, and it becomes a favor."], ["ko", "여기 세워 주세요."]],
+      [["en", "Less spicy?"], ["ko", "덜 맵게 해 주세요."], ["en", "To go?"], ["ko", "포장해 주세요."]]
+    ]
+  },
+
+  "korean-because-aseo-vs-euni-kka": {
+    "audio": "audio/korean-basic/korean-because-aseo-vs-euni-kka.mp3",
+    "timing": {"scenes": [[0.0, 4.12], [4.12, 8.89], [8.89, 15.06]], "total": 15.06},
+    "hook": {
+      "cue": { "label": "English:", "word": "BECAUSE" },
+      "cards": [{ "ko": "비가 와서 가져가세요", "rom": "-아서 + a request" }, { "ko": "늦었으니까 죄송해요", "rom": "sounds like an excuse" }],
+      "caption": "⚠️ Two “because” traps"
+    },
+    "contrast": {
+      "heading": "Explaining, or giving your reason?",
+      "cards": [
+        { "ko": "늦어서", "rom": "neujeoseo", "tone": "navy", "lines": ["**-아/어서**: a natural cause", "Apologies and thanks"] },
+        { "ko": "추우니까", "rom": "chuunikka", "tone": "green", "lines": ["**-(으)니까**: your reason", "Before requests and “let’s”"] }
+      ],
+      "banner": { "text": "No past tense before -아서: 늦어서, not 늦었어서", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Say it today",
+      "cards": [
+        { "title": "Apology", "ex": "늦어서 죄송해요", "exRom": "Sorry I’m late." },
+        { "title": "Thanks", "ex": "와 주셔서 감사합니다", "exRom": "Thank you for coming." },
+        { "title": "Request", "ex": "추우니까 창문 닫아 주세요", "exRom": "It’s cold, please close the window." }
+      ],
+      "slogan": "A request coming? Use -(으)니까 ✅"
+    },
+    "voice": [
+      [["en", "Korean has two ways to say because, and they don't swap."]],
+      [["en", "For apologies and thanks, use this one:"], ["ko", "늦어서 죄송해요."]],
+      [["en", "Before a request, switch to this one:"], ["ko", "추우니까 창문 닫아 주세요."]]
+    ]
   }
 }

@@ -7,6 +7,9 @@
  *
  * 모션 · 색 · 크기는 첫 영상('너 vs 당신')에서 그대로 옮겼다. 한국어 카드는 글자 수에 맞춰 글씨 크기만 줄인다.
  * 본문 줄의 **굵게** 는 카드 색으로 칠한다. 보이스오버는 data.audio(public 기준 경로) 한 파일이다.
+ *
+ * 길이: data.timing(이중 보이스 생성기가 써 넣는 장면별 [시작, 끝] 초)이 있으면 장면 길이 · 전체 길이를 그 오디오에 맞춘다
+ * (14~18초 안팎). 없으면 예전처럼 4초씩 12초다 — 영어 한 목소리로 만든 33편이 이쪽이다.
  * Tailwind 가 없는 렌더 환경이라 스타일은 전부 인라인이다.
  */
 import type { ReactNode } from 'react'
@@ -49,9 +52,14 @@ export type BasicsVideoData = {
     cards: [TakeawayCard, TakeawayCard, TakeawayCard]
     slogan: string
   }
-  /** [시작 초, 영어 대사] — scripts/generate-basics-voiceover.py 가 읽는다. 영상에는 쓰지 않는다 */
-  narration: [number, string][]
+  /** [시작 초, 영어 대사] — 영어 한 목소리 12초판. scripts/generate-basics-voiceover.py 가 읽는다 */
+  narration?: [number, string][]
+  /** 장면 3개 × [언어, 문장] 조각 — 이중 보이스판(en 해설 + ko 원어민 발음). 생성기가 읽는다 */
+  voice?: [Lang, string][][]
+  /** 이중 보이스 생성기가 써 넣는다 — 장면별 [시작, 끝] 초와 전체 길이 */
+  timing?: { scenes: [number, number][]; total: number }
 }
+type Lang = 'en' | 'ko'
 type KoCard = { ko: string; rom: string }
 type ContrastCard = KoCard & { tone: Tone; lines: string[] }
 type TakeawayCard = { title: string; rom?: string; ex: string; exRom: string }
@@ -102,7 +110,7 @@ function Rich({ text, color }: { text: string; color: string }) {
 }
 
 /** 장면 끝 10프레임 동안 다음 장면으로 넘어가며 사라진다 */
-function useSceneFade(dur = SCENE) {
+function useSceneFade(dur: number) {
   const f = useCurrentFrame()
   return interpolate(f, [0, 10, dur - 10, dur], [0, 1, 1, 0], clamp)
 }
@@ -113,17 +121,36 @@ function usePop(delay: number, damping = 12) {
   return spring({ frame: f - delay, fps, config: { damping, mass: 0.8 } })
 }
 
+/**
+ * 장면별 [시작 프레임, 길이]와 전체 프레임 수. timing 이 없으면 4초 × 3.
+ * 장면 안 연출(2초 도장 · 슬로건 등)이 4초 기준이라 한 장면을 4초보다 짧게 두지 않는다.
+ */
+export function videoLayout(data: BasicsVideoData): { scenes: { from: number; dur: number }[]; total: number } {
+  const fps = BASICS_VIDEO.fps
+  if (!data.timing) {
+    return { scenes: [0, 1, 2].map(i => ({ from: i * SCENE, dur: SCENE })), total: SCENE * 3 }
+  }
+  const total = Math.round(data.timing.total * fps)
+  const starts = data.timing.scenes.map(([s]) => Math.round(s * fps))
+  const scenes = starts.map((from, i) => {
+    const end = i + 1 < starts.length ? starts[i + 1] : total
+    return { from, dur: Math.max(SCENE, end - from) }
+  })
+  return { scenes, total: Math.max(total, scenes[2].from + scenes[2].dur) }
+}
+
 export function TemplateVideo({ data }: { data: BasicsVideoData }) {
+  const { scenes } = videoLayout(data)
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg, fontFamily: FONT, color: C.ink }}>
       <Audio src={staticFile(data.audio)} volume={1} />
-      <Sequence durationInFrames={SCENE} name="Hook">
-        <HookScene hook={data.hook} />
+      <Sequence from={scenes[0].from} durationInFrames={scenes[0].dur} name="Hook">
+        <HookScene hook={data.hook} dur={scenes[0].dur} />
       </Sequence>
-      <Sequence from={SCENE} durationInFrames={SCENE} name="Contrast">
-        <ContrastScene contrast={data.contrast} />
+      <Sequence from={scenes[1].from} durationInFrames={scenes[1].dur} name="Contrast">
+        <ContrastScene contrast={data.contrast} dur={scenes[1].dur} />
       </Sequence>
-      <Sequence from={SCENE * 2} durationInFrames={SCENE} name="Takeaway">
+      <Sequence from={scenes[2].from} durationInFrames={scenes[2].dur} name="Takeaway">
         <TakeawayScene takeaway={data.takeaway} />
       </Sequence>
     </AbsoluteFill>
@@ -134,9 +161,9 @@ export function TemplateVideo({ data }: { data: BasicsVideoData }) {
 
 const STAMP_AT = 60
 
-function HookScene({ hook }: { hook: BasicsVideoData['hook'] }) {
+function HookScene({ hook, dur }: { hook: BasicsVideoData['hook']; dur: number }) {
   const f = useCurrentFrame()
-  const fade = useSceneFade()
+  const fade = useSceneFade(dur)
   const cueIn = interpolate(f, [0, 15], [0, 1], clamp)
   const arrow = interpolate(f, [12, 26], [0, 1], clamp)
   const cardA = usePop(22)
@@ -245,9 +272,9 @@ function XMark({ progress }: { progress: number }) {
 
 /* ───────── Scene 2: Contrast ───────── */
 
-function ContrastScene({ contrast }: { contrast: BasicsVideoData['contrast'] }) {
+function ContrastScene({ contrast, dur }: { contrast: BasicsVideoData['contrast']; dur: number }) {
   const f = useCurrentFrame()
-  const fade = useSceneFade()
+  const fade = useSceneFade(dur)
   const a = usePop(6, 16)
   const b = usePop(20, 16)
   const banner = usePop(48, 14)

@@ -8,7 +8,7 @@
  * 없는 slug 면 아무것도 그리지 않는다 — 본문이 영상 하나 때문에 깨지지 않게.
  */
 import { Player } from '@remotion/player'
-import { TemplateVideo, BASICS_VIDEO } from '@/remotion/KoreanBasic/TemplateVideo'
+import { TemplateVideo, BASICS_VIDEO, videoLayout } from '@/remotion/KoreanBasic/TemplateVideo'
 import { BASICS_VIDEOS } from '@/remotion/KoreanBasic/videos'
 
 export function KoreanBasicPlayer({ slug }: { slug: string }) {
@@ -24,7 +24,7 @@ export function KoreanBasicPlayer({ slug }: { slug: string }) {
         inputProps={{ data }}
         compositionWidth={BASICS_VIDEO.width}
         compositionHeight={BASICS_VIDEO.height}
-        durationInFrames={BASICS_VIDEO.durationInFrames}
+        durationInFrames={videoLayout(data).total}
         fps={BASICS_VIDEO.fps}
         style={{ width: '100%', aspectRatio: '16 / 9' }}
         initiallyMuted
