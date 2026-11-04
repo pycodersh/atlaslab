@@ -1,8 +1,9 @@
 /**
- * Basics 글 10편 — 본문 맨 위에 12초 Remotion 쇼트 <KoreanBasicVideo slug="..." /> 삽입 (2026-11-04)
+ * Basics 글 — 본문 맨 위에 12초 Remotion 쇼트 <KoreanBasicVideo slug="..." /> 삽입 (2026-11-04, 10편 → 33편)
  *
  * 영상 문구는 remotion/KoreanBasic/videos.json, 블로그 재생은 components/blog/KoreanBasicPlayer.
- * 대상은 '너 vs 당신'(이미 <DangerPronounsVideo />)을 뺀 Basics 최신 10편. 각 slug 의 모든 locale 행에 넣는다.
+ * 대상은 videos.json 의 모든 slug 에서 '너 vs 당신'(따로 <DangerPronounsVideo />)을 뺀 것. 각 slug 의 모든 locale 행에 넣는다.
+ * 새 글은 videos.json 에 항목 · 보이스오버를 더하고 배포한 뒤 이 스크립트를 다시 돌리면 된다.
  *
  * 안전장치: MDX 컴파일을 통과해야 쓰고, 바꾸기 전 본문은 scripts/backups/ 에 남긴다.
  * 쓰기 직전 본문을 다시 읽어 그 사이 바뀌었으면 멈춘다. 다시 돌리면 이미 들어간 것을 알아보고 건너뛴다.
@@ -18,18 +19,7 @@ dotenv.config({ path: path.resolve(process.cwd(), '.env.local'), quiet: true })
 import { createClient } from '@supabase/supabase-js'
 import videos from '../remotion/KoreanBasic/videos.json'
 
-const SLUGS = [
-  'korean-particle-euro-by-to-as',
-  'korean-have-you-ever-eo-boda',
-  'korean-can-su-itda-eopda',
-  'korean-connecting-go-vs-myeonseo',
-  'korean-future-tense-eul-geoyeyo',
-  'korean-an-vs-mot-negation',
-  'korean-particles-e-vs-eseo',
-  'korean-syllable-structure-why-every-block-matters',
-  'how-long-to-learn-hangul',
-  'formal-vs-casual-korean-when-to-drop-yo',
-]
+const SLUGS = Object.keys(videos).filter(s => s !== 'korean-never-say-dangsin-neo')
 const DRY = process.argv.includes('--dry-run')
 
 const sb = createClient(
@@ -40,8 +30,6 @@ const sb = createClient(
 
 async function main() {
   if (!new URL(process.env.NEXT_PUBLIC_SUPABASE_URL!).hostname.startsWith('eecvvgkihtcgfikaimao')) throw new Error('patto Supabase 가 아니다 — 중단')
-  const missing = SLUGS.filter(s => !(s in videos))
-  if (missing.length) throw new Error(`videos.json 에 없는 slug: ${missing.join(', ')} — 중단`)
 
   const { data: posts, error } = await sb.from('blog_posts').select('id, slug, locale, content').in('slug', SLUGS)
   if (error) throw new Error(error.message)
