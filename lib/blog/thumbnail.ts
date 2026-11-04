@@ -13,10 +13,12 @@
  * "표지"만 따로 선언한다. 나중에 thumbnail 컬럼이 생기면 이 맵을 옮기면 된다.
  */
 
+import { BASICS_VIDEOS } from '@/remotion/KoreanBasic/videos'
+
 export type BlogThumbnail =
   | { kind: 'youtube'; videoId: string; portrait: boolean }
-  /** alt 를 따로 주지 않으면 카드가 글 제목을 쓴다 */
-  | { kind: 'image'; src: string; alt?: string }
+  /** alt 를 따로 주지 않으면 카드가 글 제목을 쓴다. wide 면 카드가 3:2 대신 16:9 로 보여 준다(영상 스틸) */
+  | { kind: 'image'; src: string; alt?: string; wide?: boolean }
 
 const YOUTUBE_TAG_RE = /<YouTube\s+([^>]*?)\/>/
 /** ![alt](url "title") — url 만 잡고 선택적 title 은 버린다 */
@@ -174,6 +176,23 @@ export function thumbnailForPost(
       : { kind: 'image', src: cover.src, alt: cover.alt }
   }
   return readThumbnail(content)
+}
+
+/**
+ * 목록 카드(홈 섹션 · /blog)용 썸네일 — Basics 글은 그 글의 Remotion 쇼트 스틸을 쓴다.
+ *
+ * 스틸은 scripts/render-basics-thumbnails.mjs 가 videos.json 의 slug 마다 Scene 1(빨간 X 장면)에서 뽑아
+ * public/images/blog/basics/<slug>.webp(16:9)로 둔다. Basics 40편이 같은 모양으로 보이게 다른 표지보다 앞에 둔다.
+ * 글 상세 상단에는 쓰지 않는다 — 본문 맨 위에 그 영상이 이미 있다(그래서 thumbnailForPost 와 따로 둔다).
+ * 파일이 없거나 못 읽으면 BlogThumb 가 이미지 영역을 숨겨 카드는 글자만 남는다.
+ */
+export function cardThumbnailForPost(
+  slug: string,
+  content: string | null | undefined,
+  dbThumbnail?: string | null,
+): BlogThumbnail | null {
+  if (slug in BASICS_VIDEOS) return { kind: 'image', src: `/images/blog/basics/${slug}.webp`, wide: true }
+  return thumbnailForPost(slug, content, dbThumbnail)
 }
 
 export function readThumbnail(content: string | null | undefined): BlogThumbnail | null {

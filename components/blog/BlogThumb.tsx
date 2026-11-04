@@ -35,8 +35,11 @@ export function BlogThumb({ thumb, alt }: { thumb: BlogThumbnail | null; alt: st
   // 유튜브는 maxres → hq → 숨김, 그 외는 실패하면 바로 숨김
   const handleError = () => setStep(s => (isYouTube && s === 0 ? 1 : 2))
 
+  // 유튜브와 영상 스틸(Basics)은 16:9 그대로, 나머지 사진은 3:2 로 자른다
+  const frameClass = isYouTube ? 'blog-thumb blog-thumb--youtube' : thumb.wide ? 'blog-thumb blog-thumb--wide' : 'blog-thumb'
+
   return (
-    <div className={isYouTube ? 'blog-thumb blog-thumb--youtube' : 'blog-thumb'}>
+    <div className={frameClass}>
       <img
         className={portraitCrop ? 'blog-thumb-img blog-thumb-img--portrait' : 'blog-thumb-img'}
         src={src}

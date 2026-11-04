@@ -6,7 +6,7 @@ import { BlogIndexFromQuery } from './BlogIndexFromQuery'
 import { DEFAULT_TAB, tabLabel } from '@/lib/blog/sections'
 import { blogIndexView, type BlogCard } from '@/lib/blog/indexView'
 import { readMinutes } from '@/lib/blog/readTime'
-import { thumbnailForPost } from '@/lib/blog/thumbnail'
+import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
 
 // 정적 페이지 — 한 시간에 한 번만 다시 굽는다(요청마다 서버 함수가 돌지 않게).
 // 탭 · 언어 · 페이지 쿼리는 서버가 읽지 않고 BlogIndexFromQuery 가 브라우저에서 적용한다.
@@ -40,7 +40,7 @@ export default async function BlogIndexPage() {
 
   const cards: BlogCard[] = (rows ?? []).map(({ content, thumbnail, ...p }) => ({
     ...p,
-    thumb: thumbnailForPost(p.slug, content, thumbnail),
+    thumb: cardThumbnailForPost(p.slug, content, thumbnail),
     readMin: readMinutes(content),
   }))
 

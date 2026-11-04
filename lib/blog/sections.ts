@@ -67,8 +67,8 @@ export const BLOG_SECTIONS = [
     key: 'basics',
     title: 'Korean basics',
     desc: 'Hangul, pronunciation and the grammar that trips people up.',
-    // 표지 이미지보다 제목·설명을 훑는 쪽이 쓸모 있는 주제라 세로 리스트로 둔다
-    layout: 'list',
+    // 글마다 Remotion 쇼트 스틸(빨간 X 장면)이 표지로 붙어 다른 주제처럼 카드 격자로 둔다(2026-11-04, 예전엔 글자만 있는 세로 리스트)
+    layout: 'grid',
     categories: [
       'Hangul & Pronunciation',
       'Korean Grammar',
@@ -121,8 +121,8 @@ export const BLOG_GROUPS = [
     title: 'Basics',
     desc: 'Hangul, pronunciation and the grammar that trips people up.',
     sections: ['basics'],
-    // 표지 이미지보다 제목·설명을 훑는 쪽이 쓸모 있는 주제라 세로 리스트로 둔다
-    layout: 'list',
+    // 영상 스틸 표지가 있어 카드 격자(lib/blog/thumbnail 의 cardThumbnailForPost)
+    layout: 'grid',
     minToShow: undefined,
   },
   {
@@ -295,7 +295,7 @@ export function tabDescription(tabKey: string): string {
 }
 
 /**
- * 탭·섹션을 어떤 모양으로 그릴지. Basics 는 제목·설명을 훑는 세로 리스트, 나머지는 격자.
+ * 탭·섹션을 어떤 모양으로 그릴지(격자 또는 세로 리스트). 지금은 모두 격자다 — Basics 도 영상 스틸 표지가 생겨 격자로 옮겼다.
  * 홈과 /blog 가 같은 함수를 봐야 한쪽만 리스트로 남는 일이 없다.
  */
 export function layoutForKey(key: string): BlogLayout {
