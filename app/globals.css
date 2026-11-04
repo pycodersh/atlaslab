@@ -959,7 +959,7 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
 }
 /* 유튜브 썸네일은 중앙 크롭 배율이 16:9 기준이라 비율을 유지해야 한다 */
 .blog-thumb--youtube { aspect-ratio: 16 / 9; }
-/* Basics 영상 스틸(16:9) — 3:2 로 자르면 좌우 카드 끝이 잘린다. 모바일 96px 정사각은 아래 규칙이 덮는다(가운데 X 장면이 남는다) */
+/* Basics 영상 스틸(16:9, Scene 2 대조 카드) — 3:2 로 자르면 좌우 카드 끝이 잘린다. 모바일은 아래에서 128×72 로 줄인다 */
 .blog-thumb--wide { aspect-ratio: 16 / 9; background: #FAF8F5; }
 
 .blog-thumb-img {
@@ -1140,6 +1140,13 @@ input[type="time"]::-webkit-calendar-picker-indicator { display: none; }
     height: 96px;
     aspect-ratio: auto;
     border-radius: 8px;
+  }
+  /* Basics 영상 스틸은 대조 카드 두 장이 좌우에 있어 정사각으로 자르면 왼쪽 카드의 한국어가 잘린다 — 16:9 그대로 작게 */
+  .bcard .blog-thumb--wide,
+  .bl-card .blog-thumb--wide {
+    flex: 0 0 128px;
+    width: 128px;
+    height: 72px;
   }
 }
 

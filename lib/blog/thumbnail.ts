@@ -181,7 +181,7 @@ export function thumbnailForPost(
 /**
  * 목록 카드(홈 섹션 · /blog)용 썸네일 — Basics 글은 그 글의 Remotion 쇼트 스틸을 쓴다.
  *
- * 스틸은 scripts/render-basics-thumbnails.mjs 가 videos.json 의 slug 마다 Scene 1(빨간 X 장면)에서 뽑아
+ * 스틸은 scripts/render-basics-thumbnails.mjs 가 videos.json 의 slug 마다 Scene 2(규칙 대비 카드 + 배너)에서 뽑아
  * public/images/blog/basics/<slug>.webp(16:9)로 둔다. Basics 40편이 같은 모양으로 보이게 다른 표지보다 앞에 둔다.
  * 글 상세 상단에는 쓰지 않는다 — 본문 맨 위에 그 영상이 이미 있다(그래서 thumbnailForPost 와 따로 둔다).
  * 파일이 없거나 못 읽으면 BlogThumb 가 이미지 영역을 숨겨 카드는 글자만 남는다.

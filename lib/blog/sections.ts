@@ -67,7 +67,7 @@ export const BLOG_SECTIONS = [
     key: 'basics',
     title: 'Korean basics',
     desc: 'Hangul, pronunciation and the grammar that trips people up.',
-    // 글마다 Remotion 쇼트 스틸(빨간 X 장면)이 표지로 붙어 다른 주제처럼 카드 격자로 둔다(2026-11-04, 예전엔 글자만 있는 세로 리스트)
+    // 글마다 Remotion 쇼트 스틸(Scene 2 규칙 대비 장면)이 표지로 붙어 다른 주제처럼 카드 격자로 둔다(2026-11-04, 예전엔 글자만 있는 세로 리스트)
     layout: 'grid',
     categories: [
       'Hangul & Pronunciation',
