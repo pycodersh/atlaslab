@@ -14,12 +14,15 @@
     "test:verify": "tsx scripts/test-paddle-verify.ts",
     "test:pay": "npm run test:env && npm run test:verify",
     "generate-audio": "tsx scripts/generate-audio.ts",
-    "generate-shimmer": "tsx scripts/generate-shimmer.ts"
+    "generate-shimmer": "tsx scripts/generate-shimmer.ts",
+    "remotion:studio": "remotion studio remotion/index.ts",
+    "render:dangsin": "remotion render remotion/index.ts DangerPronouns out/remotion/dangsin.mp4"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.109.1",
     "@onesignal/node-onesignal": "^5.11.0",
     "@paddle/paddle-js": "^1.6.4",
+    "@remotion/player": "4.0.540",
     "@supabase/ssr": "^0.12.0",
     "@supabase/supabase-js": "^2.108.2",
     "@vercel/analytics": "^2.0.1",
@@ -37,9 +40,11 @@
     "react-dom": "19.2.4",
     "react-onesignal": "^3.5.6",
     "remark-gfm": "^4.0.1",
+    "remotion": "4.0.540",
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
+    "@remotion/cli": "4.0.540",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.43",
     "@types/pg": "^8.21.0",
