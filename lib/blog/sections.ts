@@ -182,13 +182,27 @@ export const BLOG_TABS = [
   ...BLOG_GROUPS.filter(g => !KOREAN_GROUPS.has(g.key)).map(g => ({ key: g.key as string, label: g.title as string })),
 ]
 
+/**
+ * 목록 탭 바는 가족(대분류)마다 따로 그린다 — 헤더 드로어의 Korean · Guides 와 같은 묶음이다.
+ *   Korean  Phrases · Basics           (Korean 개요 /blog 도 이 가족이다)
+ *   Guides  Explore Korea · Food · Life
+ * 한 줄에 다 섞어 두면 Guides 화면에 Korean 이 끼어 '다른 대분류로 가는 탭'이 2차 탭처럼 보인다.
+ */
+export const TAB_FAMILIES = [
+  { key: 'korean', label: 'Korean', tabs: ['phrases', 'basics'] },
+  { key: 'guides', label: 'Guides', tabs: ['explore-korea', 'food', 'life'] },
+] as const satisfies ReadonlyArray<{ key: string; label: string; tabs: readonly BlogGroupKey[] }>
+
+/** 이 탭이 속한 가족의 2차 탭들(라벨 포함). Korean 개요(korean)는 Korean 가족이다. */
+export function familyOf(tabKey: string): (typeof TAB_FAMILIES)[number] {
+  return TAB_FAMILIES.find(f => (f.tabs as readonly string[]).includes(tabKey)) ?? TAB_FAMILIES[0]
+}
+export function familyTabs(tabKey: string): { key: string; label: string }[] {
+  return familyOf(tabKey).tabs.map(k => ({ key: k as string, label: BLOG_GROUPS.find(g => g.key === k)!.title as string }))
+}
+
 /** 탭 바에 없는 탭(Phrases · Basics 전체 보기) */
 const HIDDEN_TABS = BLOG_GROUPS.filter(g => KOREAN_GROUPS.has(g.key)).map(g => ({ key: g.key as string, label: g.title as string }))
-
-/** 탭 바에서 밑줄을 그을 탭 — Phrases · Basics 전체 보기는 Korean 아래에 있다 */
-export function navTabOf(tabKey: string): string {
-  return KOREAN_GROUPS.has(tabKey) ? KOREAN_TAB.key : tabKey
-}
 
 /**
  * 예전 탭 주소 → 현재 구조. 색인·북마크된 /blog?tab=stay-in-korea 와, 예전 통합 Korean 보기의 Basics 칩

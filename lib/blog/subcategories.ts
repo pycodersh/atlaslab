@@ -25,6 +25,16 @@ export const SUBCATEGORIES: Partial<Record<BlogGroupKey, readonly Subcategory[]>
     { key: 'hotels', label: 'Hotels' },
     { key: 'places', label: 'Places' },
   ],
+  // Phrases(/blog?tab=phrases) — 상황별. 모두 category 'Real-Life Korean' 이고 칩은 슬러그 매핑 · 제목 규칙으로 나눈다
+  phrases: [
+    { key: 'cafes', label: 'Cafes' },
+    { key: 'dining', label: 'Restaurants & Food' },
+    { key: 'shopping', label: 'Shopping' },
+    { key: 'transport', label: 'Getting Around' },
+    { key: 'hotels', label: 'Hotels & Stays' },
+    { key: 'leisure', label: 'Fun & Going Out' },
+    { key: 'everyday', label: 'Everyday & Health' },
+  ],
   // Basics(/blog?tab=basics) — DB category 는 그대로(Korean Grammar · Hangul & Pronunciation …) 두고 칩만 여기서 나눈다
   basics: [
     { key: 'hangul', label: 'Hangul & Pronunciation' },
@@ -63,6 +73,62 @@ export function isValidSubcategory(section: string, sub: string | undefined): su
 
 /** 기존 글의 확정 분류 (slug → 서브 카테고리 key). 섹션은 슬러그가 속한 섹션으로 정해진다. */
 export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
+  // ── Phrases ────────────────────────────────────────────────
+  // Cafes
+  'korean-cafe-words-you-need': 'cafes',
+  'return-tray-korean-cafe': 'cafes',
+  'where-is-the-bathroom-korean-cafe': 'cafes',
+  'korean-cafe-wifi-and-outlets': 'cafes',
+  'for-here-or-to-go-korean': 'cafes',
+  'order-iced-americano-korea': 'cafes',
+  'how-to-order-at-a-korean-cafe': 'cafes',
+  // Restaurants & Food
+  'spicy-food-korean-phrases': 'dining',
+  'pay-at-table-or-counter-korea': 'dining',
+  'korean-bbq-alone-2-servings': 'dining',
+  'order-non-spicy-food-korea': 'dining',
+  'korean-restaurant-call-bell': 'dining',
+  'are-side-dishes-free-in-korea': 'dining',
+  'how-to-order-at-a-korean-restaurant': 'dining',
+  'ordering-korean-street-food': 'dining',
+  'ordering-food-delivery-in-korea': 'dining',
+  // Shopping — 올리브영 · 편의점 · 시장 · 옷
+  'paying-at-olive-young-korea': 'shopping',
+  'asking-recommendations-olive-young-korea': 'shopping',
+  'finding-items-olive-young-korea': 'shopping',
+  'k-beauty-store-korean-vocabulary': 'shopping',
+  'show-id-buying-alcohol-korea': 'shopping',
+  'one-plus-one-convenience-store-korea': 'shopping',
+  'need-a-bag-korean-checkout': 'shopping',
+  'cup-ramen-convenience-store-korea': 'shopping',
+  'korean-convenience-store-phrases': 'shopping',
+  'shopping-at-a-korean-traditional-market': 'shopping',
+  'buying-clothes-in-korean': 'shopping',
+  // Getting Around
+  'giving-seat-elderly-korea-bus': 'transport',
+  'asking-bus-destination-korea': 'transport',
+  'paying-for-taxi-korea': 'transport',
+  'taxi-where-to-go-korea': 'transport',
+  'asking-for-directions-in-korean': 'transport',
+  'korean-subway-phrases-first-trip': 'transport',
+  // Hotels & Stays
+  'hotel-check-in-korea': 'hotels',
+  'hotel-luggage-storage-korea': 'hotels',
+  'hotel-late-checkout-korea': 'hotels',
+  'hotel-airport-shuttle-korea': 'hotels',
+  // Fun & Going Out
+  'korean-noraebang-phrases': 'leisure',
+  'adding-time-coin-norebang-korea': 'leisure',
+  'how-to-search-songs-korean-norebang': 'leisure',
+  'how-to-use-korean-photo-booth': 'leisure',
+  'picking-background-korean-photo-booth': 'leisure',
+  'han-river-picnic-korean-phrases': 'leisure',
+  'visiting-a-korean-palace-phrases': 'leisure',
+  // Everyday & Health
+  'korean-pharmacy-what-to-say': 'everyday',
+  'seeing-a-doctor-in-korea': 'everyday',
+  'lifting-heavy-box-korean': 'everyday',
+
   // ── Basics ─────────────────────────────────────────────────
   // 겹치는 글 두 쌍(숫자 체계 ×2, 은/는 vs 이/가 ×2)은 지금은 둘 다 두고 같은 칩에 묶는다
   // Hangul & Pronunciation — 자모 · 발음 · 받침 · 표기 · 입력 · 방언
@@ -295,6 +361,14 @@ type Rule = { sub: string; test: RegExp }
  * 더 구체적인 분류(국물, 길거리)를 먼저, 넓은 분류(재료·문화)는 기본값으로 둔다.
  */
 const RULES: Partial<Record<BlogGroupKey, readonly Rule[]>> = {
+  phrases: [
+    { sub: 'hotels', test: /\b(hotel|check-?in|check-?out|luggage|shuttle|hostel|guesthouse)\b/ },
+    { sub: 'cafes', test: /\b(cafes?|coffee|americano|latte)\b/ },
+    { sub: 'transport', test: /\b(taxi|bus|subway|train|ktx|directions?|airport)\b/ },
+    { sub: 'leisure', test: /\b(norebang|noraebang|karaoke|photo booth|picnic|palace|museum|concert)\b/ },
+    { sub: 'shopping', test: /\b(olive young|convenience store|shopping|store|market|clothes|checkout|bag|buy)\b/ },
+    { sub: 'dining', test: /\b(restaurant|food|bbq|spicy|order|ordering|menu|delivery|side dishes|waiter)\b/ },
+  ],
   basics: [
     { sub: 'hangul', test: /\b(hangul|pronunciation|pronounce|vowels?|consonants?|batchim|romanization|syllables?|alphabet|typing|keyboard|dialect|accent)\b/ },
     { sub: 'numbers', test: /\b(numbers?|counters?|counting|prices?|money|won|dates?|days of the week|age|time|clock)\b/ },

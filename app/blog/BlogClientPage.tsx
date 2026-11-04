@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react'
 import Link from 'next/link'
-import { BLOG_TABS, DEFAULT_TAB, layoutForKey, navTabOf, tabDescription } from '@/lib/blog/sections'
+import { DEFAULT_TAB, familyOf, familyTabs, layoutForKey, tabDescription } from '@/lib/blog/sections'
 import { SectionHeader } from '@/components/SectionHeader'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
 import { BlogThumb } from '@/components/blog/BlogThumb'
@@ -71,8 +71,10 @@ export function BlogClientPage({
   const lang: 'EN' | 'KO' = activeLang === 'ko' ? 'KO' : 'EN'
   // 격자로 그릴지 세로 리스트로 그릴지는 홈과 같은 기준(sections.ts)을 본다
   const isList = layoutForKey(activeTab) === 'list'
-  // Phrases · Basics 전체 보기는 탭 바에 없으므로 Korean 탭에 밑줄을 긋는다
-  const navTab = navTabOf(activeTab)
+  // 탭 바는 지금 탭이 속한 가족(Korean: Phrases · Basics / Guides: Explore Korea · Food · Life)만 보여 준다.
+  // Korean 개요(/blog)는 Phrases · Basics 어느 쪽에도 밑줄이 없다
+  const family = familyOf(activeTab)
+  const tabs = familyTabs(activeTab)
 
   const card = (post: Post) => (
     <Link
@@ -371,7 +373,7 @@ export function BlogClientPage({
       <section className="bl-hero">
         <div className="bl-wrap">
           <Link href="/" className="bl-back"><span className="bl-back-arrow" aria-hidden="true">←</span>Atlas Lab</Link>
-          <p className="bl-kicker">Articles</p>
+          <p className="bl-kicker">{family.label}</p>
           <h1 className="bl-h1">
             {lang === 'KO' ? '한국어 아티클' : pageTitle}
           </h1>
@@ -386,11 +388,11 @@ export function BlogClientPage({
           {/* Filter bar */}
           <div className="bl-filterbar">
             <div className="bl-tabs">
-              {BLOG_TABS.map(tab => (
+              {tabs.map(tab => (
                 <Link
                   key={tab.key}
                   href={buildUrl(tab.key)}
-                  className={`bl-tab${navTab === tab.key ? ' active' : ''}`}
+                  className={`bl-tab${activeTab === tab.key ? ' active' : ''}`}
                 >
                   {tab.label}
                 </Link>
@@ -398,7 +400,7 @@ export function BlogClientPage({
             </div>
           </div>
 
-          {/* Sub-category chips — food / life 탭에서만 */}
+          {/* Sub-category chips — 2차 탭마다 따로(Basics · Phrases · Explore Korea · Food · Life). Korean 개요에는 없다 */}
           {subChips.length > 0 && (
             <nav className="bl-subbar" aria-label="Sub-categories">
               <Link

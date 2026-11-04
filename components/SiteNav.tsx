@@ -1,17 +1,18 @@
 import Link from 'next/link'
 import { LanguageSelector } from '@/components/LanguageSelector'
+import { SiteDrawer } from '@/components/SiteDrawer'
 
 /**
  * Site-wide navigation bar — 미니멀하게:
  *   좌측  로고(ATLAS LAB)
- *   우측  언어 선택(🌐 EN ⌵)만
- * Products · Korean · Guides 메뉴는 없앴다 — 홈의 바로가기 바(HomeCategoryBar)와 /blog 탭 바가 같은 일을 한다.
+ *   우측  언어 선택(🌐 EN ⌵) + 햄버거(≡)
+ * Products · Korean · Guides 메뉴는 헤더 바에 펼치지 않고 햄버거가 여는 사이드 드로어(SiteDrawer)에 접어 둔다.
  * K-PATTO 구매는 /kpatto 랜딩 한 곳으로 모은다(홈 카드·글 CTA 가 그리로 보낸다).
  * 내 북마크(/bookmarks)는 푸터의 Resources 에서 들어간다.
  * Red background (#C8102E via --brand-red CSS var).
  * Used in app/blog/layout.tsx, essential pages, app/page.tsx and the purchase page.
  *
- * 상태가 없는 서버 컴포넌트다(언어 선택만 자체적으로 클라이언트).
+ * 상태가 없는 서버 컴포넌트다(언어 선택 · 드로어만 자체적으로 클라이언트).
  */
 export function SiteNav() {
   return (
@@ -64,6 +65,7 @@ export function SiteNav() {
 
         <div className="site-nav-right">
           <LanguageSelector />
+          <SiteDrawer />
         </div>
       </nav>
     </>
