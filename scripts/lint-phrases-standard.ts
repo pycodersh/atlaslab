@@ -66,8 +66,9 @@ async function main() {
 
     // 링크 주소(slug)는 하이픈이 많아 로마자 검사에서 뺀다
     const prose = c.replace(/\]\([^)]*\)/g, ']()').replace(/<[A-Z]\w*[^>]*\/>/g, '')
-    const splitRom = [...prose.matchAll(/\b[a-z]{1,5}(?:-[a-z]{1,5}){2,}\b/g)].map(m => m[0])
-      .filter(w => !/^(drop-off|pick-up|check-in|check-out|self-service|one-on-one|face-to-face|step-by-step|up-to-date|day-to-day)$/.test(w))
+    // 문장 첫머리 대문자(All-you-can-eat)도 한 낱말로 잡아야 허용 목록과 맞는다
+    const splitRom = [...prose.matchAll(/\b[a-zA-Z]{1,5}(?:-[a-zA-Z]{1,5}){2,}\b/g)].map(m => m[0].toLowerCase())
+      .filter(w => !/^(drop-off|pick-up|check-in|check-out|self-service|one-on-one|face-to-face|step-by-step|up-to-date|day-to-day|all-you-can-eat|ready-to-eat|made-to-order|first-come-first-served)$/.test(w))
     if (splitRom.length) errs.push(`음절마다 끊은 로마자: ${[...new Set(splitRom)].slice(0, 6).join(', ')}`)
 
     const before = dbContent.get(slug)
