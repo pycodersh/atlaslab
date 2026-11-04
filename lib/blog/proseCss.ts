@@ -256,13 +256,6 @@ export function proseCss(bodyFont: string): string {
         .blog-prose .callout p:last-child { margin-bottom: 0; }
         .blog-prose .callout ul { margin: 4px 0 0; }
 
-        /* K-Patto CTA — 웹툰 Ep.1 + 무료 PDF. 버튼 줄은 quick-card__btns 규칙을 그대로 쓴다 */
-        .blog-prose .kp-cta { background: #121212; color: #fff; border-radius: 6px; padding: 20px 20px 22px; margin: 36px 0; }
-        .blog-prose .kp-cta__eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #FF5A6E; margin: 0 0 8px; }
-        .blog-prose .kp-cta__title { font-size: 20px; font-weight: 700; line-height: 1.3; color: #fff; margin: 0 0 6px; }
-        .blog-prose .kp-cta__desc { font-size: 14.5px; line-height: 1.6; color: rgba(255,255,255,.7); margin: 0 0 16px; }
-        .blog-prose .kp-cta a.cta-btn.cta-btn-outline { background: transparent; color: #fff; border-color: rgba(255,255,255,.75); }
-        .blog-prose .kp-cta a.cta-btn.cta-btn-outline:hover { background: #fff; color: #111; }
 
         /* 요약 인포그래픽(GrammarCheatCard) — 본문과 같은 밝은 에디토리얼 톤: 아이보리 카드 · 피할 말(옅은 레드) · 대안(옅은 크림) */
         .blog-prose .gcc { background: #FBFBFA; color: #171717; border: 1px solid #E5E1DC; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,0,0,.04); padding: 22px 22px 16px; margin: 36px 0; }

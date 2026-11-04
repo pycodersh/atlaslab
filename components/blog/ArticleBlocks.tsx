@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
-import { SAMPLE_PDF_URL, SAMPLE_PATTERNS, TRY_APP_PATH } from '@/lib/kpatto/purchase'
+import { SAMPLE_PATTERNS } from '@/lib/kpatto/purchase'
+import { KpattoCtaCard } from './KpattoCtaCard'
 
 /**
  * Food · Life 글의 시각 블록 — docs/CONTENT_GUIDELINES.md 의 '1화면 1비주얼' 원칙용 MDX 컴포넌트.
@@ -8,9 +9,9 @@ import { SAMPLE_PDF_URL, SAMPLE_PATTERNS, TRY_APP_PATH } from '@/lib/kpatto/purc
  *   <Dialogue> + <Line />  상황별 대화 — 말풍선(한국어 · 로마자 · 영어). me 를 주면 오른쪽(독자 쪽) 말풍선.
  *   <DoDont> + <Do> <Dont> 흔한 실수 박스 — 넓은 화면 2열, 폰 1열.
  *   <Callout type>         팁(tip) · 주의(warn) · 참고(info) 상자.
- *   <KpattoCta />          본문 중간 · 하단 CTA — 웹툰 Ep.1(웹앱) + 무료 10패턴 PDF.
+ *   <KpattoCta />          본문 중간 · 하단 CTA — 웹툰 Ep.1(웹앱) + 무료 10패턴 PDF. 공통 카드 KpattoCtaCard 로 그린다.
  *
- * 스타일은 lib/blog/proseCss.ts(.blog-prose 아래)에 있다 — 글 상세 라우트 두 곳이 같은 CSS 를 쓴다.
+ * 스타일은 lib/blog/proseCss.ts(.blog-prose 아래)에 있다 — 글 상세 라우트 두 곳이 같은 CSS 를 쓴다(KpattoCta 는 카드가 들고 다닌다).
  * 한국어 · 로마자는 자동 번역(브라우저 언어가 한국어일 때)에서 빼야 뜻이 남는다(translate="no").
  */
 
@@ -81,17 +82,8 @@ const CTA_COPY = {
   end: { title: 'Say it with confidence before you go', desc: `Read the first episode free, then take ${SAMPLE_PATTERNS} everyday patterns with you as a printable PDF.` },
 } as const
 
+/** 모양 · 버튼은 공통 카드(KpattoCtaCard)가 정한다 — 글 하단 앱 배너와 같은 카드 */
 export function KpattoCta({ variant = 'mid' }: { variant?: 'mid' | 'end' }) {
   const copy = CTA_COPY[variant]
-  return (
-    <aside className="kp-cta">
-      <p className="kp-cta__eyebrow" translate="no">K-Patto</p>
-      <p className="kp-cta__title">{copy.title}</p>
-      <p className="kp-cta__desc">{copy.desc}</p>
-      <div className="quick-card__btns">
-        <a href={TRY_APP_PATH} className="cta-btn">Read Webtoon Ep.1 Free →</a>
-        <a href={SAMPLE_PDF_URL} className="cta-btn cta-btn-outline" download>Free {SAMPLE_PATTERNS}-Pattern PDF ↓</a>
-      </div>
-    </aside>
-  )
+  return <KpattoCtaCard title={copy.title} desc={copy.desc} />
 }

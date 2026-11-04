@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { ctaForPost } from '@/lib/blog/appCta'
+import { KpattoCtaCard } from './KpattoCtaCard'
 
 const BODY = '"DM Sans", "Inter", system-ui, sans-serif'
 const RED = '#C8102E'
@@ -60,7 +61,12 @@ export function ArticleAppBanner({
     )
   }
 
-  // 카드 모양 · 간격 · 꺾이는 폭(640px)은 바로 위의 ItalkiBanner 와 같게 맞춘다 — 버튼만 사이트 레드
+  // K-Patto 카드는 본문 속 <KpattoCta /> 와 같은 공통 카드(웹툰 Ep.1 + 무료 PDF 버튼 둘)로 그린다
+  if (cta.label === 'K-Patto') {
+    return <KpattoCtaCard eyebrow={cta.label} title={cta.blurb} desc={cta.note} />
+  }
+
+  // K-Pantry · Patto 카드 — 모양 · 간격 · 꺾이는 폭(640px)은 바로 위의 ItalkiBanner 와 같게 맞춘다, 버튼만 사이트 레드
   return (
     <aside className="kpc-banner">
       <style>{`
