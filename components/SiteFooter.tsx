@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { AXIS_LABELS } from '@/lib/blog/sections'
 
 const F = '"DM Sans","Inter",system-ui,sans-serif'
 
@@ -8,7 +9,7 @@ const F = '"DM Sans","Inter",system-ui,sans-serif'
  * Used in app/blog/layout.tsx and individual essential pages.
  * The home page (app/page.tsx) renders this component directly.
  *
- * Columns per spec: Products / Resources (Articles · My Bookmarks) / Company
+ * Columns per spec: Our Apps / Resources (Articles · My Bookmarks) / Company
  * Omitted: Videos, Guides, Newsletter, Help Center, Careers, social icons
  * (no confirmed operating social accounts to link)
  */
@@ -47,7 +48,7 @@ export function SiteFooter() {
           marginBottom: 44,
         }}>
           <div>
-            <p style={colTitle}>Products</p>
+            <p style={colTitle} className="notranslate" translate="no">{AXIS_LABELS.apps}</p>
             <Link href="/patto/home"  style={link}>Patto</Link>
             <Link href="/kpatto"      style={link}>K-Patto</Link>
             <Link href="/kpantry/en"  style={link}>K-Pantry</Link>

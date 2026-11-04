@@ -9,6 +9,7 @@ import { HomeSearch, type SearchDoc } from '@/components/HomeSearch'
 import { LeadMagnetBanner } from '@/components/LeadMagnetBanner'
 import { readMinutes } from '@/lib/blog/readTime'
 import {
+  AXIS_LABELS,
   BLOG_GROUPS,
   KOREAN_TAB,
   groupKeyOf,
@@ -22,7 +23,7 @@ const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
 
 /* ── Product data ─────────────────────────────────────────────────────── */
-/** 홈 'Products' 카드 목록 — 외국인 여행자·학습자 대상 서비스만 둔다.
+/** 홈 'Our Apps' 카드 목록 — 외국인 여행자·학습자 대상 서비스만 둔다.
  *  앞으로 K-PATTO PDF 패키지 같은 디지털 상품도 이 배열에 항목만 추가하면 그리드에 자연스럽게 합류한다
  *  (href 가 없으면 'Coming soon' 카드, 아이콘은 APP_ICONS 에 이름으로 추가).
  *  두 카드는 같은 구조(아이콘 · 이름 · 대상 한 줄 · 설명 · 버튼 두 개)로 높이·글꼴이 맞물린다 — 뱃지·부제·버튼 밑 문구는 두지 않는다.
@@ -198,18 +199,18 @@ export default async function AtlasLabHome() {
 
   // 카테고리(Phrases → Basics → Explore Korea → Food → Life)를 BLOG_GROUPS 순서대로 세로로 바로 그린다.
   const blogSections = groupIntoSections(allPosts ?? [])
-  // 바로가기 바는 상단 메뉴와 같은 3대 축(Products · Korean · Guides)이다. 탭마다 그 축에서 화면에 놓인 첫 섹션으로 간다.
+  // 바로가기 바는 헤더 드로어와 같은 3대 축(Our Apps · Learn Korean · Travel & Life)이다. 탭마다 그 축에서 화면에 놓인 첫 섹션으로 간다.
   // 글이 적어 감추는 섹션은 건너뛰고, 축에 보이는 섹션이 하나도 없으면 탭도 없다.
   const shownSections = blogSections.filter(s => s.posts.length >= minPostsToShow(s.key))
   const firstShown = (keys: readonly string[]) => shownSections.find(s => keys.includes(s.key))
-  // 섹션 제목도 축을 앞에 붙인다(KOREAN 뱃지 + PHRASES, GUIDES 뱃지 + FOOD …) — 뱃지는 SectionHeader 의 axis, 대문자는 .section-header 스타일이 만든다
+  // 섹션 제목도 축을 앞에 붙인다(LEARN KOREAN 뱃지 + PHRASES, TRAVEL & LIFE 뱃지 + FOOD …) — 뱃지는 SectionHeader 의 axis, 대문자는 .section-header 스타일이 만든다
   const koreanKeys: string[] = KOREAN_TAB.sections.map(s => s.group)
   const koreanSec = firstShown(koreanKeys)
   const guideSec = firstShown(['explore-korea', 'food', 'life'])
   const categoryTabs: HomeTab[] = [
-    { id: 'resources', label: 'Products' },
-    ...(koreanSec ? [{ id: anchorOf(koreanSec.key), label: 'Korean' }] : []),
-    ...(guideSec ? [{ id: anchorOf(guideSec.key), label: 'Guides' }] : []),
+    { id: 'resources', label: AXIS_LABELS.apps },
+    ...(koreanSec ? [{ id: anchorOf(koreanSec.key), label: AXIS_LABELS.korean }] : []),
+    ...(guideSec ? [{ id: anchorOf(guideSec.key), label: AXIS_LABELS.guides }] : []),
   ]
   // 히어로 검색 색인 — 주제 섹션에 드는 글만(본문은 빼고 제목 · 태그 · 그룹 이름). 브라우저가 이것만으로 거른다.
   const groupTitle = new Map<string, string>(BLOG_GROUPS.map(g => [g.key, g.title]))
@@ -278,7 +279,7 @@ export default async function AtlasLabHome() {
 
         /* 섹션 머리는 공통 디자인 시스템(components/SectionHeader + globals.css .section-header)을 쓴다 */
 
-        /* ── Products section ──────────────────────────────────────── */
+        /* ── Our Apps section ──────────────────────────────────────── */
         /* 히어로 아래 여백(56px)과 비슷한 리듬으로 — 어두운 히어로에서 첫 구분선까지 숨 쉴 틈 */
         .products-wrap { padding-top: 48px; padding-bottom: 64px; }
         @media (max-width: 700px) { .products-wrap { padding-top: 32px; } }
@@ -554,10 +555,10 @@ export default async function AtlasLabHome() {
       {/* ── 카테고리 바로가기 — 히어로를 지나면 메뉴 아래에 붙는다 ── */}
       <HomeCategoryBar tabs={categoryTabs} />
 
-      {/* ── Products ── */}
+      {/* ── Our Apps ── */}
       <div id="resources">
         <div className="wrap products-wrap">
-          <SectionHeader axis="Products" />
+          <SectionHeader axis={AXIS_LABELS.apps} />
           <div className="products-grid">
             {PRODUCTS.map(p => (
               <div key={p.name} className="pcard">
@@ -602,7 +603,7 @@ export default async function AtlasLabHome() {
                 <section key={section.key} id={anchorOf(section.key)} className="blog-sec" aria-labelledby={`sec-${section.key}`}>
                   <SectionHeader
                     id={`sec-${section.key}`}
-                    axis={koreanKeys.includes(section.key) ? 'Korean' : 'Guides'}
+                    axis={koreanKeys.includes(section.key) ? AXIS_LABELS.korean : AXIS_LABELS.guides}
                     label={section.title}
                     more={{ href: `/blog?tab=${section.key}`, text: `View all ${section.total} →` }}
                     desc={section.desc}

@@ -3,21 +3,23 @@
 /**
  * 헤더 우측 햄버거(≡) → 오른쪽에서 밀려 나오는 사이드 드로어. SiteNav 가 언어 선택 바로 오른쪽에 둔다.
  *
- *   Products   K-Patto · K-Pantry
- *   Korean     Phrases · Basics ▸ (All Basics + 4개 소분류)
- *   Guides     Explore Korea ▸ · Food & Dining ▸ · Living in Korea ▸ (All + 소분류)
+ *   Our Apps       K-Patto · K-Pantry
+ *   Learn Korean   Phrases ▸ (All Phrases + 상황별 7개) · Basics ▸ (All Basics + 4개 소분류)
+ *   Travel & Life  Explore Korea ▸ · Food & Dining ▸ · Living in Korea ▸ (All + 소분류)
  *
+ * 대분류 이름과 순서는 sections.ts 의 AXIS_LABELS(홈 바로가기 바 · /blog 키커 · 푸터와 같은 값)를 쓴다.
  * 기본은 2단계까지 보이고, 소분류가 있는 항목은 눌러야 3단계가 펼쳐진다(한 번에 하나만 열린다).
  * 소분류 목록은 lib/blog/subcategories 의 SUBCATEGORIES 에서 그대로 읽는다 — /blog 목록의 칩과 어긋나지 않게.
  * 링크를 누르면 그 주소로 가면서 드로어가 닫힌다. 열려 있는 동안 본문 스크롤을 잠그고, Esc · 배경 · X 로 닫는다.
  * 닫힌 동안에는 visibility:hidden 이라 탭 순서에 끼지 않는다(닫히는 애니메이션이 끝난 뒤 숨는다).
- * 메뉴 이름은 자동 번역에서 뺀다(translate="no") — 목록 탭 이름과 같은 영어 라벨을 그대로 둔다.
+ * 메뉴 이름은 자동 번역에서 뺀다(translate="no" + notranslate) — 목록 탭 이름과 같은 영어 라벨을 그대로 둔다.
  * 패널은 body 로 포털한다 — 헤더(sticky, z-index 100) 안에 두면 글 하단 고정 CTA(z-index 150)가 그 위로 올라온다.
  */
 import Link from 'next/link'
 import { useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { subcategoriesFor } from '@/lib/blog/subcategories'
+import { AXIS_LABELS } from '@/lib/blog/sections'
 
 type Leaf = { label: string; href: string }
 type Branch = { label: string; href?: string; children?: Leaf[] }
@@ -33,21 +35,22 @@ function withSubs(group: string, allLabel = 'All'): Leaf[] {
 
 const TREE: Group[] = [
   {
-    label: 'Products',
+    label: AXIS_LABELS.apps,
     items: [
       { label: 'K-Patto', href: '/kpatto' },
-      { label: 'K-Pantry', href: '/kpantry' },
+      // /kpantry 는 /kpantry/en 으로 308 한다 — 푸터와 같은 주소로 바로 간다
+      { label: 'K-Pantry', href: '/kpantry/en' },
     ],
   },
   {
-    label: 'Korean',
+    label: AXIS_LABELS.korean,
     items: [
-      { label: 'Phrases', href: '/blog?tab=phrases' },
+      { label: 'Phrases', children: withSubs('phrases', 'All Phrases') },
       { label: 'Basics', children: withSubs('basics', 'All Basics') },
     ],
   },
   {
-    label: 'Guides',
+    label: AXIS_LABELS.guides,
     items: [
       { label: 'Explore Korea', children: withSubs('explore-korea') },
       { label: 'Food & Dining', children: withSubs('food') },
@@ -162,7 +165,7 @@ export function SiteDrawer() {
       <div className={open ? 'sd-open' : undefined}>
         <div className="sd-dim" onClick={close} aria-hidden="true" />
         {/* 자동 번역(헤더 언어 선택)에서 뺀다 — 'Phrases' 가 '실없는 말', K-Patto 가 '케이패토'로 바뀐다 */}
-        <aside id={id} className="sd-panel" role="dialog" aria-modal="true" aria-label="Site menu" translate="no">
+        <aside id={id} className="sd-panel notranslate" role="dialog" aria-modal="true" aria-label="Site menu" translate="no">
           <div className="sd-head">
             <span className="sd-title">Menu</span>
             <button ref={closeRef} type="button" className="sd-x" aria-label="Close menu" onClick={close}>

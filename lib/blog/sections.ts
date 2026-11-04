@@ -12,7 +12,7 @@
  * app 기준이 하나 더 있다는 점이 중요하다:
  * patto 는 한국인 대상 영어 학습 글이라 위 주제 어디에도 들어가지 않는다.
  * 그래서 주제 섹션·탭은 k-patto / k-pantry 만 대상으로 한다.
- * patto 글의 별도 탭은 없앴다(Patto 앱 안내는 상단 메뉴 Products 로 모았다) — 글 주소는 그대로 열린다.
+ * patto 글의 별도 탭은 없앴다(Patto 앱 안내는 홈 · 푸터의 Our Apps 로 모았다) — 글 주소는 그대로 열린다.
  */
 
 /** 주제 섹션·탭의 대상이 되는 app. kpantry 는 k-pantry 의 옛 표기. */
@@ -95,6 +95,17 @@ export const POSTS_PER_SECTION = 3
 /** 홈에 섹션을 띄우는 최소 글 수. 카드가 하나뿐이면 비어 보이므로 감춘다. */
 export const MIN_POSTS_TO_SHOW_SECTION = 2
 
+/**
+ * 1차 대분류 이름 — 홈 바로가기 바 · 홈 섹션 뱃지 · /blog 탭 바 위 키커 · 헤더 드로어 · 푸터가 모두 이 값을 쓴다.
+ * 순서도 이 순서다(Our Apps → Learn Korean → Travel & Life). 화면마다 따로 적으면 이름이 어긋난다.
+ * 자동 번역에서 빼서 보여 준다(notranslate) — 'Korean' 이 '한국인'이 되는 식으로 뜻이 바뀐다.
+ */
+export const AXIS_LABELS = {
+  apps: 'Our Apps',
+  korean: 'Learn Korean',
+  guides: 'Travel & Life',
+} as const
+
 // ── 그룹: 상단 메뉴·홈·목록 탭 ─────────────────────────────────────────────────
 export const BLOG_GROUPS = [
   {
@@ -165,7 +176,7 @@ export function minPostsToShow(key: string): number {
  */
 export const KOREAN_TAB = {
   key: 'korean',
-  label: 'Korean',
+  label: AXIS_LABELS.korean,
   sections: [
     { group: 'basics', title: 'Basics', desc: 'Hangul, basic pronunciation and beginner guides.', limit: 3 },
     { group: 'phrases', title: 'Phrases', desc: 'Real-life conversations and the webtoon Shorts dialogue series.', limit: 20 },
@@ -176,21 +187,21 @@ export const DEFAULT_TAB = KOREAN_TAB.key
 /** Korean 아래에 묶이는 그룹 — 탭 바에는 없지만 'View all' · 홈 섹션 링크의 목적지로 주소는 살아 있다 */
 const KOREAN_GROUPS = new Set<string>(KOREAN_TAB.sections.map(s => s.group))
 
-/** 탭 바 순서: Korean · Explore Korea · Food · Life(= 상단 메뉴의 Guides). 전체를 섞는 All 보기도, Patto 탭도 없다 */
+/** 유효한 탭 목록: Korean 개요 · Explore Korea · Food · Life(= Travel & Life). 화면의 탭 바는 TAB_FAMILIES 가 가족별로 나눈다 */
 export const BLOG_TABS = [
   { key: KOREAN_TAB.key as string, label: KOREAN_TAB.label as string },
   ...BLOG_GROUPS.filter(g => !KOREAN_GROUPS.has(g.key)).map(g => ({ key: g.key as string, label: g.title as string })),
 ]
 
 /**
- * 목록 탭 바는 가족(대분류)마다 따로 그린다 — 헤더 드로어의 Korean · Guides 와 같은 묶음이다.
- *   Korean  Phrases · Basics           (Korean 개요 /blog 도 이 가족이다)
- *   Guides  Explore Korea · Food · Life
- * 한 줄에 다 섞어 두면 Guides 화면에 Korean 이 끼어 '다른 대분류로 가는 탭'이 2차 탭처럼 보인다.
+ * 목록 탭 바는 가족(대분류)마다 따로 그린다 — 헤더 드로어의 Learn Korean · Travel & Life 와 같은 묶음이다.
+ *   Learn Korean   Phrases · Basics           (Korean 개요 /blog 도 이 가족이다)
+ *   Travel & Life  Explore Korea · Food · Life
+ * 한 줄에 다 섞어 두면 Travel & Life 화면에 Learn Korean 이 끼어 '다른 대분류로 가는 탭'이 2차 탭처럼 보인다.
  */
 export const TAB_FAMILIES = [
-  { key: 'korean', label: 'Korean', tabs: ['phrases', 'basics'] },
-  { key: 'guides', label: 'Guides', tabs: ['explore-korea', 'food', 'life'] },
+  { key: 'korean', label: AXIS_LABELS.korean, tabs: ['phrases', 'basics'] },
+  { key: 'guides', label: AXIS_LABELS.guides, tabs: ['explore-korea', 'food', 'life'] },
 ] as const satisfies ReadonlyArray<{ key: string; label: string; tabs: readonly BlogGroupKey[] }>
 
 /** 이 탭이 속한 가족의 2차 탭들(라벨 포함). Korean 개요(korean)는 Korean 가족이다. */

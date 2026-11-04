@@ -3,11 +3,11 @@
 import { useEffect, useRef, useState } from 'react'
 
 /**
- * 홈 카테고리 바로가기 — 히어로 아래, 'Products' 위.
+ * 홈 카테고리 바로가기 — 히어로 아래, 'Our Apps' 위.
  * 스크롤해서 히어로를 지나면 상단 메뉴(56px) 바로 아래에 붙어 따라온다(sticky + 살짝 흐린 배경).
  * 탭을 누르면 해당 섹션으로 부드럽게 이동하고, 보고 있는 섹션의 탭이 IntersectionObserver 로 켜진다.
- * 탭은 상단 메뉴와 같은 3대 축(Products · Korean · Guides) — 각 탭은 그 축의 첫 섹션 id 를 받는다.
- * 축 안의 뒤쪽 섹션(예: Korean 의 두 번째 섹션)을 지나는 동안에도 그 축의 탭이 켜진 채로 있다.
+ * 탭은 헤더 드로어와 같은 3대 축(Our Apps · Learn Korean · Travel & Life, 이름은 sections.ts AXIS_LABELS)
+ * — 각 탭은 그 축의 첫 섹션 id 를 받는다. 축 안의 뒤쪽 섹션(예: Learn Korean 의 두 번째 섹션)을 지나는 동안에도 그 축의 탭이 켜진 채로 있다.
  * 맨 위(히어로)에서는 아무 탭도 켜지지 않는다 — 예전의 All 탭은 없앴다.
  */
 export type HomeTab = { id: string; label: string }
@@ -142,8 +142,8 @@ export function HomeCategoryBar({ tabs }: { tabs: HomeTab[] }) {
         <div className="wrap">
           <div className="hcat-scroll" ref={scrollerRef}>
             {tabs.map(t => (
-              // 축 이름은 상단 메뉴처럼 자동 번역에서 뺀다('Korean' 이 '한국인'이 된다)
-              <button key={t.id} type="button" data-tab={t.id} className="hcat-tab" translate="no"
+              // 축 이름은 자동 번역에서 뺀다 — translate="no" 와 구글 번역이 보는 notranslate 클래스를 함께 단다
+              <button key={t.id} type="button" data-tab={t.id} className="hcat-tab notranslate" translate="no"
                 aria-current={active === t.id ? 'true' : undefined} onClick={() => go(t.id)}>
                 <span className="hcat-label" data-text={t.label}>{t.label}</span>
               </button>

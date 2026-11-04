@@ -71,7 +71,7 @@ export function BlogClientPage({
   const lang: 'EN' | 'KO' = activeLang === 'ko' ? 'KO' : 'EN'
   // 격자로 그릴지 세로 리스트로 그릴지는 홈과 같은 기준(sections.ts)을 본다
   const isList = layoutForKey(activeTab) === 'list'
-  // 탭 바는 지금 탭이 속한 가족(Korean: Phrases · Basics / Guides: Explore Korea · Food · Life)만 보여 준다.
+  // 탭 바는 지금 탭이 속한 가족(Learn Korean: Phrases · Basics / Travel & Life: Explore Korea · Food · Life)만 보여 준다.
   // Korean 개요(/blog)는 Phrases · Basics 어느 쪽에도 밑줄이 없다
   const family = familyOf(activeTab)
   const tabs = familyTabs(activeTab)
@@ -373,7 +373,9 @@ export function BlogClientPage({
       <section className="bl-hero">
         <div className="bl-wrap">
           <Link href="/" className="bl-back"><span className="bl-back-arrow" aria-hidden="true">←</span>Atlas Lab</Link>
-          <p className="bl-kicker">{family.label}</p>
+          {/* 대분류 · 탭 · 칩 이름은 자동 번역에서 뺀다 — 'Phrases' 가 '실없는 말', 'Korean' 이 '한국인'이 된다.
+              헤더 드로어 · 홈 바로가기 바와 같은 영어 라벨을 그대로 보여 준다 */}
+          <p className="bl-kicker notranslate" translate="no">{family.label}</p>
           <h1 className="bl-h1">
             {lang === 'KO' ? '한국어 아티클' : pageTitle}
           </h1>
@@ -387,7 +389,7 @@ export function BlogClientPage({
 
           {/* Filter bar */}
           <div className="bl-filterbar">
-            <div className="bl-tabs">
+            <div className="bl-tabs notranslate" translate="no">
               {tabs.map(tab => (
                 <Link
                   key={tab.key}
@@ -402,7 +404,7 @@ export function BlogClientPage({
 
           {/* Sub-category chips — 2차 탭마다 따로(Basics · Phrases · Explore Korea · Food · Life). Korean 개요에는 없다 */}
           {subChips.length > 0 && (
-            <nav className="bl-subbar" aria-label="Sub-categories">
+            <nav className="bl-subbar notranslate" translate="no" aria-label="Sub-categories">
               <Link
                 href={buildUrl(activeTab)}
                 scroll={false}

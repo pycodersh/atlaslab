@@ -6,7 +6,7 @@ import { SiteDrawer } from '@/components/SiteDrawer'
  * Site-wide navigation bar — 미니멀하게:
  *   좌측  로고(ATLAS LAB)
  *   우측  언어 선택(🌐 EN ⌵) + 햄버거(≡)
- * Products · Korean · Guides 메뉴는 헤더 바에 펼치지 않고 햄버거가 여는 사이드 드로어(SiteDrawer)에 접어 둔다.
+ * Our Apps · Learn Korean · Travel & Life 메뉴는 헤더 바에 펼치지 않고 햄버거가 여는 사이드 드로어(SiteDrawer)에 접어 둔다.
  * K-PATTO 구매는 /kpatto 랜딩 한 곳으로 모은다(홈 카드·글 CTA 가 그리로 보낸다).
  * 내 북마크(/bookmarks)는 푸터의 Resources 에서 들어간다.
  * Red background (#C8102E via --brand-red CSS var).
