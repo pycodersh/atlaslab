@@ -1,0 +1,342 @@
+{
+  "korean-never-say-dangsin-neo": {
+    "audio": "audio/korean-basic/dangsin-guide.mp3",
+    "hook": {
+      "cue": { "label": "English:", "word": "YOU" },
+      "cards": [{ "ko": "너", "rom": "Neo" }, { "ko": "당신", "rom": "Dangshin" }],
+      "caption": "⚠️ Almost NEVER use these in Korea!"
+    },
+    "contrast": {
+      "heading": "What Koreans actually hear",
+      "cards": [
+        { "ko": "너", "rom": "Neo", "tone": "red", "lines": ["Sounds **rude** — like you’re picking a fight", "…unless you’re best friends of the **SAME age**"] },
+        { "ko": "당신", "rom": "Dangshin", "tone": "red", "lines": ["Heard in **drama fights**", "…or between old married couples **ONLY**"] }
+      ],
+      "banner": { "text": "Stranger + 당신 = Instant Fight 🥊", "tone": "red" }
+    },
+    "takeaway": {
+      "title": "The Golden Solution",
+      "cards": [
+        { "title": "Name + 씨", "rom": "(ssi)", "ex": "민호 씨", "exRom": "Minho-ssi" },
+        { "title": "Title / Role", "ex": "선생님 · 기사님 · 사장님", "exRom": "teacher · driver · boss" },
+        { "title": "Just Drop It!", "ex": "식사하셨어요?", "exRom": "“Have [you] eaten?” — no “you” needed" }
+      ],
+      "slogan": "When in doubt, just omit ‘YOU’ entirely! ✅"
+    },
+    "narration": [
+      [0, "Think twice before saying Dahng-sheen, or Nuh, in Korea."],
+      [3.5, "It can sound rude or like picking a fight! Instead use their title or Name plus Shee."],
+      [8, "Or even better? Just drop the word YOU, entirely!"]
+    ]
+  },
+
+  "korean-particle-euro-by-to-as": {
+    "audio": "audio/korean-basic/korean-particle-euro-by-to-as.mp3",
+    "hook": {
+      "cue": { "label": "English:", "word": "BY · TO · AS" },
+      "cards": [{ "ko": "버스에 가요", "rom": "beoseu-e gayo" }, { "ko": "지하철으로", "rom": "jihacheol-euro" }],
+      "caption": "⚠️ Two classic (으)로 slips"
+    },
+    "contrast": {
+      "heading": "로 or 으로? Check the last sound",
+      "cards": [
+        { "ko": "로", "rom": "ro", "tone": "navy", "lines": ["After a **vowel** or **ㄹ**", "버스로 · 카드로 · 지하철로"] },
+        { "ko": "으로", "rom": "euro", "tone": "green", "lines": ["After **other consonants**", "손으로 · 현금으로 · 집으로"] }
+      ],
+      "banner": { "text": "Means · Direction · Material · Role · Choice", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Say it today",
+      "cards": [
+        { "title": "By card", "ex": "카드로 결제할게요", "exRom": "I’ll pay by card." },
+        { "title": "To this address", "ex": "이 주소로 가 주세요", "exRom": "Please take me here." },
+        { "title": "This one!", "ex": "이걸로 주세요", "exRom": "I’ll take this one, please." }
+      ],
+      "slogan": "이걸로 주세요 works at every counter ✅"
+    },
+    "narration": [
+      [0, "By bus, to the right, as a gift. Korean uses one particle."],
+      [4, "Say ro after a vowel or L, and uh-ro after other consonants."],
+      [8, "Pointing at a menu? Ee-gul-lo ju-seh-yo. This one, please!"]
+    ]
+  },
+
+  "korean-have-you-ever-eo-boda": {
+    "audio": "audio/korean-basic/korean-have-you-ever-eo-boda.mp3",
+    "hook": {
+      "cue": { "label": "English:", "word": "HAVE YOU EVER…?" },
+      "cards": [{ "ko": "먹보다", "rom": "meokboda" }, { "ko": "아침을 먹어 봤어요", "rom": "routine breakfast" }],
+      "caption": "⚠️ Two ways to misuse 보다"
+    },
+    "contrast": {
+      "heading": "A fact, or an experience?",
+      "cards": [
+        { "ko": "먹었어요", "rom": "meogeosseoyo", "tone": "navy", "lines": ["**I ate it.**", "A plain fact about an event"] },
+        { "ko": "먹어 봤어요", "rom": "meogeo bwasseoyo", "tone": "green", "lines": ["**I’ve tried it.**", "An experience: have you ever?"] }
+      ],
+      "banner": { "text": "Stem + 아/어 + 보다 = try it", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Use it on your trip",
+      "cards": [
+        { "title": "Try this", "ex": "한번 먹어 보세요", "exRom": "Give this a try." },
+        { "title": "Try it on", "ex": "입어 봐도 돼요?", "exRom": "May I try this on?" },
+        { "title": "Been there", "ex": "한국에 가 본 적이 있어요", "exRom": "I’ve been to Korea." }
+      ],
+      "slogan": "Add 한번 to make it sound friendly ✅"
+    },
+    "narration": [
+      [0, "Did you eat kimchi? Or, have you ever tried it?"],
+      [4, "Add bo-da after the verb, and ate becomes have tried."],
+      [8, "In a shop, ask: ee-buh bwa-do dweh-yo? May I try this on?"]
+    ]
+  },
+
+  "korean-can-su-itda-eopda": {
+    "audio": "audio/korean-basic/korean-can-su-itda-eopda.mp3",
+    "hook": {
+      "cue": { "label": "English:", "word": "CAN I…?" },
+      "cards": [{ "ko": "가을 수 있어요", "rom": "ga-eul su isseoyo" }, { "ko": "갈수있어요", "rom": "galsu-isseoyo" }],
+      "caption": "⚠️ Two slips with 수"
+    },
+    "contrast": {
+      "heading": "One pattern for can and can’t",
+      "cards": [
+        { "ko": "갈 수 있어요", "rom": "gal su isseoyo", "tone": "green", "lines": ["**Can** go", "Vowel stem + ㄹ 수 있어요"] },
+        { "ko": "먹을 수 없어요", "rom": "meogeul su eopseoyo", "tone": "red", "lines": ["**Can’t** eat", "Consonant stem + 을 수 없어요"] }
+      ],
+      "banner": { "text": "Ability · Possibility · Permission", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Questions you’ll actually ask",
+      "cards": [
+        { "title": "Pay by card?", "ex": "카드로 결제할 수 있어요?", "exRom": "Can I pay by card?" },
+        { "title": "Photos?", "ex": "사진 찍을 수 있어요?", "exRom": "Can I take photos?" },
+        { "title": "Softer", "ex": "짐을 맡길 수 있을까요?", "exRom": "Could I leave my luggage?" }
+      ],
+      "slogan": "On signs: 가능 = can, 불가 = can’t ✅"
+    },
+    "narration": [
+      [0, "Can I pay by card? Can I take photos? One pattern does it all."],
+      [4, "Can is su iss-uh-yo. Can't is su up-suh-yo."],
+      [8, "To sound softer, end with su iss-ul-kka-yo."]
+    ]
+  },
+
+  "korean-connecting-go-vs-myeonseo": {
+    "audio": "audio/korean-basic/korean-connecting-go-vs-myeonseo.mp3",
+    "hook": {
+      "cue": { "label": "English:", "word": "AND THEN · WHILE" },
+      "cards": [{ "ko": "걷고 전화했어요", "rom": "walked, then called" }, { "ko": "먹었고 봤어요", "rom": "meogeotgo bwasseoyo" }],
+      "caption": "⚠️ Two -고 slips"
+    },
+    "contrast": {
+      "heading": "Can you say “and then”?",
+      "cards": [
+        { "ko": "먹고", "rom": "meokgo", "tone": "navy", "lines": ["**And then**", "One action, then the next"] },
+        { "ko": "먹으면서", "rom": "meogeumyeonseo", "tone": "green", "lines": ["**While**", "Both at once, same person"] }
+      ],
+      "banner": { "text": "Tense goes on the last verb only", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Say it today",
+      "cards": [
+        { "title": "Ride & go", "ex": "지하철을 타고 가요", "exRom": "I go by subway." },
+        { "title": "And then", "ex": "메뉴를 보고 주문할게요", "exRom": "I’ll look, then order." },
+        { "title": "While", "ex": "커피 마시면서 기다릴게요", "exRom": "I’ll wait over a coffee." }
+      ],
+      "slogan": "“And then” → -고 · “while” → -(으)면서 ✅"
+    },
+    "narration": [
+      [0, "And then, or while? Korean picks a different ending."],
+      [4, "Go means and then. Myun-suh means while, at the same time."],
+      [8, "Quick test: if and then fits, use go."]
+    ]
+  },
+
+  "korean-future-tense-eul-geoyeyo": {
+    "audio": "audio/korean-basic/korean-future-tense-eul-geoyeyo.mp3",
+    "hook": {
+      "cue": { "label": "English:", "word": "WILL · GOING TO" },
+      "cards": [{ "ko": "가을 거예요", "rom": "ga-eul geoyeyo" }, { "ko": "제가 할 거예요", "rom": "as an offer" }],
+      "caption": "⚠️ Two future-tense traps"
+    },
+    "contrast": {
+      "heading": "One ending, two jobs",
+      "cards": [
+        { "ko": "갈 거예요", "rom": "gal geoyeyo", "tone": "navy", "lines": ["**A plan**", "내일 갈 거예요 · I’ll go tomorrow"] },
+        { "ko": "올 거예요", "rom": "ol geoyeyo", "tone": "green", "lines": ["**A guess**", "비가 올 거예요 · It’ll probably rain"] }
+      ],
+      "banner": { "text": "Vowel stem + ㄹ · consonant stem + 을 거예요", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Say it today",
+      "cards": [
+        { "title": "A plan", "ex": "주말에 쉴 거예요", "exRom": "I’ll rest this weekend." },
+        { "title": "A guess", "ex": "괜찮을 거예요", "exRom": "It’ll be fine." },
+        { "title": "An offer", "ex": "제가 할게요", "exRom": "I’ll do it. (right now)" }
+      ],
+      "slogan": "Promising on the spot? Use -(으)ㄹ게요 ✅"
+    },
+    "narration": [
+      [0, "Korean's future tense is one short ending: gul guh-yeh-yo."],
+      [4, "It covers plans, and guesses, like: it'll probably rain."],
+      [8, "Offering on the spot? Say: jeh-ga hal-geh-yo. I'll do it."]
+    ]
+  },
+
+  "korean-an-vs-mot-negation": {
+    "audio": "audio/korean-basic/korean-an-vs-mot-negation.mp3",
+    "hook": {
+      "cue": { "label": "English:", "word": "I DON’T · I CAN’T" },
+      "cards": [{ "ko": "한국어를 안 해요", "rom": "sounds like “I refuse”" }, { "ko": "안 공부해요", "rom": "an gongbuhaeyo" }],
+      "caption": "⚠️ The first syllable changes everything"
+    },
+    "contrast": {
+      "heading": "Choice, or ability?",
+      "cards": [
+        { "ko": "안", "rom": "an", "tone": "navy", "lines": ["**Don’t**: by choice or fact", "안 먹어요 · I don’t eat it"] },
+        { "ko": "못", "rom": "mot", "tone": "green", "lines": ["**Can’t**: ability or circumstance", "못 먹어요 · I can’t eat it"] }
+      ],
+      "banner": { "text": "Adjectives only take 안: 안 매워요", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Say it today",
+      "cards": [
+        { "title": "Polite refusal", "ex": "오늘은 못 가요", "exRom": "I can’t go today." },
+        { "title": "Food", "ex": "매운 음식을 못 먹어요", "exRom": "I can’t eat spicy food." },
+        { "title": "Language", "ex": "한국어를 못 해요", "exRom": "I can’t speak Korean." }
+      ],
+      "slogan": "Turning something down? 못 sounds kinder ✅"
+    },
+    "narration": [
+      [0, "I don't, or I can't? In Korean, the first syllable decides."],
+      [4, "Ahn means you choose not to. Mot means you can't."],
+      [8, "Turning down an invite? Mot sounds far more polite."]
+    ]
+  },
+
+  "korean-particles-e-vs-eseo": {
+    "audio": "audio/korean-basic/korean-particles-e-vs-eseo.mp3",
+    "hook": {
+      "cue": { "label": "English:", "word": "AT · IN" },
+      "cards": [{ "ko": "학교에서 가요", "rom": "hakgyo-eseo gayo" }, { "ko": "카페에 공부해요", "rom": "kape-e gongbuhaeyo" }],
+      "caption": "⚠️ The most common particle slip"
+    },
+    "contrast": {
+      "heading": "Is something happening there?",
+      "cards": [
+        { "ko": "에", "rom": "e", "tone": "navy", "lines": ["**Being** or **going** there", "집에 있어요 · I’m at home"] },
+        { "ko": "에서", "rom": "eseo", "tone": "green", "lines": ["**Doing** something there", "집에서 쉬어요 · I rest at home"] }
+      ],
+      "banner": { "text": "에 also marks time: 세 시에", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Say it today",
+      "cards": [
+        { "title": "Being", "ex": "집에 있어요", "exRom": "I’m at home." },
+        { "title": "Doing", "ex": "카페에서 공부해요", "exRom": "I study at a cafe." },
+        { "title": "From", "ex": "한국에서 왔어요", "exRom": "I came from Korea." }
+      ],
+      "slogan": "Action happening there? Use 에서 ✅"
+    },
+    "narration": [
+      [0, "I'm at home. I study at home. Korean needs two particles."],
+      [4, "Eh, for being or going there. Eh-suh, for doing something there."],
+      [8, "Just ask: is something happening there?"]
+    ]
+  },
+
+  "korean-syllable-structure-why-every-block-matters": {
+    "audio": "audio/korean-basic/korean-syllable-structure-why-every-block-matters.mp3",
+    "hook": {
+      "cue": { "label": "Letters:", "word": "ㄱ + ㅗ + ㅁ" },
+      "cards": [{ "ko": "ㄱㅗㅁ", "rom": "g · o · m" }, { "ko": "ㄱ ㅏ", "rom": "g · a" }],
+      "caption": "⚠️ Korean doesn’t write in a line"
+    },
+    "contrast": {
+      "heading": "The vowel decides the layout",
+      "cards": [
+        { "ko": "가", "rom": "ga", "tone": "navy", "lines": ["**Vertical** vowel", "Consonant sits to the left"] },
+        { "ko": "고", "rom": "go", "tone": "green", "lines": ["**Horizontal** vowel", "Consonant sits on top"] }
+      ],
+      "banner": { "text": "ㄱ + ㅗ + ㅁ = 곰 — one block, one beat", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Read the block",
+      "cards": [
+        { "title": "Side by side", "ex": "가 · 너 · 지", "exRom": "ga · neo · ji" },
+        { "title": "Stacked", "ex": "고 · 누 · 스", "exRom": "go · nu · seu" },
+        { "title": "Final consonant", "ex": "곰 · 물 · 국", "exRom": "gom · mul · guk" }
+      ],
+      "slogan": "ㅇ is silent on top, “ng” at the bottom ✅"
+    },
+    "narration": [
+      [0, "Korean doesn't write letters in a line. It packs them into blocks."],
+      [4, "The vowel decides: tall vowels sit beside, flat vowels sit below."],
+      [8, "Read the whole block, and you're reading, not decoding."]
+    ]
+  },
+
+  "how-long-to-learn-hangul": {
+    "audio": "audio/korean-basic/how-long-to-learn-hangul.mp3",
+    "hook": {
+      "cue": { "label": "Is Korean hard?", "word": "Hangul isn’t." },
+      "cards": [{ "ko": "annyeong", "rom": "romanization crutch" }, { "ko": "ㅓ ㅏ ㅗ ㅜ", "rom": "one letter at a time" }],
+      "caption": "⚠️ Two habits that slow you down"
+    },
+    "contrast": {
+      "heading": "A realistic timeline",
+      "cards": [
+        { "ko": "Days", "rom": "1–5", "tone": "green", "lines": ["**Read** every letter", "Letters, then syllable blocks"] },
+        { "ko": "Months", "rom": "1–3", "tone": "navy", "lines": ["**Read fast**", "Blocks recognized whole"] }
+      ],
+      "banner": { "text": "The alphabet is the easy part", "tone": "green" }
+    },
+    "takeaway": {
+      "title": "Your first week",
+      "cards": [
+        { "title": "Day 1–2", "ex": "ㄱ ㄴ ㄷ · ㅏ ㅓ ㅗ", "exRom": "14 consonants, 10 vowels" },
+        { "title": "Day 3–5", "ex": "한 = ㅎ + ㅏ + ㄴ", "exRom": "Build syllable blocks" },
+        { "title": "Week 2", "ex": "사람 · 학교 · 친구", "exRom": "Read real words aloud" }
+      ],
+      "slogan": "Drop romanization early ✅"
+    },
+    "narration": [
+      [0, "How long does Hangul take? Days, not years."],
+      [4, "Read every letter within a week. Read fast in a few months."],
+      [8, "The trick? Drop romanization early, and read aloud."]
+    ]
+  },
+
+  "formal-vs-casual-korean-when-to-drop-yo": {
+    "audio": "audio/korean-basic/formal-vs-casual-korean-when-to-drop-yo.mp3",
+    "hook": {
+      "cue": { "label": "Politeness lives in", "word": "the ending" },
+      "cards": [{ "ko": "먹어", "rom": "to someone older" }, { "ko": "좋아요 → 좋아", "rom": "switching mid-chat" }],
+      "caption": "⚠️ Dropping 요 too soon"
+    },
+    "contrast": {
+      "heading": "Every sentence picks a level",
+      "cards": [
+        { "ko": "먹어요", "rom": "meogeoyo", "tone": "green", "lines": ["**요 form**: your default", "Strangers, staff, anyone older"] },
+        { "ko": "먹어", "rom": "meogeo", "tone": "red", "lines": ["**반말**: casual", "Close friends your age, children"] }
+      ],
+      "banner": { "text": "Dropping 요 is a statement about the relationship", "tone": "navy" }
+    },
+    "takeaway": {
+      "title": "Stay on the safe side",
+      "cards": [
+        { "title": "Default", "ex": "가요 · 먹어요", "exRom": "Polite, never rude" },
+        { "title": "You’ll hear", "ex": "갑니다", "exRom": "Formal, from staff" },
+        { "title": "Ask first", "ex": "말 놓아도 될까요?", "exRom": "Can we speak casually?" }
+      ],
+      "slogan": "Wait to be invited before dropping 요 ✅"
+    },
+    "narration": [
+      [0, "In Korean, every sentence picks a politeness level."],
+      [4, "Yo keeps it polite. Drop it, and you're speaking casually."],
+      [8, "Default to yo, until someone invites you to drop it."]
+    ]
+  }
+}

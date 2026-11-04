@@ -3,7 +3,7 @@ import { Blockquote } from './Blockquote'
 import { NoTranslateCode, NoTranslatePre } from './NoTranslate'
 import { KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta } from './ArticleBlocks'
 import { GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample } from './GrammarCheatCard'
-import { DangerPronounsPlayer } from './DangerPronounsPlayer'
+import { KoreanBasicPlayer, DangerPronounsPlayer } from './KoreanBasicPlayer'
 import { createElement, Fragment, type JSX, type ReactNode } from 'react'
 
 function LegacyPlainText({ children }: { children?: ReactNode }): JSX.Element {
@@ -25,7 +25,8 @@ export const blogMdxComponents = {
   YouTube, blockquote: Blockquote, code: NoTranslateCode, pre: NoTranslatePre,
   KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta,
   GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample,
-  /** DangerPronounsVideo — Basics '너 vs 당신' 글 상단 12초 Remotion 쇼트(remotion/KoreanBasic) */
+  /** KoreanBasicVideo slug="..." — Basics 글 상단 12초 Remotion 쇼트(remotion/KoreanBasic/videos.json). DangerPronounsVideo 는 '너 vs 당신' 글의 첫 태그 */
+  KoreanBasicVideo: KoreanBasicPlayer,
   DangerPronounsVideo: DangerPronounsPlayer,
   /** 임시: 제휴 링크를 걷어낸 옛 태그 — 링크 없이 안쪽 글자만 낸다. 원고 · DB 에서는 이미 지웠지만
    *  글 fetch 캐시(revalidate 하루)가 옛 본문을 하루 동안 돌려줄 수 있어, 그동안 빌드가 깨지지 않게 둔다.
