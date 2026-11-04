@@ -14,7 +14,7 @@ import {
  *  1) 처음 방문: localStorage 가 없으면 navigator.language 로 지원 언어를 찾는다(없으면 en).
  *  2) 언어를 고르면 localStorage('atlas_selected_lang') 에 저장하고, googtrans 쿠키를 맞춘 뒤 새로고침한다.
  *     (실시간 교체보다 새로고침이 React DOM 과 덜 부딪친다.)
- *  3) en 이 아니면 번역 스크립트를 이때만 불러온다. en 이면 아무것도 불러오지 않는다.
+ *  3) en 이 아니면 번역 스크립트를 이때만 불러온다 — 페이지 load 뒤 한가할 때(hydration 이 끝난 뒤). en 이면 아무것도 불러오지 않는다.
  *
  * 번역 제외: translate="no" / class="notranslate" 가 붙은 곳(이 컴포넌트, 코드 블록)은 그대로 둔다.
  * 한국어 글(/blog/ko/…)은 이미 한국어라 번역하지 않는다.
@@ -59,6 +59,27 @@ function patchDomForTranslate() {
   Node.prototype.insertBefore = function <T extends Node>(this: Node, node: T, ref: Node | null): T {
     if (ref && ref.parentNode !== this) return node
     return origInsert.call(this, node, ref) as T
+  }
+}
+
+/**
+ * 페이지가 다 뜬 뒤(window load) 브라우저가 한가할 때 cb 를 부른다. 취소 함수를 돌려준다.
+ * 번역 스크립트를 이보다 일찍 붙이면, 배포 직후처럼 JS 가 느리게 받아지는 첫 방문에서 React 가 아직 hydrate 하지 않은
+ * 구역(Suspense 경계 · 스트리밍 조각)의 글자를 번역이 먼저 바꿔 버려 hydration 오류(#418, text 불일치)가 난다.
+ */
+function whenPageSettled(cb: () => void): () => void {
+  let idle = 0
+  let timer: ReturnType<typeof setTimeout> | undefined
+  const run = () => {
+    if ('requestIdleCallback' in window) idle = window.requestIdleCallback(cb, { timeout: 2000 })
+    else timer = setTimeout(cb, 300)
+  }
+  if (document.readyState === 'complete') run()
+  else window.addEventListener('load', run, { once: true })
+  return () => {
+    window.removeEventListener('load', run)
+    if (idle) window.cancelIdleCallback(idle)
+    clearTimeout(timer)
   }
 }
 
@@ -114,7 +135,8 @@ export function LanguageSelector() {
         return
       }
     }
-    if (chosen !== DEFAULT_LANG) loadTranslateScript()
+    // 번역은 hydration 이 끝난 뒤에 붙인다(whenPageSettled 설명 참고)
+    if (chosen !== DEFAULT_LANG) return whenPageSettled(loadTranslateScript)
   }, [translatable])
 
   // 바깥 클릭 / Esc 로 닫기
