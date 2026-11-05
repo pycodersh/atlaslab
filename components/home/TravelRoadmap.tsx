@@ -1,6 +1,6 @@
-import { BlogThumb } from '@/components/blog/BlogThumb'
 import { SectionHeader } from '@/components/SectionHeader'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
+import { RoadmapSteps } from './RoadmapSteps'
 
 /**
  * 홈 '첫 여행 로드맵' — lib/home/roadmap 의 다섯 단계를 실제 글로 풀어 그린다(app/page.tsx 가 글을 찾아 넘긴다).
@@ -96,12 +96,51 @@ const CSS = `
   .rm-hub .blog-thumb { margin-bottom: 0; }
   .rm-side { display: flex; flex-direction: column; }
 }
-/* 600px 미만 — 세로로 쌓는다. 대표 글은 홈 카드와 같은 가로형(96px 썸네일) */
+/* 단계 탭 — 600px 미만에서만 보인다(PC · 태블릿은 다섯 단계를 다 펼친다) */
+.rm-tabs { display: none; }
+
+/* 600px 미만 — 다섯 단계를 위에 탭으로 두고 고른 한 단계만 보인다(세로 약 2,000px → 한 단계 높이).
+   단계 다섯 개를 같은 격자 칸에 겹쳐 쌓고 안 고른 단계는 visibility: hidden 으로 감춘다 —
+   칸 높이가 가장 긴 단계로 고정되므로 탭을 바꿔도 아래 내용이 들썩이지 않는다(CLS 0).
+   visibility: hidden 인 링크는 탭 포커스 · 스크린리더에서도 빠진다. */
 @media (max-width: 599px) {
-  .rm-step { display: flex; flex-direction: column; padding: 18px 0; }
-  .rm-hub { grid-template-columns: 96px minmax(0, 1fr); margin-bottom: 10px; }
+  .rm-tabs {
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr));
+    border-top: 2px solid var(--ink, #111);
+    border-bottom: 1px solid var(--rule, #E5E1DC);
+  }
+  .rm-tab {
+    appearance: none; background: none; border: 0; border-radius: 0;
+    min-height: 52px; padding: 8px 2px 9px;
+    display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 2px;
+    font-family: ${BODY}; font-size: 11.5px; font-weight: 600; line-height: 1.2;
+    color: var(--ink-muted, #6B6B6B); text-align: center;
+    box-shadow: inset 0 -2px 0 transparent;
+    cursor: pointer; -webkit-tap-highlight-color: transparent;
+  }
+  .rm-tab b { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; color: inherit; }
+  .rm-tab[aria-selected="true"] { color: var(--ink, #111); box-shadow: inset 0 -2px 0 var(--brand-red, #C8102E); }
+  .rm-tab[aria-selected="true"] b { color: var(--brand-red, #C8102E); }
+  .rm-tab:focus-visible { outline: 2px solid var(--brand-red, #C8102E); outline-offset: -2px; }
+
+  .rm-list { display: grid; grid-template-columns: minmax(0, 1fr); border-top: none; }
+  .rm-step {
+    grid-area: 1 / 1;
+    display: flex; flex-direction: column; padding: 14px 0 4px; border-bottom: none;
+  }
+  .rm-step[data-active="false"] { visibility: hidden; }
+  /* 번호는 탭이 이미 보여 주므로 감추고, 설명은 한 줄 반 정도로 줄인다 */
+  .rm-num { display: none; }
+  .rm-title { font-size: 17px; margin-bottom: 4px; }
+  .rm-blurb { font-size: 12.5px; margin-bottom: 12px; }
+  .rm-hub { grid-template-columns: 96px minmax(0, 1fr); margin-bottom: 8px; }
   .rm-hub-title { font-size: 14.5px; }
+  /* 링크 줄은 손가락 타깃 44px */
   .rm-more { margin-bottom: 10px; }
+  .rm-more a { padding: 12px 0; min-height: 44px; box-sizing: border-box; }
+  /* 칸 높이는 가장 긴 단계에 맞춰져 있다 — 짧은 단계에서 회화 카드를 바닥으로 밀지 않고 링크 바로 아래 둔다 */
+  .rm-side { flex: 0 0 auto; }
+  .rm-phrase { margin-top: 0; padding: 11px 12px; }
 }
 `
 
@@ -116,38 +155,7 @@ export function TravelRoadmap({ steps }: { steps: ResolvedStep[] }) {
         desc="Follow it in order — every step links the guide to read and the Korean to say."
         more={{ href: '/blog', text: 'All guides →' }}
       />
-      <ol className="rm-list">
-        {steps.map((s, i) => (
-          <li key={s.key} className="rm-step">
-            <div className="rm-head">
-              <p className="rm-num">{String(i + 1).padStart(2, '0')} · {s.step}</p>
-              <h3 className="rm-title">{s.title}</h3>
-              <p className="rm-blurb">{s.blurb}</p>
-            </div>
-            {s.hub && (
-              <a href={s.hub.href} className="rm-hub">
-                <BlogThumb thumb={s.hub.thumb} alt={s.hub.title} />
-                <span className="rm-hub-title">{s.hub.title}</span>
-              </a>
-            )}
-            <div className="rm-side">
-              {s.more.length > 0 && (
-                <ul className="rm-more">
-                  {s.more.map(m => (
-                    <li key={m.href}><a href={m.href}>{m.label}</a></li>
-                  ))}
-                </ul>
-              )}
-              {s.phrase && (
-                <a href={s.phrase.href} className="rm-phrase">
-                  <small>Say it in Korean</small>
-                  {s.phrase.label} →
-                </a>
-              )}
-            </div>
-          </li>
-        ))}
-      </ol>
+      <RoadmapSteps steps={steps} />
     </section>
   )
 }
