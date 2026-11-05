@@ -3,10 +3,11 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
-      // 2026-11-05 Basics 중복 글 통합 — 짧은 글은 DB 에서 비공개(is_paused), 주소는 남은 글로 영구 이동
-      { source: '/blog/en/k-patto/eun-neun-vs-i-ga-difference',             destination: '/blog/en/k-patto/korean-topic-vs-subject-particle',    permanent: true },
-      { source: '/blog/en/k-patto/why-korean-has-two-number-systems',       destination: '/blog/en/k-patto/korean-two-number-systems',           permanent: true },
-      { source: '/blog/en/k-patto/formal-vs-casual-korean-when-to-drop-yo', destination: '/blog/en/k-patto/korean-politeness-levels-explained', permanent: true },
+      // 2026-11-05 Basics 중복 글 통합 — 짧은 글은 DB 에서 비공개(is_paused), 주소는 남은 글로 영구 이동.
+      // permanent: true 는 308 을 내므로, 요청대로 고전적인 301 을 statusCode 로 명시한다(둘은 함께 쓸 수 없다)
+      { source: '/blog/en/k-patto/eun-neun-vs-i-ga-difference',             destination: '/blog/en/k-patto/korean-topic-vs-subject-particle',    statusCode: 301 },
+      { source: '/blog/en/k-patto/why-korean-has-two-number-systems',       destination: '/blog/en/k-patto/korean-two-number-systems',           statusCode: 301 },
+      { source: '/blog/en/k-patto/formal-vs-casual-korean-when-to-drop-yo', destination: '/blog/en/k-patto/korean-politeness-levels-explained', statusCode: 301 },
       // /kpatto/welcome → /kpatto (308 — 색인됐을 수 있으므로 permanent)
       {
         source:      '/kpatto/welcome',
