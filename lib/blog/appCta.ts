@@ -50,6 +50,36 @@ const K_PANTRY: AppCta = {
   button: 'Try K-Pantry Free →',
 }
 
+/**
+ * 집에서 요리하는 독자를 위한 Food 글 — 대체재 · 장보기 · 보관 · 기본 조리법.
+ * Food 글은 전부 본문에 <KpattoCta />(한국어 회화 → K-PATTO)가 들어 있어, 그대로 두면 K-Pantry 로 가는 동선이 하나도 없다.
+ * 이 목록의 글은 본문 K-PATTO 카드를 감추고 글 끝에 K-Pantry 카드를 낸다(app/blog/[locale]/[app]/[slug]/page.tsx).
+ * 식당에서 주문 · 먹는 글(순두부 주문법, 광장시장 …)과 '주문하고 집에서도 만드는' 글은 여행자 동선이라 K-PATTO 로 남긴다.
+ */
+export const COOK_AT_HOME_SLUGS: ReadonlySet<string> = new Set([
+  'gochujang-substitutes',
+  'gochugaru-vs-chili-flakes-substitute',
+  'doenjang-vs-miso-substitute',
+  'what-is-perilla-leaf-substitute',
+  'cook-korean-food-without-korean-grocery-store',
+  'korean-pantry-first-ingredients',
+  'how-long-do-korean-pantry-staples-last',
+  'gochujang-vs-gochugaru-vs-doenjang',
+  'korean-soy-sauce-types',
+  'sesame-oil-vs-perilla-oil',
+  'gim-nori-miyeok-dasima-korean-seaweed',
+  'how-to-buy-store-and-use-kimchi',
+  'tteokbokki-tteok-vs-tteokguk-tteok-comparison',
+  'why-korean-marinades-use-asian-pear',
+  'korean-anchovy-stock-guide',
+  'how-to-cook-korean-rice',
+  'korean-namul-vegetable-side-dishes',
+  'korean-ttukbaegi-cooking-guide',
+  'easy-korean-dishes-for-beginners',
+  'korean-dishes-with-kimchi-rice-and-eggs',
+  'instant-ramyeon-upgrade-guide',
+])
+
 /** 기본값 — patto 글은 한국어권 독자라 문구도 한국어로 낸다 */
 function patto(locale: string): AppCta {
   const ko = locale === 'ko'

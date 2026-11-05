@@ -7,6 +7,7 @@ import { blogMdxComponents } from '@/components/blog/mdxComponents'
 import type { Metadata } from 'next'
 import { proseCss, PROSE_FONT } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
+import { COOK_AT_HOME_SLUGS } from '@/lib/blog/appCta'
 import { groupKeyOf } from '@/lib/blog/sections'
 import { KlookBanner } from '@/components/affiliate/KlookBanner'
 import { ItalkiBanner } from '@/components/blog/ItalkiBanner'
@@ -217,6 +218,9 @@ export default async function AppBlogPostPage({
 
   if (!post) notFound()
 
+  // 집에서 요리하는 독자용 Food 글 — 글 끝 CTA 를 K-PATTO 대신 K-Pantry 로
+  const cookAtHome = COOK_AT_HOME_SLUGS.has(slug)
+
   const { data: related } = await supabase
     .from('blog_posts')
     .select('slug, title, description, published_at')
@@ -376,7 +380,8 @@ export default async function AppBlogPostPage({
         <article className="blog-prose art-wrap">
           <MDXRemote
             source={post.content}
-            components={blogMdxComponents}
+            // 집 요리 글은 본문의 K-PATTO 카드를 감추고 글 끝 K-Pantry 카드 하나로 간다(lib/blog/appCta 의 COOK_AT_HOME_SLUGS)
+            components={cookAtHome ? { ...blogMdxComponents, KpattoCta: () => null } : blogMdxComponents}
             options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
           />
         </article>
@@ -406,7 +411,7 @@ export default async function AppBlogPostPage({
           {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위.
               Korean phrases / basics 글은 앱·PDF 버튼 대신 /kpatto 랜딩으로 가는 단일 CTA(lib/blog/appCta).
               개편 글(본문에 <KpattoCta /> 가 있는 Food·Life 글)은 본문 CTA 와 겹쳐서 내지 않는다 */}
-          {!post.content.includes('<KpattoCta') && (
+          {(cookAtHome || !post.content.includes('<KpattoCta')) && (
             <ArticleAppBanner app={app} category={post.category} locale={locale} />
           )}
 
