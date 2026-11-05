@@ -7,12 +7,8 @@
  *
  * 인스타그램 공식 코드(<blockquote> + embed.js)는 MDX 에서 <script> 를 돌릴 수 없어 쓰지 않는다.
  * 같은 화면을 주는 /embed/ 주소를 iframe 으로 바로 넣는다.
- *
- * 릴스는 영상만 잘라 보인다. 인스타 임베드는 9:16 영상을 4:5 상자에 넣어 좌우에 검은 띠가 생기고
- * (iframe 안이라 우리 CSS 로 색을 바꿀 수 없다), 위에 계정 줄 · 아래에 좋아요 · 댓글 줄이 붙는다.
- * 그래서 iframe 을 넓게 깔고 영상 부분만 보이는 320 × 566 창으로 잘라낸다(2026-11-05 실측):
- *   iframe 폭 470 → 영상이 그 폭의 약 70% · 높이 566 이상, 계정 줄은 위 64px.
- * 잘려 나간 출처 표시는 아래 'Watch on Instagram' 링크가 대신한다.
+ * 높이는 고정이다 — 인스타 임베드는 위 계정 줄 · 아래 '더 보기' 줄이 붙어 비율로 맞출 수 없다.
+ * 폭이 좁은 폰에서는 영상이 조금 작아지고 아래에 흰 여백이 약간 남는다(잘리는 것보다 낫다).
  * 스타일을 인라인으로 두는 이유는 YouTube 와 같다(두 라우트에서 쓰인다).
  */
 
@@ -25,68 +21,29 @@ type Props = {
   kind?: 'reel' | 'p'
 }
 
-/** 보이는 영상 창 */
-const VIEW_W = 320
-const VIEW_H = 566
-/** 영상이 창을 꽉 채우도록 깔아 두는 iframe 폭과, 잘라 낼 위쪽 계정 줄 높이 */
-const FRAME_W = 470
-const HEADER_H = 64
-
 export function Instagram({ id, title, kind = 'reel' }: Props) {
-  const href = `https://www.instagram.com/${kind}/${id}/`
-
-  if (kind === 'p') {
-    // 일반 게시물은 정사각 · 가로 사진도 있어 자르지 않고 그대로 보인다
-    return (
-      <div style={{ maxWidth: 360, width: '100%', margin: '28px auto', borderRadius: 8, overflow: 'hidden', border: '1px solid #E7E5E4', background: '#fff' }}>
-        <iframe
-          src={`${href}embed/`}
-          title={title ?? 'Instagram post'}
-          loading="lazy"
-          scrolling="no"
-          style={{ display: 'block', width: '100%', height: 640, border: 0 }}
-        />
-      </div>
-    )
-  }
-
   return (
-    <figure style={{ margin: '28px auto', width: VIEW_W, maxWidth: '100%' }}>
-      <div
-        style={{
-          position: 'relative',
-          width: VIEW_W,
-          maxWidth: '100%',
-          height: VIEW_H,
-          margin: '0 auto',
-          overflow: 'hidden',
-          borderRadius: 12,
-          background: '#fff',
-        }}
-      >
-        <iframe
-          src={`${href}embed/`}
-          title={title ?? 'Instagram reel'}
-          loading="lazy"
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-          allowFullScreen
-          scrolling="no"
-          style={{
-            position: 'absolute',
-            top: -HEADER_H,
-            left: '50%',
-            width: FRAME_W,
-            height: VIEW_H + HEADER_H + 160,
-            marginLeft: -FRAME_W / 2,
-            border: 0,
-          }}
-        />
-      </div>
-      <figcaption style={{ marginTop: 8, textAlign: 'center', fontSize: 12.5, lineHeight: 1.4 }}>
-        <a href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#737373', textDecoration: 'none' }}>
-          Watch on Instagram ↗
-        </a>
-      </figcaption>
-    </figure>
+    <div
+      style={{
+        maxWidth: 360,
+        width: '100%',
+        margin: '28px auto',
+        borderRadius: 8,
+        overflow: 'hidden',
+        border: '1px solid #E7E5E4',
+        background: '#fff',
+      }}
+    >
+      <iframe
+        src={`https://www.instagram.com/${kind}/${id}/embed/`}
+        title={title ?? 'Instagram video'}
+        loading="lazy"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+        allowFullScreen
+        scrolling="no"
+        // 360px 폭에서 계정 줄 + 영상 + '더 보기' · 좋아요 · 댓글 줄까지 약 690px(2026-11-05 실측)
+        style={{ display: 'block', width: '100%', height: 700, border: 0 }}
+      />
+    </div>
   )
 }
