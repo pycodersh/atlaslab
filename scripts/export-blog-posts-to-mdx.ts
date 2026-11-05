@@ -19,7 +19,8 @@ const args = process.argv.slice(2)
 const force = args.includes('--force')
 const catIdx = args.indexOf('--category')
 const category = catIdx >= 0 ? args[catIdx + 1] : null
-const slugs = args.filter((a, i) => !a.startsWith('--') && i !== catIdx + 1)
+// --category 가 없으면 catIdx 가 -1 이라 catIdx + 1 = 0 이 되어 첫 slug 를 빠뜨렸다(2026-11-05 수정)
+const slugs = args.filter((a, i) => !a.startsWith('--') && (catIdx < 0 || i !== catIdx + 1))
 
 const sb = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,

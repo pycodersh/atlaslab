@@ -49,12 +49,14 @@ async function main() {
     const description = String(fm.description ?? '').trim()
     const tags = fm.tags as string[]
     if (fm.slug !== slug) throw new Error(`${slug}: frontmatter slug 가 다르다 (${fm.slug})`)
-    // Phrases(Real-Life Korean)에 이어 Basics(Korean Grammar) 개편에도 쓴다(2026-11-05~)
-    if (!['Real-Life Korean', 'Korean Grammar'].includes(fm.category)) throw new Error(`${slug}: Phrases · Basics 글이 아니다 (${fm.category})`)
+    // Phrases(Real-Life Korean)에 이어 Basics 개편에도 쓴다(2026-11-05~). Basics 40편은 DB category 가 네 가지로 갈려 있다
+    const OK_CATEGORIES = ['Real-Life Korean', 'Korean Grammar', 'Hangul & Pronunciation', 'Getting Started', 'Grammar']
+    if (!OK_CATEGORIES.includes(fm.category)) throw new Error(`${slug}: Phrases · Basics 글이 아니다 (${fm.category})`)
     if (!description || !Array.isArray(tags) || !tags.length) throw new Error(`${slug}: description · tags 가 비었다`)
     await compile(content, { remarkPlugins: [remarkGfm] })
 
-    const { data: rows, error } = await sb.from('blog_posts').select('id, locale, content, description, tags').eq('slug', slug)
+    // 원고는 영어판이다. 같은 slug 의 다른 언어 행(예: how-to-read-hangul-in-one-day 의 ko)을 덮어쓰면 안 된다
+    const { data: rows, error } = await sb.from('blog_posts').select('id, locale, content, description, tags').eq('slug', slug).eq('locale', 'en')
     if (error) throw new Error(error.message)
     if (!rows?.length) throw new Error(`${slug}: DB 에 없다`)
 

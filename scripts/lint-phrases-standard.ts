@@ -22,6 +22,17 @@ import matter from 'gray-matter'
 import { createClient } from '@supabase/supabase-js'
 
 const SLUGS = process.argv.slice(2).filter(a => !a.startsWith('--'))
+/* --basics: Learn Korean > Basics 기준(2026-11-05 샘플 3편으로 확정)
+ *   ERR 상단 <KoreanBasicVideo slug=…/> 가 본문 맨 앞에 있고 DB 와 같다(영상은 다시 렌더하지 않는다)
+ *   ERR 중간 CTA(variant="mid") 없음 — 끝 카드 하나만
+ *   ERR 표는 3열 이하(폰 375px 에서 가로 스크롤 없게. 로마자는 예문 아래로 내린다)
+ *   ERR 로마자 안 하이픈(rom="…" · 로마자 열 · 기울임 로마자): 소리 나는 대로 붙여 쓴다(han-geul → hangeul)
+ *   말투 · 상대가 하는 말 절은 문법 글이라 요구하지 않는다. 분량 경고는 500~900 */
+const BASICS = process.argv.includes('--basics')
+const BASICS_CATEGORIES = ['Korean Grammar', 'Hangul & Pronunciation', 'Getting Started', 'Grammar']
+// 영어 낱말인 하이픈 합성어 — 로마자가 아니다
+const EN_HYPHEN = /^(drop-off|pick-up|check-in|check-out|self-service|one-on-one|face-to-face|step-by-step|up-to-date|day-to-day|all-you-can-eat|ready-to-eat|made-to-order|first-come-first-served|so-and-so|well-known|built-in|non-spicy|in-person|real-life|follow-up|long-term|short-term|full-time|part-time|high-pitched|left-to-right|top-to-bottom|right-to-left|sino-korean|native-korean|k-pop|k-drama|k-dramas|k-beauty|t-money|e-mail|x-ray|re-read|co-founder|so-called|old-fashioned|two-letter|one-letter|three-letter|double-letter|eye-opening|easy-to-read|hard-to-read)$/i
+const basicVideo = (s: string) => [...s.matchAll(/<KoreanBasicVideo\s+slug="([^"]+)"/g)].map(m => m[1]).join(',')
 const sb = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SECRET_KEY!,
@@ -46,7 +57,7 @@ async function main() {
     const c = raw.trim()
 
     if (fm.slug !== slug) errs.push(`frontmatter slug 가 다르다 (${fm.slug})`)
-    if (fm.category !== 'Real-Life Korean') errs.push(`category 가 Real-Life Korean 이 아니다 (${fm.category})`)
+    if (BASICS ? !BASICS_CATEGORIES.includes(fm.category) : fm.category !== 'Real-Life Korean') errs.push(`category 가 ${BASICS ? 'Basics' : 'Real-Life Korean'} 이 아니다 (${fm.category})`)
     if (!String(fm.description ?? '').trim()) errs.push('description 이 비었다')
     if (!Array.isArray(fm.tags) || !fm.tags.length) errs.push('tags 가 비었다')
 
@@ -55,20 +66,44 @@ async function main() {
     else if (!c.endsWith('<KpattoCta variant="end" />')) errs.push('<KpattoCta variant="end" /> 가 본문 끝에 있지 않다')
     if (/\[K-PATTO\]\(/.test(c)) errs.push('옛 글자 CTA 링크 [K-PATTO](…) 가 남아 있다')
 
-    // 말투 안내: 대조표가 기본이고, 글 전체가 한 말투(존댓말)면 그 말투를 짚는 안내(반말 · -습니다 · polite -요 언급)로 갈음한다
-    const levelTable = /^## Polite or casual\?/m.test(c) || /^\|[^\n]*Casual[^\n]*Polite|^\|[^\n]*Polite[^\n]*Casual/im.test(c)
-    const levelNote = /반말|-습니다|polite \*\*-요\*\*|casual speech|formal \*\*/i.test(c)
-    if (!levelTable && !levelNote) errs.push('말투 안내가 없다 (## Polite or casual? 표 또는 반말 · -습니다 · -요 안내)')
-    // 상대가 하는 말: ## 절이나 Callout 제목
-    const hearHeading = /^## .*(You'll hear|What (staff|they|the [a-z]+) (will|might|may) (say|ask|tell)|What staff)/im.test(c)
-    const hearCallout = /<Callout[^>]*title="[^"]*(You'll hear|hear back|staff (say|ask))[^"]*"/i.test(c)
-    if (!hearHeading && !hearCallout) errs.push("상대가 하는 말이 없다 (## What staff will … / You'll hear … 절이나 Callout)")
+    if (!BASICS) {
+      // 말투 안내: 대조표가 기본이고, 글 전체가 한 말투(존댓말)면 그 말투를 짚는 안내(반말 · -습니다 · polite -요 언급)로 갈음한다
+      const levelTable = /^## Polite or casual\?/m.test(c) || /^\|[^\n]*Casual[^\n]*Polite|^\|[^\n]*Polite[^\n]*Casual/im.test(c)
+      const levelNote = /반말|-습니다|polite \*\*-요\*\*|casual speech|formal \*\*/i.test(c)
+      if (!levelTable && !levelNote) errs.push('말투 안내가 없다 (## Polite or casual? 표 또는 반말 · -습니다 · -요 안내)')
+      // 상대가 하는 말: ## 절이나 Callout 제목
+      const hearHeading = /^## .*(You'll hear|What (staff|they|the [a-z]+) (will|might|may) (say|ask|tell)|What staff)/im.test(c)
+      const hearCallout = /<Callout[^>]*title="[^"]*(You'll hear|hear back|staff (say|ask))[^"]*"/i.test(c)
+      if (!hearHeading && !hearCallout) errs.push("상대가 하는 말이 없다 (## What staff will … / You'll hear … 절이나 Callout)")
+    } else {
+      const db = dbContent.get(slug) ?? ''
+      if (!/^<KoreanBasicVideo\s+slug="[^"]+"\s*\/>/.test(c)) errs.push('<KoreanBasicVideo /> 가 본문 맨 앞에 없다')
+      if (basicVideo(db) !== basicVideo(c)) errs.push(`KoreanBasicVideo 가 DB 와 다르다 (${basicVideo(db) || '없음'} → ${basicVideo(c) || '없음'})`)
+      if (/<KpattoCta\s+variant="mid"/.test(c)) errs.push('중간 CTA(variant="mid")가 남아 있다')
+      // 표 열 수: 머리줄의 칸 수
+      for (const m of c.matchAll(/^\|(.+)\|\s*\n\|[\s:|-]+\|\s*$/gm)) {
+        const cols = m[1].split('|').length
+        if (cols > 3) errs.push(`${cols}열 표가 있다 (3열 이하): |${m[1].trim().slice(0, 50)}|`)
+      }
+      // 로마자 안 하이픈: rom 속성 · 로마자 열 · 기울임
+      const romBits: string[] = []
+      for (const m of c.matchAll(/\brom="([^"]*)"/g)) romBits.push(m[1])
+      for (const t of c.matchAll(/^(\|[^\n]+\|)\s*\n\|[\s:|-]+\|\s*\n((?:\|[^\n]*\|\s*\n?)+)/gm)) {
+        const head = t[1].split('|').slice(1, -1).map(h => h.trim())
+        const ri = head.findIndex(h => /romani[sz]ation|sound|pronounc|reads? as|say it/i.test(h))
+        if (ri < 0) continue
+        for (const row of t[2].trim().split('\n')) romBits.push((row.split('|').slice(1, -1)[ri] ?? '').trim())
+      }
+      for (const m of c.matchAll(/(?<![*\w])\*([a-z][a-z' ?.,-]*-[a-z][a-z' ?.,-]*)\*(?!\*)/g)) romBits.push(m[1])
+      const hy = romBits.flatMap(b => [...b.matchAll(/\b[a-zA-Z]+(?:-[a-zA-Z]+)+\b/g)].map(x => x[0])).filter(w => !EN_HYPHEN.test(w))
+      if (hy.length) errs.push(`로마자에 하이픈: ${[...new Set(hy)].slice(0, 8).join(', ')}`)
+    }
 
     // 링크 주소(slug)는 하이픈이 많아 로마자 검사에서 뺀다
     const prose = c.replace(/\]\([^)]*\)/g, ']()').replace(/<[A-Z]\w*[^>]*\/>/g, '')
     // 문장 첫머리 대문자(All-you-can-eat)도 한 낱말로 잡아야 허용 목록과 맞는다
     const splitRom = [...prose.matchAll(/\b[a-zA-Z]{1,5}(?:-[a-zA-Z]{1,5}){2,}\b/g)].map(m => m[0].toLowerCase())
-      .filter(w => !/^(drop-off|pick-up|check-in|check-out|self-service|one-on-one|face-to-face|step-by-step|up-to-date|day-to-day|all-you-can-eat|ready-to-eat|made-to-order|first-come-first-served)$/.test(w))
+      .filter(w => !EN_HYPHEN.test(w))
     if (splitRom.length) errs.push(`음절마다 끊은 로마자: ${[...new Set(splitRom)].slice(0, 6).join(', ')}`)
 
     const before = dbContent.get(slug)
