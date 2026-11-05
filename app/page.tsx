@@ -294,22 +294,6 @@ export default async function AtlasLabHome() {
           margin-bottom: 0;
           max-width: 640px;
         }
-        /* 검색 아래 두 갈래 — 처음 온 여행자는 로드맵으로, 말이 급한 사람은 Phrases 로 */
-        .hero-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-        .hero-cta {
-          display: inline-flex; align-items: center;
-          font-family: ${BODY}; font-size: 13px; font-weight: 700;
-          color: #fff; text-decoration: none;
-          background: var(--brand-red, #C8102E);
-          border: 1.5px solid var(--brand-red, #C8102E);
-          padding: 9px 16px;
-          -webkit-tap-highlight-color: transparent;
-        }
-        .hero-cta-ghost { background: transparent; border-color: rgba(255,255,255,0.35); }
-        @media (hover: hover) {
-          .hero-cta:hover { background: var(--brand-red-dark, #A30D25); border-color: var(--brand-red-dark, #A30D25); }
-          .hero-cta-ghost:hover { background: rgba(255,255,255,0.08); border-color: #fff; }
-        }
         /* ── Inner container ───────────────────────────────────────── */
         .wrap {
           max-width: 1060px; margin: 0 auto;
@@ -591,12 +575,6 @@ export default async function AtlasLabHome() {
               Transit cards, taxi apps, what to order and the Korean to say it — practical guides for visitors, with real prices in won.
             </p>
             <HomeSearch docs={searchDocs} />
-            {roadmap.length > 0 && (
-              <div className="hero-links">
-                <a href="#roadmap" className="hero-cta">Start with day one ↓</a>
-                <a href="/blog?tab=phrases" className="hero-cta hero-cta-ghost">Phrases you’ll need</a>
-              </div>
-            )}
           </div>
         </div>
       </section>
