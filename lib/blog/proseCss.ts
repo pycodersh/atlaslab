@@ -347,13 +347,19 @@ export function proseCss(bodyFont: string): string {
         /* 표 — 본문보다 한 단 작게 유지한다(열이 많아 본문 크기로는 넘친다) */
         .blog-prose table {
           width: 100%; border-collapse: collapse; margin: 24px 0;
-          font-size: 14px; display: block; overflow-x: auto;
+          font-size: 13px; display: block; overflow-x: auto;
         }
-        /* 한국어는 기본값이면 음절마다 줄이 바뀌어 좁은 칸에서 '예약하셨어 / 요?' 처럼 낱말 가운데가 끊긴다.
-           keep-all 로 띄어쓰기에서만 꺾고, 한 낱말이 칸보다 길 때만 anywhere 가 마저 꺾는다(표가 넘치지 않게) */
+        /* 낱말 가운데를 자르지 않는다.
+           - 한국어: keep-all 로 띄어쓰기에서만 꺾는다(기본값이면 '예약하셨어 / 요?' 처럼 음절마다 꺾인다).
+           - overflow-wrap 은 anywhere 가 아니라 break-word: anywhere 는 열의 최소 폭을 한 글자로 줄여
+             '이비인후 / 과', 'Romanizatio / n' 처럼 낱말을 자른다(2026-11-05 실측: 폰 375px 에서 202편 3,745낱말).
+           - 영어는 hyphens:auto 로 음절에서 하이픈을 붙여 꺾는다.
+           폰에서는 글자 13px · 칸 여백 7px 로 폭을 내서 2~3열 표는 모두 화면 안에 들어오고,
+           4열 이상 비교표만 가로로 밀린다(table 이 overflow-x:auto 라 표 안에서만 스크롤된다) */
         .blog-prose th, .blog-prose td {
-          padding: 10px 16px; text-align: left; border: 1px solid #E5E1DC;
-          word-break: keep-all; overflow-wrap: anywhere;
+          padding: 9px 7px; text-align: left; border: 1px solid #E5E1DC;
+          word-break: keep-all; overflow-wrap: break-word;
+          -webkit-hyphens: auto; hyphens: auto;
         }
         .blog-prose th {
           background: #F0EADF; font-weight: 700;
@@ -363,7 +369,7 @@ export function proseCss(bodyFont: string): string {
         @media (min-width: 768px) {
           .blog-prose table { font-size: 16px; }
           .blog-prose th { font-size: 15px; }
-          .blog-prose th, .blog-prose td { padding: 11px 16px; }
+          .blog-prose th, .blog-prose td { padding: 11px 16px; -webkit-hyphens: manual; hyphens: manual; }
         }
 
         .blog-prose * { font-family: inherit; }
