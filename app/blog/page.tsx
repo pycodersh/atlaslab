@@ -7,6 +7,7 @@ import { DEFAULT_TAB, tabLabel } from '@/lib/blog/sections'
 import { blogIndexView, type BlogCard } from '@/lib/blog/indexView'
 import { readMinutes } from '@/lib/blog/readTime'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
+import { DEFAULT_OPEN_GRAPH, DEFAULT_TWITTER } from '@/lib/seo/site'
 
 // 정적 페이지 — 한 시간에 한 번만 다시 굽는다(요청마다 서버 함수가 돌지 않게).
 // 탭 · 언어 · 페이지 쿼리는 서버가 읽지 않고 BlogIndexFromQuery 가 브라우저에서 적용한다.
@@ -20,12 +21,17 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!
 )
 
+const BLOG_DESC =
+  'Real-life Korean phrases, Korean basics explained simply, and practical guides to traveling, eating and living in Korea — from Atlas Lab and K-PATTO.'
+
 export const metadata: Metadata = {
   title: `${tabLabel(DEFAULT_TAB)} — Atlas Lab`,
-  description:
-    'Tips, guides, and insights on Korean learning, English patterns, Korean recipes, and career growth — from Atlas Lab.',
+  description: BLOG_DESC,
   // 탭은 화면상의 필터일 뿐이라 canonical 은 항상 /blog 로 모은다.
   alternates: { canonical: `${BASE}/blog` },
+  // openGraph 를 쓰면 루트의 openGraph 가 통째로 바뀌므로 기본 이미지 · 사이트 이름까지 같이 준다
+  openGraph: { ...DEFAULT_OPEN_GRAPH, title: `${tabLabel(DEFAULT_TAB)} — Atlas Lab`, description: BLOG_DESC, url: `${BASE}/blog` },
+  twitter: { ...DEFAULT_TWITTER, title: `${tabLabel(DEFAULT_TAB)} — Atlas Lab`, description: BLOG_DESC },
 }
 
 export default async function BlogIndexPage() {
@@ -46,7 +52,7 @@ export default async function BlogIndexPage() {
 
   // 쿼리를 읽기 전(정적 HTML · 크롤러)에는 기본 탭 화면을 그대로 보여 준다
   return (
-    <Suspense fallback={<BlogClientPage {...blogIndexView(cards, {})} />}>
+    <Suspense fallback={<BlogClientPage {...blogIndexView(cards, {})} headingTag="div" />}>
       <BlogIndexFromQuery cards={cards} />
     </Suspense>
   )

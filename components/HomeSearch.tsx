@@ -70,6 +70,9 @@ export function HomeSearch({ docs }: { docs: SearchDoc[] }) {
           font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 15px; color: #fff;
         }
         .hsearch-input::placeholder { color: rgba(255,255,255,0.45); }
+        /* type="search" 의 브라우저 기본 지우기(×)를 숨긴다 — 아래 .hsearch-clear 하나만 남긴다 */
+        .hsearch-input::-webkit-search-cancel-button,
+        .hsearch-input::-webkit-search-decoration { -webkit-appearance: none; appearance: none; display: none; }
         .hsearch-clear { border: 0; background: none; color: rgba(255,255,255,0.6); font-size: 18px; line-height: 1; cursor: pointer; padding: 4px; }
         .hsearch-panel {
           position: absolute; left: 0; right: 0; top: calc(100% + 6px); z-index: 120;

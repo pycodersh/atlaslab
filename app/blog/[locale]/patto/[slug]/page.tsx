@@ -9,6 +9,7 @@ import { proseCss, PROSE_FONT } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { thumbnailForPost } from '@/lib/blog/thumbnail'
+import { DEFAULT_OPEN_GRAPH, DEFAULT_TWITTER, ogImageForPost } from '@/lib/seo/site'
 import { readMinutes } from '@/lib/blog/readTime'
 import { ArticleJsonLd } from '@/components/blog/ArticleJsonLd'
 
@@ -45,13 +46,15 @@ export async function generateMetadata({
   const { locale, slug } = await params
   const { data: post } = await supabase
     .from('blog_posts')
-    .select('title, description')
+    .select('title, description, content, thumbnail, published_at')
     .eq('locale', locale)
     .eq('slug', slug)
     .eq('is_paused', false)
     .single()
 
   if (!post) return {}
+  const url = `${BASE}/blog/${locale}/patto/${slug}`
+  const image = ogImageForPost(thumbnailForPost(slug, post.content, post.thumbnail), post.title)
 
   const otherLocale = locale === 'ko' ? 'en' : 'ko'
 
@@ -68,9 +71,20 @@ export async function generateMetadata({
   return {
     title: `${post.title} — Patto Articles`,
     description: post.description,
-    openGraph: { title: post.title, description: post.description },
+    // openGraph · twitter 는 루트 값을 통째로 덮어쓰므로 사이트 이름 · 종류 · 이미지까지 전부 적는다
+    openGraph: {
+      ...DEFAULT_OPEN_GRAPH,
+      type: 'article',
+      url,
+      title: post.title,
+      description: post.description ?? undefined,
+      images: [image],
+      publishedTime: post.published_at ? new Date(post.published_at).toISOString() : undefined,
+      locale: locale === 'ko' ? 'ko_KR' : 'en_US',
+    },
+    twitter: { ...DEFAULT_TWITTER, title: post.title, description: post.description ?? undefined, images: [image.url] },
     alternates: {
-      canonical: `${BASE}/blog/${locale}/patto/${slug}`,
+      canonical: url,
       ...(hasCross && {
         languages: {
           [locale]: `${BASE}/blog/${locale}/patto/${slug}`,
@@ -128,6 +142,7 @@ export default async function BlogPostPage({
         description={post.description}
         datePublished={post.published_at}
         url={`${BASE}/blog/${locale}/patto/${slug}`}
+        image={ogImageForPost(thumbnailForPost(post.slug, post.content, post.thumbnail), post.title).url}
       />
       <style>{`
         html, body { overflow-x: hidden; scrollbar-gutter: stable; }

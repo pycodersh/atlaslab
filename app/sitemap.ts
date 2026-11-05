@@ -13,9 +13,8 @@ const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudi
 // (해당 라우트도 layout 에서 noindex, follow). 승인 후 SSR 본문 보강과 함께 true 로 복원.
 const INDEX_FREE_EPISODES = false
 
-// TEMP(AdSense review): /kpatto 랜딩도 서버 HTML 이 얇아 심사 기간에는 사이트맵에서 뺀다
-// (app/kpatto/page.tsx 의 metadata 에서도 noindex, follow). 승인 후 SSR 본문 보강과 함께 true 로 복원.
-const INDEX_KPATTO_LANDING = false
+// /kpatto 랜딩 — AdSense 심사가 끝나 색인을 다시 연다(app/kpatto/page.tsx 의 noindex 도 제거)
+const INDEX_KPATTO_LANDING = true
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // EP01~10 (free episodes only — EP11+ are gated, excluded from sitemap)

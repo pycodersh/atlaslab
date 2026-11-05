@@ -49,10 +49,11 @@ export function SiteFooter() {
         }}>
           <div>
             <p style={colTitle} className="notranslate" translate="no">{AXIS_LABELS.apps}</p>
-            <Link href="/patto/home"  style={link}>Patto</Link>
-            <Link href="/kpatto"      style={link}>K-Patto</Link>
-            <Link href="/kpantry/en"  style={link}>K-Pantry</Link>
-            <span style={muted}>Career Navi</span>
+            {/* 앱 이름은 각 앱의 공식 표기 그대로, 무엇을 하는 앱인지 한 단어를 붙인다 */}
+            <Link href="/kpatto"      style={link}>K-PATTO · Learn Korean</Link>
+            <Link href="/patto/home"  style={link}>Patto · Learn English</Link>
+            <Link href="/kpantry/en"  style={link}>K-Pantry · Korean Cooking</Link>
+            <span style={muted}>Career Navi · Coming soon</span>
           </div>
           <div>
             <p style={colTitle}>Resources</p>
@@ -88,7 +89,7 @@ export function SiteFooter() {
             </a>
           </div>
           <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', margin: 0, fontFamily: F }}>
-            © 2025 Atlas Lab · atlaslabstudios.com
+            © {new Date().getFullYear()} Atlas Lab · atlaslabstudios.com
           </p>
         </div>
       </div>

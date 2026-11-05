@@ -3,12 +3,9 @@ import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-const GA_ID = "G-DMDS6WFWSF";
+import { SITE_URL, SITE_TITLE, SITE_DESC, DEFAULT_OPEN_GRAPH, DEFAULT_TWITTER } from "@/lib/seo/site";
 
-const SITE_TITLE = "Atlas Lab — Guides, Culture & Smart Tools";
-const SITE_DESC =
-  "Atlas Lab builds AI agent apps that help you navigate language, career, news, and food.";
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.atlaslabstudios.com";
+const GA_ID = "G-DMDS6WFWSF";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -23,15 +20,16 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
+  // 표지가 없는 페이지의 공유 이미지는 public/og-default.png. 페이지가 openGraph 를 정하면 이 객체가 통째로 바뀌므로
+  // 그런 페이지는 lib/seo/site 의 DEFAULT_OPEN_GRAPH 를 펼쳐 쓴다
   openGraph: {
-    type: "website",
-    siteName: "Atlas Lab",
+    ...DEFAULT_OPEN_GRAPH,
     title: SITE_TITLE,
     description: SITE_DESC,
-    url: SITE_URL,
+    // url 은 여기 두지 않는다 — 두면 openGraph 를 안 정한 모든 페이지의 og:url 이 홈 주소가 된다(홈은 app/page.tsx 가 정한다)
   },
   twitter: {
-    card: "summary_large_image",
+    ...DEFAULT_TWITTER,
     title: SITE_TITLE,
     description: SITE_DESC,
   },
@@ -47,8 +45,13 @@ export default function RootLayout({
       <head>
         {/* Impact(제휴 네트워크) 사이트 소유 확인 — Impact 가 준 그대로 value 속성을 쓴다(content 가 아니다) */}
         <meta name="impact-site-verification" {...{ value: '13c3e8e3-f8ce-4950-963d-4b93e327e96a' }} />
+        {/* 사이트 공통 글꼴은 Playfair Display(제목) · DM Sans(본문 UI) 둘뿐이다.
+            Inter 는 K-Pantry 앱 화면에서만 주 글꼴이라 app/kpantry/en/layout.tsx 가 따로 불러오고,
+            Space Mono 는 쓰는 화면이 없어(globals.css 의 .hub-* 는 어느 페이지도 쓰지 않는다) 뺐다(2026-11-05) */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=DM+Sans:wght@400;500;600;700&display=swap"
           rel="stylesheet"
         />
         {/* 글 본문용 Pretendard — blog.atlaslabstudios.com 과 같은 소스·버전을 쓴다.

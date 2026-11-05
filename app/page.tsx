@@ -17,6 +17,12 @@ import {
   POSTS_PER_SECTION,
 } from '@/lib/blog/sections'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
+import type { Metadata } from 'next'
+import { ORGANIZATION_JSON_LD, WEBSITE_JSON_LD, DEFAULT_OPEN_GRAPH, SITE_TITLE, SITE_DESC, SITE_URL } from '@/lib/seo/site'
+
+export const metadata: Metadata = {
+  openGraph: { ...DEFAULT_OPEN_GRAPH, title: SITE_TITLE, description: SITE_DESC, url: SITE_URL },
+}
 
 /* ── Typography constants ─────────────────────────────────────────────── */
 const SERIF = '"Playfair Display", Georgia, serif'
@@ -221,6 +227,9 @@ export default async function AtlasLabHome() {
 
   return (
     <>
+      {/* 사이트 구조화 데이터 — Organization · WebSite (< 는 이스케이프해 </script> 끊김을 막는다) */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(ORGANIZATION_JSON_LD).replace(/</g, '\\u003c') }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSON_LD).replace(/</g, '\\u003c') }} />
       {/* ── Page-level styles ── */}
       <style>{`
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

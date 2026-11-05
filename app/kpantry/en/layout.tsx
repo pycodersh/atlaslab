@@ -40,6 +40,8 @@ export default function KPantryLayout({
 }) {
   return (
     <div className="kp-app" style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh' }}>
+      {/* K-Pantry 화면의 주 글꼴 Inter — 사이트 공통 글꼴에서 빼고 여기서만 불러온다(React 가 <head> 로 올린다) */}
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" precedence="default" />
       <style>{THEME_CSS}</style>
       {children}
       {/* 모든 K-Pantry 화면 맨 아래 — 레시피 상세 액션 바·재료 화면 CTA 바(하단 고정)에 가리지 않게 그만큼 띄운다 */}

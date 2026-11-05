@@ -55,7 +55,11 @@ export function BlogClientPage({
   totalPages,
   currentPage,
   pageTitle,
+  headingTag = 'h1',
 }: {
+  /** 정적 HTML 에는 Suspense fallback 과 쿼리를 읽은 화면이 둘 다 실려 h1 이 두 번 나온다.
+   *  fallback 쪽은 'div' 로 그려 문서의 h1 을 하나로 둔다(겉모양은 .bl-h1 그대로) */
+  headingTag?: 'h1' | 'div'
   posts: Post[]
   /** Korean 탭에서만 채워진다 — 있으면 posts 대신 섹션별로 그린다 */
   sections: Section[]
@@ -376,9 +380,10 @@ export function BlogClientPage({
           {/* 대분류 · 탭 · 칩 이름은 자동 번역에서 뺀다 — 'Phrases' 가 '실없는 말', 'Korean' 이 '한국인'이 된다.
               헤더 드로어 · 홈 바로가기 바와 같은 영어 라벨을 그대로 보여 준다 */}
           <p className="bl-kicker notranslate" translate="no">{family.label}</p>
-          <h1 className="bl-h1">
-            {lang === 'KO' ? '한국어 아티클' : pageTitle}
-          </h1>
+          {(() => {
+            const Heading = headingTag
+            return <Heading className="bl-h1">{lang === 'KO' ? '한국어 아티클' : pageTitle}</Heading>
+          })()}
           <p className="bl-sub">{tabDescription(activeTab)}</p>
         </div>
       </section>

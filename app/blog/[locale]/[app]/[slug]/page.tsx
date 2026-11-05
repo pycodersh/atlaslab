@@ -12,7 +12,8 @@ import { KlookBanner } from '@/components/affiliate/KlookBanner'
 import { ItalkiBanner } from '@/components/blog/ItalkiBanner'
 import { SaveActions } from '@/components/SaveActions'
 import { BlogThumb } from '@/components/blog/BlogThumb'
-import { thumbnailForPost } from '@/lib/blog/thumbnail'
+import { thumbnailForPost, cardThumbnailForPost } from '@/lib/blog/thumbnail'
+import { DEFAULT_OPEN_GRAPH, DEFAULT_TWITTER, ogImageForPost } from '@/lib/seo/site'
 import { readMinutes } from '@/lib/blog/readTime'
 import { ArticleJsonLd } from '@/components/blog/ArticleJsonLd'
 import { ArticleStickyCta } from '@/components/blog/ArticleStickyCta'
@@ -140,7 +141,7 @@ export async function generateMetadata({
   const { locale, app, slug } = await params
   const { data: post } = await supabase
     .from('blog_posts')
-    .select('title, description')
+    .select('title, description, content, thumbnail, published_at')
     .eq('locale', locale)
     .eq('app', app)
     .eq('slug', slug)
@@ -148,6 +149,9 @@ export async function generateMetadata({
     .single()
 
   if (!post) return {}
+  const url = `${BASE}/blog/${locale}/${app}/${slug}`
+  // 공유 이미지는 목록 카드와 같은 썸네일 — 없으면 사이트 기본 이미지(public/og-default.png)
+  const image = ogImageForPost(cardThumbnailForPost(slug, post.content, post.thumbnail), post.title)
 
   const info = getAppInfo(app)
   const otherLocale = locale === 'ko' ? 'en' : 'ko'
@@ -166,9 +170,25 @@ export async function generateMetadata({
   return {
     title: `${post.title} — ${info.blogLabel}`,
     description: post.description,
-    openGraph: { title: post.title, description: post.description },
+    // openGraph · twitter 는 루트 값을 통째로 덮어쓰므로 사이트 이름 · 종류 · 이미지까지 전부 적는다
+    openGraph: {
+      ...DEFAULT_OPEN_GRAPH,
+      type: 'article',
+      url,
+      title: post.title,
+      description: post.description ?? undefined,
+      images: [image],
+      publishedTime: post.published_at ? new Date(post.published_at).toISOString() : undefined,
+      locale: locale === 'ko' ? 'ko_KR' : 'en_US',
+    },
+    twitter: {
+      ...DEFAULT_TWITTER,
+      title: post.title,
+      description: post.description ?? undefined,
+      images: [image.url],
+    },
     alternates: {
-      canonical: `${BASE}/blog/${locale}/${app}/${slug}`,
+      canonical: url,
       ...(hasCross && {
         languages: {
           [locale]: `${BASE}/blog/${locale}/${app}/${slug}`,
@@ -227,6 +247,8 @@ export default async function AppBlogPostPage({
         datePublished={post.published_at}
         url={`${BASE}/blog/${locale}/${app}/${slug}`}
         content={post.content}
+        image={ogImageForPost(cardThumbnailForPost(post.slug, post.content, post.thumbnail), post.title).url}
+        group={groupKeyOf(app, post.category)}
       />
       <style>{`
         html, body { overflow-x: hidden; scrollbar-gutter: stable; }

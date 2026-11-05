@@ -7,6 +7,7 @@ import {
 } from '@/lib/kpatto/purchase'
 import { BuyButton } from './_landing/BuyButton'
 import { SampleAudio, type AudioSample } from './_landing/SampleAudio'
+import { DEFAULT_OPEN_GRAPH, DEFAULT_TWITTER } from '@/lib/seo/site'
 
 const CANONICAL = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'}/kpatto`
 
@@ -15,10 +16,18 @@ export const metadata: Metadata = {
   description:
     'Master practical, everyday Korean through 100 slice-of-life webtoon episodes with native audio, quizzes, and a 153-page eBook. Try the first episodes free.',
   alternates: { canonical: CANONICAL },
-  openGraph:  { url: CANONICAL },
-  // TEMP(AdSense review): 심사 기간에만 색인 제외 — 승인 후 이 줄을 지우고
-  // app/sitemap.ts 의 INDEX_KPATTO_LANDING 을 true 로 되돌린다. robots.txt 는 /kpatto 를 막지 않는다.
-  robots: { index: false, follow: true },
+  // openGraph · twitter 는 루트 값을 통째로 덮어쓰므로 기본값(사이트 이름 · 기본 이미지)을 펼친 뒤 덮어쓴다
+  openGraph: {
+    ...DEFAULT_OPEN_GRAPH,
+    url: CANONICAL,
+    title: 'K-PATTO — The Most Natural Way to Speak Real Korean',
+    description: 'Practical everyday Korean through 100 slice-of-life webtoon episodes with native audio, quizzes and a 153-page eBook.',
+  },
+  twitter: {
+    ...DEFAULT_TWITTER,
+    title: 'K-PATTO — The Most Natural Way to Speak Real Korean',
+    description: 'Practical everyday Korean through 100 slice-of-life webtoon episodes with native audio, quizzes and a 153-page eBook.',
+  },
 }
 
 /**
