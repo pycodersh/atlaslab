@@ -1,4 +1,5 @@
 import { YouTube } from './YouTube'
+import { Instagram } from './Instagram'
 import { Blockquote } from './Blockquote'
 import { NoTranslateCode, NoTranslatePre, KoreanTd, KoreanTh, KoreanStrong, KoreanEm } from './NoTranslate'
 import { KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta } from './ArticleBlocks'
@@ -22,7 +23,7 @@ function LegacyPlainText({ children }: { children?: ReactNode }): JSX.Element {
 /** KeyTakeaways · Dialogue · Line · DoDont · Do · Dont · Callout · KpattoCta — Food · Life 시각 블록(docs/CONTENT_GUIDELINES.md) */
 /** GrammarCheatCard — Basics '너 vs 당신' 글 전용 요약 인포그래픽. RuleCard · RuleAvoid · RuleInstead · RuleExample — 같은 카드의 조립형(다른 Basics 글) */
 export const blogMdxComponents = {
-  YouTube, blockquote: Blockquote, code: NoTranslateCode, pre: NoTranslatePre,
+  YouTube, Instagram, blockquote: Blockquote, code: NoTranslateCode, pre: NoTranslatePre,
   td: KoreanTd, th: KoreanTh, strong: KoreanStrong, em: KoreanEm,
   KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta,
   GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample,
