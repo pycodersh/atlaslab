@@ -77,7 +77,9 @@ async function main() {
       if (!hearHeading && !hearCallout) errs.push("상대가 하는 말이 없다 (## What staff will … / You'll hear … 절이나 Callout)")
     } else {
       const db = dbContent.get(slug) ?? ''
-      if (!/^<KoreanBasicVideo\s+slug="[^"]+"\s*\/>/.test(c)) errs.push('<KoreanBasicVideo /> 가 본문 맨 앞에 없다')
+      // 대부분 <KoreanBasicVideo slug=…/>, korean-never-say-dangsin-neo 만 전용 영상 <DangerPronounsVideo /> 를 쓴다
+      if (!/^<(KoreanBasicVideo\s+slug="[^"]+"|DangerPronounsVideo)\s*\/>/.test(c)) errs.push('상단 영상(<KoreanBasicVideo /> 등)이 본문 맨 앞에 없다')
+      if ((db.match(/<DangerPronounsVideo\s*\/>/g) ?? []).length !== (c.match(/<DangerPronounsVideo\s*\/>/g) ?? []).length) errs.push('DangerPronounsVideo 가 DB 와 다르다')
       if (basicVideo(db) !== basicVideo(c)) errs.push(`KoreanBasicVideo 가 DB 와 다르다 (${basicVideo(db) || '없음'} → ${basicVideo(c) || '없음'})`)
       if (/<KpattoCta\s+variant="mid"/.test(c)) errs.push('중간 CTA(variant="mid")가 남아 있다')
       // 표 열 수: 머리줄의 칸 수
