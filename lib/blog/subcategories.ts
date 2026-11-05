@@ -304,7 +304,7 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   // Daily Culture — 규칙이 엉뚱하게 잡는 글이 있어(한강공원·찜질방 등) 기존 글은 전부 못 박는다
   'han-river-parks-seoul-guide': 'daily',
   'korean-templestay-booking-guide-for-foreigners': 'daily',
-  'hanok-stay-korea-booking-etiquette': 'daily',
+  // hanok-stay-korea-booking-etiquette 는 2026-11-05 category 를 Places 로 옮겼다(대표 = Explore Korea/Places). Life 에는 아래 SECONDARY_TAGS 로 남는다
   'korean-bathhouse-jjimjilbang-guide': 'daily',
   'noraebang-korean-karaoke-guide': 'daily',
   'korean-internet-slang-guide': 'daily',
@@ -324,10 +324,11 @@ export const SECONDARY_TAGS: Record<string, readonly string[]> = {
   'korea-cherry-blossom-autumn-foliage-guide': ['life/daily'],
   'seongsu-dong-pop-up-cafe-guide': ['life/daily'],
   'hiking-in-korea-guide': ['life/daily'],
+  // 한옥 스테이 — 예전엔 Life 대표 + Hotels 태그였다. 2026-11-05 Places 대표로 옮기고 Life 의 Daily Culture 칩에는 그대로 남긴다
+  'hanok-stay-korea-booking-etiquette': ['life/daily'],
   // Life 대표 — 목적지 성격도 강한 글
   'jeju-island-without-a-car': ['explore-korea/places'],
   'korean-templestay-booking-guide-for-foreigners': ['explore-korea/places'],
-  'hanok-stay-korea-booking-etiquette': ['explore-korea/hotels'],
   'han-river-parks-seoul-guide': ['explore-korea/places', 'food/street'],
   // Food 대표 — 동네 · 시장 자체가 여행 코스인 글
   'myeongdong-street-food-guide': ['explore-korea/places'],
