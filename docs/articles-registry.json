@@ -1,9 +1,9 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-11-05T10:47:13.517Z",
+  "generated_at": "2026-11-05T10:52:51.977Z",
   "counts": {
     "Active": {
-      "Phrases": 47,
+      "Phrases": 48,
       "Basics": 37,
       "Explore Korea": 8,
       "Food": 69,
@@ -20,6 +20,28 @@
     }
   },
   "articles": [
+    {
+      "id": "d9c297c8-83ff-40ca-9bc4-7eb200218ab7",
+      "category": "Phrases",
+      "title": "\"You're Such a Capitalist Cat!\" — Playful Korean Slang for Pets & Friends",
+      "slug": "korean-capitalist-cat-slang",
+      "url": "/blog/en/k-patto/korean-capitalist-cat-slang",
+      "target_keywords": [
+        "Korean phrases",
+        "Korean slang",
+        "pets",
+        "cats",
+        "casual Korean"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-05",
+      "summary": "How to use witty Korean expressions like 자본주의 (capitalism) and 비싸게 굴다 (playing hard to get) when someone only acts nice for treats or perks.",
+      "db_category": "Real-Life Korean",
+      "overhauled": false,
+      "subCategories": [
+        "phrases/everyday"
+      ]
+    },
     {
       "id": "809c0ec3-c41f-4d88-a5a3-fe07810348fa",
       "category": "Phrases",
@@ -6035,26 +6057,6 @@
       ]
     },
     {
-      "id": "d8434a80-91d0-48f5-8d8c-0ba495cb44ab",
-      "category": "Uncategorized",
-      "title": "Korean Fan Culture Language: How Fandoms Talk",
-      "slug": "korean-fan-culture-language-how-fandoms-talk",
-      "url": null,
-      "target_keywords": [
-        "fandom",
-        "vocabulary",
-        "korean-culture"
-      ],
-      "status": "Deprecated",
-      "last_updated": "2026-08-17",
-      "summary": "Korean Fan Culture Language: How Fandoms Talk — explore the intersection of Korean language and culture, with vocabulary and context you won't find in textbooks.",
-      "db_category": null,
-      "overhauled": false,
-      "subCategories": [
-        "basics/grammar"
-      ]
-    },
-    {
       "id": "cbdfc98a-7808-4b34-9c4f-6e0484243d4c",
       "category": "Uncategorized",
       "title": "Budae-Jjigae: Army Stew and Its Fascinating History",
@@ -6068,6 +6070,26 @@
       "status": "Deprecated",
       "last_updated": "2026-08-17",
       "summary": "A complete step-by-step guide to making Budae-Jjigae — Army Stew and Its Fascinating History at home.",
+      "db_category": null,
+      "overhauled": false,
+      "subCategories": [
+        "basics/grammar"
+      ]
+    },
+    {
+      "id": "d8434a80-91d0-48f5-8d8c-0ba495cb44ab",
+      "category": "Uncategorized",
+      "title": "Korean Fan Culture Language: How Fandoms Talk",
+      "slug": "korean-fan-culture-language-how-fandoms-talk",
+      "url": null,
+      "target_keywords": [
+        "fandom",
+        "vocabulary",
+        "korean-culture"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-17",
+      "summary": "Korean Fan Culture Language: How Fandoms Talk — explore the intersection of Korean language and culture, with vocabulary and context you won't find in textbooks.",
       "db_category": null,
       "overhauled": false,
       "subCategories": [
@@ -7355,26 +7377,6 @@
       ]
     },
     {
-      "id": "b1aff418-b485-4950-9713-6866df9140ed",
-      "category": "Uncategorized",
-      "title": "Sagol-Guk: Bone Broth Soup Korean Style",
-      "slug": "sagol-guk-bone-broth-soup",
-      "url": null,
-      "target_keywords": [
-        "korean-food",
-        "recipe",
-        "soup"
-      ],
-      "status": "Deprecated",
-      "last_updated": "2026-08-11",
-      "summary": "A complete step-by-step guide to making Sagol-Guk — Bone Broth Soup Korean Style at home.",
-      "db_category": null,
-      "overhauled": false,
-      "subCategories": [
-        "basics/grammar"
-      ]
-    },
-    {
       "id": "b0505474-e28b-466f-b796-ccdbdd55fdb0",
       "category": "Uncategorized",
       "title": "Korean Holiday Foods: What Koreans Eat on Chuseok and Seollal",
@@ -7388,6 +7390,26 @@
       "status": "Deprecated",
       "last_updated": "2026-08-11",
       "summary": "An inside look at korean holiday foods: what koreans eat on chuseok and seollal and what it reveals about Korean society and identity.",
+      "db_category": null,
+      "overhauled": false,
+      "subCategories": [
+        "basics/grammar"
+      ]
+    },
+    {
+      "id": "b1aff418-b485-4950-9713-6866df9140ed",
+      "category": "Uncategorized",
+      "title": "Sagol-Guk: Bone Broth Soup Korean Style",
+      "slug": "sagol-guk-bone-broth-soup",
+      "url": null,
+      "target_keywords": [
+        "korean-food",
+        "recipe",
+        "soup"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-11",
+      "summary": "A complete step-by-step guide to making Sagol-Guk — Bone Broth Soup Korean Style at home.",
       "db_category": null,
       "overhauled": false,
       "subCategories": [
