@@ -77,6 +77,11 @@ const COVER_BY_SLUG: Record<string, Cover> = {
     src: '/images/articles/how-to-read-korean-restaurant-menu.jpg',
     alt: 'Korean table spread with bibimbap, stew, bulgogi, kimbap, pancake and side dishes',
   },
+  // 세로 원본(600×900)을 지폐가 들어가게 3:2 로 잘라 넣었다
+  'korea-currency-exchange-cards-wowpass-guide': {
+    src: '/images/articles/korea-currency-exchange-cards-wowpass-guide.jpg',
+    alt: 'Hand holding a fan of Korean won banknotes',
+  },
   'korea-arrival-card-keta-guide': {
     src: '/images/articles/korea-arrival-card-keta-guide.jpg',
     alt: 'Traveler with a passport and suitcase watching planes at an airport before a trip to Korea',
