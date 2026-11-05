@@ -50,7 +50,8 @@ async function main() {
     const tags = fm.tags as string[]
     if (fm.slug !== slug) throw new Error(`${slug}: frontmatter slug 가 다르다 (${fm.slug})`)
     // Phrases(Real-Life Korean)에 이어 Basics 개편에도 쓴다(2026-11-05~). Basics 40편은 DB category 가 네 가지로 갈려 있다
-    const OK_CATEGORIES = ['Real-Life Korean', 'Korean Grammar', 'Hangul & Pronunciation', 'Getting Started', 'Grammar']
+    // Places 칩 14편(2026-11-05~): Places 6 · 교차 노출 Cooking Basics 5 · Korean Culture 3. category 자체는 이 스크립트가 바꾸지 않는다
+    const OK_CATEGORIES = ['Real-Life Korean', 'Korean Grammar', 'Hangul & Pronunciation', 'Getting Started', 'Grammar', 'Places', 'Cooking Basics', 'Korean Culture']
     if (!OK_CATEGORIES.includes(fm.category)) throw new Error(`${slug}: Phrases · Basics 글이 아니다 (${fm.category})`)
     if (!description || !Array.isArray(tags) || !tags.length) throw new Error(`${slug}: description · tags 가 비었다`)
     await compile(content, { remarkPlugins: [remarkGfm] })
