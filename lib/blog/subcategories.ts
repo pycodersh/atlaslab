@@ -144,7 +144,6 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'how-to-type-korean-phone-computer': 'hangul',
   'busan-dialect-vs-seoul-korean': 'hangul',
   // Numbers & Counters — 숫자 체계 · 단위명사 · 가격 · 날짜 · 나이
-  'why-korean-has-two-number-systems': 'numbers',
   'korean-two-number-systems': 'numbers',
   'korean-counters-gae-myeong-jan-byeong': 'numbers',
   'korean-prices-money-eolmayeyo': 'numbers',
@@ -159,14 +158,12 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'korean-can-su-itda-eopda': 'endings',
   'korean-connecting-go-vs-myeonseo': 'endings',
   'korean-politeness-levels-explained': 'endings',
-  'formal-vs-casual-korean-when-to-drop-yo': 'endings',
   'korean-never-say-dangsin-neo': 'endings',
   'korean-requests-a-eo-juseyo': 'endings',
   'korean-because-aseo-vs-euni-kka': 'endings',
   // Core Grammar & Particles — 조사 · 어순 · 부정 · 문법 비교, 입문 개관 글
   'korean-particle-euro-by-to-as': 'grammar',
   'korean-particles-e-vs-eseo': 'grammar',
-  'eun-neun-vs-i-ga-difference': 'grammar',
   'korean-topic-vs-subject-particle': 'grammar',
   'korean-object-particle-eul-reul': 'grammar',
   'korean-an-vs-mot-negation': 'grammar',
