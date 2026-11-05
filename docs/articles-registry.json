@@ -1,13 +1,13 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-11-05T11:13:31.072Z",
+  "generated_at": "2026-11-05T11:30:41.512Z",
   "counts": {
     "Active": {
       "Phrases": 51,
       "Basics": 37,
-      "Explore Korea": 8,
-      "Food": 69,
-      "Life": 50
+      "Explore Korea": 9,
+      "Food": 70,
+      "Life": 51
     },
     "Planned": {
       "Explore Korea": 1,
@@ -1826,6 +1826,29 @@
       ]
     },
     {
+      "id": "4affc119-3870-42e7-949f-9f47b83cd346",
+      "category": "Explore Korea",
+      "title": "Seoul Itinerary for First-Timers: 3, 4 and 5 Days (2026 Guide)",
+      "slug": "seoul-itinerary-first-timers-3-4-5-days",
+      "url": "/blog/en/k-patto/seoul-itinerary-first-timers-3-4-5-days",
+      "target_keywords": [
+        "seoul itinerary",
+        "3 days in seoul",
+        "5 days in seoul",
+        "first time in seoul",
+        "seoul travel guide"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-05",
+      "summary": "How to plan your first trip to Seoul without backtracking: realistic 3, 4 and 5-day itineraries covering palaces, food markets, K-culture neighborhoods and the subway.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places",
+        "life/transit"
+      ]
+    },
+    {
       "id": "73323fac-151b-49d4-a1b5-9ef0ad121364",
       "category": "Explore Korea",
       "title": "Seongsu-dong Guide: Pop-Up Stores, Warehouse Cafes, and How to Skip the Lines",
@@ -2001,6 +2024,28 @@
       "subCategories": [
         "explore-korea/places",
         "life/transit"
+      ]
+    },
+    {
+      "id": "dd4cad20-938d-4fdb-9c69-a4d3258c25ff",
+      "category": "Food",
+      "title": "How to Read a Korean Menu Without Panicking (2026 Guide)",
+      "slug": "how-to-read-korean-restaurant-menu",
+      "url": "/blog/en/k-patto/how-to-read-korean-restaurant-menu",
+      "target_keywords": [
+        "korean menu",
+        "how to order in korea",
+        "korean restaurant",
+        "korean food words",
+        "gonggibap"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-05",
+      "summary": "Read Korean menus like a local: what jjigae, tang, gui and jjim mean, when rice is included, why BBQ says 2인분 이상, the self-service refill bar, table bells and the fried rice finish.",
+      "db_category": "Cooking Basics",
+      "overhauled": false,
+      "subCategories": [
+        "food/culture"
       ]
     },
     {
@@ -3484,6 +3529,28 @@
       "overhauled": false,
       "subCategories": [
         "life/essentials"
+      ]
+    },
+    {
+      "id": "c0ae6fcc-984c-42ab-b9ed-f8b7aa2f6c56",
+      "category": "Life",
+      "title": "Money in Korea: Cash, Cards, WOWPASS and Where to Exchange (2026)",
+      "slug": "korea-currency-exchange-cards-wowpass-guide",
+      "url": "/blog/en/k-patto/korea-currency-exchange-cards-wowpass-guide",
+      "target_keywords": [
+        "money exchange korea",
+        "wowpass",
+        "korea credit card",
+        "myeongdong money exchange",
+        "cash in korea"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-05",
+      "summary": "How to pay in Korea as a visitor: where to exchange money for a good rate, where foreign cards work and where they don't, and whether a WOWPASS card is worth it.",
+      "db_category": "Korean Culture",
+      "overhauled": false,
+      "subCategories": [
+        "life/money"
       ]
     },
     {
@@ -6123,26 +6190,6 @@
       ]
     },
     {
-      "id": "cbdfc98a-7808-4b34-9c4f-6e0484243d4c",
-      "category": "Uncategorized",
-      "title": "Budae-Jjigae: Army Stew and Its Fascinating History",
-      "slug": "budae-jjigae-army-stew",
-      "url": null,
-      "target_keywords": [
-        "korean-food",
-        "recipe",
-        "history"
-      ],
-      "status": "Deprecated",
-      "last_updated": "2026-08-17",
-      "summary": "A complete step-by-step guide to making Budae-Jjigae — Army Stew and Its Fascinating History at home.",
-      "db_category": null,
-      "overhauled": false,
-      "subCategories": [
-        "basics/grammar"
-      ]
-    },
-    {
       "id": "d8434a80-91d0-48f5-8d8c-0ba495cb44ab",
       "category": "Uncategorized",
       "title": "Korean Fan Culture Language: How Fandoms Talk",
@@ -6163,19 +6210,19 @@
       ]
     },
     {
-      "id": "d3327b9e-d978-4771-8daa-bf4ac9e42f0b",
+      "id": "cbdfc98a-7808-4b34-9c4f-6e0484243d4c",
       "category": "Uncategorized",
-      "title": "Bibimbap Assembly Guide: Layers, Sauce, and Technique",
-      "slug": "bibimbap-assembly-guide",
+      "title": "Budae-Jjigae: Army Stew and Its Fascinating History",
+      "slug": "budae-jjigae-army-stew",
       "url": null,
       "target_keywords": [
         "korean-food",
         "recipe",
-        "rice"
+        "history"
       ],
       "status": "Deprecated",
       "last_updated": "2026-08-17",
-      "summary": "A complete step-by-step guide to making Bibimbap Assembly Guide — Layers, Sauce, and Technique at home.",
+      "summary": "A complete step-by-step guide to making Budae-Jjigae — Army Stew and Its Fascinating History at home.",
       "db_category": null,
       "overhauled": false,
       "subCategories": [
@@ -6196,6 +6243,26 @@
       "status": "Deprecated",
       "last_updated": "2026-08-17",
       "summary": "How Chunking Transforms Korean Speaking Speed — a deep dive into the theory and science behind effective Korean language learning.",
+      "db_category": null,
+      "overhauled": false,
+      "subCategories": [
+        "basics/grammar"
+      ]
+    },
+    {
+      "id": "d3327b9e-d978-4771-8daa-bf4ac9e42f0b",
+      "category": "Uncategorized",
+      "title": "Bibimbap Assembly Guide: Layers, Sauce, and Technique",
+      "slug": "bibimbap-assembly-guide",
+      "url": null,
+      "target_keywords": [
+        "korean-food",
+        "recipe",
+        "rice"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-17",
+      "summary": "A complete step-by-step guide to making Bibimbap Assembly Guide — Layers, Sauce, and Technique at home.",
       "db_category": null,
       "overhauled": false,
       "subCategories": [

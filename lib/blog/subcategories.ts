@@ -248,6 +248,7 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'kimchi-differs-by-region': 'culture',
   'is-korean-food-vegetarian-friendly': 'culture',
   'what-is-banchan-korean-side-dishes': 'culture',
+  'how-to-read-korean-restaurant-menu': 'culture',
   'is-korean-food-spicy': 'culture',
   'noryangjin-fish-market-guide-how-to-eat-hoe': 'culture',
 
@@ -271,6 +272,7 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'google-maps-alternatives-korea': 'apps',
   'korean-road-name-address-vs-lot-number-guide': 'apps',
   // Money & Shopping
+  'korea-currency-exchange-cards-wowpass-guide': 'money',
   'foreign-credit-cards-global-atm-korea': 'money',
   'olive-young-instant-tax-refund-guide': 'money',
   'zero-tipping-split-bills-korea': 'money',
@@ -319,6 +321,7 @@ export const SECONDARY_TAGS: Record<string, readonly string[]> = {
   // 여행지(Explore Korea 대표) — 가는 법 · 즐기는 문화가 함께 있는 글
   'nami-island-day-trip-seoul-guide': ['life/transit'],
   'seoul-vs-busan-first-time-visitors': ['life/transit'],
+  'seoul-itinerary-first-timers-3-4-5-days': ['life/transit'],
   'korea-cherry-blossom-autumn-foliage-guide': ['life/daily'],
   'seongsu-dong-pop-up-cafe-guide': ['life/daily'],
   'hiking-in-korea-guide': ['life/daily'],

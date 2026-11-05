@@ -54,8 +54,9 @@ export const ROADMAP: readonly RoadmapStep[] = [
     blurb: 'How ordering works, the two-serving rule, and how spicy it really is.',
     hub: 'korean-restaurant-ordering-guide',
     more: [
+      // 맵기는 이 단계의 회화 카드(덜 맵게 주문하기)가 다룬다
+      { slug: 'how-to-read-korean-restaurant-menu', label: 'Reading a Korean menu' },
       { slug: 'samgyeopsal-hanwoo-chadolbaegi-korean-bbq', label: 'Korean BBQ, step by step' },
-      { slug: 'is-korean-food-spicy', label: 'Heat levels & mild dishes' },
       { slug: 'korean-cafe-kiosk-ordering-guide', label: 'Ordering at a cafe kiosk' },
     ],
     phrase: { slug: 'order-non-spicy-food-korea', label: 'Asking for less spicy' },
@@ -67,7 +68,8 @@ export const ROADMAP: readonly RoadmapStep[] = [
     blurb: 'Tax-free checkout, mobile pay, and why nobody tips.',
     hub: 'olive-young-instant-tax-refund-guide',
     more: [
-      { slug: 'mobile-payment-apple-pay-korea-foreigners', label: 'Apple Pay & mobile payment' },
+      // 환전 · 카드 · WOWPASS 글이 Apple Pay 를 함께 다루고 그 글로 잇는다
+      { slug: 'korea-currency-exchange-cards-wowpass-guide', label: 'Cash, cards & WOWPASS' },
       { slug: 'zero-tipping-split-bills-korea', label: 'No tipping, split bills' },
       { slug: 'korean-convenience-store-dining-guide', label: 'Eating at convenience stores' },
     ],
