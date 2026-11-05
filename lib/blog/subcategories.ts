@@ -277,6 +277,7 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'jeonse-vs-wolse-korean-rental-deposits-foreigners': 'money',
   'mobile-payment-apple-pay-korea-foreigners': 'money',
   // Health, Safety & Admin — 아프거나 · 위급하거나 · 서류 · 쓰레기 · 택배처럼 '처리해야 하는 일'
+  'korea-arrival-card-keta-guide': 'essentials',
   'is-korea-safe-emergency-numbers-tourists': 'essentials',
   'late-night-medicine-korea-clinics-guide': 'essentials',
   'korean-national-health-insurance-foreigners': 'essentials',

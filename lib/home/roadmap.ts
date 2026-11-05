@@ -26,10 +26,11 @@ export const ROADMAP: readonly RoadmapStep[] = [
     title: 'Land and get connected',
     blurb: 'Airport to city, data on your phone, cash and cards sorted.',
     hub: 'incheon-airport-survival-guide',
+    // 입국 서류가 도착 단계의 첫 일 — 짐 보관 글은 공항 가이드 본문이 이미 잇는다(링크 3개 유지 → 모바일 탭 높이 그대로)
     more: [
+      { slug: 'korea-arrival-card-keta-guide', label: 'Arrival card & K-ETA' },
       { slug: 'korea-tourist-sim-vs-esim-airport-guide', label: 'SIM card vs eSIM' },
       { slug: 'foreign-credit-cards-global-atm-korea', label: 'Foreign cards & global ATMs' },
-      { slug: 'hands-free-seoul-subway-lockers-guide', label: 'Lockers & luggage delivery' },
     ],
     phrase: { slug: 'hotel-check-in-korea', label: 'Checking into your hotel' },
   },

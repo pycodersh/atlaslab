@@ -1,11 +1,11 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-10-29T06:05:55.433Z",
+  "generated_at": "2026-11-05T10:47:13.517Z",
   "counts": {
     "Active": {
       "Phrases": 47,
-      "Basics": 34,
-      "Explore Korea": 7,
+      "Basics": 37,
+      "Explore Korea": 8,
       "Food": 69,
       "Life": 50
     },
@@ -14,6 +14,7 @@
       "Life": 2
     },
     "Deprecated": {
+      "Basics": 3,
       "Life": 5,
       "Uncategorized": 359
     }
@@ -30,15 +31,15 @@
         "parenting Korean",
         "everyday Korean",
         "children",
-        "mimetic words"
+        "polite Korean"
       ],
       "status": "Active",
       "last_updated": "2026-10-26",
-      "summary": "How to express surprise at something heavy, volunteer to help, and praise a child's strength in natural Korean — with a look at vivid mimetic words.",
+      "summary": "What a Korean parent and child say over a heavy box, why Korean parents call themselves 엄마 and 아빠, and the polite versions for offering help to adults.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/everyday"
       ]
     },
     {
@@ -52,15 +53,15 @@
         "food Korean",
         "everyday Korean",
         "spicy food",
-        "parenting Korean"
+        "restaurant Korean"
       ],
       "status": "Active",
       "last_updated": "2026-10-26",
-      "summary": "How to react to spicy food in Korean, what \"당기는 맛\" means, and the phrase Korean parents use when a child has finally grown up.",
+      "summary": "How to react to spicy food in Korean, ask how hot a dish is, choose a spice level, and understand what staff and friends say back.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/dining"
       ]
     },
     {
@@ -82,7 +83,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/hotels"
       ]
     },
     {
@@ -101,11 +102,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-24",
-      "summary": "How to ask where the free airport shuttle stops, what to say to check the schedule, and what to do if your hotel doesn't have one.",
+      "summary": "How to book a hotel airport shuttle, ask where and when it leaves, find it on arrival at the airport, and answer the questions hotel staff will ask you.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/hotels"
       ]
     },
     {
@@ -126,7 +127,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/hotels"
       ]
     },
     {
@@ -148,7 +149,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/hotels"
       ]
     },
     {
@@ -169,7 +170,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/transport"
       ]
     },
     {
@@ -191,7 +192,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/transport"
       ]
     },
     {
@@ -213,7 +214,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -235,7 +236,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -257,7 +258,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -279,7 +280,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/leisure"
       ]
     },
     {
@@ -300,7 +301,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/leisure"
       ]
     },
     {
@@ -322,7 +323,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/leisure"
       ]
     },
     {
@@ -343,7 +344,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/leisure"
       ]
     },
     {
@@ -365,7 +366,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/transport"
       ]
     },
     {
@@ -386,7 +387,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/transport"
       ]
     },
     {
@@ -407,7 +408,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -428,7 +429,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -449,7 +450,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -470,7 +471,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -487,11 +488,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-12",
-      "summary": "Drink names are already English. These are the ten words that aren't — the ones that come up at the counter, at your table, and on the way out.",
+      "summary": "Drink names are already English. These are the ten words that aren't: the ones you need at the counter, at your table, and on the way out, with what staff say back.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/cafes"
       ]
     },
     {
@@ -508,11 +509,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-11",
-      "summary": "Leaving your cup on the table is fine in most countries. In Korea you take it to the return station — and one short question saves you from guessing.",
+      "summary": "In most Korean cafes you take your cup to the return station. One short question saves you from guessing, and one short line makes a good goodbye.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/cafes"
       ]
     },
     {
@@ -529,11 +530,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-10",
-      "summary": "The restroom is often outside the cafe, in a shared hallway, behind a locked door. Two questions get you in.",
+      "summary": "The restroom is often outside the cafe, in a shared hallway, behind a locked door. Two questions get you in, and here is how to understand the directions.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/cafes"
       ]
     },
     {
@@ -550,11 +551,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-09",
-      "summary": "Korean cafes are built for people who stay for hours. Two questions get you a seat with an outlet and the wifi password.",
+      "summary": "Korean cafes are built for people who stay for hours. Two questions get you a seat with an outlet and the wifi password, plus what staff will answer.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/cafes"
       ]
     },
     {
@@ -571,11 +572,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-08",
-      "summary": "You order your coffee, the barista asks one more thing, and you have no idea what it was. It's almost always this question — and the answer is two words.",
+      "summary": "You order your coffee, the barista asks one more thing, and you have no idea what it was. It's almost always this question, and the answer is two words.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/cafes"
       ]
     },
     {
@@ -592,11 +593,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-07",
-      "summary": "Koreans drink more iced americano than anything else, and ordering one takes four words. Here's the phrase and the two questions you'll be asked back.",
+      "summary": "Koreans drink more iced americano than anything else, and ordering one takes four words. Here's the phrase, the questions you'll be asked back, and how to tweak it.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/cafes"
       ]
     },
     {
@@ -613,11 +614,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-06",
-      "summary": "You can raise your hand for the bill all night and nobody will come. In most Korean restaurants you take the slip to the counter yourself.",
+      "summary": "You can raise your hand for the bill all night and nobody will come. In most Korean restaurants you take the slip to the counter yourself. Here's what to say there.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/dining"
       ]
     },
     {
@@ -634,11 +635,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-05",
-      "summary": "Nobody will turn you away for dining solo — but most grill restaurants have a two-serving minimum. Here's how to order around it.",
+      "summary": "Nobody will turn you away for dining solo, but most grill restaurants have a two-serving minimum. Here's how to ask, how to order around it, and what staff will say.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/dining"
       ]
     },
     {
@@ -655,11 +656,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-04",
-      "summary": "\"A little spicy\" in Korea is not a little spicy. Here's how to ask before you order, and the phrase that gets your food toned down.",
+      "summary": "\"A little spicy\" in Korea is not a little spicy. Here's how to ask before you order, the phrase that tones your food down, and what to order when it can't be.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/dining"
       ]
     },
     {
@@ -676,11 +677,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-03",
-      "summary": "Waiting to catch someone's eye will keep you waiting all night. Korean restaurants run on a button and one loud word — here's how both work.",
+      "summary": "Waiting to catch someone's eye will keep you waiting all night. Korean restaurants run on a button and one clear word. Here's how both work, and what staff say back.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/dining"
       ]
     },
     {
@@ -701,7 +702,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/dining"
       ]
     },
     {
@@ -720,7 +721,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/transport"
       ]
     },
     {
@@ -740,7 +741,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/everyday"
       ]
     },
     {
@@ -759,7 +760,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/leisure"
       ]
     },
     {
@@ -778,7 +779,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -797,7 +798,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -816,7 +817,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/leisure"
       ]
     },
     {
@@ -831,11 +832,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-07-19",
-      "summary": "Tteokbokki stalls move fast and rarely have English menus. Here is how to order, how to ask about the spice level, and the food words worth knowing before you go.",
+      "summary": "Tteokbokki stalls move fast and rarely have English menus. Here is how to order, ask about spice and payment, and understand what the vendor says back.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/dining"
       ]
     },
     {
@@ -854,7 +855,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -869,11 +870,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-07-19",
-      "summary": "From getting a table to asking for more side dishes to splitting the bill — the phrases that carry an entire meal in Korean, in the order you'll need them.",
+      "summary": "One meal, start to finish: getting a table, calling staff, ordering portions, asking for refills, and paying at the counter, with what staff say at each step.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/dining"
       ]
     },
     {
@@ -888,11 +889,11 @@
       ],
       "status": "Active",
       "last_updated": "2026-07-18",
-      "summary": "Cafes are the easiest place to use Korean for the first time. Here is the full sequence — ordering, the two questions the staff will ask you, and how to pay.",
+      "summary": "The whole cafe visit in Korean: ordering, hot or iced, sizes and extras, the questions staff ask back, paying, and where to go next for each step.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/cafes"
       ]
     },
     {
@@ -911,7 +912,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/transport"
       ]
     },
     {
@@ -931,7 +932,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/shopping"
       ]
     },
     {
@@ -951,7 +952,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/everyday"
       ]
     },
     {
@@ -971,7 +972,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/leisure"
       ]
     },
     {
@@ -987,11 +988,137 @@
       ],
       "status": "Active",
       "last_updated": "2026-07-16",
-      "summary": "Korean delivery is fast, cheap, and goes almost anywhere. Here is how the apps work for foreigners, what to say if you call, and the vocabulary on every order screen.",
+      "summary": "Korean delivery is fast and goes almost anywhere. Here is the vocabulary on every order screen, what to write in the request box, and what to say if you call.",
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases"
+        "phrases/dining"
+      ]
+    },
+    {
+      "id": "59426f9e-4812-4f92-8346-7add131510f4",
+      "category": "Basics",
+      "title": "Korean Counters: 개, 명, 잔, 병 and the Ten You'll Actually Use",
+      "slug": "korean-counters-gae-myeong-jan-byeong",
+      "url": "/blog/en/k-patto/korean-counters-gae-myeong-jan-byeong",
+      "target_keywords": [
+        "numbers",
+        "counters",
+        "beginner",
+        "ordering"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-04",
+      "summary": "Korean never says \"two coffee.\" It says coffee, two, cups. Learn the ten counters that cover cafes, restaurants and shops, and why 하나 becomes 한 before them.",
+      "db_category": "Korean Grammar",
+      "overhauled": false,
+      "subCategories": [
+        "basics/numbers"
+      ]
+    },
+    {
+      "id": "71bc14af-08c3-4efd-b52b-09cc04d118a0",
+      "category": "Basics",
+      "title": "Reading Prices in Korea: 천, 만 and 얼마예요?",
+      "slug": "korean-prices-money-eolmayeyo",
+      "url": "/blog/en/k-patto/korean-prices-money-eolmayeyo",
+      "target_keywords": [
+        "numbers",
+        "money",
+        "shopping",
+        "beginner"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-04",
+      "summary": "Korean counts money in units of 10,000, not 1,000. Learn to read any price tag, hear totals at the counter, and ask 얼마예요? without freezing.",
+      "db_category": "Korean Grammar",
+      "overhauled": false,
+      "subCategories": [
+        "basics/numbers"
+      ]
+    },
+    {
+      "id": "3e65b484-406f-4f2a-8f5f-ac1f8658e3be",
+      "category": "Basics",
+      "title": "Dates and Days in Korean: 월, 일 and 요일",
+      "slug": "korean-dates-days-of-week",
+      "url": "/blog/en/k-patto/korean-dates-days-of-week",
+      "target_keywords": [
+        "numbers",
+        "dates",
+        "booking",
+        "beginner"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-04",
+      "summary": "Months and dates are just Sino-Korean numbers plus 월 and 일, with two famous exceptions. Learn the days of the week, how to say a full date, and how to book.",
+      "db_category": "Korean Grammar",
+      "overhauled": false,
+      "subCategories": [
+        "basics/numbers"
+      ]
+    },
+    {
+      "id": "c351dc0d-e871-46d2-a1fa-9faa06d428af",
+      "category": "Basics",
+      "title": "How Old Are You in Korean? 살, 세 and 만 나이",
+      "slug": "korean-age-sal-man-nai",
+      "url": "/blog/en/k-patto/korean-age-sal-man-nai",
+      "target_keywords": [
+        "numbers",
+        "age",
+        "politeness",
+        "beginner"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-04",
+      "summary": "Saying your age takes native numbers and 살, asking it takes the right politeness, and since 2023 the official age is international age. Here is all three.",
+      "db_category": "Korean Grammar",
+      "overhauled": false,
+      "subCategories": [
+        "basics/numbers"
+      ]
+    },
+    {
+      "id": "d46769a8-de26-458f-b4c2-850470b19ece",
+      "category": "Basics",
+      "title": "-아/어 주세요: Asking Someone to Do Something in Korean",
+      "slug": "korean-requests-a-eo-juseyo",
+      "url": "/blog/en/k-patto/korean-requests-a-eo-juseyo",
+      "target_keywords": [
+        "endings",
+        "requests",
+        "politeness",
+        "travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-04",
+      "summary": "주세요 means \"please give.\" Attach it to a verb and it means \"please do this for me.\" Learn the pattern, the softer versions, and the taxi and restaurant lines you'll use daily.",
+      "db_category": "Korean Grammar",
+      "overhauled": false,
+      "subCategories": [
+        "basics/endings"
+      ]
+    },
+    {
+      "id": "ce13f7de-4ed8-4e5c-817b-e200979b39af",
+      "category": "Basics",
+      "title": "-아서 vs -(으)니까: Two Ways to Say 'Because' in Korean",
+      "slug": "korean-because-aseo-vs-euni-kka",
+      "url": "/blog/en/k-patto/korean-because-aseo-vs-euni-kka",
+      "target_keywords": [
+        "endings",
+        "grammar",
+        "connecting",
+        "intermediate"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-04",
+      "summary": "Both mean \"because,\" but only one can be followed by a request or a suggestion, and only one sounds right in an apology. Learn the rule and the four limits.",
+      "db_category": "Korean Grammar",
+      "overhauled": false,
+      "subCategories": [
+        "basics/endings"
       ]
     },
     {
@@ -1012,7 +1139,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -1033,7 +1160,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -1054,7 +1181,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -1075,7 +1202,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -1096,7 +1223,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -1117,7 +1244,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -1138,7 +1265,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -1159,7 +1286,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -1180,7 +1307,7 @@
       "db_category": "Hangul & Pronunciation",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -1201,70 +1328,7 @@
       "db_category": "Getting Started",
       "overhauled": false,
       "subCategories": [
-        "basics"
-      ]
-    },
-    {
-      "id": "fa61cba4-8869-43ac-b205-62a3c1ecd534",
-      "category": "Basics",
-      "title": "은/는 vs 이/가: What's the Actual Difference?",
-      "slug": "eun-neun-vs-i-ga-difference",
-      "url": "/blog/en/k-patto/eun-neun-vs-i-ga-difference",
-      "target_keywords": [
-        "korean particles",
-        "grammar",
-        "은는",
-        "이가"
-      ],
-      "status": "Active",
-      "last_updated": "2026-08-14",
-      "summary": "Both get translated as nothing in English, which is why the usual explanations don't stick. Here's the difference in terms you can actually use.",
-      "db_category": "Grammar",
-      "overhauled": false,
-      "subCategories": [
-        "basics"
-      ]
-    },
-    {
-      "id": "8bc2fc42-86f5-4c7e-826e-a459b0075f50",
-      "category": "Basics",
-      "title": "Why Korean Has Two Number Systems (And When to Use Each)",
-      "slug": "why-korean-has-two-number-systems",
-      "url": "/blog/en/k-patto/why-korean-has-two-number-systems",
-      "target_keywords": [
-        "korean numbers",
-        "sino-korean",
-        "native korean",
-        "counters"
-      ],
-      "status": "Active",
-      "last_updated": "2026-08-14",
-      "summary": "하나 둘 셋 or 일 이 삼? Both are correct — for different things. Here's the rule that decides it.",
-      "db_category": "Grammar",
-      "overhauled": false,
-      "subCategories": [
-        "basics"
-      ]
-    },
-    {
-      "id": "19be3f84-7d01-4632-9ee5-b518c2f99811",
-      "category": "Basics",
-      "title": "Formal vs Casual Korean: When Can You Drop the 요?",
-      "slug": "formal-vs-casual-korean-when-to-drop-yo",
-      "url": "/blog/en/k-patto/formal-vs-casual-korean-when-to-drop-yo",
-      "target_keywords": [
-        "speech levels",
-        "존댓말",
-        "반말",
-        "korean etiquette"
-      ],
-      "status": "Active",
-      "last_updated": "2026-08-14",
-      "summary": "Every Korean sentence picks a politeness level — there's no neutral option. Here's which one to learn first and when it's safe to switch.",
-      "db_category": "Grammar",
-      "overhauled": false,
-      "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -1285,7 +1349,7 @@
       "db_category": "Getting Started",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -1304,7 +1368,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -1323,7 +1387,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -1342,7 +1406,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -1361,7 +1425,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -1380,7 +1444,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/numbers"
       ]
     },
     {
@@ -1399,7 +1463,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -1419,13 +1483,13 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
       "id": "2486a4d5-0d16-4264-bc38-fc498bb0cbbf",
       "category": "Basics",
-      "title": "Busan Dialect vs Seoul Korean: What Actually Changes",
+      "title": "Busan Dialect (Saturi) vs. Standard Seoul Korean: Key Differences & Must-Know Slang",
       "slug": "busan-dialect-vs-seoul-korean",
       "url": "/blog/en/k-patto/busan-dialect-vs-seoul-korean",
       "target_keywords": [
@@ -1434,30 +1498,32 @@
       ],
       "status": "Active",
       "last_updated": "2026-07-21",
-      "summary": "Gyeongsang dialect has different endings, different intonation, and a reputation for sounding blunt. Here is what changes, why you hear it constantly in dramas, and whether you should learn it.",
+      "summary": "Learn the musical intonation and vocabulary of Busan dialect (Gyeongsang-do Saturi) compared to Standard Seoul Korean. Essential slang for K-drama fans and travelers.",
       "db_category": "Hangul & Pronunciation",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
       "id": "22e762b0-89b5-408a-8543-48c25b7e3c22",
       "category": "Basics",
-      "title": "Korean Politeness Levels, Explained Simply",
+      "title": "Korean Politeness Levels, Explained Simply (and When to Drop 요)",
       "slug": "korean-politeness-levels-explained",
       "url": "/blog/en/k-patto/korean-politeness-levels-explained",
       "target_keywords": [
         "politeness",
-        "speech-levels"
+        "speech-levels",
+        "반말",
+        "존댓말"
       ],
       "status": "Active",
       "last_updated": "2026-07-21",
-      "summary": "Korean has several speech levels, but you only need three. Here is when to use each, how people switch, and what actually happens if you get it wrong.",
+      "summary": "Korean has several speech levels, but you only need three. Here is when to use each, when it's safe to drop 요 and speak 반말, and what actually happens if you get it wrong.",
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -1476,7 +1542,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -1495,7 +1561,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -1514,7 +1580,7 @@
       "db_category": "Hangul & Pronunciation",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -1533,7 +1599,7 @@
       "db_category": "Hangul & Pronunciation",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -1552,7 +1618,7 @@
       "db_category": "Hangul & Pronunciation",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -1571,7 +1637,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -1591,7 +1657,7 @@
       "db_category": "Hangul & Pronunciation",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -1611,7 +1677,7 @@
       "db_category": "Hangul & Pronunciation",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -1630,7 +1696,7 @@
       "db_category": "Hangul & Pronunciation",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -1649,7 +1715,7 @@
       "db_category": "Hangul & Pronunciation",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -1668,7 +1734,7 @@
       "db_category": "Hangul & Pronunciation",
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -1687,7 +1753,7 @@
       "last_updated": "2026-10-29",
       "summary": "Seongsu-dong is Seoul's pop-up and cafe district. Here is when to go, how pop-up reservations and waitlists work, what things cost, and the Korean you need at the door.",
       "db_category": "Places",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "explore-korea/places",
         "life/daily"
@@ -1709,7 +1775,7 @@
       "last_updated": "2026-10-16",
       "summary": "Plan a Nami Island day trip: train, subway or shuttle bus from Seoul, the ferry, the best time to arrive, seasonal highlights, and tips for beating the crowds.",
       "db_category": "Places",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "explore-korea/places",
         "life/transit"
@@ -1731,7 +1797,7 @@
       "last_updated": "2026-10-15",
       "summary": "When cherry blossoms and autumn leaves peak in Korea, the best spots in Seoul and beyond, how to check forecasts, and tips for beating the crowds.",
       "db_category": "Places",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "explore-korea/places",
         "life/daily"
@@ -1753,7 +1819,7 @@
       "last_updated": "2026-10-14",
       "summary": "Hike Korea's mountains like a local: easy and challenging trails near Seoul, what to bring, mountain etiquette, the post-hike food ritual, and safety tips.",
       "db_category": "Places",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "explore-korea/places",
         "life/daily"
@@ -1806,6 +1872,28 @@
       ]
     },
     {
+      "id": "334107b4-5ebb-41d5-b2ac-6a2815d1656c",
+      "category": "Explore Korea",
+      "title": "Hanok Stays in Korea: What to Expect, How to Book, and Etiquette",
+      "slug": "hanok-stay-korea-booking-etiquette",
+      "url": "/blog/en/k-patto/hanok-stay-korea-booking-etiquette",
+      "target_keywords": [
+        "hanok stay",
+        "traditional korean house",
+        "jeonju hanok village",
+        "korea accommodation"
+      ],
+      "status": "Active",
+      "last_updated": "2026-10-12",
+      "summary": "Staying in a traditional Korean hanok: rooms, floor bedding and ondol heating, where to book in Seoul, Jeonju and Gyeongju, prices and house etiquette.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places",
+        "life/daily"
+      ]
+    },
+    {
       "id": "2c2a6d23-e937-46c9-a2e3-7b7ea4e3bd80",
       "category": "Explore Korea",
       "title": "Seoul vs Busan: Which City Should First-Time Visitors Choose?",
@@ -1821,7 +1909,7 @@
       "last_updated": "2026-10-08",
       "summary": "Seoul and Busan compared for first-time visitors: atmosphere, highlights, food, costs and getting between them, plus how many days to give each city.",
       "db_category": "Places",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "explore-korea/places",
         "life/transit"
@@ -1843,7 +1931,7 @@
       "last_updated": "2026-10-29",
       "summary": "The street foods worth trying in Hongdae, what they cost, how to order and pay at the stalls, and the etiquette that keeps vendors happy.",
       "db_category": "Cooking Basics",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "food/street",
         "explore-korea/places"
@@ -1865,7 +1953,7 @@
       "last_updated": "2026-10-29",
       "summary": "What Myeongdong's evening street food costs, which snacks are worth it, how to pay at the stalls, and a simple budget plan so a snack crawl doesn't get expensive.",
       "db_category": "Cooking Basics",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "food/street",
         "explore-korea/places"
@@ -1888,7 +1976,7 @@
       "last_updated": "2026-10-24",
       "summary": "How the buy-downstairs, eat-upstairs system works at Noryangjin, what the table and cooking fees cost, and how to handle vendors without overpaying.",
       "db_category": "Cooking Basics",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "food/culture",
         "explore-korea/places"
@@ -2079,7 +2167,7 @@
       "last_updated": "2026-10-14",
       "summary": "Bindaetteok, mayak gimbap, yukhoe and twisted doughnuts at Gwangjang Market: what each costs, how long the lines are, how to grab a seat, and cash vs card.",
       "db_category": "Cooking Basics",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "food/street",
         "explore-korea/places"
@@ -2235,7 +2323,7 @@
     {
       "id": "699df36c-34e8-493c-8cc7-cb57102da1c3",
       "category": "Food",
-      "title": "Why Korean Marinades Use Asian Pear (and What to Use Instead)",
+      "title": "Why Korean Meat Marinades Always Use Asian Pear: The Tenderizing Science Explained",
       "slug": "why-korean-marinades-use-asian-pear",
       "url": "/blog/en/k-pantry/why-korean-marinades-use-asian-pear",
       "target_keywords": [
@@ -2246,7 +2334,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-09",
-      "summary": "How grated Asian pear tenderizes and sweetens bulgogi and galbi marinades, how to prepare it, marinating times, and which substitutes work without turning meat to mush.",
+      "summary": "Discover the scientific reason Korean BBQ marinades (Bulgogi, Galbi) use grated Asian pear. Learn about proteolytic enzymes and easy Western fruit substitutes.",
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
@@ -2405,7 +2493,7 @@
     {
       "id": "68c72bdc-bfc3-44cb-9c49-7313311cc65c",
       "category": "Food",
-      "title": "Korean Instant Noodles Compared: Which Ramyeon to Buy",
+      "title": "Korean Instant Noodles Ranked: Spicy Levels, Broth Types & Beginner Favorites",
       "slug": "korean-instant-noodles-compared",
       "url": "/blog/en/k-pantry/korean-instant-noodles-compared",
       "target_keywords": [
@@ -2416,7 +2504,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-04",
-      "summary": "The most popular Korean instant noodles compared by spice, flavor and style, from Shin Ramyun to Buldak and Jjapaguri, plus how to cook them like a local.",
+      "summary": "Comparing popular Korean Ramyeon: Shin Ramyun, Jin Ramen, Buldak, Neoguri, and Chapagetti. Find your perfect match based on spice tolerance and flavor.",
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
@@ -2821,7 +2909,7 @@
       "last_updated": "2026-08-14",
       "summary": "What Gyeongju ssambap is: leaf wraps with rice and a spread of 20+ side dishes, how a meal works, where to find ssambap streets, prices and ordering tips.",
       "db_category": "Cooking Basics",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "food/meals",
         "explore-korea/places"
@@ -3061,7 +3149,7 @@
     {
       "id": "42d45b6c-d841-4bed-9f69-d3987302951a",
       "category": "Food",
-      "title": "What Is Perilla Leaf? And What to Use If You Can't Find It",
+      "title": "Best Perilla Leaf Substitutes for Korean Cooking (When You Can't Find Kkaennip)",
       "slug": "what-is-perilla-leaf-substitute",
       "url": "/blog/en/k-pantry/what-is-perilla-leaf-substitute",
       "target_keywords": [
@@ -3072,7 +3160,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-13",
-      "summary": "Kkaennip explained: what Korean perilla leaf tastes like, how it differs from shiso, how Koreans eat it, the closest substitutes ranked, and how to grow your own.",
+      "summary": "Can't find Korean perilla leaves (Kkaennip)? Discover the best substitutes like shiso, lettuce, and Thai basil, and how they perform in wraps, pickles and stews.",
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
@@ -3208,7 +3296,7 @@
     {
       "id": "91e7ec9e-a862-4ca3-b304-5e9dd7e19918",
       "category": "Food",
-      "title": "Sesame Oil vs Perilla Oil: Two Bottles That Look the Same",
+      "title": "Sesame Oil vs. Perilla Oil: Key Flavor Differences & How Koreans Use Each",
       "slug": "sesame-oil-vs-perilla-oil",
       "url": "/blog/en/k-pantry/sesame-oil-vs-perilla-oil",
       "target_keywords": [
@@ -3218,7 +3306,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "Chamgireum vs deulgireum: what Korean sesame oil and perilla oil taste like, which dishes each belongs in, why perilla oil goes rancid fast, substitutes and buying tips.",
+      "summary": "Wondering if perilla oil is the same as sesame oil? Learn the flavor profiles, smoke points, health benefits, and exactly when to use each in Korean cooking.",
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
@@ -3249,7 +3337,7 @@
     {
       "id": "07f3d3b1-f801-4f27-aa75-fa9f4050ce60",
       "category": "Food",
-      "title": "Korean Rice: Why It's Different and How to Cook It",
+      "title": "How to Cook Perfect Korean Sticky Rice (Baekmi) Without a Rice Cooker",
       "slug": "how-to-cook-korean-rice",
       "url": "/blog/en/k-pantry/how-to-cook-korean-rice",
       "target_keywords": [
@@ -3260,7 +3348,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-08-12",
-      "summary": "How to cook Korean-style short-grain rice: rinsing, soaking, water ratios for pot and rice cooker, mixed-grain rice, and how Koreans eat and store rice.",
+      "summary": "Master authentic Korean short-grain white rice (Baekmi) on the stovetop. Step-by-step water ratio, soaking rules, and timing for glossy, chewy sticky rice.",
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
@@ -3286,6 +3374,28 @@
       "overhauled": true,
       "subCategories": [
         "food/meals"
+      ]
+    },
+    {
+      "id": "d168a989-5fa7-43fc-aebd-abe26e6821a6",
+      "category": "Life",
+      "title": "Korea Arrival Card and K-ETA: Who Needs What (2026 Guide)",
+      "slug": "korea-arrival-card-keta-guide",
+      "url": "/blog/en/k-patto/korea-arrival-card-keta-guide",
+      "target_keywords": [
+        "korea arrival card",
+        "k-eta",
+        "korea e-arrival card",
+        "q-code korea",
+        "korea entry requirements"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-05",
+      "summary": "Whether you need a K-ETA, how to fill in Korea's free e-Arrival Card, when Q-CODE and customs forms apply, and what happens at Incheon immigration.",
+      "db_category": "Korean Culture",
+      "overhauled": false,
+      "subCategories": [
+        "life/essentials"
       ]
     },
     {
@@ -3496,32 +3606,10 @@
       "last_updated": "2026-10-13",
       "summary": "Get around Jeju without driving: how the island's buses work, when to use taxis or day tours, the best bases to stay in, and a simple car-free itinerary.",
       "db_category": "Korean Culture",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "life/transit",
         "explore-korea/places"
-      ]
-    },
-    {
-      "id": "334107b4-5ebb-41d5-b2ac-6a2815d1656c",
-      "category": "Life",
-      "title": "Hanok Stays in Korea: What to Expect, How to Book, and Etiquette",
-      "slug": "hanok-stay-korea-booking-etiquette",
-      "url": "/blog/en/k-patto/hanok-stay-korea-booking-etiquette",
-      "target_keywords": [
-        "hanok stay",
-        "traditional korean house",
-        "jeonju hanok village",
-        "korea accommodation"
-      ],
-      "status": "Active",
-      "last_updated": "2026-10-12",
-      "summary": "Staying in a traditional Korean hanok: rooms, floor bedding and ondol heating, where to book in Seoul, Jeonju and Gyeongju, prices and house etiquette.",
-      "db_category": "Korean Culture",
-      "overhauled": true,
-      "subCategories": [
-        "life/daily",
-        "explore-korea/hotels"
       ]
     },
     {
@@ -3540,7 +3628,7 @@
       "last_updated": "2026-10-12",
       "summary": "Templestay in Korea for foreigners: day programs vs overnight stays, a typical schedule, temple meals, what to wear, booking and the etiquette that matters.",
       "db_category": "Korean Culture",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "life/daily",
         "explore-korea/places"
@@ -3562,7 +3650,7 @@
       "last_updated": "2026-10-12",
       "summary": "Make Han River ramyeon with the convenience store machine, pick the right riverside park, order delivery to a delivery zone, and follow the picnic rules locals keep.",
       "db_category": "Korean Culture",
-      "overhauled": true,
+      "overhauled": false,
       "subCategories": [
         "life/daily",
         "explore-korea/places",
@@ -3785,7 +3873,7 @@
     {
       "id": "d8b7013d-7da9-4156-a43d-db5630874a49",
       "category": "Life",
-      "title": "Kakao T vs Uber vs Street Taxi in Seoul, and What to Do If You Lose Something",
+      "title": "Kakao T vs. Uber (UT) in Seoul: Which Taxi App is Cheaper & Easier for Foreigners?",
       "slug": "seoul-taxi-cheapest-kakao-uber",
       "url": "/blog/en/k-patto/seoul-taxi-cheapest-kakao-uber",
       "target_keywords": [
@@ -3796,7 +3884,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-03",
-      "summary": "Compare Kakao T, Uber and street taxis in Seoul for price, payment and ease, then learn how to recover items left in a taxi using app history, receipts and 120.",
+      "summary": "Comparing Kakao T and Uber (UT) in South Korea. Discover which app accepts foreign cards, pricing differences, driver availability, and English UI usability.",
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
@@ -4122,7 +4210,7 @@
     {
       "id": "6c2b8c68-78af-47de-af4d-726ec20f05d5",
       "category": "Life",
-      "title": "Taking Taxis in Korea: Taxi Types, Fares, the Red Light, and How to Pay",
+      "title": "Korea Taxi Survival Guide: Colors, Fares, Payment & Crucial Phrases for Tourists",
       "slug": "korea-taxi-survival-guide",
       "url": "/blog/en/k-patto/korea-taxi-survival-guide",
       "target_keywords": [
@@ -4133,7 +4221,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-09-22",
-      "summary": "How to read Korean taxis: regular vs deluxe vs international taxis, night surcharges, what the red light means, card payment, and what to say to the driver.",
+      "summary": "Essential guide to taking taxis in South Korea. Learn taxi colors (Orange, Silver, Black Deluxe), base fares, international cards/T-money payment, and safety tips.",
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
@@ -4365,7 +4453,7 @@
       "summary": "How hanbok rental works near Gyeongbokgung, free palace entry in hanbok, and etiquette.",
       "url": null,
       "status": "Planned",
-      "last_updated": "2026-10-29"
+      "last_updated": "2026-11-05"
     },
     {
       "id": "planned-myeongdong-shopping",
@@ -4380,7 +4468,7 @@
       "summary": "Where to shop, exchange money and claim tax refunds in Myeongdong.",
       "url": null,
       "status": "Planned",
-      "last_updated": "2026-10-29"
+      "last_updated": "2026-11-05"
     },
     {
       "id": "planned-ikseon-dong",
@@ -4395,7 +4483,70 @@
       "summary": "A short guide to Ikseon-dong hanok alleys, cafes and crowd-free timing.",
       "url": null,
       "status": "Planned",
-      "last_updated": "2026-10-29"
+      "last_updated": "2026-11-05"
+    },
+    {
+      "id": "fa61cba4-8869-43ac-b205-62a3c1ecd534",
+      "category": "Basics",
+      "title": "은/는 vs 이/가: What's the Actual Difference?",
+      "slug": "eun-neun-vs-i-ga-difference",
+      "url": null,
+      "target_keywords": [
+        "korean particles",
+        "grammar",
+        "은는",
+        "이가"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-14",
+      "summary": "Both get translated as nothing in English, which is why the usual explanations don't stick. Here's the difference in terms you can actually use.",
+      "db_category": "Grammar",
+      "overhauled": false,
+      "subCategories": [
+        "basics/grammar"
+      ]
+    },
+    {
+      "id": "8bc2fc42-86f5-4c7e-826e-a459b0075f50",
+      "category": "Basics",
+      "title": "Why Korean Has Two Number Systems (And When to Use Each)",
+      "slug": "why-korean-has-two-number-systems",
+      "url": null,
+      "target_keywords": [
+        "korean numbers",
+        "sino-korean",
+        "native korean",
+        "counters"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-14",
+      "summary": "하나 둘 셋 or 일 이 삼? Both are correct — for different things. Here's the rule that decides it.",
+      "db_category": "Grammar",
+      "overhauled": false,
+      "subCategories": [
+        "basics/numbers"
+      ]
+    },
+    {
+      "id": "19be3f84-7d01-4632-9ee5-b518c2f99811",
+      "category": "Basics",
+      "title": "Formal vs Casual Korean: When Can You Drop the 요?",
+      "slug": "formal-vs-casual-korean-when-to-drop-yo",
+      "url": null,
+      "target_keywords": [
+        "speech levels",
+        "존댓말",
+        "반말",
+        "korean etiquette"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-14",
+      "summary": "Every Korean sentence picks a politeness level — there's no neutral option. Here's which one to learn first and when it's safe to switch.",
+      "db_category": "Grammar",
+      "overhauled": false,
+      "subCategories": [
+        "basics/endings"
+      ]
     },
     {
       "id": "49ce530b-270b-4dcf-9fa5-01e9dd9f9e26",
@@ -4520,7 +4671,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4540,7 +4691,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4560,7 +4711,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4580,7 +4731,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4600,7 +4751,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4620,7 +4771,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4640,7 +4791,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4660,7 +4811,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4680,7 +4831,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4700,7 +4851,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4720,7 +4871,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4740,7 +4891,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4760,7 +4911,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4780,7 +4931,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4800,7 +4951,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4820,7 +4971,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -4840,7 +4991,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4860,7 +5011,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4880,7 +5031,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4900,7 +5051,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -4920,7 +5071,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -4940,7 +5091,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -4960,7 +5111,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -4980,7 +5131,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5000,7 +5151,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5020,7 +5171,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5040,7 +5191,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5060,7 +5211,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5080,7 +5231,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5100,7 +5251,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5120,7 +5271,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5140,7 +5291,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5160,7 +5311,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -5180,7 +5331,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5200,7 +5351,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5220,7 +5371,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5240,7 +5391,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5260,7 +5411,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5280,7 +5431,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5300,7 +5451,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5320,7 +5471,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5340,7 +5491,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5360,7 +5511,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5380,7 +5531,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5400,7 +5551,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5420,7 +5571,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -5440,7 +5591,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5460,7 +5611,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/numbers"
       ]
     },
     {
@@ -5480,7 +5631,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5500,7 +5651,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5520,7 +5671,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5540,7 +5691,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5560,7 +5711,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5580,7 +5731,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5600,7 +5751,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5620,7 +5771,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5640,7 +5791,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5660,7 +5811,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5680,7 +5831,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5700,7 +5851,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5720,7 +5871,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5740,7 +5891,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5760,7 +5911,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5780,7 +5931,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5800,7 +5951,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5820,7 +5971,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5840,7 +5991,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5860,7 +6011,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5880,7 +6031,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5900,7 +6051,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5920,27 +6071,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
-      ]
-    },
-    {
-      "id": "d3327b9e-d978-4771-8daa-bf4ac9e42f0b",
-      "category": "Uncategorized",
-      "title": "Bibimbap Assembly Guide: Layers, Sauce, and Technique",
-      "slug": "bibimbap-assembly-guide",
-      "url": null,
-      "target_keywords": [
-        "korean-food",
-        "recipe",
-        "rice"
-      ],
-      "status": "Deprecated",
-      "last_updated": "2026-08-17",
-      "summary": "A complete step-by-step guide to making Bibimbap Assembly Guide — Layers, Sauce, and Technique at home.",
-      "db_category": null,
-      "overhauled": false,
-      "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -5960,7 +6091,27 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
+      ]
+    },
+    {
+      "id": "d3327b9e-d978-4771-8daa-bf4ac9e42f0b",
+      "category": "Uncategorized",
+      "title": "Bibimbap Assembly Guide: Layers, Sauce, and Technique",
+      "slug": "bibimbap-assembly-guide",
+      "url": null,
+      "target_keywords": [
+        "korean-food",
+        "recipe",
+        "rice"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-17",
+      "summary": "A complete step-by-step guide to making Bibimbap Assembly Guide — Layers, Sauce, and Technique at home.",
+      "db_category": null,
+      "overhauled": false,
+      "subCategories": [
+        "basics/grammar"
       ]
     },
     {
@@ -5980,7 +6131,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6000,7 +6151,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6020,7 +6171,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6040,7 +6191,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6060,7 +6211,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6080,7 +6231,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6100,7 +6251,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6120,7 +6271,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6140,7 +6291,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6160,7 +6311,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6180,7 +6331,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6200,7 +6351,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6220,7 +6371,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6240,7 +6391,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6260,7 +6411,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6280,7 +6431,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6300,7 +6451,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6320,7 +6471,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6340,7 +6491,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6360,7 +6511,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6380,7 +6531,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6400,7 +6551,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6420,7 +6571,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6440,7 +6591,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6460,7 +6611,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6480,7 +6631,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6500,7 +6651,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6520,7 +6671,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6540,7 +6691,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/numbers"
       ]
     },
     {
@@ -6560,7 +6711,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6580,7 +6731,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6600,7 +6751,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6620,7 +6771,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6640,7 +6791,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6660,7 +6811,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6680,7 +6831,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6700,7 +6851,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6720,7 +6871,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6740,7 +6891,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6760,7 +6911,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6780,7 +6931,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6800,7 +6951,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6820,7 +6971,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6840,7 +6991,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6860,7 +7011,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6880,7 +7031,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6900,7 +7051,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6920,7 +7071,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6940,7 +7091,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6960,7 +7111,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -6980,7 +7131,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7000,7 +7151,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7020,7 +7171,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7040,7 +7191,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7060,7 +7211,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7080,7 +7231,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7100,7 +7251,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7120,7 +7271,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7140,7 +7291,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7160,7 +7311,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -7180,7 +7331,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7200,7 +7351,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7220,7 +7371,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7240,7 +7391,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7260,7 +7411,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7280,7 +7431,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7300,7 +7451,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/numbers"
       ]
     },
     {
@@ -7320,7 +7471,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -7340,7 +7491,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7360,7 +7511,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7380,7 +7531,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7400,7 +7551,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7420,7 +7571,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7440,7 +7591,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7460,7 +7611,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7480,7 +7631,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7500,7 +7651,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7520,7 +7671,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7540,7 +7691,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7560,7 +7711,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7580,7 +7731,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7600,7 +7751,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7620,7 +7771,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7640,7 +7791,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7660,7 +7811,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7680,7 +7831,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7700,7 +7851,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7720,7 +7871,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7740,7 +7891,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7760,7 +7911,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7780,7 +7931,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7800,7 +7951,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7820,7 +7971,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7840,7 +7991,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7860,7 +8011,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -7880,7 +8031,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7900,7 +8051,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7920,7 +8071,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7940,7 +8091,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7960,7 +8111,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -7980,7 +8131,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8000,7 +8151,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8020,7 +8171,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8040,7 +8191,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8060,7 +8211,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -8080,7 +8231,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8100,7 +8251,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8120,7 +8271,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8140,7 +8291,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8160,7 +8311,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8180,7 +8331,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8200,7 +8351,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8220,7 +8371,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8240,7 +8391,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8260,7 +8411,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8280,7 +8431,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -8300,7 +8451,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8320,7 +8471,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8340,7 +8491,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8360,7 +8511,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8380,7 +8531,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8400,7 +8551,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8420,7 +8571,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8440,7 +8591,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8460,7 +8611,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8480,7 +8631,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8500,7 +8651,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8520,7 +8671,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8540,7 +8691,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8560,7 +8711,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/numbers"
       ]
     },
     {
@@ -8580,7 +8731,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/numbers"
       ]
     },
     {
@@ -8600,7 +8751,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8620,7 +8771,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8640,7 +8791,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8660,7 +8811,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8680,7 +8831,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8700,7 +8851,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8720,7 +8871,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8740,7 +8891,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8760,7 +8911,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8780,7 +8931,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8800,7 +8951,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8820,7 +8971,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8840,7 +8991,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8860,7 +9011,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8880,7 +9031,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8900,7 +9051,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8920,7 +9071,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8940,7 +9091,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8960,7 +9111,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -8980,7 +9131,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9000,7 +9151,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9020,7 +9171,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9040,7 +9191,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9060,7 +9211,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9080,7 +9231,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9100,7 +9251,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -9120,7 +9271,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9140,7 +9291,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9160,7 +9311,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9180,7 +9331,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9200,7 +9351,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9220,7 +9371,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9240,7 +9391,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9260,7 +9411,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9280,7 +9431,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9300,7 +9451,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9320,7 +9471,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9340,7 +9491,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9360,7 +9511,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9380,7 +9531,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9400,7 +9551,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9420,7 +9571,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9440,7 +9591,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9460,7 +9611,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9480,7 +9631,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9500,7 +9651,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/endings"
       ]
     },
     {
@@ -9520,7 +9671,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9540,7 +9691,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9560,7 +9711,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9580,7 +9731,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9600,7 +9751,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9620,7 +9771,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9640,7 +9791,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9660,7 +9811,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9680,7 +9831,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9700,7 +9851,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9720,7 +9871,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -9740,7 +9891,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9760,7 +9911,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9780,7 +9931,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9800,7 +9951,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9820,7 +9971,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9840,7 +9991,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9860,7 +10011,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9880,7 +10031,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9900,7 +10051,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9920,7 +10071,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9940,7 +10091,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9960,7 +10111,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -9980,7 +10131,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10000,7 +10151,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10020,7 +10171,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10040,7 +10191,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10060,7 +10211,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10080,7 +10231,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10100,7 +10251,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10120,7 +10271,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10140,7 +10291,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10160,7 +10311,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10180,7 +10331,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10200,7 +10351,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10220,7 +10371,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10240,7 +10391,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10260,7 +10411,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10280,7 +10431,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10300,7 +10451,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10320,7 +10471,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10340,7 +10491,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10360,7 +10511,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10380,7 +10531,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10400,7 +10551,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10420,7 +10571,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10440,7 +10591,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10460,7 +10611,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10480,7 +10631,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10500,7 +10651,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10520,7 +10671,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10540,7 +10691,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10560,7 +10711,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10580,7 +10731,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10600,7 +10751,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10620,7 +10771,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10640,7 +10791,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10660,7 +10811,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10680,7 +10831,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10700,7 +10851,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10720,7 +10871,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/hangul"
       ]
     },
     {
@@ -10740,7 +10891,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10760,7 +10911,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10780,7 +10931,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10800,7 +10951,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10820,7 +10971,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10840,7 +10991,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10860,7 +11011,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10880,7 +11031,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10900,7 +11051,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10920,7 +11071,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10940,7 +11091,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10960,7 +11111,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -10980,7 +11131,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11000,7 +11151,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11020,7 +11171,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11040,7 +11191,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11060,7 +11211,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11080,7 +11231,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11100,7 +11251,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11120,7 +11271,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11140,7 +11291,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11160,7 +11311,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11180,7 +11331,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11200,7 +11351,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11220,7 +11371,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11240,7 +11391,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11260,7 +11411,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11280,7 +11431,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11300,7 +11451,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11320,7 +11471,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11340,7 +11491,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11360,7 +11511,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11380,7 +11531,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11400,7 +11551,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11420,7 +11571,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11440,7 +11591,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11460,7 +11611,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11480,7 +11631,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11500,7 +11651,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/numbers"
       ]
     },
     {
@@ -11520,7 +11671,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11540,7 +11691,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11560,7 +11711,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11580,7 +11731,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11600,7 +11751,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11620,7 +11771,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11640,7 +11791,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11660,7 +11811,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     },
     {
@@ -11680,7 +11831,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics"
+        "basics/grammar"
       ]
     }
   ]
