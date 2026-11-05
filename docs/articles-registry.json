@@ -1,9 +1,9 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-11-05T10:52:51.977Z",
+  "generated_at": "2026-11-05T11:13:31.072Z",
   "counts": {
     "Active": {
-      "Phrases": 48,
+      "Phrases": 51,
       "Basics": 37,
       "Explore Korea": 8,
       "Food": 69,
@@ -40,6 +40,72 @@
       "overhauled": false,
       "subCategories": [
         "phrases/everyday"
+      ]
+    },
+    {
+      "id": "7e7fa8bd-29de-4e8a-b06a-f8b1b2ef300e",
+      "category": "Phrases",
+      "title": "\"Close First, Floor Later!\" — The Elevator Habit That Shows You're Becoming Truly Korean",
+      "slug": "korean-elevator-close-button-ppalli",
+      "url": "/blog/en/k-patto/korean-elevator-close-button-ppalli",
+      "target_keywords": [
+        "Korean phrases",
+        "Korean culture",
+        "ppalli ppalli",
+        "polite Korean",
+        "everyday Korean"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-05",
+      "summary": "Why Koreans hit the close button before picking a floor, how 빨리빨리 (hurry-hurry) culture shows up in daily life, and the elevator Korean you need to know.",
+      "db_category": "Real-Life Korean",
+      "overhauled": false,
+      "subCategories": [
+        "phrases/everyday"
+      ]
+    },
+    {
+      "id": "c0dc1436-4d83-4147-b068-368d2fb92c50",
+      "category": "Phrases",
+      "title": "\"Excuse Me, Give Me Water!\" — Why Dropping \"-Yo\" at Korean Restaurants Shocks the Staff",
+      "slug": "korean-restaurant-drop-yo-water",
+      "url": "/blog/en/k-patto/korean-restaurant-drop-yo-water",
+      "target_keywords": [
+        "Korean phrases",
+        "restaurant Korean",
+        "polite Korean",
+        "banmal",
+        "eating out"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-05",
+      "summary": "How one tiny ending turns a polite order into accidental rudeness, and what to say when calling staff and asking for water and refills at a Korean restaurant.",
+      "db_category": "Real-Life Korean",
+      "overhauled": false,
+      "subCategories": [
+        "phrases/dining"
+      ]
+    },
+    {
+      "id": "cbd7c7f1-9d3d-44f9-9244-66b4e344053a",
+      "category": "Phrases",
+      "title": "\"Can I Try This On?\" — Essential Korean Phrases for Clothes Shopping",
+      "slug": "korean-shopping-try-on-clothes",
+      "url": "/blog/en/k-patto/korean-shopping-try-on-clothes",
+      "target_keywords": [
+        "Korean phrases",
+        "shopping Korean",
+        "polite Korean",
+        "fitting room",
+        "Seoul shopping"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-05",
+      "summary": "How to ask for the fitting room, check sizes and colors, decide on an item, and follow shop staff to the counter in Korean, plus the fitting-room rules you'll meet in Korean boutiques.",
+      "db_category": "Real-Life Korean",
+      "overhauled": false,
+      "subCategories": [
+        "phrases/shopping"
       ]
     },
     {
@@ -6097,26 +6163,6 @@
       ]
     },
     {
-      "id": "d4db2170-5e41-48b9-be3e-769a21ecf258",
-      "category": "Uncategorized",
-      "title": "How Chunking Transforms Korean Speaking Speed",
-      "slug": "how-chunking-transforms-korean-speaking-speed",
-      "url": null,
-      "target_keywords": [
-        "chunking",
-        "speaking",
-        "fluency"
-      ],
-      "status": "Deprecated",
-      "last_updated": "2026-08-17",
-      "summary": "How Chunking Transforms Korean Speaking Speed — a deep dive into the theory and science behind effective Korean language learning.",
-      "db_category": null,
-      "overhauled": false,
-      "subCategories": [
-        "basics/grammar"
-      ]
-    },
-    {
       "id": "d3327b9e-d978-4771-8daa-bf4ac9e42f0b",
       "category": "Uncategorized",
       "title": "Bibimbap Assembly Guide: Layers, Sauce, and Technique",
@@ -6130,6 +6176,26 @@
       "status": "Deprecated",
       "last_updated": "2026-08-17",
       "summary": "A complete step-by-step guide to making Bibimbap Assembly Guide — Layers, Sauce, and Technique at home.",
+      "db_category": null,
+      "overhauled": false,
+      "subCategories": [
+        "basics/grammar"
+      ]
+    },
+    {
+      "id": "d4db2170-5e41-48b9-be3e-769a21ecf258",
+      "category": "Uncategorized",
+      "title": "How Chunking Transforms Korean Speaking Speed",
+      "slug": "how-chunking-transforms-korean-speaking-speed",
+      "url": null,
+      "target_keywords": [
+        "chunking",
+        "speaking",
+        "fluency"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-17",
+      "summary": "How Chunking Transforms Korean Speaking Speed — a deep dive into the theory and science behind effective Korean language learning.",
       "db_category": null,
       "overhauled": false,
       "subCategories": [
@@ -7377,26 +7443,6 @@
       ]
     },
     {
-      "id": "b0505474-e28b-466f-b796-ccdbdd55fdb0",
-      "category": "Uncategorized",
-      "title": "Korean Holiday Foods: What Koreans Eat on Chuseok and Seollal",
-      "slug": "korean-holiday-foods-guide",
-      "url": null,
-      "target_keywords": [
-        "korean-food",
-        "culture",
-        "holiday"
-      ],
-      "status": "Deprecated",
-      "last_updated": "2026-08-11",
-      "summary": "An inside look at korean holiday foods: what koreans eat on chuseok and seollal and what it reveals about Korean society and identity.",
-      "db_category": null,
-      "overhauled": false,
-      "subCategories": [
-        "basics/grammar"
-      ]
-    },
-    {
       "id": "b1aff418-b485-4950-9713-6866df9140ed",
       "category": "Uncategorized",
       "title": "Sagol-Guk: Bone Broth Soup Korean Style",
@@ -7410,6 +7456,26 @@
       "status": "Deprecated",
       "last_updated": "2026-08-11",
       "summary": "A complete step-by-step guide to making Sagol-Guk — Bone Broth Soup Korean Style at home.",
+      "db_category": null,
+      "overhauled": false,
+      "subCategories": [
+        "basics/grammar"
+      ]
+    },
+    {
+      "id": "b0505474-e28b-466f-b796-ccdbdd55fdb0",
+      "category": "Uncategorized",
+      "title": "Korean Holiday Foods: What Koreans Eat on Chuseok and Seollal",
+      "slug": "korean-holiday-foods-guide",
+      "url": null,
+      "target_keywords": [
+        "korean-food",
+        "culture",
+        "holiday"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-11",
+      "summary": "An inside look at korean holiday foods: what koreans eat on chuseok and seollal and what it reveals about Korean society and identity.",
       "db_category": null,
       "overhauled": false,
       "subCategories": [
