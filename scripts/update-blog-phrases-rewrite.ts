@@ -32,7 +32,8 @@ const sb = createClient(
 )
 
 const youtubeIds = (s: string) => [...s.matchAll(/<YouTube\s+[^>]*id="([^"]+)"/g)].map(m => m[1]).sort().join(',')
-const sameTags = (a: unknown, b: unknown) => JSON.stringify(a ?? []) === JSON.stringify(b ?? [])
+const basicVideo = (s: string) => [...s.matchAll(/<KoreanBasicVideo\s+slug="([^"]+)"/g)].map(m => m[1]).join(',')
+const sameTags =(a: unknown, b: unknown) => JSON.stringify(a ?? []) === JSON.stringify(b ?? [])
 
 async function main() {
   if (!SLUGS.length) throw new Error('slug 를 하나 이상 넘길 것')
@@ -48,7 +49,8 @@ async function main() {
     const description = String(fm.description ?? '').trim()
     const tags = fm.tags as string[]
     if (fm.slug !== slug) throw new Error(`${slug}: frontmatter slug 가 다르다 (${fm.slug})`)
-    if (fm.category !== 'Real-Life Korean') throw new Error(`${slug}: Phrases 글이 아니다 (${fm.category})`)
+    // Phrases(Real-Life Korean)에 이어 Basics(Korean Grammar) 개편에도 쓴다(2026-11-05~)
+    if (!['Real-Life Korean', 'Korean Grammar'].includes(fm.category)) throw new Error(`${slug}: Phrases · Basics 글이 아니다 (${fm.category})`)
     if (!description || !Array.isArray(tags) || !tags.length) throw new Error(`${slug}: description · tags 가 비었다`)
     await compile(content, { remarkPlugins: [remarkGfm] })
 
@@ -63,6 +65,10 @@ async function main() {
       }
       if (youtubeIds(row.content) !== youtubeIds(content)) {
         throw new Error(`${slug}: YouTube id 가 바뀌었다 (${youtubeIds(row.content)} → ${youtubeIds(content)}) — 대화 영상과 어긋난다, 중단`)
+      }
+      // Basics 는 상단 Remotion 영상(<KoreanBasicVideo slug=…/>)이 본문 첫머리에 그대로 있어야 한다
+      if (basicVideo(row.content) !== basicVideo(content)) {
+        throw new Error(`${slug}: KoreanBasicVideo 가 바뀌었다 (${basicVideo(row.content) || '없음'} → ${basicVideo(content) || '없음'}) — 중단`)
       }
       const words = (s: string) => s.split(/\s+/).length
       console.log(`[${row.locale}] ${slug} — ${words(row.content)} → ${words(content)}단어, MDX OK, YouTube ${youtubeIds(content) || '없음'}`)
