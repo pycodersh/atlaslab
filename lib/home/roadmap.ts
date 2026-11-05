@@ -40,10 +40,11 @@ export const ROADMAP: readonly RoadmapStep[] = [
     title: 'Subway, bus and taxi',
     blurb: 'The right transit card, a map app that works, and how to call a cab.',
     hub: 'climate-card-vs-t-money-seoul',
+    // 환승 · 요금 정본(15분 재입장 · 환승 시간 · 정산기)이 첫 링크 — 지하철 예절 글은 그 글이 잇는다
     more: [
+      { slug: 'seoul-subway-transfer-transit-card-guide', label: 'Subway & bus transfers' },
       { slug: 'google-maps-alternatives-korea', label: 'Naver Map & KakaoMap' },
       { slug: 'seoul-taxi-cheapest-kakao-uber', label: 'Kakao T vs Uber' },
-      { slug: 'korean-subway-etiquette-guide', label: 'Riding the Seoul subway' },
     ],
     phrase: { slug: 'korean-subway-phrases-first-trip', label: 'Subway phrases' },
   },
@@ -81,10 +82,11 @@ export const ROADMAP: readonly RoadmapStep[] = [
     title: 'Evenings and days off',
     blurb: 'Han River picnics, bathhouses, karaoke and the newest neighborhoods.',
     hub: 'han-river-parks-seoul-guide',
+    // 일정표가 첫 링크 — 성수 글은 일정표 4일 차가 잇는다
     more: [
+      { slug: 'seoul-itinerary-first-timers-3-4-5-days', label: '3, 4 or 5 days in Seoul' },
       { slug: 'korean-bathhouse-jjimjilbang-guide', label: 'Jjimjilbang bathhouses' },
       { slug: 'noraebang-korean-karaoke-guide', label: 'Noraebang karaoke' },
-      { slug: 'seongsu-dong-pop-up-cafe-guide', label: 'Seongsu pop-ups & cafes' },
     ],
     phrase: { slug: 'korean-noraebang-phrases', label: 'Karaoke room phrases' },
   },
