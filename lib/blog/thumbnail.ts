@@ -68,6 +68,15 @@ const COVER_BY_SLUG: Record<string, Cover> = {
   },
   // 표지를 지정하지 않으면 본문 첫 이미지(터미널 다이어그램)가 올라와,
   // 상세 상단과 1절 본문에 같은 그림이 두 번 나온다.
+  // 세로 원본(736×1215)을 남산타워가 들어가게 3:2 로 잘라 넣었다
+  'seoul-itinerary-first-timers-3-4-5-days': {
+    src: '/images/articles/seoul-itinerary-first-timers-3-4-5-days.jpg',
+    alt: 'Seoul skyline at sunset with N Seoul Tower on Namsan',
+  },
+  'how-to-read-korean-restaurant-menu': {
+    src: '/images/articles/how-to-read-korean-restaurant-menu.jpg',
+    alt: 'Korean table spread with bibimbap, stew, bulgogi, kimbap, pancake and side dishes',
+  },
   'korea-arrival-card-keta-guide': {
     src: '/images/articles/korea-arrival-card-keta-guide.jpg',
     alt: 'Traveler with a passport and suitcase watching planes at an airport before a trip to Korea',
