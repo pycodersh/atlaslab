@@ -538,10 +538,11 @@ export default async function AtlasLabHome() {
             gap: 14px; padding: 12px 2px;
             border-right: none;
           }
-          .bbody { padding: 0; min-width: 0; justify-content: center; }
-          .btitle { font-size: 15px; line-height: 1.35; margin-bottom: 6px; }
-          .bexcerpt { font-size: 12.5px; line-height: 1.55; flex: 0 1 auto; }
-          .bmeta { font-size: 10.5px; margin-top: 8px; }
+          .bbody { padding: 0; min-width: 0; min-height: 72px; justify-content: center; }
+          .btitle { font-size: 15px; line-height: 1.35; margin-bottom: 4px; }
+          /* 폰은 [ 썸네일 | 제목 2줄 + 읽는 시간 ] 만 — 요약은 넓은 화면에서만 */
+          .bexcerpt { display: none; }
+          .bmeta { font-size: 10.5px; margin-top: 4px; }
         }
 
         /* ── Why section ───────────────────────────────────────────── */
@@ -679,7 +680,7 @@ export default async function AtlasLabHome() {
                           href={`/blog/${post.locale}/${post.app}/${post.slug}`}
                           className="bcard"
                         >
-                          <BlogThumb thumb={post.thumb} alt={post.title} />
+                          <BlogThumb thumb={post.thumb} alt={post.title} label={section.title} />
                           <div className="bbody">
                             <div className="btitle">{post.title}</div>
                             {post.description && (

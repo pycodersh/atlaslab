@@ -42,8 +42,8 @@ async function main() {
 
   const file = fs.readFileSync(localPath)
   const { error: upErr } = await sb.storage.from(BUCKET).upload(objectPath, file, {
-    // 확장자로 정한다 — 도식은 PNG 로 올려야 글자가 깨끗하다
-    contentType: /\.png$/i.test(objectPath) ? 'image/png' : /\.webp$/i.test(objectPath) ? 'image/webp' : 'image/jpeg',
+    // 확장자로 정한다 — 도식은 PNG 로 올려야 글자가 깨끗하다. 본문 릴스 영상(ReelVideo)도 이 버킷에 둔다
+    contentType: /\.png$/i.test(objectPath) ? 'image/png' : /\.webp$/i.test(objectPath) ? 'image/webp' : /\.mp4$/i.test(objectPath) ? 'video/mp4' : 'image/jpeg',
     upsert: true,
   })
   if (upErr) throw new Error(`업로드 실패: ${upErr.message}`)

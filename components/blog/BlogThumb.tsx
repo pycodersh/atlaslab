@@ -16,11 +16,13 @@ import type { BlogThumbnail } from '@/lib/blog/thumbnail'
  * next/image 를 쓰지 않는 이유: 블로그 본문이 이미 일반 <img> 로 렌더링하고 있고,
  * 외부 호스트를 next.config 의 remotePatterns 에 추가하는 설정 변경을 피한다.
  */
-export function BlogThumb({ thumb, alt }: { thumb: BlogThumbnail | null; alt: string }) {
+export function BlogThumb({ thumb, alt, label }: { thumb: BlogThumbnail | null; alt: string; label?: string }) {
   // 0=1차 소스, 1=폴백(유튜브만), 2=숨김
   const [step, setStep] = useState<0 | 1 | 2>(0)
 
-  if (!thumb || step === 2) return null
+  // 이미지가 없으면 넓은 화면은 그대로 비우고(자리표시자 금지), 폰 가로 리스트에서만 카테고리 타일을 둔다 —
+  // 썸네일 있는 줄과 높이 · 왼쪽 정렬이 맞아야 목록이 들쭉날쭉하지 않다(globals.css .blog-thumb-tile)
+  if (!thumb || step === 2) return label ? <div className="blog-thumb-tile" aria-hidden="true">{label}</div> : null
 
   const isYouTube = thumb.kind === 'youtube'
   const portraitCrop = isYouTube && thumb.portrait

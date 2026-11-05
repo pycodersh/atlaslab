@@ -2,7 +2,7 @@
 
 import { Fragment } from 'react'
 import Link from 'next/link'
-import { DEFAULT_TAB, familyOf, familyTabs, layoutForKey, tabDescription } from '@/lib/blog/sections'
+import { DEFAULT_TAB, familyOf, familyTabs, groupKeyOf, layoutForKey, tabDescription, tabLabel } from '@/lib/blog/sections'
 import { SectionHeader } from '@/components/SectionHeader'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
 import { BlogThumb } from '@/components/blog/BlogThumb'
@@ -86,7 +86,7 @@ export function BlogClientPage({
       href={`/blog/${post.locale}/${post.app}/${post.slug}`}
       className="bl-card"
     >
-      <BlogThumb thumb={post.thumb} alt={post.title} />
+      <BlogThumb thumb={post.thumb} alt={post.title} label={tabLabel(groupKeyOf(post.app, post.category) ?? '')} />
       <div className="bl-body">
         <div className="bl-title">{post.title}</div>
         {post.description && (
@@ -287,14 +287,15 @@ export function BlogClientPage({
             gap: 14px; padding: 12px 2px;
             border-right: none;
           }
-          .bl-body { padding: 0; min-width: 0; justify-content: center; }
+          .bl-body { padding: 0; min-width: 0; min-height: 72px; justify-content: center; }
           .bl-cat { font-size: 9px; margin-bottom: 5px; }
           .bl-title {
-            font-size: 15px; line-height: 1.35; margin-bottom: 5px;
+            font-size: 15px; line-height: 1.35; margin-bottom: 4px;
             display: -webkit-box; -webkit-line-clamp: 2;
             -webkit-box-orient: vertical; overflow: hidden;
           }
-          .bl-desc { font-size: 12.5px; line-height: 1.55; margin-bottom: 6px; flex: 0 1 auto; }
+          /* 폰은 [ 썸네일 | 제목 2줄 + 읽는 시간 ] 만 — 요약은 넓은 화면에서만 */
+          .bl-desc { display: none; }
           .bl-read { font-size: 10.5px; }
         }
 
