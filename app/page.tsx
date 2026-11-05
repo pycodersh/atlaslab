@@ -18,6 +18,8 @@ import {
 } from '@/lib/blog/sections'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
 import type { Metadata } from 'next'
+import { TravelRoadmap, type ResolvedStep } from '@/components/home/TravelRoadmap'
+import { ROADMAP, type RoadmapLink } from '@/lib/home/roadmap'
 import { ORGANIZATION_JSON_LD, WEBSITE_JSON_LD, DEFAULT_OPEN_GRAPH, SITE_TITLE, SITE_DESC, SITE_URL } from '@/lib/seo/site'
 
 export const metadata: Metadata = {
@@ -213,7 +215,22 @@ export default async function AtlasLabHome() {
   const koreanKeys: string[] = KOREAN_TAB.sections.map(s => s.group)
   const koreanSec = firstShown(koreanKeys)
   const guideSec = firstShown(['explore-korea', 'food', 'life'])
+  // 로드맵 — 큐레이션 slug 를 실제 글(en)로 푼다. 비공개·삭제된 글은 그 항목만 빠진다
+  const bySlug = new Map((allPosts ?? []).filter(p => p.locale === 'en').map(p => [p.slug, p]))
+  const hrefOf = (p: BlogRow) => `/blog/${p.locale}/${p.app}/${p.slug}`
+  const link = (l: RoadmapLink) => { const p = bySlug.get(l.slug); return p ? { href: hrefOf(p), label: l.label } : null }
+  const roadmap: ResolvedStep[] = ROADMAP.map(s => {
+    const hub = bySlug.get(s.hub)
+    return {
+      key: s.key, step: s.step, title: s.title, blurb: s.blurb,
+      hub: hub ? { href: hrefOf(hub), title: hub.title, thumb: cardThumbnailForPost(hub.slug, hub.content, hub.thumbnail) } : null,
+      more: s.more.map(link).filter((x): x is NonNullable<typeof x> => x !== null),
+      phrase: link(s.phrase),
+    }
+  }).filter(s => s.hub || s.more.length)
+
   const categoryTabs: HomeTab[] = [
+    ...(roadmap.length ? [{ id: 'roadmap', label: 'First Trip' }] : []),
     { id: 'resources', label: AXIS_LABELS.apps },
     ...(koreanSec ? [{ id: anchorOf(koreanSec.key), label: AXIS_LABELS.korean }] : []),
     ...(guideSec ? [{ id: anchorOf(guideSec.key), label: AXIS_LABELS.guides }] : []),
@@ -276,6 +293,22 @@ export default async function AtlasLabHome() {
           line-height: 1.65;
           margin-bottom: 0;
           max-width: 640px;
+        }
+        /* 검색 아래 두 갈래 — 처음 온 여행자는 로드맵으로, 말이 급한 사람은 Phrases 로 */
+        .hero-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+        .hero-cta {
+          display: inline-flex; align-items: center;
+          font-family: ${BODY}; font-size: 13px; font-weight: 700;
+          color: #fff; text-decoration: none;
+          background: var(--brand-red, #C8102E);
+          border: 1.5px solid var(--brand-red, #C8102E);
+          padding: 9px 16px;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .hero-cta-ghost { background: transparent; border-color: rgba(255,255,255,0.35); }
+        @media (hover: hover) {
+          .hero-cta:hover { background: var(--brand-red-dark, #A30D25); border-color: var(--brand-red-dark, #A30D25); }
+          .hero-cta-ghost:hover { background: rgba(255,255,255,0.08); border-color: #fff; }
         }
         /* ── Inner container ───────────────────────────────────────── */
         .wrap {
@@ -551,18 +584,27 @@ export default async function AtlasLabHome() {
       <section className="hero">
         <div className="wrap hero-inner">
           <div className="hero-text">
-            <p className="hero-eyebrow"><span><span className="notranslate" translate="no">Atlas Lab</span> — Your Ultimate Korea Companion</span></p>
-            <h1 className="hero-h1">Everything You Need to Live, Travel, and Speak Like a Local in Korea.</h1>
+            <p className="hero-eyebrow"><span>Korea, from day one</span></p>
+            <h1 className="hero-h1">Land in Korea knowing exactly what to do.</h1>
             <p className="hero-desc">
-              Your ultimate companion to master Korean, discover curated stays, and experience local culture effortlessly.
+              Transit cards, taxi apps, what to order and the Korean to say it — practical guides for visitors, with real prices in won.
             </p>
             <HomeSearch docs={searchDocs} />
+            {roadmap.length > 0 && (
+              <div className="hero-links">
+                <a href="#roadmap" className="hero-cta">Start with day one ↓</a>
+                <a href="/blog?tab=phrases" className="hero-cta hero-cta-ghost">Phrases you’ll need</a>
+              </div>
+            )}
           </div>
         </div>
       </section>
 
       {/* ── 카테고리 바로가기 — 히어로를 지나면 메뉴 아래에 붙는다 ── */}
       <HomeCategoryBar tabs={categoryTabs} />
+
+      {/* ── 첫 여행 로드맵 — 도착 → 교통 → 식당·카페 → 쇼핑 → 여가 (lib/home/roadmap) ── */}
+      <TravelRoadmap steps={roadmap} />
 
       {/* ── Our Apps ── */}
       <div id="resources">
