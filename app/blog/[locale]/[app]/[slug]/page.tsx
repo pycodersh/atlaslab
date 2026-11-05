@@ -415,8 +415,9 @@ export default async function AppBlogPostPage({
             <ArticleAppBanner app={app} category={post.category} locale={locale} />
           )}
 
-          {/* Klook 배너 — 앱 CTA 바로 아래. 여행·음식·생활 글에만(학습 글 phrases·basics 에는 넣지 않는다) */}
-          {sponsors.has('klook') && <KlookBanner />}
+          {/* Klook 배너 — 앱 CTA 바로 아래. 여행·음식·생활 글에만(학습 글 phrases·basics 에는 넣지 않는다).
+              집 요리 글(COOK_AT_HOME_SLUGS)은 해외에서 요리하는 독자라 여행 패스 광고를 내지 않는다 */}
+          {sponsors.has('klook') && !cookAtHome && <KlookBanner />}
 
           {/* Related posts */}
           {related && related.length > 0 && (
