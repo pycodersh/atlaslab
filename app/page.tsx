@@ -46,8 +46,8 @@ const PRODUCTS: readonly Product[] = [
     desc: 'Master 300+ real-life Korean phrases through 100 slice-of-life webtoon episodes with native audio sync. Available in eBook, WebApp, or Complete Bundle.',
     app: '/kpatto/story',
     learn: '/kpatto',
-    // 웹툰 릴스 'Can I try this on?' 의 장면 — 자막 없이 인물만 남긴 16:9 컷(1080×608)을 얼굴 쪽으로 맞춘다
-    visual: { src: `${STORAGE}/blog-covers/korean-shopping-try-on-clothes-hero.webp`, position: '55% 40%' },
+    // 웹툰 주인공 Emma — 1화 카페 컷(public/kpatto/ep-001/ep01_c3.png)의 흰 테두리를 잘라 올린 것(372×458)
+    visual: { src: `${STORAGE}/blog-covers/apps/kpatto-emma.webp`, position: '50% 30%' },
   },
   {
     name: 'K-Pantry',
@@ -321,7 +321,11 @@ export default async function AtlasLabHome() {
         }
         @media (hover: hover) { .pcard:hover { box-shadow: 0 6px 20px rgba(0,0,0,.08); } }
         .pcontent { position: relative; z-index: 1; display: flex; flex-direction: column; flex: 1; }
-        .pcard.has-visual .pcontent { width: 60%; }
+        /* 글은 왼쪽 60% 안에서만 — 버튼 줄은 카드 폭 전체를 써서 두 버튼이 한 줄에 나란히 선다(버튼은 불투명이라 사진 위에 놓여도 읽힌다) */
+        .pcard.has-visual .pmark,
+        .pcard.has-visual .pname,
+        .pcard.has-visual .paud,
+        .pcard.has-visual .pdesc { max-width: 60%; }
         .pvis { position: absolute; top: 0; right: 0; bottom: 0; width: 45%; pointer-events: none; }
         .pvis img {
           width: 100%; height: 100%; object-fit: cover; display: block;
@@ -343,7 +347,9 @@ export default async function AtlasLabHome() {
             min-height: 0;
           }
           /* 폰은 글이 먼저 — 사진은 오른쪽 끝 35% 에 옅은 워터마크로만 남긴다 */
-          .pcard.has-visual .pcontent { width: 100%; }
+          .pcard.has-visual .pname,
+          .pcard.has-visual .paud,
+          .pcard.has-visual .pdesc { max-width: none; }
           .pvis { width: 35%; opacity: 0.16; }
           .pcontent {
             display: grid;
@@ -381,11 +387,12 @@ export default async function AtlasLabHome() {
             line-height: 1.55;
             margin-bottom: 11px !important;
           }
-          /* 버튼 세로 크기는 손가락 타깃이라 줄이지 않는다(패딩 10px 유지) */
+          /* 버튼 세로 크기는 손가락 타깃이라 줄이지 않는다 — 폰은 두 버튼이 가로를 반반 나눈다 */
           .pbtns, .pbtn-soon {
             grid-area: btn;
             width: 100%;
           }
+          .pbtns .pbtn { flex: 1 1 0; padding: 10px 8px; }
         }
         .pmark {
           width: 56px; height: 56px;
@@ -416,21 +423,20 @@ export default async function AtlasLabHome() {
         /* 버튼 두 개를 반반으로 — 왼쪽 솔리드 버건디(앱 열기), 오른쪽 아웃라인(소개 랜딩).
            터치 기기는 탭한 버튼에 :hover 를 남기므로 호버 변화는 마우스 기기로 한정하고,
            누르는 동안의 피드백은 :active 가 준다. */
-        .pbtns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 8px; }
-        /* 좁은 폰에서 'LAUNCH WEBAPP ↗' 이 반 칸을 넘지 않게 자간 · 좌우 여백만 줄인다(높이는 그대로) */
-        @media (max-width: 420px) {
-          .pbtns .pbtn { letter-spacing: 0.02em; padding-left: 6px; padding-right: 6px; }
-        }
+        /* 두 버튼은 글자 폭만큼(반반 칸에 억지로 넣으면 좁은 글 칸에서 'LAUNCH WEBAPP' 앞뒤가 잘렸다).
+           폰에서는 가로를 반반 나눠 손가락 표적을 넓힌다(아래 미디어 쿼리) */
+        .pbtns { display: flex; flex-wrap: wrap; gap: 8px; overflow: visible; }
         .pbtn {
           display: flex; align-items: center; justify-content: center;
+          flex: 0 0 auto;
           font-family: ${BODY};
-          font-size: 12px; font-weight: 700;
+          font-size: 12px; font-weight: 600;
           text-align: center; text-decoration: none;
           letter-spacing: 0.06em; text-transform: uppercase;
           background: var(--brand-red, #C8102E);
           color: #fff;
           border: 1.5px solid var(--brand-red, #C8102E);
-          padding: 10px 12px;
+          padding: 9px 16px;
           white-space: nowrap;
           -webkit-tap-highlight-color: transparent;
           transition: background 0.15s, border-color 0.15s, color 0.15s;
@@ -621,7 +627,7 @@ export default async function AtlasLabHome() {
                   <div className="pbtns">
                     <a href={p.app} target="_blank" rel="noopener noreferrer" className="pbtn"
                        aria-label={`Launch ${p.name} web app (opens in a new tab)`}>
-                      Launch WebApp ↗
+                      Open App ↗
                     </a>
                     {p.learn && (
                       <a href={p.learn} className="pbtn pbtn-outline" aria-label={`Learn more about ${p.name}`}>
