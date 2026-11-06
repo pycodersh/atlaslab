@@ -326,6 +326,11 @@ export default async function AtlasLabHome() {
         .pcard.has-visual .pname,
         .pcard.has-visual .paud,
         .pcard.has-visual .pdesc { max-width: 60%; }
+        /* 사진 위에 걸치는 아웃라인 버튼은 흰 바탕을 깔아 글자가 사진에 묻히지 않게 한다 */
+        .pcard.has-visual .pbtn-outline { background: #fff; }
+        /* 위 규칙이 .pbtn-outline:hover 보다 특이도가 높아 눌림 · 호버 색을 여기서 다시 준다(안 그러면 흰 바탕에 흰 글자) */
+        .pcard.has-visual .pbtn-outline:active { background: var(--ink, #111); }
+        @media (hover: hover) { .pcard.has-visual .pbtn-outline:hover { background: var(--ink, #111); } }
         .pvis { position: absolute; top: 0; right: 0; bottom: 0; width: 45%; pointer-events: none; }
         .pvis img {
           width: 100%; height: 100%; object-fit: cover; display: block;
@@ -347,10 +352,21 @@ export default async function AtlasLabHome() {
             min-height: 0;
           }
           /* 폰은 글이 먼저 — 사진은 오른쪽 끝 35% 에 옅은 워터마크로만 남긴다 */
+          /* 폰도 사진을 또렷하게(불투명도 0.92) — 대신 페이드는 사진의 왼쪽 가장자리에서만 짧게 일어나고,
+             글(이름 · 대상 · 설명)은 왼쪽 64% 안에 두고 그 뒤에 흰 그라데이션을 깔아 사진이 글을 방해하지 않게 한다.
+             버튼 줄은 불투명이라 카드 폭 전체를 그대로 쓴다 */
           .pcard.has-visual .pname,
           .pcard.has-visual .paud,
-          .pcard.has-visual .pdesc { max-width: none; }
-          .pvis { width: 35%; opacity: 0.16; }
+          .pcard.has-visual .pdesc { max-width: 64%; }
+          .pcard.has-visual .pcontent {
+            background: linear-gradient(to right, #fff 0%, rgba(255,255,255,.8) 55%, rgba(255,255,255,0) 72%);
+            margin: -14px -16px; padding: 14px 16px;
+          }
+          .pvis { width: 42%; opacity: 0.92; }
+          .pvis img {
+            -webkit-mask-image: linear-gradient(to left, #000 62%, rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to left, #000 62%, rgba(0,0,0,0) 100%);
+          }
           .pcontent {
             display: grid;
             grid-template-columns: auto 1fr;
