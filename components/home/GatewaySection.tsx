@@ -46,7 +46,9 @@ export function GatewaySection({
         }
         @media (hover: hover) { .gw-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,.08); } }
         .gw-card .blog-thumb { aspect-ratio: 16 / 9; border-radius: 0; }
-        .gw-body { padding: 20px 24px 22px; display: flex; flex-direction: column; flex: 1; }
+        /* 3열 카드는 폭이 좁아 16:9 면 납작하다 — 4:3 으로 키워 위 2열(Learn Korean) 카드와 키를 맞춘다 */
+        .is-guide .gw-card .blog-thumb { aspect-ratio: 4 / 3; }
+        .gw-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
         .gw-badge {
           align-self: flex-start; margin-bottom: 10px;
           font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 11px; font-weight: 700;
@@ -56,10 +58,12 @@ export function GatewaySection({
         .gw-title { font-family: "Playfair Display", Georgia, serif; font-size: 21px; font-weight: 700; line-height: 1.25; color: #111; margin-bottom: 6px; }
         .is-guide .gw-title { font-size: 19px; }
         .gw-desc { font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.6; color: #6B6B6B; flex: 1; }
-        .gw-explore { margin-top: 14px; font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 13.5px; font-weight: 700; color: #C8102E; }
-        .is-guide .gw-body { padding-right: 68px; }
+        .gw-explore { margin-top: auto; padding-top: 14px; font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 13.5px; font-weight: 700; color: #C8102E; }
+        /* 설명은 늘어나는 칸 — 'Explore →' 와 둥근 화살표가 카드 맨 아래에 같은 높이로 선다 */
+        .gw-desc { margin-bottom: 0; }
+        .is-guide .gw-body { padding-right: 72px; }
         .gw-arrow {
-          position: absolute; right: 18px; bottom: 18px;
+          position: absolute; right: 20px; bottom: 20px;
           width: 36px; height: 36px; border-radius: 999px; border: 1px solid #E5E1DC;
           display: flex; align-items: center; justify-content: center;
           font-size: 16px; color: #111; background: #fff; transition: background .15s, color .15s, border-color .15s;

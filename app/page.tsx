@@ -179,21 +179,22 @@ export default async function AtlasLabHome() {
       href: '/blog?tab=basics', thumb: thumbOf('korean-never-say-dangsin-neo'), thumbAlt: 'Korean grammar rule card',
     },
   ]
+  // Travel & Life 는 목록 탭 순서(Explore Korea → Food → Life)와 같게 둔다
   const guideCards: GatewayCard[] = [
     {
-      key: 'transit', title: 'Arrival & Transit',
-      desc: 'K-ETA, SIM cards, T-Money, and subway navigation without stress.',
-      href: '/blog?tab=life&sub=transit', thumb: thumbOf('korean-subway-etiquette-guide'), thumbAlt: 'Seoul subway',
-    },
-    {
-      key: 'itineraries', title: 'Seoul Itineraries',
-      desc: 'Curated 3, 4, 5-day routes and neighborhood survival guides.',
+      key: 'explore', badge: 'Travel', title: 'Explore Korea',
+      desc: 'Curated itineraries, must-visit spots, and practical travel guides.',
       href: '/blog?tab=explore-korea', thumb: thumbOf('seoul-itinerary-first-timers-3-4-5-days'), thumbAlt: 'Seoul skyline with N Seoul Tower',
     },
     {
-      key: 'food', title: 'Food & Dining',
-      desc: 'Decipher Korean menus, BBQ etiquette, and street food favorites.',
+      key: 'food', badge: 'Food', title: 'Korean Food',
+      desc: 'Decipher menus, dining etiquette, and authentic dish guides.',
       href: '/blog?tab=food', thumb: thumbOf('how-to-read-korean-restaurant-menu'), thumbAlt: 'Korean table spread',
+    },
+    {
+      key: 'life', badge: 'Life', title: 'Korea Life',
+      desc: 'Subway navigation, T-Money, SIM cards, and essential local tips.',
+      href: '/blog?tab=life', thumb: thumbOf('korean-subway-etiquette-guide'), thumbAlt: 'Seoul subway platform',
     },
   ]
   // 바로가기 바는 헤더 드로어와 같은 3대 축(Our Apps · Learn Korean · Travel & Life) — 각 게이트웨이 섹션으로 간다
