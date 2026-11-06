@@ -1,20 +1,15 @@
 import { createClient } from '@supabase/supabase-js'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
-import { BlogThumb } from '@/components/blog/BlogThumb'
-import { PostListRow } from '@/components/blog/PostListRow'
 import { SectionHeader } from '@/components/SectionHeader'
+import { GatewaySection, type GatewayCard } from '@/components/home/GatewaySection'
 import { HomeCategoryBar, type HomeTab } from '@/components/HomeCategoryBar'
 import { HomeSearch, type SearchDoc } from '@/components/HomeSearch'
 import { LeadMagnetBanner } from '@/components/LeadMagnetBanner'
-import { readMinutes } from '@/lib/blog/readTime'
 import {
   AXIS_LABELS,
   BLOG_GROUPS,
-  KOREAN_TAB,
   groupKeyOf,
-  minPostsToShow,
-  POSTS_PER_SECTION,
 } from '@/lib/blog/sections'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
 import type { Metadata } from 'next'
@@ -84,51 +79,6 @@ const APP_ICONS: Record<string, React.ReactNode> = {
   ),
 }
 
-type BlogRow = {
-  slug: string
-  title: string
-  description: string | null
-  app: string
-  locale: string
-  category: string | null
-  published_at: string
-  content: string | null
-  thumbnail: string | null
-  tags: string[] | null
-}
-
-/** 한 번 받아온 글 목록을 섹션별로 나눈다. 쿼리는 호출부에서 한 번만 돈다.
- *  분류 기준은 lib/blog/sections 하나뿐 — /blog 목록 탭과 같은 것을 쓴다.
- *  groupKeyOf 가 null 을 주는 글(app=patto)은 주제 섹션에 넣지 않는다. */
-function groupIntoSections(posts: BlogRow[]) {
-  const buckets = new Map<string, BlogRow[]>(BLOG_GROUPS.map(g => [g.key, []]))
-
-  for (const post of posts) {
-    const key = groupKeyOf(post.app, post.category)
-    if (!key) continue
-    buckets.get(key)!.push(post)
-  }
-
-  // posts 는 published_at 내림차순으로 들어오므로 앞에서 자르면 최신순이다.
-  return BLOG_GROUPS.map(section => {
-    const all = buckets.get(section.key)!
-    return {
-      key: section.key,
-      title: section.title,
-      desc: section.desc,
-      layout: section.layout as 'grid' | 'list',
-      total: all.length,
-      posts: all.slice(0, POSTS_PER_SECTION).map(post => ({
-        ...post,
-        thumb: cardThumbnailForPost(post.slug, post.content, post.thumbnail),
-        readMin: readMinutes(post.content),
-      })),
-    }
-  })
-}
-
-/** 섹션 바로가기 앵커 — 'explore-korea' 만 짧게 #explore */
-const anchorOf = (key: string) => (key === 'explore-korea' ? 'explore' : key)
 
 /* ── Why Atlas Lab items ──────────────────────────────────────────────── */
 const WHY = [
@@ -210,20 +160,47 @@ export default async function AtlasLabHome() {
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false })
 
-  // 카테고리(Phrases → Basics → Explore Korea → Food → Life)를 BLOG_GROUPS 순서대로 세로로 바로 그린다.
-  const blogSections = groupIntoSections(allPosts ?? [])
-  // 바로가기 바는 헤더 드로어와 같은 3대 축(Our Apps · Learn Korean · Travel & Life)이다. 탭마다 그 축에서 화면에 놓인 첫 섹션으로 간다.
-  // 글이 적어 감추는 섹션은 건너뛰고, 축에 보이는 섹션이 하나도 없으면 탭도 없다.
-  const shownSections = blogSections.filter(s => s.posts.length >= minPostsToShow(s.key))
-  const firstShown = (keys: readonly string[]) => shownSections.find(s => keys.includes(s.key))
-  // 섹션 제목도 축을 앞에 붙인다(LEARN KOREAN 뱃지 + PHRASES, TRAVEL & LIFE 뱃지 + FOOD …) — 뱃지는 SectionHeader 의 axis, 대문자는 .section-header 스타일이 만든다
-  const koreanKeys: string[] = KOREAN_TAB.sections.map(s => s.group)
-  const koreanSec = firstShown(koreanKeys)
-  const guideSec = firstShown(['explore-korea', 'food', 'life'])
+  // 게이트웨이 카드 — 사진은 각 주제 대표 글의 썸네일을 빌려 온다(비공개·삭제되면 사진 자리만 빠진다).
+  // 링크는 /blog 목록의 해당 탭 · 칩(따로 만든 /learn-korean · /travel 페이지는 아직 없다)
+  const bySlug = new Map((allPosts ?? []).filter(p => p.locale === 'en').map(p => [p.slug, p]))
+  const thumbOf = (slug: string) => {
+    const p = bySlug.get(slug)
+    return p ? cardThumbnailForPost(p.slug, p.content, p.thumbnail) : null
+  }
+  const learnCards: GatewayCard[] = [
+    {
+      key: 'phrases', badge: 'Phrases', title: 'Learn Useful Phrases for Your Trip',
+      desc: 'Speak naturally in restaurants, shops, and daily life.',
+      href: '/blog?tab=phrases', thumb: thumbOf('korean-restaurant-drop-yo-water'), thumbAlt: 'K-Patto webtoon scene at a Korean restaurant',
+    },
+    {
+      key: 'basics', badge: 'Basics', title: 'Master Korean Basics',
+      desc: 'Learn Hangul, pronunciation, and basic grammar.',
+      href: '/blog?tab=basics', thumb: thumbOf('korean-never-say-dangsin-neo'), thumbAlt: 'Korean grammar rule card',
+    },
+  ]
+  const guideCards: GatewayCard[] = [
+    {
+      key: 'transit', title: 'Arrival & Transit',
+      desc: 'K-ETA, SIM cards, T-Money, and subway navigation without stress.',
+      href: '/blog?tab=life&sub=transit', thumb: thumbOf('korean-subway-etiquette-guide'), thumbAlt: 'Seoul subway',
+    },
+    {
+      key: 'itineraries', title: 'Seoul Itineraries',
+      desc: 'Curated 3, 4, 5-day routes and neighborhood survival guides.',
+      href: '/blog?tab=explore-korea', thumb: thumbOf('seoul-itinerary-first-timers-3-4-5-days'), thumbAlt: 'Seoul skyline with N Seoul Tower',
+    },
+    {
+      key: 'food', title: 'Food & Dining',
+      desc: 'Decipher Korean menus, BBQ etiquette, and street food favorites.',
+      href: '/blog?tab=food', thumb: thumbOf('how-to-read-korean-restaurant-menu'), thumbAlt: 'Korean table spread',
+    },
+  ]
+  // 바로가기 바는 헤더 드로어와 같은 3대 축(Our Apps · Learn Korean · Travel & Life) — 각 게이트웨이 섹션으로 간다
   const categoryTabs: HomeTab[] = [
     { id: 'resources', label: AXIS_LABELS.apps },
-    ...(koreanSec ? [{ id: anchorOf(koreanSec.key), label: AXIS_LABELS.korean }] : []),
-    ...(guideSec ? [{ id: anchorOf(guideSec.key), label: AXIS_LABELS.guides }] : []),
+    { id: 'learn-korean', label: AXIS_LABELS.korean },
+    { id: 'travel-life', label: AXIS_LABELS.guides },
   ]
   // 히어로 검색 색인 — 주제 섹션에 드는 글만(본문은 빼고 제목 · 태그 · 그룹 이름). 브라우저가 이것만으로 거른다.
   const groupTitle = new Map<string, string>(BLOG_GROUPS.map(g => [g.key, g.title]))
@@ -481,85 +458,9 @@ export default async function AtlasLabHome() {
           cursor: default;
         }
 
-        /* ── Blog section ──────────────────────────────────────────── */
-        .blog-outer {
-          background: #F5F5F3;
-          padding: 60px 0 64px;
-        }
-        /* 카테고리가 세로로 이어지므로 구획이 드러나도록 사이 여백을 넉넉히 준다.
-           전체 보기는 섹션 머리 오른쪽 'View all N →' 링크 하나로 한다(발치 버튼은 중복이라 없앴다) */
-        .blog-sec + .blog-sec { margin-top: 64px; }
-        @media (max-width: 767px) { .blog-sec + .blog-sec { margin-top: 48px; } }
-        /* 카드 사이 1px 구분선 — 컨테이너 배경이 아니라 카드 테두리로 그린다.
-           행이 덜 찼을 때(3열에 카드 2장 등) 빈 칸이 회색 블록으로 보이지 않는다.
-           위·왼쪽은 컨테이너가, 오른쪽·아래는 각 카드가 맡아 1px 로 맞물린다. */
-        .blog-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);   /* 태블릿 */
-          gap: 0;
-          border-top: 1px solid #E5E1DC;
-          border-left: 1px solid #E5E1DC;
-        }
-        @media (min-width: 1200px) {
-          .blog-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-        /* 모바일 규칙은 .bcard / .bbody 정의 뒤에 온다 — 아래 참조 */
-        .bcard {
-          background: #F5F5F3;
-          text-decoration: none;
-          display: flex; flex-direction: column;
-          border-right: 1px solid #E5E1DC;
-          border-bottom: 1px solid #E5E1DC;
-          transition: background 0.15s;
-        }
-        .bcard:hover { background: #ECEAE7; }
-        /* 뱃지를 걷어내 제목이 카드 글의 첫 줄이다 — 썸네일 바로 아래에서 시작하도록 위쪽만 20px */
-        .bbody {
-          padding: 20px 24px 24px;
-          display: flex; flex-direction: column; flex: 1;
-        }
-        .btitle {
-          font-family: ${SERIF};
-          font-size: 16.5px; font-weight: 700;
-          color: var(--ink, #111); line-height: 1.32;
-          margin-bottom: 10px; letter-spacing: -0.01em;
-          /* 제목 2줄 제한 — 카드 높이가 제목 길이에 휘둘리지 않게 */
-          display: -webkit-box; -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical; overflow: hidden;
-        }
-        .bexcerpt {
-          font-family: ${BODY};
-          font-size: 12.5px; color: var(--ink-muted, #6B6B6B);
-          line-height: 1.65; flex: 1; margin-bottom: 0;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        /* 카드 발치의 날짜 — 섹션 제목이 카테고리를 말해주므로 카드에는 카테고리 라벨이 없다 */
-        .bmeta {
-          font-family: ${BODY};
-          font-size: 11px; color: #9A9A9A;
-          margin-top: 12px; letter-spacing: 0.01em;
-        }
-
-        /* 768px 미만 — 카드 격자를 가로형 콤팩트 리스트로 눕힌다.
-           한 행이 96px 썸네일 + 위아래 12px 이라 한 화면에 4편 이상 들어온다.
-           경계는 카드 아래 테두리가 그대로 맡고, 좌우 테두리는 지운다.
-           ★ .bcard 정의보다 뒤에 와야 flex-direction 이 덮인다(같은 특이도). */
-        @media (max-width: 767px) {
-          .blog-grid { grid-template-columns: 1fr; border-left: none; }
-          .bcard {
-            flex-direction: row; align-items: flex-start;
-            gap: 14px; padding: 12px 2px;
-            border-right: none;
-          }
-          .bbody { padding: 0; min-width: 0; min-height: 72px; justify-content: center; }
-          .btitle { font-size: 15px; line-height: 1.35; margin-bottom: 4px; }
-          /* 폰은 [ 썸네일 | 제목 2줄 + 읽는 시간 ] 만 — 요약은 넓은 화면에서만 */
-          .bexcerpt { display: none; }
-          .bmeta { font-size: 10.5px; margin-top: 4px; }
-        }
+        /* ── 게이트웨이(Learn Korean · Travel & Life) — 흰 카드는 components/home/GatewaySection 이 들고 있다. 여기선 바깥 여백만 ── */
+        .gw-wrap { padding-top: 8px; padding-bottom: 64px; }
+        @media (max-width: 767px) { .gw-wrap { padding-bottom: 48px; } }
 
         /* ── Why section ───────────────────────────────────────────── */
         .why-wrap { padding-top: 60px; padding-bottom: 72px; }
@@ -661,61 +562,11 @@ export default async function AtlasLabHome() {
         </div>
       </div>
 
-      {/* ── 주제별 섹션 — 카테고리를 세로로 차례대로, 머리는 공통 SectionHeader ── */}
-      {blogSections.some(s => s.posts.length >= minPostsToShow(s.key)) && (
-        <div className="blog-outer">
-          <div className="wrap">
-            {blogSections.map(section =>
-              // 카드가 적은 섹션은 비어 보이므로 홈에서는 감춘다(목록 탭에는 남는다). 최소 글 수는 섹션마다 다를 수 있다.
-              section.posts.length < minPostsToShow(section.key) ? null : (
-                <section key={section.key} id={anchorOf(section.key)} className="blog-sec" aria-labelledby={`sec-${section.key}`}>
-                  <SectionHeader
-                    id={`sec-${section.key}`}
-                    axis={koreanKeys.includes(section.key) ? AXIS_LABELS.korean : AXIS_LABELS.guides}
-                    label={section.title}
-                    more={{ href: `/blog?tab=${section.key}`, text: `View all ${section.total} →` }}
-                    desc={section.desc}
-                  />
-                  {section.layout === 'list' ? (
-                    <div className="plist">
-                      {section.posts.map(post => (
-                        <PostListRow
-                          key={`${post.locale}/${post.app}/${post.slug}`}
-                          href={`/blog/${post.locale}/${post.app}/${post.slug}`}
-                          title={post.title}
-                          excerpt={post.description}
-                          readMin={post.readMin}
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="blog-grid">
-                      {section.posts.map(post => (
-                        <a
-                          key={`${post.locale}/${post.app}/${post.slug}`}
-                          href={`/blog/${post.locale}/${post.app}/${post.slug}`}
-                          className="bcard"
-                        >
-                          <BlogThumb thumb={post.thumb} alt={post.title} label={section.title} />
-                          <div className="bbody">
-                            <div className="btitle">{post.title}</div>
-                            {post.description && (
-                              <div className="bexcerpt">{post.description}</div>
-                            )}
-                            <div className="bmeta">
-                              {post.readMin} min read
-                            </div>
-                          </div>
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </section>
-              ),
-            )}
-          </div>
-        </div>
-      )}
+      {/* ── 게이트웨이 — 최신 글 나열 대신 주제별 목록으로 들어가는 흰 카드(Learn Korean 2장 · Travel & Life 3장) ── */}
+      <div className="wrap gw-wrap">
+        <GatewaySection id="learn-korean" variant="learn" title={AXIS_LABELS.korean} desc="Start with essential phrases and basics." cards={learnCards} />
+        <GatewaySection id="travel-life" variant="guide" title={AXIS_LABELS.guides} desc="Solve everyday problems and enjoy your trip." cards={guideCards} />
+      </div>
 
       {/* ── Why Atlas Lab ── */}
       <div className="wrap why-wrap">
