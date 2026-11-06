@@ -18,7 +18,6 @@ import {
 } from '@/lib/blog/sections'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
 import type { Metadata } from 'next'
-import { EntryCards, type EntryCard } from '@/components/home/EntryCards'
 import { ORGANIZATION_JSON_LD, WEBSITE_JSON_LD, DEFAULT_OPEN_GRAPH, SITE_TITLE, SITE_DESC, SITE_URL } from '@/lib/seo/site'
 
 export const metadata: Metadata = {
@@ -36,7 +35,10 @@ const BODY  = '"DM Sans", Inter, system-ui, sans-serif'
  *  두 카드는 같은 구조(아이콘 · 이름 · 대상 한 줄 · 설명 · 버튼 두 개)로 높이·글꼴이 맞물린다 — 뱃지·부제·버튼 밑 문구는 두지 않는다.
  *  버튼: 'Launch WebApp ↗' 은 앱을 새 탭으로(홈을 떠나지 않게), 'Learn More' 는 같은 사이트의 소개 랜딩을 현재 탭으로.
  *  app 이 없으면 'Coming soon' 카드. */
-type Product = { name: string; audience: string; desc: string; app: string | null; learn: string | null }
+/** 카드 오른쪽에 깔리는 사진 — 왼쪽(글 쪽)으로 갈수록 흰 배경에 스며든다. position 은 object-position(인물 · 그릇이 보이게) */
+type ProductVisual = { src: string; position: string }
+type Product = { name: string; audience: string; desc: string; app: string | null; learn: string | null; visual?: ProductVisual }
+const STORAGE = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public`
 const PRODUCTS: readonly Product[] = [
   {
     name: 'K-Patto',
@@ -44,6 +46,8 @@ const PRODUCTS: readonly Product[] = [
     desc: 'Master 300+ real-life Korean phrases through 100 slice-of-life webtoon episodes with native audio sync. Available in eBook, WebApp, or Complete Bundle.',
     app: '/kpatto/story',
     learn: '/kpatto',
+    // 웹툰 릴스 'Can I try this on?' 의 장면 — 자막 없이 인물만 남긴 16:9 컷(1080×608)을 얼굴 쪽으로 맞춘다
+    visual: { src: `${STORAGE}/blog-covers/korean-shopping-try-on-clothes-hero.webp`, position: '55% 40%' },
   },
   {
     name: 'K-Pantry',
@@ -51,6 +55,8 @@ const PRODUCTS: readonly Product[] = [
     desc: "Tells you what you can make with what's already in your fridge — and what to use when an ingredient is missing.",
     app: '/kpantry/en',
     learn: '/kpantry/landing',
+    // 전주비빔밥 레시피 사진(1536×1024, 밝은 리넨 배경이라 흰 카드에 자연스럽게 녹는다)
+    visual: { src: `${STORAGE}/pantry-recipe-images/jeonju-bibimbap-01.jpg`, position: '58% 50%' },
   },
 ]
 
@@ -214,30 +220,6 @@ export default async function AtlasLabHome() {
   const koreanKeys: string[] = KOREAN_TAB.sections.map(s => s.group)
   const koreanSec = firstShown(koreanKeys)
   const guideSec = firstShown(['explore-korea', 'food', 'life'])
-  // 히어로 아래 세 갈래 진입 카드 — 사진은 각 축 대표 글의 썸네일을 빌려 온다(비공개·삭제되면 사진만 빠진다)
-  const bySlug = new Map((allPosts ?? []).filter(p => p.locale === 'en').map(p => [p.slug, p]))
-  const thumbOf = (slug: string) => {
-    const p = bySlug.get(slug)
-    return p ? cardThumbnailForPost(p.slug, p.content, p.thumbnail) : null
-  }
-  const entryCards: EntryCard[] = [
-    {
-      key: 'learn', kicker: 'K-Patto · Webtoon', title: 'Learn Korean',
-      desc: 'Real-life phrases from webtoon dialogues and short videos — what to actually say.',
-      href: '/blog?tab=phrases', thumb: thumbOf('korean-restaurant-drop-yo-water'), thumbAlt: 'K-Patto webtoon scene',
-    },
-    {
-      key: 'travel', kicker: 'Travel guides', title: 'Travel Korea',
-      desc: 'K-ETA, itineraries, transit cards and money — practical guides with real prices.',
-      href: '/blog?tab=life', thumb: thumbOf('seoul-itinerary-first-timers-3-4-5-days'), thumbAlt: 'Seoul skyline',
-    },
-    {
-      key: 'food', kicker: 'Food & recipes', title: 'Korean Food',
-      desc: 'Read the menu, eat like a local, and cook Korean recipes anywhere with K-Pantry.',
-      href: '/blog?tab=food', thumb: thumbOf('how-to-read-korean-restaurant-menu'), thumbAlt: 'Korean restaurant menu',
-    },
-  ]
-
   const categoryTabs: HomeTab[] = [
     { id: 'resources', label: AXIS_LABELS.apps },
     ...(koreanSec ? [{ id: anchorOf(koreanSec.key), label: AXIS_LABELS.korean }] : []),
@@ -302,22 +284,6 @@ export default async function AtlasLabHome() {
           margin-bottom: 0;
           max-width: 640px;
         }
-        /* 검색 아래 두 갈래 — 한국어 학습(K-Patto)으로, 또는 아래 여행 가이드로 */
-        .hero-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-        .hero-cta {
-          display: inline-flex; align-items: center;
-          font-family: ${BODY}; font-size: 13px; font-weight: 700;
-          color: #fff; text-decoration: none;
-          background: var(--brand-red, #C8102E);
-          border: 1.5px solid var(--brand-red, #C8102E);
-          padding: 9px 16px;
-          -webkit-tap-highlight-color: transparent;
-        }
-        .hero-cta-ghost { background: transparent; border-color: rgba(255,255,255,0.35); }
-        @media (hover: hover) {
-          .hero-cta:hover { background: var(--brand-red-dark, #A30D25); border-color: var(--brand-red-dark, #A30D25); }
-          .hero-cta-ghost:hover { background: rgba(255,255,255,0.08); border-color: #fff; }
-        }
         /* ── Inner container ───────────────────────────────────────── */
         .wrap {
           max-width: 1060px; margin: 0 auto;
@@ -339,13 +305,28 @@ export default async function AtlasLabHome() {
           grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
           gap: 24px;
         }
-        /* 카드 자체는 링크가 아니다 — 버튼 두 개(앱 · 소개)가 각자 링크다 */
+        /* 카드 자체는 링크가 아니다 — 버튼 두 개(앱 · 소개)가 각자 링크다.
+           오른쪽 약 45% 에 사진(.pvis)을 깔고 왼쪽으로 갈수록 투명하게(mask) — 글(.pcontent, 왼쪽 60%)은 그 위에 올라앉는다 */
         .pcard {
-          background: var(--paper, #fff);
-          border: 1px solid var(--rule, #E5E1DC);
-          padding: 32px 28px 28px;
+          position: relative; overflow: hidden;
+          background: #fff;
+          border: 1px solid #F3F4F6;
+          border-radius: 16px;
+          box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          padding: 32px;
+          min-height: 260px;
           display: flex; flex-direction: column;
           color: inherit;
+          transition: box-shadow .3s, transform .3s;
+        }
+        @media (hover: hover) { .pcard:hover { box-shadow: 0 6px 20px rgba(0,0,0,.08); } }
+        .pcontent { position: relative; z-index: 1; display: flex; flex-direction: column; flex: 1; }
+        .pcard.has-visual .pcontent { width: 60%; }
+        .pvis { position: absolute; top: 0; right: 0; bottom: 0; width: 45%; pointer-events: none; }
+        .pvis img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          -webkit-mask-image: linear-gradient(to left, #000 45%, rgba(0,0,0,0) 100%);
+          mask-image: linear-gradient(to left, #000 45%, rgba(0,0,0,0) 100%);
         }
 
         /* ── Mobile(768px 미만): 1열 + 가로형 카드로 재배치 ──────────── */
@@ -356,10 +337,15 @@ export default async function AtlasLabHome() {
             background: transparent; border: none;
           }
           .pcard {
-            border: 1px solid var(--rule, #E5E1DC) !important;
-            border-radius: 10px;
+            border-radius: 14px;
             /* 상하를 줄여 한 화면에 더 들어오게 한다(좌우는 읽기 폭이라 유지) */
-            padding: 13px 16px 14px !important;
+            padding: 14px 16px 14px;
+            min-height: 0;
+          }
+          /* 폰은 글이 먼저 — 사진은 오른쪽 끝 35% 에 옅은 워터마크로만 남긴다 */
+          .pcard.has-visual .pcontent { width: 100%; }
+          .pvis { width: 35%; opacity: 0.16; }
+          .pcontent {
             display: grid;
             grid-template-columns: auto 1fr;
             grid-template-areas:
@@ -599,12 +585,6 @@ export default async function AtlasLabHome() {
               Real-life Korean phrases with webtoon dialogues, practical travel guides without the fluff, and authentic Korean recipes you can cook anywhere.
             </p>
             <HomeSearch docs={searchDocs} />
-            <div className="hero-links">
-              <a href="/kpatto" className="hero-cta">Learn Korean (K-Patto) →</a>
-              {guideSec && (
-                <a href={`#${anchorOf(guideSec.key)}`} className="hero-cta hero-cta-ghost">Explore Travel Guides ↓</a>
-              )}
-            </div>
           </div>
         </div>
       </section>
@@ -612,8 +592,6 @@ export default async function AtlasLabHome() {
       {/* ── 카테고리 바로가기 — 히어로를 지나면 메뉴 아래에 붙는다 ── */}
       <HomeCategoryBar tabs={categoryTabs} />
 
-      {/* ── 세 갈래 진입 카드 — 한국어 · 여행 · 음식 ── */}
-      <EntryCards cards={entryCards} />
 
       {/* ── Our Apps ── */}
       <div id="resources">
@@ -621,7 +599,14 @@ export default async function AtlasLabHome() {
           <SectionHeader axis={AXIS_LABELS.apps} />
           <div className="products-grid">
             {PRODUCTS.map(p => (
-              <div key={p.name} className="pcard">
+              <div key={p.name} className={`pcard${p.visual ? ' has-visual' : ''}`}>
+                {/* 오른쪽 사진 — 왼쪽으로 갈수록 투명해져 흰 카드에 스며든다(장식이라 읽어 주지 않는다) */}
+                {p.visual && (
+                  <div className="pvis" aria-hidden="true">
+                    <img src={p.visual.src} alt="" loading="lazy" decoding="async" style={{ objectPosition: p.visual.position }} />
+                  </div>
+                )}
+                <div className="pcontent">
                 {/* Icon — dark rounded square with SVG symbol */}
                 <div className="pmark">
                   {APP_ICONS[p.name]}
@@ -647,6 +632,7 @@ export default async function AtlasLabHome() {
                 ) : (
                   <span className="pbtn-soon">Coming soon</span>
                 )}
+                </div>
               </div>
             ))}
           </div>
