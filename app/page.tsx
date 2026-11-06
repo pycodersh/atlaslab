@@ -18,8 +18,7 @@ import {
 } from '@/lib/blog/sections'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
 import type { Metadata } from 'next'
-import { TravelRoadmap, type ResolvedStep } from '@/components/home/TravelRoadmap'
-import { ROADMAP, type RoadmapLink } from '@/lib/home/roadmap'
+import { EntryCards, type EntryCard } from '@/components/home/EntryCards'
 import { ORGANIZATION_JSON_LD, WEBSITE_JSON_LD, DEFAULT_OPEN_GRAPH, SITE_TITLE, SITE_DESC, SITE_URL } from '@/lib/seo/site'
 
 export const metadata: Metadata = {
@@ -215,22 +214,31 @@ export default async function AtlasLabHome() {
   const koreanKeys: string[] = KOREAN_TAB.sections.map(s => s.group)
   const koreanSec = firstShown(koreanKeys)
   const guideSec = firstShown(['explore-korea', 'food', 'life'])
-  // 로드맵 — 큐레이션 slug 를 실제 글(en)로 푼다. 비공개·삭제된 글은 그 항목만 빠진다
+  // 히어로 아래 세 갈래 진입 카드 — 사진은 각 축 대표 글의 썸네일을 빌려 온다(비공개·삭제되면 사진만 빠진다)
   const bySlug = new Map((allPosts ?? []).filter(p => p.locale === 'en').map(p => [p.slug, p]))
-  const hrefOf = (p: BlogRow) => `/blog/${p.locale}/${p.app}/${p.slug}`
-  const link = (l: RoadmapLink) => { const p = bySlug.get(l.slug); return p ? { href: hrefOf(p), label: l.label } : null }
-  const roadmap: ResolvedStep[] = ROADMAP.map(s => {
-    const hub = bySlug.get(s.hub)
-    return {
-      key: s.key, step: s.step, title: s.title, blurb: s.blurb,
-      hub: hub ? { href: hrefOf(hub), title: hub.title, thumb: cardThumbnailForPost(hub.slug, hub.content, hub.thumbnail) } : null,
-      more: s.more.map(link).filter((x): x is NonNullable<typeof x> => x !== null),
-      phrase: link(s.phrase),
-    }
-  }).filter(s => s.hub || s.more.length)
+  const thumbOf = (slug: string) => {
+    const p = bySlug.get(slug)
+    return p ? cardThumbnailForPost(p.slug, p.content, p.thumbnail) : null
+  }
+  const entryCards: EntryCard[] = [
+    {
+      key: 'learn', kicker: 'K-Patto · Webtoon', title: 'Learn Korean',
+      desc: 'Real-life phrases from webtoon dialogues and short videos — what to actually say.',
+      href: '/blog?tab=phrases', thumb: thumbOf('korean-restaurant-drop-yo-water'), thumbAlt: 'K-Patto webtoon scene',
+    },
+    {
+      key: 'travel', kicker: 'Travel guides', title: 'Travel Korea',
+      desc: 'K-ETA, itineraries, transit cards and money — practical guides with real prices.',
+      href: '/blog?tab=life', thumb: thumbOf('seoul-itinerary-first-timers-3-4-5-days'), thumbAlt: 'Seoul skyline',
+    },
+    {
+      key: 'food', kicker: 'Food & recipes', title: 'Korean Food',
+      desc: 'Read the menu, eat like a local, and cook Korean recipes anywhere with K-Pantry.',
+      href: '/blog?tab=food', thumb: thumbOf('how-to-read-korean-restaurant-menu'), thumbAlt: 'Korean restaurant menu',
+    },
+  ]
 
   const categoryTabs: HomeTab[] = [
-    ...(roadmap.length ? [{ id: 'roadmap', label: 'First Trip' }] : []),
     { id: 'resources', label: AXIS_LABELS.apps },
     ...(koreanSec ? [{ id: anchorOf(koreanSec.key), label: AXIS_LABELS.korean }] : []),
     ...(guideSec ? [{ id: anchorOf(guideSec.key), label: AXIS_LABELS.guides }] : []),
@@ -293,6 +301,22 @@ export default async function AtlasLabHome() {
           line-height: 1.65;
           margin-bottom: 0;
           max-width: 640px;
+        }
+        /* 검색 아래 두 갈래 — 한국어 학습(K-Patto)으로, 또는 아래 여행 가이드로 */
+        .hero-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+        .hero-cta {
+          display: inline-flex; align-items: center;
+          font-family: ${BODY}; font-size: 13px; font-weight: 700;
+          color: #fff; text-decoration: none;
+          background: var(--brand-red, #C8102E);
+          border: 1.5px solid var(--brand-red, #C8102E);
+          padding: 9px 16px;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .hero-cta-ghost { background: transparent; border-color: rgba(255,255,255,0.35); }
+        @media (hover: hover) {
+          .hero-cta:hover { background: var(--brand-red-dark, #A30D25); border-color: var(--brand-red-dark, #A30D25); }
+          .hero-cta-ghost:hover { background: rgba(255,255,255,0.08); border-color: #fff; }
         }
         /* ── Inner container ───────────────────────────────────────── */
         .wrap {
@@ -569,12 +593,18 @@ export default async function AtlasLabHome() {
       <section className="hero">
         <div className="wrap hero-inner">
           <div className="hero-text">
-            <p className="hero-eyebrow"><span>Korea, from day one</span></p>
-            <h1 className="hero-h1">Land in Korea knowing exactly what to do.</h1>
+            <p className="hero-eyebrow"><span>Korea, decoded</span></p>
+            <h1 className="hero-h1">Experience Korea Like a Local.</h1>
             <p className="hero-desc">
-              Transit cards, taxi apps, what to order and the Korean to say it — practical guides for visitors, with real prices in won.
+              Real-life Korean phrases with webtoon dialogues, practical travel guides without the fluff, and authentic Korean recipes you can cook anywhere.
             </p>
             <HomeSearch docs={searchDocs} />
+            <div className="hero-links">
+              <a href="/kpatto" className="hero-cta">Learn Korean (K-Patto) →</a>
+              {guideSec && (
+                <a href={`#${anchorOf(guideSec.key)}`} className="hero-cta hero-cta-ghost">Explore Travel Guides ↓</a>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -582,8 +612,8 @@ export default async function AtlasLabHome() {
       {/* ── 카테고리 바로가기 — 히어로를 지나면 메뉴 아래에 붙는다 ── */}
       <HomeCategoryBar tabs={categoryTabs} />
 
-      {/* ── 첫 여행 로드맵 — 도착 → 교통 → 식당·카페 → 쇼핑 → 여가 (lib/home/roadmap) ── */}
-      <TravelRoadmap steps={roadmap} />
+      {/* ── 세 갈래 진입 카드 — 한국어 · 여행 · 음식 ── */}
+      <EntryCards cards={entryCards} />
 
       {/* ── Our Apps ── */}
       <div id="resources">
