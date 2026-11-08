@@ -58,8 +58,8 @@ export function ToolsHub({ rates, updated }: { rates: Rates; updated: string }) 
     if (!openId) return
     const previous = document.body.style.overflow
     document.body.style.overflow = 'hidden'
-    // Order Builder 의 전체 화면이 열려 있을 때는 Esc 를 그쪽이 먼저 받는다
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && !document.querySelector('.ob-show')) close() }
+    // Order Builder 전체 화면이나 공연장 퀵 가이드가 열려 있으면 Esc 를 그쪽이 먼저 받는다
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && !document.querySelector('.ob-show, .kp-quick-overlay')) close() }
     window.addEventListener('keydown', onKey)
     return () => {
       document.body.style.overflow = previous

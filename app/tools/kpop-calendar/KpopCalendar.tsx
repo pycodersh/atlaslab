@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
-import { KPOP_EVENTS, TRAVEL_GUIDES, type KpopEvent } from '@/data/kpopEvents'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { KPOP_EVENTS, type KpopEvent } from '@/data/kpopEvents'
+import { VENUE_QUICK_GUIDES, type VenueKey } from '@/data/venueQuickGuides'
 
 const WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
@@ -13,9 +14,10 @@ const shortDate = (date: string) => date.slice(5).replace('-', '.')
 const dateRange = (e: KpopEvent) => e.endDate ? `${shortDate(e.date)} - ${shortDate(e.endDate)}` : shortDate(e.date)
 const seoulToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date())
 
-function EventCard({ event }: { event: KpopEvent }) {
+function EventCard({ event, onQuickGuide }: { event: KpopEvent; onQuickGuide: (key: VenueKey) => void }) {
   const soldOut = event.status === 'Sold Out'
-  const hasGuide = event.guideSlug !== TRAVEL_GUIDES
+  const quickKey = !event.guideSlug && event.venueKey && VENUE_QUICK_GUIDES[event.venueKey] ? event.venueKey : null
+  const hasGuideButton = !!event.guideSlug || !!quickKey
   return (
     <article className="kp-card">
       <div className="kp-top">
@@ -27,13 +29,50 @@ function EventCard({ event }: { event: KpopEvent }) {
           <p className="kp-venue">{event.venue}</p>
         </div>
       </div>
-      <div className="kp-actions">
+      <div className={`kp-actions${hasGuideButton ? '' : ' is-single'}`}>
         <a className="kp-btn is-primary" href={event.ticketUrl} target="_blank" rel="noopener noreferrer">
           {soldOut ? 'Check Availability' : 'Buy Tickets (Global)'} <span aria-hidden="true">↗</span>
         </a>
-        <a className="kp-btn" href={event.guideSlug}>{hasGuide ? 'Venue & Survival Guide' : 'Seoul Travel Guides'}</a>
+        {event.guideSlug
+          ? <a className="kp-btn" href={event.guideSlug}>Venue &amp; Survival Guide</a>
+          : quickKey && <button type="button" className="kp-btn" onClick={() => onQuickGuide(quickKey)}>Venue &amp; Survival Guide</button>}
       </div>
     </article>
+  )
+}
+
+function QuickGuideModal({ venueKey, onClose }: { venueKey: VenueKey; onClose: () => void }) {
+  const guide = VENUE_QUICK_GUIDES[venueKey]
+
+  useEffect(() => {
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
+    window.addEventListener('keydown', onKey)
+    return () => {
+      document.body.style.overflow = previous
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [onClose])
+
+  if (!guide) return null
+  return (
+    <div className="kp-quick-overlay" onClick={e => { if (e.target === e.currentTarget) onClose() }}>
+      <div className="kp-quick" role="dialog" aria-modal="true" aria-labelledby="kp-quick-title">
+        <p className="kp-quick-eyebrow">Venue Quick Guide</p>
+        <h2 id="kp-quick-title" className="notranslate" translate="no">{guide.name}</h2>
+        <p className="kp-quick-location">{guide.location}</p>
+        <ul>
+          <li><span aria-hidden="true">🚇</span><div><strong>Subway</strong>{guide.subway}</div></li>
+          <li><span aria-hidden="true">🛅</span><div><strong>Lockers</strong>{guide.lockers}</div></li>
+          <li><span aria-hidden="true">⚠️</span><div><strong>Exit Pro-Tip</strong>{guide.exitTip}</div></li>
+        </ul>
+        <div className="kp-quick-actions">
+          {guide.fullGuide && <a className="kp-btn" href={guide.fullGuide}>Read the full guide</a>}
+          <button type="button" className="kp-btn is-primary" autoFocus onClick={onClose}>Close</button>
+        </div>
+      </div>
+    </div>
   )
 }
 
@@ -42,6 +81,8 @@ export function KpopCalendar() {
   const [today, setToday] = useState<string | null>(null)
   const [month, setMonth] = useState({ year: Number(KPOP_EVENTS[0].date.slice(0, 4)), month: Number(KPOP_EVENTS[0].date.slice(5, 7)) - 1 })
   const [selectedDay, setSelectedDay] = useState<string | null>(null)
+  const [quickGuide, setQuickGuide] = useState<VenueKey | null>(null)
+  const closeQuickGuide = useCallback(() => setQuickGuide(null), [])
 
   useEffect(() => {
     const now = seoulToday()
@@ -102,6 +143,17 @@ export function KpopCalendar() {
         .kp-empty { background: #fff; border: 1px dashed #D1D5DB; border-radius: 16px; padding: 24px; font-size: 14px; color: #4B5563; margin: 0; }
         .kp-note { margin-top: 20px; }
 
+        .kp-actions.is-single { grid-template-columns: minmax(0, 1fr) !important; }
+        button.kp-btn { cursor: pointer; width: 100%; }
+        .kp-quick-overlay { position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(17,24,39,.55); }
+        .kp-quick { box-sizing: border-box; width: 100%; max-width: 440px; max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
+        .kp-quick-eyebrow { margin: 0 0 6px; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #C8102E; }
+        .kp-quick h2 { margin: 0; font-size: 22px; font-weight: 700; color: #111827; }
+        .kp-quick-location { margin: 2px 0 16px; font-size: 14px; color: #4B5563; }
+        .kp-quick ul { list-style: none; margin: 0; padding: 0; }
+        .kp-quick li { display: flex; gap: 10px; padding: 12px 0; border-top: 1px solid #F3F4F6; font-size: 14px; line-height: 1.5; color: #374151; }
+        .kp-quick li strong { display: block; color: #111827; font-weight: 700; }
+        .kp-quick-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
         @media (max-width: 767px) { .tl-wrap.kp-wrap { padding-left: 16px; padding-right: 16px; } }
         @media (min-width: 640px) {
           .kp-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -152,10 +204,12 @@ export function KpopCalendar() {
         {/* key: 자동 번역이 글자 노드를 바꿔 끼우므로 목록이 바뀌면 새로 그린다 */}
         <div key={selectedDay ?? 'all'} className="kp-list">
           {shown.length > 0
-            ? shown.map(e => <EventCard key={e.id} event={e} />)
+            ? shown.map(e => <EventCard key={e.id} event={e} onQuickGuide={setQuickGuide} />)
             : <p className="kp-empty">No upcoming events listed. New dates are added as they&apos;re announced.</p>}
         </div>
       </div>
+
+      {quickGuide && <QuickGuideModal venueKey={quickGuide} onClose={closeQuickGuide} />}
 
       <p className="tl-note kp-note">
         Dates and venues were checked on November 8, 2026 and can change, so confirm with the organizer before you book or travel. &quot;Upcoming&quot; means the date is listed;
