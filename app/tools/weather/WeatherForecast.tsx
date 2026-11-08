@@ -1,59 +1,42 @@
 'use client'
 
-import { useCallback, useEffect, useState, type ComponentType } from 'react'
+import { createElement, useCallback, useEffect, useState, type ComponentType } from 'react'
 import { Cloud, CloudDrizzle, CloudFog, CloudLightning, CloudRain, CloudSnow, CloudSun, Moon, Sun } from 'lucide-react'
 
+// 순서는 app/api/weather/route.ts 와 같아야 한다
 const CITIES = [
-  { name: 'Seoul', lat: 37.57, lon: 126.98 },
-  { name: 'Busan', lat: 35.18, lon: 129.08 },
-  { name: 'Jeju', lat: 33.5, lon: 126.53 },
-  { name: 'Gangneung', lat: 37.75, lon: 128.9 },
-  { name: 'Daegu', lat: 35.87, lon: 128.6 },
-  { name: 'Jeonju', lat: 35.82, lon: 127.15 },
-  { name: 'Gyeongju', lat: 35.84, lon: 129.22 },
-  { name: 'Sokcho', lat: 38.2, lon: 128.59 },
-  { name: 'Chuncheon', lat: 37.88, lon: 127.73 },
-  { name: 'Yeosu', lat: 34.76, lon: 127.66 },
+  { name: 'Seoul' }, { name: 'Busan' }, { name: 'Jeju' }, { name: 'Gangneung' }, { name: 'Daegu' },
+  { name: 'Jeonju' }, { name: 'Gyeongju' }, { name: 'Sokcho' }, { name: 'Chuncheon' }, { name: 'Yeosu' },
 ]
 
-const CACHE_KEY = 'atlas_weather_v1'
+const CACHE_KEY = 'atlas_weather_v2'
 const UNIT_KEY = 'atlas_weather_unit'
 const CACHE_MS = 60 * 60 * 1000
 
 type CityWeather = {
-  current_weather: { temperature: number; windspeed: number; weathercode: number; is_day: number }
-  daily: {
-    time: string[]
-    weathercode: number[]
-    temperature_2m_max: number[]
-    temperature_2m_min: number[]
-    precipitation_probability_max: (number | null)[]
-  }
+  current: { temp: number; wind: number; isDay: boolean; code: number; text: string }
+  days: { date: string; code: number; text: string; max: number; min: number; rain: number | null }[]
 }
-type Cached = { fetchedAt: number; cities: CityWeather[] }
+type Cached = { fetchedAt: number; savedAt: number; cities: CityWeather[] }
 type Status = 'loading' | 'ready' | 'stale' | 'error'
 type Unit = 'C' | 'F'
+type Icon = ComponentType<{ size?: number; strokeWidth?: number }>
 
-function describe(code: number): { text: string; Icon: ComponentType<{ size?: number; strokeWidth?: number }> } {
-  if (code === 0) return { text: 'Clear Sky', Icon: Sun }
-  if (code === 1) return { text: 'Mainly Clear', Icon: Sun }
-  if (code === 2) return { text: 'Partly Cloudy', Icon: CloudSun }
-  if (code === 3) return { text: 'Overcast', Icon: Cloud }
-  if (code === 45 || code === 48) return { text: 'Fog', Icon: CloudFog }
-  if (code === 56 || code === 57) return { text: 'Freezing Drizzle', Icon: CloudDrizzle }
-  if (code >= 51 && code <= 55) return { text: 'Drizzle', Icon: CloudDrizzle }
-  if (code === 61) return { text: 'Light Rain', Icon: CloudRain }
-  if (code === 63) return { text: 'Rain', Icon: CloudRain }
-  if (code === 65) return { text: 'Heavy Rain', Icon: CloudRain }
-  if (code === 66 || code === 67) return { text: 'Freezing Rain', Icon: CloudRain }
-  if (code === 71) return { text: 'Light Snow', Icon: CloudSnow }
-  if (code === 73 || code === 77) return { text: 'Snow', Icon: CloudSnow }
-  if (code === 75) return { text: 'Heavy Snow', Icon: CloudSnow }
-  if (code >= 80 && code <= 82) return { text: 'Rain Showers', Icon: CloudRain }
-  if (code === 85 || code === 86) return { text: 'Snow Showers', Icon: CloudSnow }
-  if (code === 95) return { text: 'Thunderstorm', Icon: CloudLightning }
-  if (code === 96 || code === 99) return { text: 'Thunderstorm with Hail', Icon: CloudLightning }
-  return { text: 'Cloudy', Icon: Cloud }
+const LIGHTNING = new Set([1087, 1273, 1276, 1279, 1282])
+const SNOW = new Set([1066, 1069, 1072, 1114, 1117, 1168, 1171, 1204, 1207, 1210, 1213, 1216, 1219, 1222, 1225, 1237, 1249, 1252, 1255, 1258, 1261, 1264])
+const DRIZZLE = new Set([1150, 1153])
+const FOG = new Set([1012, 1015, 1018, 1021, 1024, 1027, 1030, 1033, 1036, 1039, 1042, 1045, 1048, 1135, 1147])
+
+// WeatherAPI 날씨 코드 → 아이콘. 문구는 API 가 주는 condition.text 를 그대로 쓴다
+function iconFor(code: number, isDay = true): Icon {
+  if (code === 1000) return isDay ? Sun : Moon
+  if (code === 1003) return isDay ? CloudSun : Cloud
+  if (code === 1006 || code === 1009) return Cloud
+  if (FOG.has(code)) return CloudFog
+  if (LIGHTNING.has(code)) return CloudLightning
+  if (SNOW.has(code)) return CloudSnow
+  if (DRIZZLE.has(code)) return CloudDrizzle
+  return CloudRain
 }
 
 function outfitTip(tempC: number, rain: number | null) {
@@ -75,25 +58,21 @@ const readCache = (): Cached | null => {
 }
 
 async function fetchWeather(): Promise<Cached> {
-  const params = new URLSearchParams({
-    latitude: CITIES.map(c => c.lat).join(','),
-    longitude: CITIES.map(c => c.lon).join(','),
-    current_weather: 'true',
-    daily: 'weathercode,temperature_2m_max,temperature_2m_min,precipitation_probability_max',
-    timezone: 'Asia/Seoul',
-    forecast_days: '7',
-  })
-  const res = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`, { signal: AbortSignal.timeout(10000) })
+  const res = await fetch('/api/weather', { signal: AbortSignal.timeout(15000) })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
-  const cities = await res.json() as CityWeather[]
+  const { fetchedAt, cities } = await res.json() as { fetchedAt: number; cities: CityWeather[] }
   if (!Array.isArray(cities) || cities.length !== CITIES.length) throw new Error('unexpected response')
-  const fresh = { fetchedAt: Date.now(), cities }
+  const fresh = { fetchedAt, savedAt: Date.now(), cities }
   try { localStorage.setItem(CACHE_KEY, JSON.stringify(fresh)) } catch { /* 저장이 막히면 이번 화면에서만 쓴다 */ }
   return fresh
 }
 
 const seoulTime = (ts: number) => new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Seoul', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).format(ts)
 const dayLabel = (date: string, i: number) => i === 0 ? 'Today' : new Intl.DateTimeFormat('en-US', { weekday: 'short', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`))
+
+function WeatherIcon({ code, isDay, size }: { code: number; isDay?: boolean; size: number }) {
+  return createElement(iconFor(code, isDay), { size, strokeWidth: size > 40 ? 1.5 : 1.75 })
+}
 
 export function WeatherForecast() {
   const [data, setData] = useState<Cached | null>(null)
@@ -103,7 +82,7 @@ export function WeatherForecast() {
 
   const load = useCallback(async () => {
     const cached = readCache()
-    if (cached && Date.now() - cached.fetchedAt < CACHE_MS) {
+    if (cached && Date.now() - cached.savedAt < CACHE_MS) {
       setData(cached)
       setStatus('ready')
       return
@@ -134,12 +113,9 @@ export function WeatherForecast() {
   const percent = (p: number | null) => p === null ? '–' : `${p}%`
 
   const city = data?.cities[selected]
-  const lowest = city ? Math.min(...city.daily.temperature_2m_min) : 0
-  const highest = city ? Math.max(...city.daily.temperature_2m_max) : 1
+  const lowest = city ? Math.min(...city.days.map(d => d.min)) : 0
+  const highest = city ? Math.max(...city.days.map(d => d.max)) : 1
   const range = Math.max(highest - lowest, 1)
-  const CurrentIcon = city
-    ? (city.current_weather.is_day === 0 && city.current_weather.weathercode <= 1 ? Moon : describe(city.current_weather.weathercode).Icon)
-    : Cloud
 
   return (
     <>
@@ -220,14 +196,13 @@ export function WeatherForecast() {
 
           <div className="wf-tiles">
             {CITIES.map((c, i) => {
-              const now = data.cities[i].current_weather
-              const { Icon } = describe(now.weathercode)
+              const now = data.cities[i].current
               return (
                 <button key={c.name} type="button" className="wf-tile" aria-pressed={i === selected} onClick={() => setSelected(i)}>
                   <span className="wf-tile-name notranslate" translate="no">{c.name}</span>
-                  <span className="wf-tile-right" aria-label={`${describe(now.weathercode).text}, ${temp(now.temperature)}`}>
-                    <Icon size={20} strokeWidth={1.75} />
-                    <span key={unit} className="wf-tile-temp notranslate" translate="no">{temp(now.temperature)}</span>
+                  <span className="wf-tile-right" aria-label={`${now.text}, ${temp(now.temp)}`}>
+                    <WeatherIcon code={now.code} isDay={now.isDay} size={20} />
+                    <span key={unit} className="wf-tile-temp notranslate" translate="no">{temp(now.temp)}</span>
                   </span>
                 </button>
               )
@@ -238,35 +213,32 @@ export function WeatherForecast() {
           <div key={`${selected}-${unit}`}>
             <section className="wf-panel" aria-label={`Current weather in ${CITIES[selected].name}`}>
               <div className="wf-now">
-                <span className="wf-now-icon" aria-hidden="true"><CurrentIcon size={72} strokeWidth={1.5} /></span>
+                <span className="wf-now-icon" aria-hidden="true"><WeatherIcon code={city.current.code} isDay={city.current.isDay} size={72} /></span>
                 <div>
                   <p className="wf-now-city notranslate" translate="no">{CITIES[selected].name}</p>
-                  <p className="wf-now-temp notranslate" translate="no">{temp(city.current_weather.temperature)}</p>
-                  <p className="wf-now-text">{describe(city.current_weather.weathercode).text}</p>
+                  <p className="wf-now-temp notranslate" translate="no">{temp(city.current.temp)}</p>
+                  <p className="wf-now-text">{city.current.text}</p>
                 </div>
               </div>
               <dl className="wf-stats">
-                <div><dt>Low / High</dt><dd className="notranslate" translate="no">{temp(city.daily.temperature_2m_min[0])} / {temp(city.daily.temperature_2m_max[0])}</dd></div>
-                <div><dt>Rain chance</dt><dd className="notranslate" translate="no">{percent(city.daily.precipitation_probability_max[0])}</dd></div>
-                <div><dt>Wind</dt><dd className="notranslate" translate="no">{wind(city.current_weather.windspeed)}</dd></div>
+                <div><dt>Low / High</dt><dd className="notranslate" translate="no">{temp(city.days[0].min)} / {temp(city.days[0].max)}</dd></div>
+                <div><dt>Rain chance</dt><dd className="notranslate" translate="no">{percent(city.days[0].rain)}</dd></div>
+                <div><dt>Wind</dt><dd className="notranslate" translate="no">{wind(city.current.wind)}</dd></div>
               </dl>
-              <p className="wf-tip"><strong>What to wear:</strong> {outfitTip(city.current_weather.temperature, city.daily.precipitation_probability_max[0])}</p>
+              <p className="wf-tip"><strong>What to wear:</strong> {outfitTip(city.current.temp, city.days[0].rain)}</p>
             </section>
 
-            <h2 className="wf-section-title">7-Day Forecast</h2>
-            <div className="wf-week" tabIndex={0} role="group" aria-label="7-day forecast">
-              {city.daily.time.map((date, i) => {
-                const { text, Icon } = describe(city.daily.weathercode[i])
-                const min = city.daily.temperature_2m_min[i]
-                const max = city.daily.temperature_2m_max[i]
+            <h2 className="wf-section-title">{city.days.length}-Day Forecast</h2>
+            <div className="wf-week" tabIndex={0} role="group" aria-label={`${city.days.length}-day forecast`}>
+              {city.days.map((day, i) => {
                 return (
-                  <article key={date} className="wf-day">
-                    <p className="wf-day-name">{dayLabel(date, i)}</p>
-                    <div className="wf-day-icon" aria-hidden="true"><Icon size={26} strokeWidth={1.75} /></div>
-                    <p className="wf-day-text">{text}</p>
-                    <div className="wf-bar" aria-hidden="true"><span style={{ left: `${(min - lowest) / range * 100}%`, width: `${Math.max((max - min) / range * 100, 6)}%` }} /></div>
-                    <p className="wf-day-temps notranslate" translate="no"><span>{temp(min)}</span> {temp(max)}</p>
-                    <p className="wf-day-rain">Rain <span className="notranslate" translate="no">{percent(city.daily.precipitation_probability_max[i])}</span></p>
+                  <article key={day.date} className="wf-day">
+                    <p className="wf-day-name">{dayLabel(day.date, i)}</p>
+                    <div className="wf-day-icon" aria-hidden="true"><WeatherIcon code={day.code} size={26} /></div>
+                    <p className="wf-day-text">{day.text}</p>
+                    <div className="wf-bar" aria-hidden="true"><span style={{ left: `${(day.min - lowest) / range * 100}%`, width: `${Math.max((day.max - day.min) / range * 100, 6)}%` }} /></div>
+                    <p className="wf-day-temps notranslate" translate="no"><span>{temp(day.min)}</span> {temp(day.max)}</p>
+                    <p className="wf-day-rain">Rain <span className="notranslate" translate="no">{percent(day.rain)}</span></p>
                   </article>
                 )
               })}
@@ -275,7 +247,7 @@ export function WeatherForecast() {
 
           <p className="tl-note">
             Updated <span className="notranslate" translate="no">{seoulTime(data.fetchedAt)}</span> KST and refreshed hourly.{' '}
-            <a href="https://open-meteo.com/" rel="noopener noreferrer" target="_blank">Weather data by Open-Meteo.com</a>. Forecasts can change, so check again before you head out.
+            <a href="https://www.weatherapi.com/" rel="noopener noreferrer" target="_blank">Powered by WeatherAPI.com</a>. Forecasts can change, so check again before you head out.
           </p>
         </>
       )}
