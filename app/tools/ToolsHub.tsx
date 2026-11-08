@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, type ComponentType, type MouseEvent, type ReactNode } from 'react'
-import { Banknote, Clock, CloudSun, Ticket, Timer, TrainFront, UtensilsCrossed } from 'lucide-react'
+import { Banknote, Clock, CloudSun, MapPin, Ticket, Timer, TrainFront, UtensilsCrossed } from 'lucide-react'
 import { TOOLS, toolHref, type ToolGroup, type ToolId } from './toolList'
 import { OrderBuilder } from './order-builder/OrderBuilder'
 import { SubwayTimer } from './subway-timer/SubwayTimer'
@@ -11,6 +11,7 @@ import { TransitGuide } from './transit-guide/TransitGuide'
 import { WeatherForecast } from './weather/WeatherForecast'
 import { KpopCalendar } from './kpop-calendar/KpopCalendar'
 import { WorldTime } from './world-time/WorldTime'
+import { HotspotFinder } from './hotspot-finder/HotspotFinder'
 
 const ICONS: Record<ToolId, ComponentType<{ size?: number; strokeWidth?: number }>> = {
   'order-builder': UtensilsCrossed,
@@ -20,6 +21,7 @@ const ICONS: Record<ToolId, ComponentType<{ size?: number; strokeWidth?: number 
   weather: CloudSun,
   'kpop-calendar': Ticket,
   'world-time': Clock,
+  'hotspot-finder': MapPin,
 }
 const FILTERS: ('All' | ToolGroup)[] = ['All', 'Survival', 'Planning']
 const isToolId = (id: string): id is ToolId => TOOLS.some(t => t.id === id)
@@ -84,6 +86,7 @@ export function ToolsHub({ rates, updated }: { rates: Rates; updated: string }) 
     weather: <WeatherForecast />,
     'kpop-calendar': <KpopCalendar />,
     'world-time': <WorldTime />,
+    'hotspot-finder': <HotspotFinder />,
   }
   const openTool = TOOLS.find(t => t.id === openId)
   const shown = filter === 'All' ? TOOLS : TOOLS.filter(t => t.group === filter)

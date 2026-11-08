@@ -66,11 +66,12 @@ export const HUBS = {
   suncheon: { name: 'Suncheon Bus Terminal (connect for Yeosu)', tip: 'Continue to Yeosu by local bus or train. Check current times on the day.' },
   'andong-station': { name: 'Andong Station', tip: 'Hahoe Folk Village is a local bus or taxi ride away. Check a map app for the current bus.' },
   'andong-bus': { name: 'Andong Bus Terminal', tip: 'Hahoe Folk Village is a local bus or taxi ride away. Check a map app for the current bus.' },
+  'yeosu-airport': { name: 'Yeosu Airport (RSU)', tip: 'Check a map app for the current bus or taxi into Yeosu.' },
   jeju: { name: 'Jeju International Airport (CJU)', tip: 'In Jeju City. A rental car helps, because buses are slow and infrequent outside the main towns.' },
 } as const
 
 export type HubId = keyof typeof HUBS
-export type ModeKind = 'train' | 'flight' | 'bus'
+export type ModeKind = 'train' | 'flight' | 'bus' | 'transfer'
 export type TransitMode = {
   kind: ModeKind
   name: string
@@ -240,7 +241,92 @@ export const ROUTES: TransitRoute[] = [
       { kind: 'flight', name: FLIGHT, duration: 'About 1h 5m in the air', fare: 'From about ₩41,000', minutes: 65, minFare: 41000, hubs: ['daegu-airport', 'jeju'] },
     ],
   },
+
+  // 거점을 끼지 않아도 직행이 확인된 구간
+  {
+    a: 'gangneung', b: 'sokcho', note: 'Sokcho has no train service. Take the bus.', modes: [
+      { kind: 'bus', name: 'Intercity Bus', duration: 'About 1h – 1h 10m', fare: 'About ₩7,000 – 12,000', minutes: 60, minFare: 7000, hubs: ['gangneung-bus', 'sokcho-bus'] },
+    ],
+  },
+  {
+    a: 'chuncheon', b: 'gangneung', modes: [
+      { kind: 'bus', name: 'Intercity Bus', duration: 'About 2h', fare: 'About ₩17,000 – 24,000', minutes: 120, minFare: 17000, hubs: ['chuncheon-intercity', 'gangneung-bus'] },
+    ],
+  },
+  {
+    a: 'chuncheon', b: 'sokcho', note: 'Sokcho has no train service. Take the bus.', modes: [
+      { kind: 'bus', name: 'Intercity Bus', duration: 'About 2h', fare: 'About ₩15,400', minutes: 120, minFare: 15400, hubs: ['chuncheon-intercity', 'sokcho-bus'] },
+    ],
+  },
+  {
+    a: 'gyeongju', b: 'andong', modes: [
+      { kind: 'train', name: 'Train (KTX-Eum)', highSpeed: true, duration: 'About 45m', fare: 'About ₩14,000 – 27,000', minutes: 45, minFare: 14000, hubs: ['gyeongju-station', 'andong-station'] },
+      { kind: 'bus', name: 'Intercity Bus', duration: 'About 1h 40m', fare: 'About ₩14,000 – 19,000', minutes: 100, minFare: 14000, hubs: ['gyeongju-bus', 'andong-bus'] },
+    ],
+  },
+  {
+    a: 'jeonju', b: 'yeosu', modes: [
+      { kind: 'train', name: 'Train (KTX Jeolla Line)', highSpeed: true, duration: '1h 20m – 1h 40m', fare: 'About ₩9,600 – 40,000', minutes: 80, minFare: 9600, hubs: ['jeonju-station', 'yeosu-station'] },
+    ],
+  },
+  {
+    a: 'jeonju', b: 'gyeongju', note: 'There is no direct train on this route.', modes: [
+      { kind: 'bus', name: 'Intercity Bus', duration: '3h 30m – 3h 55m', fare: 'About ₩24,000 – 36,000', minutes: 210, minFare: 24000, hubs: ['jeonju-bus', 'gyeongju-bus'] },
+    ],
+  },
+  {
+    a: 'yeosu', b: 'jeju', note: 'Flying is the practical choice. No ferry runs directly from Yeosu.', modes: [
+      { kind: 'flight', name: FLIGHT, duration: 'About 55m in the air', fare: 'About ₩46,000 – 200,000', minutes: 55, minFare: 46000, hubs: ['yeosu-airport', 'jeju'] },
+    ],
+  },
 ]
 
 export const findRoute = (from: CityId, to: CityId) =>
   ROUTES.find(r => (r.a === from && r.b === to) || (r.a === to && r.b === from))
+
+const cityName = (id: CityId) => (CITIES.find(c => c.id === id) as City).name.split(' / ')[0]
+const fastest = (route: TransitRoute) => route.modes.filter(m => !m.via).sort((x, y) => x.minutes - y.minutes)[0]
+const hubAt = (route: TransitRoute, mode: TransitMode, city: CityId) => mode.hubs[route.a === city ? 0 : 1]
+const clock = (minutes: number) => `${Math.floor(minutes / 60)}h ${String(Math.round(minutes % 60 / 5) * 5).padStart(2, '0')}m`
+
+/**
+ * 직행이 없거나 확인되지 않은 구간은 값을 지어내지 않고, 이미 있는 두 구간을 3대 거점에서 이어 붙인다.
+ * 시간 · 요금은 두 구간의 합이고, 갈아타는 시간은 넣지 않았다고 화면에 적는다.
+ */
+function buildTransfer(from: CityId, to: CityId): TransitRoute | undefined {
+  const options = FROM_HUBS.flatMap(hub => {
+    const first = findRoute(from, hub)
+    const second = findRoute(hub, to)
+    const firstMode = first && fastest(first)
+    const secondMode = second && fastest(second)
+    return first && second && firstMode && secondMode ? [{ hub, first, second, firstMode, secondMode }] : []
+  })
+  const best = options.sort((x, y) => (x.firstMode.minutes + x.secondMode.minutes) - (y.firstMode.minutes + y.secondMode.minutes))[0]
+  if (!best) return undefined
+  const minutes = best.firstMode.minutes + best.secondMode.minutes
+  const minFare = best.firstMode.minFare + best.secondMode.minFare
+  return {
+    a: from,
+    b: to,
+    note: 'We could not confirm a direct service on this route, so this is a connection through a major hub. Ask at the terminal about direct buses.',
+    modes: [{
+      kind: 'transfer',
+      name: `Transfer via ${cityName(best.hub)}`,
+      via: `${best.firstMode.name} to ${cityName(best.hub)}, then ${best.secondMode.name} to ${cityName(to)}`,
+      duration: `About ${clock(minutes)} plus connection time`,
+      fare: `From about ₩${minFare.toLocaleString('en-US')}`,
+      minutes,
+      minFare,
+      hubs: [hubAt(best.first, best.firstMode, from), hubAt(best.second, best.secondMode, to)],
+    }],
+  }
+}
+
+/** 화면이 쓰는 입구: 방향과 함께 노선을 돌려준다(reversed 면 hubs 를 뒤집어 읽는다) */
+export function routeBetween(from: CityId, to: CityId) {
+  if (from === to) return undefined
+  const direct = findRoute(from, to)
+  if (direct) return { route: direct, reversed: direct.a !== from, transfer: false }
+  const route = buildTransfer(from, to)
+  return route ? { route, reversed: false, transfer: true } : undefined
+}

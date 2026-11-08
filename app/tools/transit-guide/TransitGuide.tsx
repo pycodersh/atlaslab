@@ -1,10 +1,9 @@
 'use client'
 
-import { useState } from 'react'
-import { CITIES, FROM_HUBS, HUBS, TO_CITIES, findRoute, type City, type CityId, type TransitMode, type TransitRoute } from '@/data/transitRoutes'
+import { useEffect, useState } from 'react'
+import { CITIES, HUBS, routeBetween, type City, type CityId, type TransitMode, type TransitRoute } from '@/data/transitRoutes'
 
 const cityOf = (id: CityId) => CITIES.find(c => c.id === id) as City
-const isHub = (id: CityId) => FROM_HUBS.includes(id)
 const short = (city: City) => city.name.split(' / ')[0]
 
 // 지도는 위경도를 그대로 평면에 옮긴 약도다
@@ -62,7 +61,8 @@ function ModeCard({ mode, reversed, verdict }: { mode: TransitMode; reversed: bo
 }
 
 function verdictFor(mode: TransitMode, route: TransitRoute, toJeju: boolean) {
-  if (route.modes.length === 1) return toJeju ? 'Best Choice' : mode.via ? 'With a change' : 'Direct option'
+  if (mode.via && route.modes.length === 1) return 'With a change'
+  if (route.modes.length === 1) return toJeju && mode.kind === 'flight' ? 'Best Choice' : 'Direct option'
   const fastest = Math.min(...route.modes.map(m => m.minutes))
   const cheapest = Math.min(...route.modes.map(m => m.minFare))
   return [mode.minutes === fastest && 'Fastest', mode.minFare === cheapest && 'Cheapest'].filter(Boolean).join(' · ')
@@ -77,25 +77,33 @@ function flightBanner(route: TransitRoute) {
 export function TransitGuide() {
   const [from, setFrom] = useState<CityId>('seoul')
   const [to, setTo] = useState<CityId>('busan')
-  const route = findRoute(from, to)
+  const found = routeBetween(from, to)
+  const route = found?.route
 
-  const fromOptions = isHub(from) ? FROM_HUBS : [...FROM_HUBS, from]
-  // 노선은 3대 거점 중 한 곳을 끼어야 있다. 스왑으로 출발지가 지방 도시가 되면 도착지는 거점만 고른다
-  const toOptions = (isHub(from) ? [...(from === 'seoul' ? [] : ['seoul' as CityId]), ...TO_CITIES] : FROM_HUBS).filter(id => id !== from)
+  // Hotspot Finder 의 경로 버튼이 ?to=도시 로 도착지를 넘긴다
+  useEffect(() => {
+    const target = new URLSearchParams(location.search).get('to')
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- 주소는 하이드레이션 뒤에만 읽을 수 있다
+    if (target && target !== 'seoul' && CITIES.some(c => c.id === target)) setTo(target as CityId)
+  }, [])
 
+  const toOptions = CITIES.filter(c => c.id !== from)
+
+  // From 과 To 가 같아지면 To 를 다른 도시로 옮긴다
   const chooseFrom = (next: CityId) => {
     setFrom(next)
-    if (next === to) setTo(next === 'busan' ? 'daegu' : 'busan')
+    if (next === to) setTo(next === 'busan' ? 'seoul' : 'busan')
   }
-  const swap = () => { setFrom(to); setTo(from) }
+  const swap = () => {
+    if (from === to) return
+    setFrom(to)
+    setTo(from)
+  }
   const pickOnMap = (id: CityId) => {
-    if (id === from || id === to) return
-    // 지도에서는 언제나 도착지를 고른다. 지방 → 지방 노선은 없으므로 그때는 출발지를 서울로 되돌린다
-    if (!isHub(from) && !isHub(id)) setFrom('seoul')
-    setTo(id)
+    if (id !== from && id !== to) setTo(id)
   }
 
-  const reversed = route ? route.a !== from : false
+  const reversed = found?.reversed ?? false
   const toJeju = to === 'jeju' || from === 'jeju'
   const hasFlight = route?.modes.some(m => m.kind === 'flight') ?? false
 
@@ -162,14 +170,14 @@ export function TransitGuide() {
         <div className="tg-field">
           <label htmlFor="tg-from">From</label>
           <select id="tg-from" className="notranslate" translate="no" value={from} onChange={e => chooseFrom(e.target.value as CityId)}>
-            {fromOptions.map(id => <option key={id} value={id}>{cityOf(id).name}</option>)}
+            {CITIES.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         </div>
         <button type="button" className="tg-swap" aria-label="Swap From and To" onClick={swap}>⇄</button>
         <div className="tg-field">
           <label htmlFor="tg-to">To</label>
           <select id="tg-to" className="notranslate" translate="no" value={to} onChange={e => setTo(e.target.value as CityId)}>
-            {toOptions.map(id => <option key={id} value={id}>{cityOf(id).name}</option>)}
+            {toOptions.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
           </select>
         </div>
       </div>
@@ -188,7 +196,7 @@ export function TransitGuide() {
           <div className={`tg-modes is-${route.modes.length}`}>
             {route.modes.map(mode => <ModeCard key={mode.name} mode={mode} reversed={reversed} verdict={verdictFor(mode, route, toJeju)} />)}
           </div>
-          {!hasFlight && <p className="tg-banner">✈️ Flights: {flightBanner(route)}</p>}
+          {!hasFlight && !found?.transfer && <p className="tg-banner">✈️ Flights: {flightBanner(route)}</p>}
           {route.note && <p className="tg-tipbox">{route.note}</p>}
         </div>
       )}

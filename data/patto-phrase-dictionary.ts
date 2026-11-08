@@ -1217,7 +1217,7 @@ function normalizePhrase(phrase: string): string {
     threw: 'throw', tore: 'tear', understood: 'understand', withdrew: 'withdraw',
   }
 
-  let first = words[0]
+  const first = words[0]
   // Past tense -ed
   if (first.endsWith('ed') && first.length > 4) {
     const base1 = first.slice(0, -2)

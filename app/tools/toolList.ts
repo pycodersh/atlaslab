@@ -1,6 +1,6 @@
 /** 도구 목록 단일 출처 — 홈 배너의 개수, /tools 허브, 도구 페이지의 More tools 가 함께 쓴다 */
 export type ToolGroup = 'Survival' | 'Planning'
-export type ToolId = 'order-builder' | 'subway-timer' | 'krw-converter' | 'transit-guide' | 'weather' | 'kpop-calendar' | 'world-time'
+export type ToolId = 'order-builder' | 'subway-timer' | 'krw-converter' | 'transit-guide' | 'weather' | 'kpop-calendar' | 'world-time' | 'hotspot-finder'
 export type Tool = { id: ToolId; title: string; desc: string; group: ToolGroup }
 
 export const TOOLS: Tool[] = [
@@ -12,6 +12,7 @@ export const TOOLS: Tool[] = [
   { id: 'weather', title: 'Korea Weather', desc: '7-day forecasts for ten cities, with rain chances and what to wear.', group: 'Planning' },
   { id: 'kpop-calendar', title: 'K-Pop Event Calendar', desc: 'Upcoming concerts, global ticketing links, and arena venue guides.', group: 'Planning' },
   { id: 'world-time', title: 'Seoul & World Time', desc: 'Compare Seoul time with hometowns via interactive day/night cards.', group: 'Planning' },
+  { id: 'hotspot-finder', title: 'Regional Hotspot Finder', desc: 'Curated 3-spot half-day walking clusters across 9 cities with zero photo bloat.', group: 'Planning' },
 ]
 
 export const toolHref = (id: ToolId) => `/tools/${id}`

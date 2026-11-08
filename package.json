@@ -8,7 +8,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "deploy:local": "vercel pull --yes --environment=production && vercel build --prod && vercel deploy --prebuilt --prod",
     "start": "next start",
     "lint": "eslint",
     "test:env": "tsx scripts/test-paddle-env.ts",
