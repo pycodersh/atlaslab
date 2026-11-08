@@ -37,7 +37,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Blog posts + listing pages — is_paused=false 조건 필수 (감춰진 글 제외)
   let blogPages: MetadataRoute.Sitemap = []
-  let blogListingPages: MetadataRoute.Sitemap = []
+  const blogListingPages: MetadataRoute.Sitemap = []
   try {
     const supabase = createAdminClient()
     const { data } = await supabase

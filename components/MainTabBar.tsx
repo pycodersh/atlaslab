@@ -59,7 +59,6 @@ const HIDE_PATHS = ['/patto/onboarding', '/patto/onboarding/language']
 
 export function MainTabBar() {
   const pathname = usePathname()
-  if (HIDE_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'))) return null
   const [scrolledDown, setScrolledDown] = useState(false)
   const lastYRef = useRef(0)
 
@@ -97,6 +96,9 @@ export function MainTabBar() {
       window.removeEventListener('patto-container-scroll', handleContainerScroll)
     }
   }, [])
+
+  // 훅 호출 순서가 경로에 따라 달라지지 않도록 모든 훅 뒤에서 숨긴다
+  if (HIDE_PATHS.some(p => pathname === p || pathname.startsWith(p + '/'))) return null
 
   return (
     <div

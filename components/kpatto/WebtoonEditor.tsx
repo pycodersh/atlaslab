@@ -362,7 +362,7 @@ function EditableBubble({
     const mx = e.clientX - (bubbleLeft + cx * bubbleW)
     const my = e.clientY - (bubbleTop  + cy * bubbleH)
     // Project angle: normalize by oval radii
-    let θ = Math.atan2(my / (ry * bubbleH), mx / (rx * bubbleW))
+    const θ = Math.atan2(my / (ry * bubbleH), mx / (rx * bubbleW))
     let anchor = θ / (2 * Math.PI)
     if (anchor < 0) anchor += 1
     onTailChange(b.id, { ...b.tail, anchor })

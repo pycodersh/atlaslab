@@ -44,7 +44,7 @@ export function WordSavePopup({ storyId, sourceType, containerRef, paragraphs }:
 
         // 원본 문장 찾기
         let sentence = ''
-        let node = range.commonAncestorContainer
+        const node = range.commonAncestorContainer
         let el: Element | null =
           node.nodeType === Node.ELEMENT_NODE
             ? (node as Element)
