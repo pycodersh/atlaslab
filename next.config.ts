@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // /tools/sw.js 가 /tools 허브(끝 슬래시 없음)까지 맡으려면 기본 범위 /tools/ 를 넓혀야 한다
+  async headers() {
+    return [{ source: '/tools/sw.js', headers: [{ key: 'Service-Worker-Allowed', value: '/tools' }] }]
+  },
   async redirects() {
     return [
       // 홈 게이트웨이 카드 주소 — 전용 페이지가 생기기 전까지 /blog 탭으로 보낸다(나중에 페이지를 만들 수 있게 임시 이동)

@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 export function OfflineRegister() {
   useEffect(() => {
     if (process.env.NODE_ENV !== 'production' || !('serviceWorker' in navigator)) return
-    navigator.serviceWorker.register('/tools/sw.js', { scope: '/tools/' }).catch(() => undefined)
+    navigator.serviceWorker.register('/tools/sw.js', { scope: '/tools' }).catch(() => undefined)
   }, [])
   return null
 }

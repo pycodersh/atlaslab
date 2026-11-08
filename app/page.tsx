@@ -3,7 +3,7 @@ import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SectionHeader } from '@/components/SectionHeader'
 import { GatewaySection, type GatewayCard } from '@/components/home/GatewaySection'
-import { TrainFront, UtensilsCrossed, Timer, Banknote, Ticket, Clock } from 'lucide-react'
+import { ToolsHubBanner } from '@/components/home/ToolsHubBanner'
 import { HomeCategoryBar, type HomeTab } from '@/components/HomeCategoryBar'
 import { HomeSearch, type SearchDoc } from '@/components/HomeSearch'
 import { LeadMagnetBanner } from '@/components/LeadMagnetBanner'
@@ -193,39 +193,6 @@ export default async function AtlasLabHome() {
       key: 'life', title: 'Korea Life',
       desc: 'Subway navigation, T-Money, and everyday survival tips.',
       href: '/life', thumb: thumbOf('korean-subway-etiquette-guide'), thumbAlt: 'Seoul subway platform',
-    },
-  ]
-  const toolCards: GatewayCard[] = [
-    {
-      key: 'order-builder', title: 'K-Food Order Builder',
-      desc: 'Build polite ordering phrases for 28 dishes and show staff.',
-      href: '/tools/order-builder', icon: <UtensilsCrossed size={22} strokeWidth={1.75} />,
-    },
-    {
-      key: 'subway-timer', title: '15-Min Subway Timer',
-      desc: 'Tapped the wrong gate? Track Seoul Metro free re-entry rules.',
-      href: '/tools/subway-timer', icon: <Timer size={22} strokeWidth={1.75} />,
-    },
-    {
-      key: 'krw-converter', title: 'KRW Price Sense',
-      // 환율은 하루 한 번 갱신된다 — 'Real-time' 이라 쓰지 않는다
-      desc: 'Daily-rate Won converter with street food & meal price benchmarks.',
-      href: '/tools/krw-converter', icon: <Banknote size={22} strokeWidth={1.75} />,
-    },
-    {
-      key: 'transit-guide', title: 'Intercity Transit Guide',
-      desc: 'Compare KTX, flights, and buses with arrival hub connection tips.',
-      href: '/tools/transit-guide', icon: <TrainFront size={22} strokeWidth={1.75} />,
-    },
-    {
-      key: 'kpop-calendar', title: 'K-Pop Event Calendar',
-      desc: 'Upcoming concerts, global ticketing links, and arena venue guides.',
-      href: '/tools/kpop-calendar', icon: <Ticket size={22} strokeWidth={1.75} />,
-    },
-    {
-      key: 'world-time', title: 'Seoul & World Time',
-      desc: 'Compare Seoul time with hometowns via interactive day/night cards.',
-      href: '/tools/world-time', icon: <Clock size={22} strokeWidth={1.75} />,
     },
   ]
   // 바로가기 바는 헤더 드로어와 같은 3대 축(Our Apps · Learn Korean · Travel & Life) — 각 게이트웨이 섹션으로 간다
@@ -599,7 +566,7 @@ export default async function AtlasLabHome() {
       <div className="wrap gw-wrap">
         <GatewaySection id="learn-korean" variant="learn" title={AXIS_LABELS.korean} desc="Start with essential phrases and basics." cards={learnCards} />
         <GatewaySection id="travel-life" variant="guide" title={AXIS_LABELS.guides} desc="Solve everyday problems and enjoy your trip." cards={guideCards} />
-        <GatewaySection id="tools" variant="tool" title="Smart Travel Tools" desc="Instant, offline-friendly tools designed for your Seoul trip." cards={toolCards} />
+        <ToolsHubBanner />
       </div>
 
       {/* ── Why Atlas Lab ── */}
