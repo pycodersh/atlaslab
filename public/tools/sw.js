@@ -5,8 +5,8 @@
  *   /_next/static  cache-first (파일명에 해시가 있어 내용이 바뀌지 않는다)
  * 캐시 구조를 바꾸면 CACHE 의 숫자를 올린다(옛 캐시는 activate 때 지운다).
  */
-const CACHE = 'atlas-tools-v1'
-const PAGES = ['/tools/order-builder', '/tools/subway-timer', '/tools/krw-converter']
+const CACHE = 'atlas-tools-v2'
+const PAGES = ['/tools/transit-guide', '/tools/order-builder', '/tools/subway-timer', '/tools/krw-converter', '/tools/kpop-calendar', '/tools/world-time']
 const NETWORK_WAIT_MS = 3000
 
 async function precache() {
