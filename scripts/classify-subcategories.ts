@@ -34,7 +34,7 @@ async function main() {
   if (error) throw error
 
   const unpinned: string[] = []
-  for (const section of ['food', 'life']) {
+  for (const section of ['phrases', 'basics', 'food', 'life']) {
     const subs = subcategoriesFor(section)
     const rows = (data ?? []).filter(r => topicSectionKey(r.app, r.category) === section)
     console.log(`\n══ ${section} (${rows.length}편) ══`)

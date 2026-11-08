@@ -1,22 +1,22 @@
 /**
- * 블로그 하위 분류(서브 카테고리) — Basics / Korean food / Life in Korea 목록의 칩 필터(Explore Korea 는 category 로).
+ * 블로그 하위 분류(서브 카테고리) — Phrases / Basics / Food / Life 목록의 칩 필터(Explore Korea 는 category 로). 대분류마다 2~3개만 둔다.
  *
  * 저장 위치: DB 컬럼이 아니라 이 파일이다.
  *  - blog_posts 에 컬럼을 추가하면 마이그레이션을 사람이 SQL 에디터에서 따로 돌려야 하고,
  *    돌리기 전에 배포되면 select 가 통째로 실패한다. 코드 쪽에 두면 푸시만으로 끝난다.
  *  - 기존 글은 SUBCATEGORY_OVERRIDES 에 슬러그별로 못 박아 둔다(제목만으로는 애매한 글이 있다).
  *  - 새로 자동 생성되는 글은 오버라이드에 없으므로 classifyBySubcategoryRules 가 제목·슬러그로 분류한다.
- *    규칙이 못 잡으면 섹션의 마지막 분류(문화·일상)로 떨어져 어떤 글도 필터에서 사라지지 않는다.
+ *    규칙이 못 잡으면 섹션의 마지막 분류로 떨어져 어떤 글도 필터에서 사라지지 않는다.
  *  - 재분류 검토는 scripts/classify-subcategories.ts 로 한다.
  *
  * 다중 태깅: 글의 대표 분류(위 오버라이드 · 규칙)는 하나지만, SECONDARY_TAGS 로 다른 칩 · 다른 탭에도 걸 수 있다.
- * 태그는 'group/sub' 형식이다(예: 남이섬 = 대표 Explore Korea/Places + 'life/transit').
+ * 태그는 'group/sub' 형식이다(예: 남이섬 = 대표 Explore Korea/Places + 'life/getting-around').
  * 목록은 subcategoriesOf(배열)와 includes 로 거르고, 다른 탭 태그가 있으면 그 탭 목록에도 나온다.
  * 대표 분류는 검색 의도로 정한다: 무엇을 먹을까 → Food, 어떻게 움직이고 대처할까 → Life, 어디를 갈까 → Explore Korea.
  */
 import { topicSectionKey, type BlogGroupKey } from './sections'
 
-export type Subcategory = { key: string; label: string }
+export type Subcategory = { key: string; label: string; short?: string }
 
 /** 섹션별 서브 카테고리. 배열 순서가 칩 순서다. 마지막 항목이 기본값(fallback)이다. */
 export const SUBCATEGORIES: Partial<Record<BlogGroupKey, readonly Subcategory[]>> = {
@@ -25,38 +25,25 @@ export const SUBCATEGORIES: Partial<Record<BlogGroupKey, readonly Subcategory[]>
     { key: 'hotels', label: 'Hotels' },
     { key: 'places', label: 'Places' },
   ],
-  // Phrases(/blog?tab=phrases) — 상황별. 모두 category 'Real-Life Korean' 이고 칩은 슬러그 매핑 · 제목 규칙으로 나눈다
+  // 대분류마다 2~3개만 둔다. 폰에서는 short 를 써서 칩이 한 줄에 들어오게 한다
   phrases: [
-    { key: 'cafes', label: 'Cafes' },
-    { key: 'dining', label: 'Restaurants & Food' },
-    { key: 'shopping', label: 'Shopping' },
-    { key: 'transport', label: 'Getting Around' },
-    { key: 'hotels', label: 'Hotels & Stays' },
-    { key: 'leisure', label: 'Fun & Going Out' },
-    { key: 'everyday', label: 'Everyday & Health' },
+    { key: 'survival', label: 'Survival & Order', short: 'Survival' },
+    { key: 'social', label: 'Social & Casual', short: 'Social' },
   ],
-  // Basics(/blog?tab=basics) — DB category 는 그대로(Korean Grammar · Hangul & Pronunciation …) 두고 칩만 여기서 나눈다
+  // DB category 는 그대로(Korean Grammar · Hangul & Pronunciation …) 두고 칩만 여기서 나눈다
   basics: [
-    { key: 'hangul', label: 'Hangul & Pronunciation' },
-    { key: 'numbers', label: 'Numbers & Counters' },
-    { key: 'endings', label: 'Sentence Endings & Nuances' },
-    { key: 'grammar', label: 'Core Grammar & Particles' },
+    { key: 'hangul', label: 'Hangul & Pronunciation', short: 'Hangul' },
+    { key: 'grammar', label: 'Core Grammar & Rules', short: 'Grammar' },
   ],
   food: [
-    { key: 'bbq', label: 'BBQ & Meat' },
-    { key: 'soups', label: 'Soups & Stews' },
-    { key: 'street', label: 'Street Food & Snacks' },
-    { key: 'meals', label: 'Classic Meals' },
-    { key: 'pantry', label: 'Pantry & Substitutes' },
-    { key: 'culture', label: 'Food Culture & Drinks' },
+    { key: 'dishes', label: 'Must-Try Dishes', short: 'Dishes' },
+    { key: 'street', label: 'Street Food & Snacks', short: 'Street Food' },
+    { key: 'culture', label: 'Dining Culture & Rules', short: 'Culture' },
   ],
   life: [
-    { key: 'transit', label: 'Transit' },
-    { key: 'apps', label: 'Apps & Connectivity' },
-    { key: 'money', label: 'Money & Shopping' },
-    { key: 'essentials', label: 'Health, Safety & Admin' },
-    { key: 'etiquette', label: 'Etiquette & Eating Out' },
-    { key: 'daily', label: 'Daily Culture' },
+    { key: 'getting-around', label: 'Getting Around', short: 'Transit' },
+    { key: 'etiquette', label: 'Local Etiquette', short: 'Etiquette' },
+    { key: 'essentials', label: 'Travel Essentials', short: 'Essentials' },
   ],
 }
 
@@ -73,65 +60,61 @@ export function isValidSubcategory(section: string, sub: string | undefined): su
 
 /** 기존 글의 확정 분류 (slug → 서브 카테고리 key). 섹션은 슬러그가 속한 섹션으로 정해진다. */
 export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
-  // ── Phrases ────────────────────────────────────────────────
-  // Cafes
-  'korean-cafe-words-you-need': 'cafes',
-  'return-tray-korean-cafe': 'cafes',
-  'where-is-the-bathroom-korean-cafe': 'cafes',
-  'korean-cafe-wifi-and-outlets': 'cafes',
-  'for-here-or-to-go-korean': 'cafes',
-  'order-iced-americano-korea': 'cafes',
-  'how-to-order-at-a-korean-cafe': 'cafes',
-  // Restaurants & Food
-  'spicy-food-korean-phrases': 'dining',
-  'pay-at-table-or-counter-korea': 'dining',
-  'korean-bbq-alone-2-servings': 'dining',
-  'order-non-spicy-food-korea': 'dining',
-  'korean-restaurant-call-bell': 'dining',
-  'are-side-dishes-free-in-korea': 'dining',
-  'how-to-order-at-a-korean-restaurant': 'dining',
-  'ordering-korean-street-food': 'dining',
-  'ordering-food-delivery-in-korea': 'dining',
-  // Shopping — 올리브영 · 편의점 · 시장 · 옷
-  'paying-at-olive-young-korea': 'shopping',
-  'asking-recommendations-olive-young-korea': 'shopping',
-  'finding-items-olive-young-korea': 'shopping',
-  'k-beauty-store-korean-vocabulary': 'shopping',
-  'show-id-buying-alcohol-korea': 'shopping',
-  'one-plus-one-convenience-store-korea': 'shopping',
-  'need-a-bag-korean-checkout': 'shopping',
-  'cup-ramen-convenience-store-korea': 'shopping',
-  'korean-convenience-store-phrases': 'shopping',
-  'shopping-at-a-korean-traditional-market': 'shopping',
-  'buying-clothes-in-korean': 'shopping',
-  // Getting Around
-  'giving-seat-elderly-korea-bus': 'transport',
-  'asking-bus-destination-korea': 'transport',
-  'paying-for-taxi-korea': 'transport',
-  'taxi-where-to-go-korea': 'transport',
-  'asking-for-directions-in-korean': 'transport',
-  'korean-subway-phrases-first-trip': 'transport',
-  // Hotels & Stays
-  'hotel-check-in-korea': 'hotels',
-  'hotel-luggage-storage-korea': 'hotels',
-  'hotel-late-checkout-korea': 'hotels',
-  'hotel-airport-shuttle-korea': 'hotels',
-  // Fun & Going Out
-  'korean-noraebang-phrases': 'leisure',
-  'adding-time-coin-norebang-korea': 'leisure',
-  'how-to-search-songs-korean-norebang': 'leisure',
-  'how-to-use-korean-photo-booth': 'leisure',
-  'picking-background-korean-photo-booth': 'leisure',
-  'han-river-picnic-korean-phrases': 'leisure',
-  'visiting-a-korean-palace-phrases': 'leisure',
-  // Everyday & Health
-  'korean-pharmacy-what-to-say': 'everyday',
-  'seeing-a-doctor-in-korea': 'everyday',
-  'lifting-heavy-box-korean': 'everyday',
+  // ── Phrases ──────────────────────────────────────────────────
+  // Survival & Order — 식당 · 카페 · 쇼핑 · 결제 · 길 찾기 · 숙소 · 약국처럼 현장에서 해결해야 하는 말
+  'korean-cafe-words-you-need': 'survival',
+  'return-tray-korean-cafe': 'survival',
+  'where-is-the-bathroom-korean-cafe': 'survival',
+  'korean-cafe-wifi-and-outlets': 'survival',
+  'for-here-or-to-go-korean': 'survival',
+  'order-iced-americano-korea': 'survival',
+  'how-to-order-at-a-korean-cafe': 'survival',
+  'spicy-food-korean-phrases': 'survival',
+  'pay-at-table-or-counter-korea': 'survival',
+  'korean-bbq-alone-2-servings': 'survival',
+  'order-non-spicy-food-korea': 'survival',
+  'korean-restaurant-call-bell': 'survival',
+  'are-side-dishes-free-in-korea': 'survival',
+  'how-to-order-at-a-korean-restaurant': 'survival',
+  'ordering-korean-street-food': 'survival',
+  'ordering-food-delivery-in-korea': 'survival',
+  'paying-at-olive-young-korea': 'survival',
+  'asking-recommendations-olive-young-korea': 'survival',
+  'finding-items-olive-young-korea': 'survival',
+  'k-beauty-store-korean-vocabulary': 'survival',
+  'show-id-buying-alcohol-korea': 'survival',
+  'one-plus-one-convenience-store-korea': 'survival',
+  'need-a-bag-korean-checkout': 'survival',
+  'cup-ramen-convenience-store-korea': 'survival',
+  'korean-convenience-store-phrases': 'survival',
+  'shopping-at-a-korean-traditional-market': 'survival',
+  'buying-clothes-in-korean': 'survival',
+  'asking-bus-destination-korea': 'survival',
+  'paying-for-taxi-korea': 'survival',
+  'taxi-where-to-go-korea': 'survival',
+  'asking-for-directions-in-korean': 'survival',
+  'korean-subway-phrases-first-trip': 'survival',
+  'hotel-check-in-korea': 'survival',
+  'hotel-luggage-storage-korea': 'survival',
+  'hotel-late-checkout-korea': 'survival',
+  'hotel-airport-shuttle-korea': 'survival',
+  'visiting-a-korean-palace-phrases': 'survival',
+  'korean-pharmacy-what-to-say': 'survival',
+  'seeing-a-doctor-in-korea': 'survival',
+  'korean-restaurant-drop-yo-water': 'survival',
+  'korean-shopping-try-on-clothes': 'survival',
+  // Social & Casual — 인사 · 스몰토크 · 친구와 노는 자리의 말
+  'giving-seat-elderly-korea-bus': 'social',
+  'korean-noraebang-phrases': 'social',
+  'adding-time-coin-norebang-korea': 'social',
+  'how-to-search-songs-korean-norebang': 'social',
+  'how-to-use-korean-photo-booth': 'social',
+  'picking-background-korean-photo-booth': 'social',
+  'han-river-picnic-korean-phrases': 'social',
+  'lifting-heavy-box-korean': 'social',
 
-  // ── Basics ─────────────────────────────────────────────────
-  // 겹치는 글 두 쌍(숫자 체계 ×2, 은/는 vs 이/가 ×2)은 지금은 둘 다 두고 같은 칩에 묶는다
-  // Hangul & Pronunciation — 자모 · 발음 · 받침 · 표기 · 입력 · 방언
+  // ── Basics ──────────────────────────────────────────────────
+  // Hangul & Pronunciation — 자모 · 받침 · 발음 · 표기 · 숫자 읽기
   'how-to-read-hangul-in-one-day': 'hangul',
   'korean-vowels-all-21-explained': 'hangul',
   'korean-consonants-19-basic-sounds': 'hangul',
@@ -143,25 +126,23 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'korean-romanization-two-spellings': 'hangul',
   'how-to-type-korean-phone-computer': 'hangul',
   'busan-dialect-vs-seoul-korean': 'hangul',
-  // Numbers & Counters — 숫자 체계 · 단위명사 · 가격 · 날짜 · 나이
-  'korean-two-number-systems': 'numbers',
-  'korean-counters-gae-myeong-jan-byeong': 'numbers',
-  'korean-prices-money-eolmayeyo': 'numbers',
-  'korean-dates-days-of-week': 'numbers',
-  'korean-age-sal-man-nai': 'numbers',
-  // Sentence Endings & Nuances — 어미 활용 · 시제 · 높임 · 연결 · 부탁
-  'korean-verb-conjugation-ayo-eoyo': 'endings',
-  'korean-past-tense-explained': 'endings',
-  'korean-future-tense-eul-geoyeyo': 'endings',
-  'korean-irregular-verbs-seven-types': 'endings',
-  'korean-have-you-ever-eo-boda': 'endings',
-  'korean-can-su-itda-eopda': 'endings',
-  'korean-connecting-go-vs-myeonseo': 'endings',
-  'korean-politeness-levels-explained': 'endings',
-  'korean-never-say-dangsin-neo': 'endings',
-  'korean-requests-a-eo-juseyo': 'endings',
-  'korean-because-aseo-vs-euni-kka': 'endings',
-  // Core Grammar & Particles — 조사 · 어순 · 부정 · 문법 비교, 입문 개관 글
+  'korean-two-number-systems': 'hangul',
+  'korean-counters-gae-myeong-jan-byeong': 'hangul',
+  'korean-prices-money-eolmayeyo': 'hangul',
+  'korean-dates-days-of-week': 'hangul',
+  'korean-age-sal-man-nai': 'hangul',
+  // Core Grammar & Rules — 조사 · 어순 · 시제 · 어미 · 높임
+  'korean-verb-conjugation-ayo-eoyo': 'grammar',
+  'korean-past-tense-explained': 'grammar',
+  'korean-future-tense-eul-geoyeyo': 'grammar',
+  'korean-irregular-verbs-seven-types': 'grammar',
+  'korean-have-you-ever-eo-boda': 'grammar',
+  'korean-can-su-itda-eopda': 'grammar',
+  'korean-connecting-go-vs-myeonseo': 'grammar',
+  'korean-politeness-levels-explained': 'grammar',
+  'korean-never-say-dangsin-neo': 'grammar',
+  'korean-requests-a-eo-juseyo': 'grammar',
+  'korean-because-aseo-vs-euni-kka': 'grammar',
   'korean-particle-euro-by-to-as': 'grammar',
   'korean-particles-e-vs-eseo': 'grammar',
   'korean-topic-vs-subject-particle': 'grammar',
@@ -173,32 +154,43 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'korean-vs-japanese-what-transfers': 'grammar',
   'what-k-drama-titles-teach-you-about-korean': 'grammar',
 
-  // ── Korean food ────────────────────────────────────────────
-  // BBQ & Meat
-  'how-to-eat-korean-bossam': 'bbq',
-  'chimaek-korean-fried-chicken-beer-guide': 'bbq',
-  'bulgogi-vs-galbi-korean-beef-guide': 'bbq',
-  'why-korean-marinades-use-asian-pear': 'bbq',
-  'korean-vs-american-fried-chicken': 'bbq',
-  'galbijjim-vs-western-beef-stew': 'bbq',
-  'korean-bbq-fried-rice-guide': 'bbq',
-  'korean-ssambap-dining-guide': 'bbq',
-  'chuncheon-dakgalbi-at-home': 'bbq',
-  'jeju-black-pork-vs-samgyeopsal': 'bbq',
-  'andong-jjimdak-why-soy-not-spicy': 'bbq',
-  // Soups & Stews
-  'kalguksu-knife-cut-noodle-soup-ordering-guide': 'soups',
-  'korean-ttukbaegi-cooking-guide': 'soups',
-  'seolleongtang-seasoning-guide-ox-bone-soup': 'soups',
-  'haejangguk-korean-hangover-soups-guide': 'soups',
-  'budae-jjigae-korean-army-stew-guide': 'soups',
-  'sundubu-jjigae-ordering-guide': 'soups',
-  'samgyetang-korean-ginseng-chicken-soup-guide': 'soups',
-  'gukbap-and-juk-korean-comfort-food': 'soups',
-  'korean-guk-tang-jjigae-jeongol-explained': 'soups',
-  'kimchi-jjigae-vs-doenjang-jjigae': 'soups',
-  'korean-anchovy-stock-guide': 'soups',
-  // Street Food & Snacks
+  // ── Korean food ──────────────────────────────────────────────────
+  // Must-Try Dishes — 고기 · 국물 · 밥 · 면 대표 요리
+  'how-to-eat-korean-bossam': 'dishes',
+  'chimaek-korean-fried-chicken-beer-guide': 'dishes',
+  'bulgogi-vs-galbi-korean-beef-guide': 'dishes',
+  'why-korean-marinades-use-asian-pear': 'dishes',
+  'korean-vs-american-fried-chicken': 'dishes',
+  'galbijjim-vs-western-beef-stew': 'dishes',
+  'korean-bbq-fried-rice-guide': 'dishes',
+  'korean-ssambap-dining-guide': 'dishes',
+  'chuncheon-dakgalbi-at-home': 'dishes',
+  'jeju-black-pork-vs-samgyeopsal': 'dishes',
+  'andong-jjimdak-why-soy-not-spicy': 'dishes',
+  'kalguksu-knife-cut-noodle-soup-ordering-guide': 'dishes',
+  'korean-ttukbaegi-cooking-guide': 'dishes',
+  'seolleongtang-seasoning-guide-ox-bone-soup': 'dishes',
+  'haejangguk-korean-hangover-soups-guide': 'dishes',
+  'budae-jjigae-korean-army-stew-guide': 'dishes',
+  'sundubu-jjigae-ordering-guide': 'dishes',
+  'samgyetang-korean-ginseng-chicken-soup-guide': 'dishes',
+  'gukbap-and-juk-korean-comfort-food': 'dishes',
+  'korean-guk-tang-jjigae-jeongol-explained': 'dishes',
+  'kimchi-jjigae-vs-doenjang-jjigae': 'dishes',
+  'korean-anchovy-stock-guide': 'dishes',
+  'gyeran-jjim-korean-steamed-egg-guide': 'dishes',
+  'korean-japchae-guide': 'dishes',
+  'jajangmyeon-vs-jjamppong-korean-chinese-food': 'dishes',
+  'gyeongju-ssambap-what-is-it': 'dishes',
+  'mackerel-jorim-vs-galchi-jorim': 'dishes',
+  'busan-milmyeon-vs-naengmyeon': 'dishes',
+  'jeonju-bibimbap-vs-regular-bibimbap': 'dishes',
+  'easy-korean-dishes-for-beginners': 'dishes',
+  'korean-namul-vegetable-side-dishes': 'dishes',
+  'how-to-cook-korean-rice': 'dishes',
+  'korean-dishes-with-kimchi-rice-and-eggs': 'dishes',
+  'baechu-vs-kkakdugi-kimchi-guide': 'dishes',
+  // Street Food & Snacks — 분식 · 시장 · 편의점 · 간식
   'korean-mandu-dumplings-types-cooking-guide': 'street',
   'korean-goguma-guide': 'street',
   'kimbap-ingredients-ordering-guide-korea': 'street',
@@ -208,40 +200,25 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'tteokbokki-tteok-vs-tteokguk-tteok-comparison': 'street',
   'korean-convenience-store-combo-meals': 'street',
   'sundae-differs-by-region': 'street',
-  // 원래 Life 글이었으나 방문 목적이 분식·길거리 음식이라 category 를 Cooking Basics 로 옮겨 food 에 둔다
   'gwangjang-market-guide': 'street',
   'what-is-tteokbokki-how-spicy': 'street',
   'instant-ramyeon-upgrade-guide': 'street',
   'hongdae-street-food-guide': 'street',
-  // Classic Meals
-  'gyeran-jjim-korean-steamed-egg-guide': 'meals',
-  'korean-japchae-guide': 'meals',
-  'jajangmyeon-vs-jjamppong-korean-chinese-food': 'meals',
-  'gyeongju-ssambap-what-is-it': 'meals',
-  'mackerel-jorim-vs-galchi-jorim': 'meals',
-  'busan-milmyeon-vs-naengmyeon': 'meals',
-  'jeonju-bibimbap-vs-regular-bibimbap': 'meals',
-  'easy-korean-dishes-for-beginners': 'meals',
-  'korean-namul-vegetable-side-dishes': 'meals',
-  'how-to-cook-korean-rice': 'meals',
-  'korean-dishes-with-kimchi-rice-and-eggs': 'meals',
   'myeongdong-street-food-guide': 'street',
-  // Pantry & Substitutes — 재료를 사고 · 바꾸고 · 보관하는 글
-  'gim-nori-miyeok-dasima-korean-seaweed': 'pantry',
-  'doenjang-vs-miso-substitute': 'pantry',
-  'gochugaru-vs-chili-flakes-substitute': 'pantry',
-  'what-is-perilla-leaf-substitute': 'pantry',
-  'how-long-do-korean-pantry-staples-last': 'pantry',
-  'cook-korean-food-without-korean-grocery-store': 'pantry',
-  'sesame-oil-vs-perilla-oil': 'pantry',
-  'how-to-buy-store-and-use-kimchi': 'pantry',
-  'korean-pantry-first-ingredients': 'pantry',
-  'korean-soy-sauce-types': 'pantry',
-  'gochujang-substitutes': 'pantry',
-  'gochujang-vs-gochugaru-vs-doenjang': 'pantry',
-  // Food Culture & Drinks — 음식 문화 · 술 · 지역 · 식단 질문
+  // Dining Culture & Rules — 먹는 법 · 메뉴 읽기 · 술 · 지역 음식 · 재료 이해
+  'gim-nori-miyeok-dasima-korean-seaweed': 'culture',
+  'doenjang-vs-miso-substitute': 'culture',
+  'gochugaru-vs-chili-flakes-substitute': 'culture',
+  'what-is-perilla-leaf-substitute': 'culture',
+  'how-long-do-korean-pantry-staples-last': 'culture',
+  'cook-korean-food-without-korean-grocery-store': 'culture',
+  'sesame-oil-vs-perilla-oil': 'culture',
+  'how-to-buy-store-and-use-kimchi': 'culture',
+  'korean-pantry-first-ingredients': 'culture',
+  'korean-soy-sauce-types': 'culture',
+  'gochujang-substitutes': 'culture',
+  'gochujang-vs-gochugaru-vs-doenjang': 'culture',
   'guide-to-sikhye-and-sujeonggwa': 'culture',
-  'baechu-vs-kkakdugi-kimchi-guide': 'culture',
   'soju-makgeolli-cheongju-korea-guide': 'culture',
   'korean-songpyeon-pine-needles-science': 'culture',
   'regional-korean-food-map': 'culture',
@@ -252,45 +229,26 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'is-korean-food-spicy': 'culture',
   'noryangjin-fish-market-guide-how-to-eat-hoe': 'culture',
 
-  // ── Life in Korea ──────────────────────────────────────────
-  // Transit
-  'jeju-island-without-a-car': 'transit',
-  'korean-subway-etiquette-guide': 'transit',
-  'how-to-ride-city-buses-in-seoul': 'transit',
-  'seoul-taxi-cheapest-kakao-uber': 'transit',
-  'how-to-book-ktx-tickets-foreigner': 'transit',
-  'ktx-vs-express-bus-korea-day-trips': 'transit',
-  'climate-card-vs-t-money-seoul': 'transit',
-  'hands-free-seoul-subway-lockers-guide': 'transit',
-  'seoul-subway-transfer-transit-card-guide': 'transit',
-  'korea-taxi-survival-guide': 'transit',
-  'incheon-airport-survival-guide': 'transit',
-  // Apps & Connectivity
-  'korean-fine-dust-apps-mask-guide': 'apps',
-  'korean-delivery-apps-tourists': 'apps',
-  'korea-tourist-sim-vs-esim-airport-guide': 'apps',
-  'google-maps-alternatives-korea': 'apps',
-  'korean-road-name-address-vs-lot-number-guide': 'apps',
-  // Money & Shopping
-  'korea-currency-exchange-cards-wowpass-guide': 'money',
-  'foreign-credit-cards-global-atm-korea': 'money',
-  'olive-young-instant-tax-refund-guide': 'money',
-  'zero-tipping-split-bills-korea': 'money',
-  'jeonse-vs-wolse-korean-rental-deposits-foreigners': 'money',
-  'mobile-payment-apple-pay-korea-foreigners': 'money',
-  // Health, Safety & Admin — 아프거나 · 위급하거나 · 서류 · 쓰레기 · 택배처럼 '처리해야 하는 일'
-  'korea-arrival-card-keta-guide': 'essentials',
-  'is-korea-safe-emergency-numbers-tourists': 'essentials',
-  'late-night-medicine-korea-clinics-guide': 'essentials',
-  'korean-national-health-insurance-foreigners': 'essentials',
-  'how-to-get-arc-korea-student': 'essentials',
-  'public-restrooms-korea-guide': 'essentials',
-  'where-are-trash-cans-in-seoul': 'essentials',
-  'how-korean-apartment-recycling-works': 'essentials',
-  'sending-packages-in-korea-post-office-convenience-store-lockers': 'essentials',
-  'packing-guide-korea-by-season': 'essentials',
-  'korea-coin-laundromat-guide': 'essentials',
-  // Etiquette & Eating Out — 식당 · 카페 · 편의점에서의 주문과 매너
+  // ── Life in Korea ──────────────────────────────────────────────────
+  // Getting Around — 지하철 · 버스 · 택시 · KTX · 지도 · 주소
+  'jeju-island-without-a-car': 'getting-around',
+  'korean-subway-etiquette-guide': 'getting-around',
+  'how-to-ride-city-buses-in-seoul': 'getting-around',
+  'seoul-taxi-cheapest-kakao-uber': 'getting-around',
+  'how-to-book-ktx-tickets-foreigner': 'getting-around',
+  'ktx-vs-express-bus-korea-day-trips': 'getting-around',
+  'climate-card-vs-t-money-seoul': 'getting-around',
+  'hands-free-seoul-subway-lockers-guide': 'getting-around',
+  'seoul-subway-transfer-transit-card-guide': 'getting-around',
+  'korea-taxi-survival-guide': 'getting-around',
+  'incheon-airport-survival-guide': 'getting-around',
+  'google-maps-alternatives-korea': 'getting-around',
+  'korean-road-name-address-vs-lot-number-guide': 'getting-around',
+  // Local Etiquette — 매너 · 카페 · 화장실 · 쓰레기 · 일상 문화
+  'zero-tipping-split-bills-korea': 'etiquette',
+  'public-restrooms-korea-guide': 'etiquette',
+  'where-are-trash-cans-in-seoul': 'etiquette',
+  'how-korean-apartment-recycling-works': 'etiquette',
   'korean-table-etiquette-spoon-chopsticks-guide': 'etiquette',
   'korean-gift-giving-etiquette-guide': 'etiquette',
   'korean-restaurant-ordering-guide': 'etiquette',
@@ -301,16 +259,31 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
   'samgyeopsal-hanwoo-chadolbaegi-korean-bbq': 'etiquette',
   'korean-convenience-store-dining-guide': 'etiquette',
   'nunchi-korean-reading-the-room': 'etiquette',
-  // Daily Culture — 규칙이 엉뚱하게 잡는 글이 있어(한강공원·찜질방 등) 기존 글은 전부 못 박는다
-  'han-river-parks-seoul-guide': 'daily',
-  'korean-templestay-booking-guide-for-foreigners': 'daily',
-  // hanok-stay-korea-booking-etiquette 는 2026-11-05 category 를 Places 로 옮겼다(대표 = Explore Korea/Places). Life 에는 아래 SECONDARY_TAGS 로 남는다
-  'korean-bathhouse-jjimjilbang-guide': 'daily',
-  'noraebang-korean-karaoke-guide': 'daily',
-  'korean-internet-slang-guide': 'daily',
-  'korean-new-year-seollal-explained': 'daily',
-  'korean-age-system-explained': 'daily',
-  'konglish-words-when-english-becomes-korean': 'daily',
+  'han-river-parks-seoul-guide': 'etiquette',
+  'korean-templestay-booking-guide-for-foreigners': 'etiquette',
+  'korean-bathhouse-jjimjilbang-guide': 'etiquette',
+  'noraebang-korean-karaoke-guide': 'etiquette',
+  'korean-internet-slang-guide': 'etiquette',
+  'korean-new-year-seollal-explained': 'etiquette',
+  'korean-age-system-explained': 'etiquette',
+  'konglish-words-when-english-becomes-korean': 'etiquette',
+  // Travel Essentials — SIM · 결제 · 환전 · 택스리펀 · 입국 · 의료 · 안전 · 행정
+  'korean-fine-dust-apps-mask-guide': 'essentials',
+  'korean-delivery-apps-tourists': 'essentials',
+  'korea-tourist-sim-vs-esim-airport-guide': 'essentials',
+  'korea-currency-exchange-cards-wowpass-guide': 'essentials',
+  'foreign-credit-cards-global-atm-korea': 'essentials',
+  'olive-young-instant-tax-refund-guide': 'essentials',
+  'jeonse-vs-wolse-korean-rental-deposits-foreigners': 'essentials',
+  'mobile-payment-apple-pay-korea-foreigners': 'essentials',
+  'korea-arrival-card-keta-guide': 'essentials',
+  'is-korea-safe-emergency-numbers-tourists': 'essentials',
+  'late-night-medicine-korea-clinics-guide': 'essentials',
+  'korean-national-health-insurance-foreigners': 'essentials',
+  'how-to-get-arc-korea-student': 'essentials',
+  'sending-packages-in-korea-post-office-convenience-store-lockers': 'essentials',
+  'packing-guide-korea-by-season': 'essentials',
+  'korea-coin-laundromat-guide': 'essentials',
 }
 
 /**
@@ -319,14 +292,14 @@ export const SUBCATEGORY_OVERRIDES: Record<string, string> = {
  */
 export const SECONDARY_TAGS: Record<string, readonly string[]> = {
   // 여행지(Explore Korea 대표) — 가는 법 · 즐기는 문화가 함께 있는 글
-  'nami-island-day-trip-seoul-guide': ['life/transit'],
-  'seoul-vs-busan-first-time-visitors': ['life/transit'],
-  'seoul-itinerary-first-timers-3-4-5-days': ['life/transit'],
-  'korea-cherry-blossom-autumn-foliage-guide': ['life/daily'],
-  'seongsu-dong-pop-up-cafe-guide': ['life/daily'],
-  'hiking-in-korea-guide': ['life/daily'],
-  // 한옥 스테이 — 예전엔 Life 대표 + Hotels 태그였다. 2026-11-05 Places 대표로 옮기고 Life 의 Daily Culture 칩에는 그대로 남긴다
-  'hanok-stay-korea-booking-etiquette': ['life/daily'],
+  'nami-island-day-trip-seoul-guide': ['life/getting-around'],
+  'seoul-vs-busan-first-time-visitors': ['life/getting-around'],
+  'seoul-itinerary-first-timers-3-4-5-days': ['life/getting-around'],
+  'korea-cherry-blossom-autumn-foliage-guide': ['life/etiquette'],
+  'seongsu-dong-pop-up-cafe-guide': ['life/etiquette'],
+  'hiking-in-korea-guide': ['life/etiquette'],
+  // 한옥 스테이 — 2026-11-05 Places 대표로 옮기고 Life 칩에도 남긴다
+  'hanok-stay-korea-booking-etiquette': ['life/etiquette'],
   // Life 대표 — 목적지 성격도 강한 글
   'jeju-island-without-a-car': ['explore-korea/places'],
   'korean-templestay-booking-guide-for-foreigners': ['explore-korea/places'],
@@ -339,56 +312,43 @@ export const SECONDARY_TAGS: Record<string, readonly string[]> = {
   'gyeongju-ssambap-what-is-it': ['explore-korea/places'],
   // 음식 ↔ 생활 매너
   'soju-makgeolli-cheongju-korea-guide': ['life/etiquette'],
-  'korean-convenience-store-combo-meals': ['life/daily'],
+  'korean-convenience-store-combo-meals': ['life/etiquette'],
   'korean-convenience-store-dining-guide': ['food/street'],
-  'samgyeopsal-hanwoo-chadolbaegi-korean-bbq': ['food/bbq'],
+  'samgyeopsal-hanwoo-chadolbaegi-korean-bbq': ['food/dishes'],
   'korean-table-etiquette-spoon-chopsticks-guide': ['food/culture'],
-  'korean-songpyeon-pine-needles-science': ['life/daily'],
-  'korean-cafe-kiosk-ordering-guide': ['life/apps'],
+  'solo-dining-seoul-kbbq-break-time': ['food/culture'],
+  'korean-restaurant-ordering-guide': ['food/culture'],
+  'korean-songpyeon-pine-needles-science': ['life/etiquette'],
   // 같은 그룹 안의 두 번째 칩
-  'why-korean-marinades-use-asian-pear': ['food/pantry'],
-  'korean-anchovy-stock-guide': ['food/pantry'],
-  'tteokbokki-tteok-vs-tteokguk-tteok-comparison': ['food/pantry'],
+  'why-korean-marinades-use-asian-pear': ['food/culture'],
+  'korean-anchovy-stock-guide': ['food/culture'],
+  'tteokbokki-tteok-vs-tteokguk-tteok-comparison': ['food/culture'],
+  'zero-tipping-split-bills-korea': ['life/essentials'],
   'korean-subway-etiquette-guide': ['life/etiquette'],
-  'zero-tipping-split-bills-korea': ['life/etiquette'],
-  'incheon-airport-survival-guide': ['life/apps'],
-  'korean-fine-dust-apps-mask-guide': ['life/essentials'],
-  'korea-coin-laundromat-guide': ['life/money'],
+  'incheon-airport-survival-guide': ['life/essentials'],
 }
 
 type Rule = { sub: string; test: RegExp }
 
 /**
  * 오버라이드에 없는 새 글용 규칙. 제목 + 슬러그를 소문자로 합쳐 위에서부터 처음 맞는 것을 쓴다.
- * 더 구체적인 분류(국물, 길거리)를 먼저, 넓은 분류(재료·문화)는 기본값으로 둔다.
+ * 규칙이 없는 마지막 분류가 기본값이다.
  */
 const RULES: Partial<Record<BlogGroupKey, readonly Rule[]>> = {
   phrases: [
-    { sub: 'hotels', test: /\b(hotel|check-?in|check-?out|luggage|shuttle|hostel|guesthouse)\b/ },
-    { sub: 'cafes', test: /\b(cafes?|coffee|americano|latte)\b/ },
-    { sub: 'transport', test: /\b(taxi|bus|subway|train|ktx|directions?|airport)\b/ },
-    { sub: 'leisure', test: /\b(norebang|noraebang|karaoke|photo booth|picnic|palace|museum|concert)\b/ },
-    { sub: 'shopping', test: /\b(olive young|convenience store|shopping|store|market|clothes|checkout|bag|buy)\b/ },
-    { sub: 'dining', test: /\b(restaurant|food|bbq|spicy|order|ordering|menu|delivery|side dishes|waiter)\b/ },
+    { sub: 'survival', test: /\b(hotel|check-?in|check-?out|luggage|shuttle|hostel|guesthouse|cafes?|coffee|americano|latte|taxi|bus|subway|train|ktx|directions?|airport|olive young|convenience store|shopping|store|market|clothes|checkout|bag|buy|pay|paying|restaurant|food|bbq|spicy|order|ordering|menu|delivery|side dishes|waiter|pharmacy|doctor|hospital|palace|museum)\b/ },
   ],
   basics: [
-    { sub: 'hangul', test: /\b(hangul|pronunciation|pronounce|vowels?|consonants?|batchim|romanization|syllables?|alphabet|typing|keyboard|dialect|accent)\b/ },
-    { sub: 'numbers', test: /\b(numbers?|counters?|counting|prices?|money|won|dates?|days of the week|age|time|clock)\b/ },
-    { sub: 'endings', test: /\b(endings?|tense|conjugation|politeness|polite|formal|casual|honorific|irregular|because|requests?|juseyo|connecting)\b/ },
+    { sub: 'hangul', test: /\b(hangul|pronunciation|pronounce|vowels?|consonants?|batchim|romanization|syllables?|alphabet|typing|keyboard|dialect|accent|numbers?|counters?|counting|prices?|money|won|dates?|days of the week|age|clock)\b/ },
   ],
   food: [
-    { sub: 'pantry', test: /\b(substitutes?|pantry|staples|shelf life|storage|ingredients? to buy|soy sauce|sesame oil|perilla oil)\b/ },
-    { sub: 'soups', test: /\b(jjigae|tang|guk|gukbap|stew|soup|broth|kalguksu|ramyeon soup|ttukbaegi)\b/ },
-    { sub: 'bbq', test: /\b(bbq|barbecue|samgyeopsal|galbi|bulgogi|bossam|pork|beef|chicken|dak|ribs|grill|meat|steak)\b/ },
-    { sub: 'street', test: /\b(street|snack|tteokbokki|hotteok|bungeoppang|kimbap|mandu|dumpling|odeng|ramyeon|ramen|noodles?|convenience|pancake|jeon|sundae)\b/ },
-    { sub: 'meals', test: /\b(bibimbap|japchae|jajangmyeon|jjamppong|naengmyeon|milmyeon|rice|egg|jorim|namul|recipe|dishes|at home|cook)\b/ },
+    { sub: 'culture', test: /\b(substitutes?|pantry|staples|shelf life|storage|ingredients? to buy|soy sauce|sesame oil|perilla oil|etiquette|menu|banchan|side dishes|refill|call bell|honbap|solo dining)\b/ },
+    { sub: 'street', test: /\b(street|snacks?|tteokbokki|hotteok|bungeoppang|kimbap|mandu|dumplings?|odeng|ramyeon|ramen|convenience|pancakes?|sundae|market)\b/ },
+    { sub: 'dishes', test: /\b(jjigae|tang|guk|gukbap|stew|soup|broth|kalguksu|ttukbaegi|bbq|barbecue|samgyeopsal|galbi|bulgogi|bossam|pork|beef|chicken|dak|ribs|grill|meat|steak|bibimbap|japchae|jajangmyeon|jjamppong|naengmyeon|milmyeon|noodles?|rice|egg|jorim|namul|recipe|dishes|at home|cook)\b/ },
   ],
   life: [
-    { sub: 'transit', test: /\b(subway|bus|buses|taxi|ktx|train|airport|transit|t-money|climate card|jeju|getting around|transfer|nami|day trip)\b/ },
-    { sub: 'apps', test: /\b(app|apps|naver|kakao|sim|esim|wi-?fi|internet|map|maps|delivery|connectivity|address|phone)\b/ },
-    { sub: 'money', test: /\b(card|cards|atm|tax refund|tipping|tip|bill|bills|payment|pay|shopping|olive young|deposit|rent|jeonse|wolse|cash|cashless|discount)\b/ },
-    { sub: 'essentials', test: /\b(hospital|clinic|clinics|pharmacy|medicine|sick|insurance|arc|visa|emergency|safe|safety|police|restrooms?|toilets?|trash|recycling|packages?|parcels?|laundry|laundromat|packing)\b/ },
-    { sub: 'etiquette', test: /\b(etiquette|manners|table|ordering|order|kiosk|restaurants?|cafes?|dining|honbap)\b/ },
+    { sub: 'getting-around', test: /\b(subway|bus|buses|taxi|ktx|train|airport|transit|t-money|climate card|jeju|getting around|transfer|nami|day trip|naver map|maps?|address)\b/ },
+    { sub: 'etiquette', test: /\b(etiquette|manners|table|kiosk|restaurants?|cafes?|dining|honbap|restrooms?|toilets?|trash|recycling|tipping|culture|custom|customs|slang)\b/ },
   ],
 }
 

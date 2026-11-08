@@ -65,7 +65,7 @@ export function BlogClientPage({
   sections: Section[]
   activeTab: string
   activeLang: 'en' | 'ko'
-  subChips: { key: string; label: string; count: number }[]
+  subChips: { key: string; label: string; short?: string; count: number }[]
   activeSub: string | null
   totalCount: number
   totalPages: number
@@ -219,7 +219,13 @@ export function BlogClientPage({
         .bl-chip.active { color: #171717; font-weight: 600; border-bottom-color: #171717; }
         .bl-chip-n { margin-left: 4px; font-size: 12px; font-weight: 400; color: #A3A3A3; font-variant-numeric: tabular-nums; }
         .bl-chip.active .bl-chip-n { color: #404040; font-weight: 500; }
-        @media (max-width: 700px) { .bl-subbar { gap: 20px; } }
+        .bl-chip-short { display: none; }
+        /* 폰은 짧은 이름만, 개수 없이 — 칩 2~3개와 All 이 스크롤 없이 한 줄에 들어온다 */
+        @media (max-width: 700px) {
+          .bl-subbar { gap: 20px; }
+          .bl-chip-full, .bl-chip-n { display: none; }
+          .bl-chip-short { display: inline; }
+        }
 
         /* ── Post grid ─────────────────────────────────────────────── */
         /* 카드 사이 1px 구분선 — 컨테이너 배경이 아니라 카드 테두리로 그린다.
@@ -425,7 +431,9 @@ export function BlogClientPage({
                   scroll={false}
                   className={`bl-chip${activeSub === c.key ? ' active' : ''}`}
                 >
-                  {c.label} <span className="bl-chip-n">{c.count}</span>
+                  <span className="bl-chip-full">{c.label}</span>
+                  <span className="bl-chip-short">{c.short ?? c.label}</span>
+                  <span className="bl-chip-n">{c.count}</span>
                 </Link>
               ))}
             </nav>

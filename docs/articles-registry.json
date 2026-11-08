@@ -1,6 +1,6 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-11-05T11:30:41.512Z",
+  "generated_at": "2026-11-08T06:56:41.167Z",
   "counts": {
     "Active": {
       "Phrases": 51,
@@ -39,7 +39,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/everyday"
+        "phrases/social"
       ]
     },
     {
@@ -61,7 +61,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/everyday"
+        "phrases/social"
       ]
     },
     {
@@ -83,7 +83,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/dining"
+        "phrases/survival"
       ]
     },
     {
@@ -105,7 +105,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -127,7 +127,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/everyday"
+        "phrases/social"
       ]
     },
     {
@@ -149,7 +149,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/dining"
+        "phrases/survival"
       ]
     },
     {
@@ -171,7 +171,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/hotels"
+        "phrases/survival"
       ]
     },
     {
@@ -194,7 +194,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/hotels"
+        "phrases/survival"
       ]
     },
     {
@@ -215,7 +215,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/hotels"
+        "phrases/survival"
       ]
     },
     {
@@ -237,7 +237,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/hotels"
+        "phrases/survival"
       ]
     },
     {
@@ -258,7 +258,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/transport"
+        "phrases/survival"
       ]
     },
     {
@@ -280,7 +280,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/transport"
+        "phrases/social"
       ]
     },
     {
@@ -302,7 +302,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -324,7 +324,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -346,7 +346,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -368,7 +368,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/leisure"
+        "phrases/social"
       ]
     },
     {
@@ -389,7 +389,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/leisure"
+        "phrases/social"
       ]
     },
     {
@@ -411,7 +411,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/leisure"
+        "phrases/social"
       ]
     },
     {
@@ -432,7 +432,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/leisure"
+        "phrases/social"
       ]
     },
     {
@@ -454,7 +454,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/transport"
+        "phrases/survival"
       ]
     },
     {
@@ -475,7 +475,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/transport"
+        "phrases/survival"
       ]
     },
     {
@@ -496,7 +496,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -517,7 +517,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -538,7 +538,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -559,7 +559,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -580,7 +580,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/cafes"
+        "phrases/survival"
       ]
     },
     {
@@ -601,7 +601,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/cafes"
+        "phrases/survival"
       ]
     },
     {
@@ -622,7 +622,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/cafes"
+        "phrases/survival"
       ]
     },
     {
@@ -643,7 +643,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/cafes"
+        "phrases/survival"
       ]
     },
     {
@@ -664,7 +664,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/cafes"
+        "phrases/survival"
       ]
     },
     {
@@ -685,7 +685,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/cafes"
+        "phrases/survival"
       ]
     },
     {
@@ -706,7 +706,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/dining"
+        "phrases/survival"
       ]
     },
     {
@@ -727,7 +727,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/dining"
+        "phrases/survival"
       ]
     },
     {
@@ -748,7 +748,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/dining"
+        "phrases/survival"
       ]
     },
     {
@@ -769,7 +769,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/dining"
+        "phrases/survival"
       ]
     },
     {
@@ -790,7 +790,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/dining"
+        "phrases/survival"
       ]
     },
     {
@@ -809,7 +809,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/transport"
+        "phrases/survival"
       ]
     },
     {
@@ -829,7 +829,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/everyday"
+        "phrases/survival"
       ]
     },
     {
@@ -848,7 +848,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/leisure"
+        "phrases/social"
       ]
     },
     {
@@ -867,7 +867,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -886,7 +886,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -905,7 +905,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/leisure"
+        "phrases/social"
       ]
     },
     {
@@ -924,7 +924,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/dining"
+        "phrases/survival"
       ]
     },
     {
@@ -943,7 +943,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -962,7 +962,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/dining"
+        "phrases/survival"
       ]
     },
     {
@@ -981,7 +981,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/cafes"
+        "phrases/survival"
       ]
     },
     {
@@ -1000,7 +1000,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/transport"
+        "phrases/survival"
       ]
     },
     {
@@ -1020,7 +1020,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/shopping"
+        "phrases/survival"
       ]
     },
     {
@@ -1040,7 +1040,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/everyday"
+        "phrases/survival"
       ]
     },
     {
@@ -1060,7 +1060,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/leisure"
+        "phrases/survival"
       ]
     },
     {
@@ -1080,7 +1080,7 @@
       "db_category": "Real-Life Korean",
       "overhauled": false,
       "subCategories": [
-        "phrases/dining"
+        "phrases/survival"
       ]
     },
     {
@@ -1101,7 +1101,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/hangul"
       ]
     },
     {
@@ -1122,7 +1122,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/hangul"
       ]
     },
     {
@@ -1143,7 +1143,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/hangul"
       ]
     },
     {
@@ -1164,7 +1164,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/hangul"
       ]
     },
     {
@@ -1185,7 +1185,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1206,7 +1206,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1227,7 +1227,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1248,7 +1248,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1290,7 +1290,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1311,7 +1311,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1332,7 +1332,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1475,7 +1475,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1513,7 +1513,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1532,7 +1532,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/hangul"
       ]
     },
     {
@@ -1551,7 +1551,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1611,7 +1611,7 @@
       "db_category": "Korean Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -1845,7 +1845,7 @@
       "overhauled": false,
       "subCategories": [
         "explore-korea/places",
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -1867,7 +1867,7 @@
       "overhauled": false,
       "subCategories": [
         "explore-korea/places",
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -1889,7 +1889,7 @@
       "overhauled": false,
       "subCategories": [
         "explore-korea/places",
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -1911,7 +1911,7 @@
       "overhauled": false,
       "subCategories": [
         "explore-korea/places",
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -1933,7 +1933,7 @@
       "overhauled": false,
       "subCategories": [
         "explore-korea/places",
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -2001,7 +2001,7 @@
       "overhauled": false,
       "subCategories": [
         "explore-korea/places",
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -2023,7 +2023,7 @@
       "overhauled": false,
       "subCategories": [
         "explore-korea/places",
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -2134,7 +2134,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups"
+        "food/dishes"
       ]
     },
     {
@@ -2155,7 +2155,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups"
+        "food/dishes"
       ]
     },
     {
@@ -2176,7 +2176,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -2197,7 +2197,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups"
+        "food/dishes"
       ]
     },
     {
@@ -2281,7 +2281,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -2324,7 +2324,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups"
+        "food/dishes"
       ]
     },
     {
@@ -2345,7 +2345,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups"
+        "food/dishes"
       ]
     },
     {
@@ -2366,7 +2366,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups"
+        "food/dishes"
       ]
     },
     {
@@ -2387,7 +2387,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/meals"
+        "food/dishes"
       ]
     },
     {
@@ -2429,7 +2429,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups"
+        "food/dishes"
       ]
     },
     {
@@ -2450,7 +2450,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/meals"
+        "food/dishes"
       ]
     },
     {
@@ -2471,8 +2471,8 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/bbq",
-        "food/pantry"
+        "food/dishes",
+        "food/culture"
       ]
     },
     {
@@ -2493,7 +2493,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -2514,7 +2514,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/meals"
+        "food/dishes"
       ]
     },
     {
@@ -2535,7 +2535,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups"
+        "food/dishes"
       ]
     },
     {
@@ -2556,7 +2556,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -2577,7 +2577,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups"
+        "food/dishes"
       ]
     },
     {
@@ -2620,7 +2620,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -2705,7 +2705,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -2726,7 +2726,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/culture"
+        "food/dishes"
       ]
     },
     {
@@ -2748,7 +2748,7 @@
       "overhauled": true,
       "subCategories": [
         "food/street",
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -2769,7 +2769,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -2791,7 +2791,7 @@
       "overhauled": true,
       "subCategories": [
         "food/street",
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -2813,7 +2813,7 @@
       "overhauled": true,
       "subCategories": [
         "food/culture",
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -2834,7 +2834,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -2855,7 +2855,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -2876,7 +2876,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -2897,7 +2897,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/meals"
+        "food/dishes"
       ]
     },
     {
@@ -2918,7 +2918,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -2939,7 +2939,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/meals"
+        "food/dishes"
       ]
     },
     {
@@ -2960,7 +2960,7 @@
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -2981,7 +2981,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -3023,7 +3023,7 @@
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
-        "food/meals"
+        "food/dishes"
       ]
     },
     {
@@ -3044,7 +3044,7 @@
       "db_category": "Cooking Basics",
       "overhauled": false,
       "subCategories": [
-        "food/meals",
+        "food/dishes",
         "explore-korea/places"
       ]
     },
@@ -3129,7 +3129,7 @@
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -3192,7 +3192,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups"
+        "food/dishes"
       ]
     },
     {
@@ -3255,7 +3255,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -3276,7 +3276,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/meals"
+        "food/dishes"
       ]
     },
     {
@@ -3297,7 +3297,7 @@
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -3318,7 +3318,7 @@
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -3338,7 +3338,7 @@
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -3359,7 +3359,7 @@
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -3380,8 +3380,8 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/soups",
-        "food/pantry"
+        "food/dishes",
+        "food/culture"
       ]
     },
     {
@@ -3402,7 +3402,7 @@
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -3423,7 +3423,7 @@
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -3443,7 +3443,7 @@
       "db_category": "Ingredients & Pantry",
       "overhauled": true,
       "subCategories": [
-        "food/pantry"
+        "food/culture"
       ]
     },
     {
@@ -3464,7 +3464,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/meals"
+        "food/dishes"
       ]
     },
     {
@@ -3485,7 +3485,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/meals"
+        "food/dishes"
       ]
     },
     {
@@ -3506,7 +3506,7 @@
       "db_category": "Cooking Basics",
       "overhauled": true,
       "subCategories": [
-        "food/meals"
+        "food/dishes"
       ]
     },
     {
@@ -3550,7 +3550,7 @@
       "db_category": "Korean Culture",
       "overhauled": false,
       "subCategories": [
-        "life/money"
+        "life/essentials"
       ]
     },
     {
@@ -3571,8 +3571,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/etiquette",
-        "life/apps"
+        "life/etiquette"
       ]
     },
     {
@@ -3593,8 +3592,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/essentials",
-        "life/money"
+        "life/essentials"
       ]
     },
     {
@@ -3615,7 +3613,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/money"
+        "life/essentials"
       ]
     },
     {
@@ -3636,7 +3634,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -3741,7 +3739,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/transit",
+        "life/getting-around",
         "life/etiquette"
       ]
     },
@@ -3763,7 +3761,7 @@
       "db_category": "Korean Culture",
       "overhauled": false,
       "subCategories": [
-        "life/transit",
+        "life/getting-around",
         "explore-korea/places"
       ]
     },
@@ -3785,7 +3783,7 @@
       "db_category": "Korean Culture",
       "overhauled": false,
       "subCategories": [
-        "life/daily",
+        "life/etiquette",
         "explore-korea/places"
       ]
     },
@@ -3807,7 +3805,7 @@
       "db_category": "Korean Culture",
       "overhauled": false,
       "subCategories": [
-        "life/daily",
+        "life/etiquette",
         "explore-korea/places",
         "food/street"
       ]
@@ -3830,7 +3828,6 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/apps",
         "life/essentials"
       ]
     },
@@ -3852,7 +3849,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -3895,7 +3892,7 @@
       "overhauled": true,
       "subCategories": [
         "life/etiquette",
-        "food/bbq"
+        "food/dishes"
       ]
     },
     {
@@ -3916,7 +3913,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/apps"
+        "life/getting-around"
       ]
     },
     {
@@ -3959,7 +3956,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/essentials"
+        "life/etiquette"
       ]
     },
     {
@@ -4001,7 +3998,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/money"
+        "life/essentials"
       ]
     },
     {
@@ -4022,7 +4019,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -4043,7 +4040,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -4064,7 +4061,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/apps"
+        "life/essentials"
       ]
     },
     {
@@ -4085,7 +4082,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/apps"
+        "life/essentials"
       ]
     },
     {
@@ -4106,7 +4103,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/essentials"
+        "life/etiquette"
       ]
     },
     {
@@ -4127,7 +4124,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -4148,7 +4145,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -4169,7 +4166,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -4190,7 +4187,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -4232,7 +4229,8 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/etiquette"
+        "life/etiquette",
+        "food/culture"
       ]
     },
     {
@@ -4253,7 +4251,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/essentials"
+        "life/etiquette"
       ]
     },
     {
@@ -4274,7 +4272,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/money"
+        "life/essentials"
       ]
     },
     {
@@ -4295,8 +4293,8 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/money",
-        "life/etiquette"
+        "life/etiquette",
+        "life/essentials"
       ]
     },
     {
@@ -4317,7 +4315,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/apps"
+        "life/getting-around"
       ]
     },
     {
@@ -4338,7 +4336,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/money"
+        "life/essentials"
       ]
     },
     {
@@ -4380,7 +4378,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -4401,7 +4399,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/transit"
+        "life/getting-around"
       ]
     },
     {
@@ -4443,7 +4441,8 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/etiquette"
+        "life/etiquette",
+        "food/culture"
       ]
     },
     {
@@ -4486,8 +4485,8 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/transit",
-        "life/apps"
+        "life/getting-around",
+        "life/essentials"
       ]
     },
     {
@@ -4508,7 +4507,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -4529,7 +4528,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -4550,7 +4549,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -4592,7 +4591,7 @@
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
-        "life/daily"
+        "life/etiquette"
       ]
     },
     {
@@ -4608,7 +4607,7 @@
       "summary": "How hanbok rental works near Gyeongbokgung, free palace entry in hanbok, and etiquette.",
       "url": null,
       "status": "Planned",
-      "last_updated": "2026-11-05"
+      "last_updated": "2026-11-08"
     },
     {
       "id": "planned-myeongdong-shopping",
@@ -4623,7 +4622,7 @@
       "summary": "Where to shop, exchange money and claim tax refunds in Myeongdong.",
       "url": null,
       "status": "Planned",
-      "last_updated": "2026-11-05"
+      "last_updated": "2026-11-08"
     },
     {
       "id": "planned-ikseon-dong",
@@ -4638,7 +4637,7 @@
       "summary": "A short guide to Ikseon-dong hanok alleys, cafes and crowd-free timing.",
       "url": null,
       "status": "Planned",
-      "last_updated": "2026-11-05"
+      "last_updated": "2026-11-08"
     },
     {
       "id": "fa61cba4-8869-43ac-b205-62a3c1ecd534",
@@ -4679,7 +4678,7 @@
       "db_category": "Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/hangul"
       ]
     },
     {
@@ -4700,7 +4699,7 @@
       "db_category": "Grammar",
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -4722,7 +4721,7 @@
       "db_category": "Korean Culture",
       "overhauled": false,
       "subCategories": [
-        "life/apps"
+        "life/essentials"
       ]
     },
     {
@@ -4743,7 +4742,7 @@
       "db_category": "Korean Culture",
       "overhauled": false,
       "subCategories": [
-        "life/daily"
+        "life/essentials"
       ]
     },
     {
@@ -4764,7 +4763,7 @@
       "db_category": "Korean Culture",
       "overhauled": false,
       "subCategories": [
-        "life/daily"
+        "life/essentials"
       ]
     },
     {
@@ -4785,7 +4784,7 @@
       "db_category": "Korean Culture",
       "overhauled": false,
       "subCategories": [
-        "life/daily"
+        "life/essentials"
       ]
     },
     {
@@ -4806,7 +4805,7 @@
       "db_category": "Korean Culture",
       "overhauled": false,
       "subCategories": [
-        "life/money"
+        "life/essentials"
       ]
     },
     {
@@ -5726,7 +5725,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -5766,7 +5765,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/hangul"
       ]
     },
     {
@@ -6846,7 +6845,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/hangul"
       ]
     },
     {
@@ -7606,7 +7605,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/hangul"
       ]
     },
     {
@@ -7626,7 +7625,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -8166,7 +8165,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -8866,7 +8865,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/grammar"
       ]
     },
     {
@@ -8886,7 +8885,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/grammar"
       ]
     },
     {
@@ -9406,7 +9405,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -9806,7 +9805,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/endings"
+        "basics/grammar"
       ]
     },
     {
@@ -11806,7 +11805,7 @@
       "db_category": null,
       "overhauled": false,
       "subCategories": [
-        "basics/numbers"
+        "basics/hangul"
       ]
     },
     {
