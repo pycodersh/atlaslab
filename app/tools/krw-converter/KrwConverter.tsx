@@ -24,11 +24,18 @@ const BENCHMARKS: { name: string; scope: string; low: number; high?: number }[] 
   { name: 'Subway base fare', scope: 'First 10 km, transit card', low: 1550 },
 ]
 
+// 위 BENCHMARKS 의 서울 평균 · 지하철 기본운임과 같은 값
 const BUYS = [
-  { price: 12000, one: 'Seoul bibimbap', many: 'Seoul bibimbaps' },
-  { price: 3923, one: 'roll of gimbap', many: 'rolls of gimbap' },
-  { price: 1550, one: 'subway base fare', many: 'subway base fares' },
+  { price: 12000, one: 'Bibimbap', many: 'Bibimbaps' },
+  { price: 3923, one: 'Gimbap roll', many: 'Gimbap rolls' },
+  { price: 1550, one: 'Subway ride', many: 'Subway rides' },
 ]
+
+// 타일 폭이 좁아 큰 수는 6.5M 처럼 줄인다
+function howMany(count: number) {
+  if (count >= 10000) return new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(count)
+  return (count < 10 ? Math.round(count * 10) / 10 : Math.round(count)).toLocaleString('en-US')
+}
 
 const won = (n: number) => `₩${Math.round(n).toLocaleString('en-US')}`
 
@@ -65,19 +72,29 @@ export function KrwConverter({ rates, updated }: { rates: Rates; updated: string
       <style>{`
         .kc-fields { display: grid; grid-template-columns: minmax(0, 1fr) 120px; gap: 10px; }
         .kc-label { display: block; font-size: 13px; font-weight: 600; color: #4B5563; margin-bottom: 6px; }
-        .kc-quick { margin-top: 12px; }
-        .kc-result { margin: 22px 0 0; font-size: clamp(30px, 8vw, 40px); font-weight: 700; line-height: 1.15; color: #111827; overflow-wrap: anywhere; }
-        .kc-sub { font-size: 14px; color: #6B7280; margin: 6px 0 0; }
-        .kc-buys { list-style: none; margin: 0; padding: 0; }
-        .kc-buys li { padding: 10px 0; border-top: 1px solid #F3F4F6; font-size: 15px; color: #111827; }
-        .kc-buys li:first-child { border-top: 0; padding-top: 0; }
-        .kc-buys li:last-child { padding-bottom: 0; }
-        .kc-row { display: flex; justify-content: space-between; gap: 14px; padding: 11px 0; border-top: 1px solid #F3F4F6; }
+        .kc-quick { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+        .kc-chip {
+          min-height: 44px; padding: 8px 4px; border: 1px solid #E5E7EB; border-radius: 12px; background: #fff; cursor: pointer; white-space: nowrap;
+          font: 500 13px "DM Sans", Inter, system-ui, sans-serif; color: #111827; transition: background .15s;
+        }
+        .kc-chip[aria-pressed="true"] { background: #111827; border-color: #111827; color: #fff; }
+        .kc-chip:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        @media (hover: hover) { .kc-chip:not([aria-pressed="true"]):hover { background: #F9FAFB; } }
+        .kc-panel { margin-top: 16px; padding: 20px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 16px; }
+        .kc-result { margin: 0; font-size: clamp(32px, 9vw, 44px); font-weight: 700; line-height: 1.15; color: #111827; overflow-wrap: anywhere; }
+        .kc-sub { font-size: 14px; color: #4B5563; margin: 6px 0 0; }
+        .kc-buys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; }
+        .kc-tile { padding: 16px 6px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 12px; }
+        .kc-count { display: block; font-size: 24px; font-weight: 700; line-height: 1.2; color: #111827; }
+        .kc-what { display: block; font-size: 12px; line-height: 1.3; color: #4B5563; margin-top: 4px; }
+        .kc-row { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid #F3F4F6; }
         .kc-row:first-of-type { border-top: 0; padding-top: 0; }
-        .kc-name { font-size: 15px; font-weight: 600; color: #111827; }
-        .kc-scope { display: block; font-size: 12.5px; font-weight: 400; color: #6B7280; margin-top: 2px; }
-        .kc-price { text-align: right; font-size: 15px; font-weight: 700; color: #111827; white-space: nowrap; }
-        .kc-conv { display: block; font-size: 12.5px; font-weight: 400; color: #6B7280; margin-top: 2px; }
+        .kc-row:last-of-type { padding-bottom: 0; }
+        .kc-name { font-size: 15px; font-weight: 600; color: #111827; min-width: 0; }
+        .kc-scope { display: block; font-size: 12px; font-weight: 400; color: #4B5563; margin-top: 2px; }
+        .kc-price { flex: none; text-align: right; font-size: 15px; font-weight: 700; color: #111827; white-space: nowrap; }
+        .kc-conv { display: block; font-size: 12px; font-weight: 400; color: #4B5563; margin-top: 2px; }
+        @media (min-width: 640px) { .kc-chip { padding: 8px 12px; font-size: 14px; } }
       `}</style>
 
       <section className="tl-card">
@@ -94,28 +111,31 @@ export function KrwConverter({ rates, updated }: { rates: Rates; updated: string
             </select>
           </div>
         </div>
-        <div className="tl-chips kc-quick notranslate" translate="no">
+        <div className="kc-quick notranslate" translate="no">
           {QUICK_AMOUNTS.map(a => (
-            <button key={a} type="button" className="tl-chip" aria-pressed={amount === a} onClick={() => setRaw(String(a))}>{won(a)}</button>
+            <button key={a} type="button" className="kc-chip" aria-pressed={amount === a} onClick={() => setRaw(String(a))}>{won(a)}</button>
           ))}
         </div>
-        <p className="kc-result notranslate" translate="no" aria-live="polite">{money(amount * rate, currency)}</p>
-        <p className="kc-sub notranslate" translate="no">{won(1000)} = {money(1000 * rate, currency)}</p>
+        <div className="kc-panel">
+          <p className="kc-result notranslate" translate="no" aria-live="polite">{money(amount * rate, currency)}</p>
+          <p className="kc-sub notranslate" translate="no">{won(1000)} = {money(1000 * rate, currency)}</p>
+        </div>
       </section>
 
       <section className="tl-card" aria-live="polite">
         <h2 className="tl-h2">What it buys</h2>
-        <ul className="kc-buys">
+        <div className="kc-buys">
           {BUYS.map(b => {
-            const count = amount / b.price
-            const rounded = count < 10 ? Math.round(count * 10) / 10 : Math.round(count)
+            const count = howMany(amount / b.price)
             return (
-              <li key={b.one}>
-                About <strong className="notranslate" translate="no">{rounded.toLocaleString('en-US')}</strong> {rounded === 1 ? b.one : b.many}
-              </li>
+              <div key={b.one} className="kc-tile">
+                <span className="kc-count notranslate" translate="no">{count}</span>
+                {/* key: 자동 번역이 글자 노드를 바꿔 끼워도 단수 · 복수가 바뀌면 새로 그려지게 */}
+                <span key={count === '1' ? 'one' : 'many'} className="kc-what">{count === '1' ? b.one : b.many}</span>
+              </div>
             )
           })}
-        </ul>
+        </div>
       </section>
 
       <section className="tl-card">

@@ -217,6 +217,7 @@ export default async function AtlasLabHome() {
     { id: 'resources', label: AXIS_LABELS.apps },
     { id: 'learn-korean', label: AXIS_LABELS.korean },
     { id: 'travel-life', label: AXIS_LABELS.guides },
+    { id: 'tools', label: 'Travel Tools' },
   ]
   // 히어로 검색 색인 — 주제 섹션에 드는 글만(본문은 빼고 제목 · 태그 · 그룹 이름). 브라우저가 이것만으로 거른다.
   const groupTitle = new Map<string, string>(BLOG_GROUPS.map(g => [g.key, g.title]))
@@ -582,7 +583,7 @@ export default async function AtlasLabHome() {
       <div className="wrap gw-wrap">
         <GatewaySection id="learn-korean" variant="learn" title={AXIS_LABELS.korean} desc="Start with essential phrases and basics." cards={learnCards} />
         <GatewaySection id="travel-life" variant="guide" title={AXIS_LABELS.guides} desc="Solve everyday problems and enjoy your trip." cards={guideCards} />
-        <GatewaySection id="smart-tools" variant="guide" title="Smart Travel Tools" desc="Instant, offline-friendly tools designed for your Seoul trip." cards={toolCards} />
+        <GatewaySection id="tools" variant="guide" title="Smart Travel Tools" desc="Instant, offline-friendly tools designed for your Seoul trip." cards={toolCards} />
       </div>
 
       {/* ── Why Atlas Lab ── */}

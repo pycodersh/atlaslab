@@ -64,31 +64,39 @@ export function SubwayTimer() {
         .st-card { text-align: center; }
         .st-ring { position: relative; width: 220px; height: 220px; margin: 4px auto 18px; }
         .st-ring svg { display: block; transform: rotate(-90deg); }
-        .st-time { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 52px; font-weight: 700; font-variant-numeric: tabular-nums; color: #111827; }
+        .st-time { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 48px; font-weight: 700; color: #111827; }
         .st-status { font-size: 17px; font-weight: 700; margin: 0 0 18px; color: #111827; min-height: 24px; }
-        .st-status.is-expired { color: #C8102E; }
-        .st-card .tl-actions { justify-content: center; }
+        .st-alert { font-size: 14px; line-height: 1.5; background: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; border-radius: 12px; padding: 12px; margin: 0 0 18px; }
+        .st-main { display: block; width: 100%; padding: 14px 20px; border-radius: 12px; font-weight: 700; }
+        .st-late { display: block; width: 100%; min-height: 44px; margin-top: 6px; background: none; border: 0; font: 600 14px "DM Sans", Inter, system-ui, sans-serif; color: #4B5563; cursor: pointer; }
+        .st-late:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
       `}</style>
       <div className="st-ring">
         <svg width="220" height="220" viewBox="0 0 220 220" aria-hidden="true">
-          <circle cx="110" cy="110" r={R} fill="none" stroke="#F3F4F6" strokeWidth="12" />
-          <circle cx="110" cy="110" r={R} fill="none" stroke="#C8102E" strokeWidth="12" strokeLinecap="round"
+          <circle cx="110" cy="110" r={R} fill="none" stroke="#E5E7EB" strokeWidth="14" />
+          <circle cx="110" cy="110" r={R} fill="none" stroke="#C8102E" strokeWidth="14" strokeLinecap="round"
             strokeDasharray={`${dash} ${CIRCUMFERENCE}`} />
         </svg>
         <div className="st-time notranslate" translate="no" role="timer">{clock(remaining)}</div>
       </div>
 
-      <p className={`st-status${expired ? ' is-expired' : ''}`} aria-live="polite">
-        {running && end !== null && <>Re-enter before <span className="notranslate" translate="no">{timeOfDay(end)}</span></>}
-        {expired && 'Time is up. Tapping in now will likely charge a new fare.'}
-        {end === null && 'Start right after you tap out.'}
-      </p>
-
-      <div className="tl-actions">
-        {end === null && <button type="button" className="tl-btn" onClick={() => update(Date.now() + WINDOW_MS)}>Start 15:00</button>}
-        {running && end !== null && <button type="button" className="tl-btn tl-btn-ghost" onClick={() => update(end - MINUTE_MS)}>Started late: −1 min</button>}
-        {end !== null && <button type="button" className="tl-btn tl-btn-ghost" onClick={() => update(null)}>Reset</button>}
+      <div aria-live="polite">
+        {expired
+          ? <p className="st-alert">Time is up. Tapping in now will likely charge a new fare.</p>
+          : (
+            <p key={running ? 'running' : 'idle'} className="st-status">
+              {running && end !== null
+                ? <>Re-enter before <span className="notranslate" translate="no">{timeOfDay(end)}</span></>
+                : 'Start right after you tap out.'}
+            </p>
+          )}
       </div>
+
+      {/* key: 자동 번역이 글자 노드를 바꿔 끼워 React 의 글자 갱신이 화면에 안 나온다 — 문구가 바뀌면 요소를 새로 만든다 */}
+      {end === null
+        ? <button key="start" type="button" className="tl-btn st-main" onClick={() => update(Date.now() + WINDOW_MS)}>Start 15-Min Timer</button>
+        : <button key="reset" type="button" className="tl-btn tl-btn-ghost st-main" onClick={() => update(null)}>Reset Timer</button>}
+      {running && end !== null && <button type="button" className="st-late" onClick={() => update(end - MINUTE_MS)}>Started late? Take off 1 min</button>}
     </section>
   )
 }

@@ -18,28 +18,20 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
         .tl-lead { font-size: 16px; line-height: 1.6; color: #4B5563; margin: 0 0 32px; }
         .tl-card { background: #fff; border: 1px solid #F3F4F6; border-radius: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.05); padding: 24px; margin-bottom: 20px; }
         .tl-h2 { font-size: 16px; font-weight: 700; margin: 0 0 14px; color: #111827; }
-        .tl-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-        .tl-chip {
-          min-height: 44px; padding: 8px 14px; border-radius: 999px; border: 1px solid #E5E7EB; background: #fff;
-          font: 500 14px "DM Sans", Inter, system-ui, sans-serif; color: #111827; cursor: pointer;
-        }
-        .tl-chip[aria-pressed="true"] { background: #111827; border-color: #111827; color: #fff; }
         .tl-btn {
           min-height: 48px; padding: 12px 20px; border-radius: 10px; border: 1px solid #C8102E; background: #C8102E; color: #fff;
           font: 700 15px "DM Sans", Inter, system-ui, sans-serif; cursor: pointer;
         }
         .tl-btn:disabled { background: #E5E7EB; border-color: #E5E7EB; color: #9CA3AF; cursor: default; }
         .tl-btn-ghost { background: #fff; color: #111827; border-color: #D1D5DB; }
-        .tl-chip:focus-visible, .tl-btn:focus-visible, .tl-input:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        .tl-btn:focus-visible, .tl-input:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         .tl-actions { display: flex; flex-wrap: wrap; gap: 10px; }
         .tl-input {
           width: 100%; box-sizing: border-box; min-height: 52px; padding: 10px 14px; border: 1px solid #D1D5DB; border-radius: 10px;
           background: #fff; color: #111827; font: 600 18px "DM Sans", Inter, system-ui, sans-serif;
         }
         .tl-note { font-size: 13px; line-height: 1.6; color: #6B7280; margin: 0; }
-        .tl-note a, .tl-list a { color: #C8102E; }
-        .tl-list { list-style: disc; margin: 0; padding-left: 18px; font-size: 14px; line-height: 1.7; color: #4B5563; }
-        .tl-list li + li { margin-top: 6px; }
+        .tl-note a { color: #C8102E; }
         .tl-more { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid #E5E7EB; font-size: 14px; }
         .tl-more-label { font-weight: 700; }
         .tl-more a { color: #C8102E; text-decoration: none; font-weight: 500; }
