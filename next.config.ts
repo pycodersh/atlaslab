@@ -3,6 +3,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      // 홈 게이트웨이 카드 주소 — 전용 페이지가 생기기 전까지 /blog 탭으로 보낸다(나중에 페이지를 만들 수 있게 임시 이동)
+      { source: '/learn-korean/phrases', destination: '/blog?tab=phrases',       permanent: false },
+      { source: '/learn-korean/basics',  destination: '/blog?tab=basics',        permanent: false },
+      { source: '/travel',               destination: '/blog?tab=explore-korea', permanent: false },
+      { source: '/food',                 destination: '/blog?tab=food',          permanent: false },
+      { source: '/life',                 destination: '/blog?tab=life',          permanent: false },
       // 2026-11-05 Basics 중복 글 통합 — 짧은 글은 DB 에서 비공개(is_paused), 주소는 남은 글로 영구 이동.
       // permanent: true 는 308 을 내므로, 요청대로 고전적인 301 을 statusCode 로 명시한다(둘은 함께 쓸 수 없다)
       { source: '/blog/en/k-patto/eun-neun-vs-i-ga-difference',             destination: '/blog/en/k-patto/korean-topic-vs-subject-particle',    statusCode: 301 },

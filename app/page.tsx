@@ -3,6 +3,7 @@ import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
 import { SectionHeader } from '@/components/SectionHeader'
 import { GatewaySection, type GatewayCard } from '@/components/home/GatewaySection'
+import { OrderBuilderVisual, SubwayTimerVisual, KrwPriceVisual } from '@/components/home/ToolVisuals'
 import { HomeCategoryBar, type HomeTab } from '@/components/HomeCategoryBar'
 import { HomeSearch, type SearchDoc } from '@/components/HomeSearch'
 import { LeadMagnetBanner } from '@/components/LeadMagnetBanner'
@@ -83,8 +84,8 @@ const APP_ICONS: Record<string, React.ReactNode> = {
 /* ── Why Atlas Lab items ──────────────────────────────────────────────── */
 const WHY = [
   {
-    title: 'Pattern-first learning',
-    desc:  'Every app teaches through repeating real patterns — not isolated vocabulary or one-off drills.',
+    title: 'Pattern-based Korean',
+    desc:  'Master real expressions through continuous slice-of-life dialogues, not stiff textbook grammar.',
     icon: (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
         stroke="var(--ink,#111)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -97,22 +98,19 @@ const WHY = [
     ),
   },
   {
-    title: 'Real AI, not a wrapper',
-    desc:  'AI generates content, adapts to each user, and gives feedback — it does not just relay a chat model.',
+    title: 'Field-tested travel guides',
+    desc:  'No sponsored fluff. Curated survival tips, subway rules, and dining etiquette verified on the ground.',
     icon: (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
-        stroke="var(--ink,#111)" strokeWidth="1.5" strokeLinecap="round">
-        <rect x="6" y="6" width="8" height="8"/>
-        <line x1="10" y1="1" x2="10" y2="6"/>
-        <line x1="10" y1="14" x2="10" y2="19"/>
-        <line x1="1"  y1="10" x2="6"  y2="10"/>
-        <line x1="14" y1="10" x2="19" y2="10"/>
+        stroke="var(--ink,#111)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="10" cy="10" r="8"/>
+        <path d="M13.5 6.5l-2 5-5 2 2-5 5-2z"/>
       </svg>
     ),
   },
   {
-    title: 'Habit-sized by design',
-    desc:  'Built for phones and offline use. Five focused minutes a day beats five interrupted hours.',
+    title: 'Built for on-the-go',
+    desc:  'Fast, lightweight tools and guides designed to be pulled up instantly in busy stations and restaurants.',
     icon: (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
         stroke="var(--ink,#111)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
@@ -123,8 +121,8 @@ const WHY = [
     ),
   },
   {
-    title: 'One mission, many tools',
-    desc:  'Language, food, career — every Atlas Lab product helps build a skill that lasts.',
+    title: 'One local companion',
+    desc:  'From daily phrases and metro navigation to pantry cooking — all the essentials to live like a local.',
     icon: (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none"
         stroke="var(--ink,#111)" strokeWidth="1.5" strokeLinecap="round">
@@ -161,7 +159,7 @@ export default async function AtlasLabHome() {
     .order('published_at', { ascending: false })
 
   // 게이트웨이 카드 — 사진은 각 주제 대표 글의 썸네일을 빌려 온다(비공개·삭제되면 사진 자리만 빠진다).
-  // 링크는 /blog 목록의 해당 탭 · 칩(따로 만든 /learn-korean · /travel 페이지는 아직 없다)
+  // /learn-korean/* · /travel · /food · /life 는 전용 페이지가 없어 next.config 가 /blog 의 해당 탭으로 보낸다
   const bySlug = new Map((allPosts ?? []).filter(p => p.locale === 'en').map(p => [p.slug, p]))
   const thumbOf = (slug: string) => {
     const p = bySlug.get(slug)
@@ -169,32 +167,49 @@ export default async function AtlasLabHome() {
   }
   const learnCards: GatewayCard[] = [
     {
-      key: 'phrases', badge: 'Phrases', title: 'Learn Useful Phrases for Your Trip',
-      desc: 'Speak naturally in restaurants, shops, and daily life.',
-      href: '/blog?tab=phrases', thumb: thumbOf('korean-restaurant-drop-yo-water'), thumbAlt: 'K-Patto webtoon scene at a Korean restaurant',
+      key: 'phrases', title: 'Real-Life Phrases',
+      desc: 'Master useful Korean phrases for cafes, restaurants, and daily life.',
+      href: '/learn-korean/phrases', thumb: thumbOf('korean-restaurant-drop-yo-water'), thumbAlt: 'K-Patto webtoon scene at a Korean restaurant',
     },
     {
-      key: 'basics', badge: 'Basics', title: 'Master Korean Basics',
-      desc: 'Learn Hangul, pronunciation, and basic grammar.',
-      href: '/blog?tab=basics', thumb: thumbOf('korean-never-say-dangsin-neo'), thumbAlt: 'Korean grammar rule card',
+      key: 'basics', title: 'Korean Basics',
+      desc: 'Essential Hangul, pronunciation, and core grammar rules made easy.',
+      href: '/learn-korean/basics', thumb: thumbOf('korean-never-say-dangsin-neo'), thumbAlt: 'Korean grammar rule card',
     },
   ]
   // Travel & Life 는 목록 탭 순서(Explore Korea → Food → Life)와 같게 둔다
   const guideCards: GatewayCard[] = [
     {
-      key: 'explore', badge: 'Travel', title: 'Explore Korea',
-      desc: 'Curated itineraries, must-visit spots, and practical travel guides.',
-      href: '/blog?tab=explore-korea', thumb: thumbOf('seoul-itinerary-first-timers-3-4-5-days'), thumbAlt: 'Seoul skyline with N Seoul Tower',
+      key: 'explore', title: 'Explore Korea',
+      desc: 'Curated itineraries, must-visit spots, and city travel guides.',
+      href: '/travel', thumb: thumbOf('seoul-itinerary-first-timers-3-4-5-days'), thumbAlt: 'Seoul skyline with N Seoul Tower',
     },
     {
-      key: 'food', badge: 'Food', title: 'Korean Food',
-      desc: 'Decipher menus, dining etiquette, and authentic dish guides.',
-      href: '/blog?tab=food', thumb: thumbOf('how-to-read-korean-restaurant-menu'), thumbAlt: 'Korean table spread',
+      key: 'food', title: 'Korean Food',
+      desc: 'Must-try dishes, menu reading, and dining culture tips.',
+      href: '/food', thumb: thumbOf('how-to-read-korean-restaurant-menu'), thumbAlt: 'Korean table spread',
     },
     {
-      key: 'life', badge: 'Life', title: 'Korea Life',
-      desc: 'Subway navigation, T-Money, SIM cards, and essential local tips.',
-      href: '/blog?tab=life', thumb: thumbOf('korean-subway-etiquette-guide'), thumbAlt: 'Seoul subway platform',
+      key: 'life', title: 'Korea Life',
+      desc: 'Subway navigation, T-Money, and everyday survival tips.',
+      href: '/life', thumb: thumbOf('korean-subway-etiquette-guide'), thumbAlt: 'Seoul subway platform',
+    },
+  ]
+  const toolCards: GatewayCard[] = [
+    {
+      key: 'order-builder', title: 'K-Food Order Builder',
+      desc: "Create customized ordering phrases like 'less spicy' and show the screen directly to staff.",
+      href: '/tools/order-builder', visual: <OrderBuilderVisual />,
+    },
+    {
+      key: 'subway-timer', title: '15-Min Subway Timer',
+      desc: "Tapped the wrong gate? Check Seoul's free re-entry rule and start your 15-minute countdown.",
+      href: '/tools/subway-timer', visual: <SubwayTimerVisual />,
+    },
+    {
+      key: 'krw-converter', title: 'KRW Price Sense',
+      desc: 'Convert Korean Won to your currency with everyday street food & meal price benchmarks.',
+      href: '/tools/krw-converter', visual: <KrwPriceVisual />,
     },
   ]
   // 바로가기 바는 헤더 드로어와 같은 3대 축(Our Apps · Learn Korean · Travel & Life) — 각 게이트웨이 섹션으로 간다
@@ -491,8 +506,8 @@ export default async function AtlasLabHome() {
         }
         .why-desc {
           font-family: ${BODY};
-          font-size: 12.5px; color: var(--ink-muted, #6B6B6B);
-          line-height: 1.7;
+          font-size: 14px; color: #4B5563;
+          line-height: 1.625;
         }
       `}</style>
 
@@ -567,6 +582,7 @@ export default async function AtlasLabHome() {
       <div className="wrap gw-wrap">
         <GatewaySection id="learn-korean" variant="learn" title={AXIS_LABELS.korean} desc="Start with essential phrases and basics." cards={learnCards} />
         <GatewaySection id="travel-life" variant="guide" title={AXIS_LABELS.guides} desc="Solve everyday problems and enjoy your trip." cards={guideCards} />
+        <GatewaySection id="smart-tools" variant="guide" title="Smart Travel Tools" desc="Instant, offline-friendly tools designed for your Seoul trip." cards={toolCards} />
       </div>
 
       {/* ── Why Atlas Lab ── */}
