@@ -12,7 +12,7 @@ export const TOOLS: Tool[] = [
   { id: 'weather', title: 'Korea Weather', desc: '7-day forecasts for ten cities, with rain chances and what to wear.', group: 'Planning' },
   { id: 'kpop-calendar', title: 'K-Pop Event Calendar', desc: 'Upcoming concerts, global ticketing links, and arena venue guides.', group: 'Planning' },
   { id: 'world-time', title: 'Seoul & World Time', desc: 'Compare Seoul time with hometowns via interactive day/night cards.', group: 'Planning' },
-  { id: 'hotspot-finder', title: 'Regional Hotspot Finder', desc: 'Curated 3-spot half-day walking clusters across 9 cities with zero photo bloat.', group: 'Planning' },
+  { id: 'hotspot-finder', title: 'Regional Hotspot Finder', desc: 'Curated walking clusters across Seoul and 10 regional cities with zero photo bloat.', group: 'Planning' },
 ]
 
 /** /tools 허브의 노출 순서 — 대표 도구 3종이 먼저, 생활 유틸리티가 뒤 */

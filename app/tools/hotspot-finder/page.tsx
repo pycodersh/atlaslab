@@ -5,7 +5,7 @@ import { HotspotFinder } from './HotspotFinder'
 
 const URL = 'https://www.atlaslabstudios.com/tools/hotspot-finder'
 const TITLE = 'Korea Regional Hotspot Finder — Atlas Lab'
-const DESCRIPTION = 'Curated three-spot half-day clusters across nine Korean cities, with walking and transit tips.'
+const DESCRIPTION = 'Curated walking clusters across Seoul and 10 regional Korean cities, with 24 Seoul spots in 6 areas and transit tips.'
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -19,7 +19,7 @@ export default function Page() {
     <div className="tl-wrap hs-wrap">
       <p className="tl-eyebrow">Smart Travel Tools</p>
       <h1 className="tl-h1">Regional Hotspot Finder</h1>
-      <p className="tl-lead">Three spots per city, grouped so you can see them in half a day.</p>
+      <p className="tl-lead">24 spots across 6 Seoul areas, plus the places worth the trip in 10 regional cities.</p>
       <HotspotFinder />
       <MoreTools current="/tools/hotspot-finder" />
     </div>

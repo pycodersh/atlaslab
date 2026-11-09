@@ -2,45 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { CITIES, HUBS, routeBetween, type City, type CityId, type TransitMode, type TransitRoute } from '@/data/transitRoutes'
+import { KoreaRouteMap, shortCity as short } from '../KoreaRouteMap'
 
 const cityOf = (id: CityId) => CITIES.find(c => c.id === id) as City
-const short = (city: City) => city.name.split(' / ')[0]
-
-// 지도는 위경도를 그대로 평면에 옮긴 약도다
-const project = (lon: number, lat: number) => [Math.round((lon - 125.7) * 56) + 14, Math.round((38.8 - lat) * 66) + 4] as const
-const COAST = [
-  [126.35, 37.85], [126.55, 37.45], [126.75, 37.0], [126.35, 36.75], [126.5, 36.4], [126.75, 35.95], [126.45, 35.55], [126.4, 35.0],
-  [126.25, 34.6], [126.55, 34.3], [127.0, 34.55], [127.5, 34.7], [128.1, 34.85], [128.6, 34.85], [129.05, 35.05], [129.35, 35.4],
-  [129.5, 36.0], [129.4, 36.5], [129.4, 37.0], [129.1, 37.55], [128.7, 38.0], [128.35, 38.6], [127.4, 38.35], [126.7, 38.0],
-].map(([lon, lat]) => project(lon, lat).join(',')).join(' ')
-const [JEJU_X, JEJU_Y] = project(126.55, 33.38)
-
-function RouteMap({ from, to, onPick }: { from: CityId; to: CityId; onPick: (id: CityId) => void }) {
-  const [fx, fy] = project(cityOf(from).lon, cityOf(from).lat)
-  const [tx, ty] = project(cityOf(to).lon, cityOf(to).lat)
-  return (
-    <svg className="tg-map notranslate" viewBox="0 0 290 372" role="group" aria-label={`Map of Korea showing the route from ${short(cityOf(from))} to ${short(cityOf(to))}. Not to scale.`}>
-      <polygon points={COAST} fill="#F3F1EC" stroke="#D6D3CC" strokeWidth="1.5" strokeLinejoin="round" />
-      <ellipse cx={JEJU_X} cy={JEJU_Y} rx="20" ry="10" fill="#F3F1EC" stroke="#D6D3CC" strokeWidth="1.5" />
-      <line className="tg-route-line" x1={fx} y1={fy} x2={tx} y2={ty} stroke="#C8102E" strokeWidth="2.5" strokeDasharray="2 7" strokeLinecap="round" />
-      {CITIES.map(city => {
-        const [x, y] = project(city.lon, city.lat)
-        const isFrom = city.id === from
-        const isTo = city.id === to
-        const left = city.label === 'left'
-        return (
-          <g key={city.id} className={`tg-pin${isFrom ? ' is-from' : ''}${isTo ? ' is-to' : ''}`} role="button" tabIndex={isFrom || isTo ? -1 : 0}
-            aria-label={`Go to ${short(city)}`} onClick={() => onPick(city.id)}
-            onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPick(city.id) } }}>
-            <circle cx={x} cy={y} r="15" fill="transparent" />
-            <circle className="tg-dot" cx={x} cy={y} r={isFrom || isTo ? 7 : 4} />
-            <text x={left ? x - 9 : x + 9} y={y + 4} textAnchor={left ? 'end' : 'start'}>{short(city)}</text>
-          </g>
-        )
-      })}
-    </svg>
-  )
-}
 
 /** 방향에 맞춰 허브를 뒤집어 읽는다 — 팁은 언제나 내리는 허브의 것이다 */
 function ModeCard({ mode, reversed, verdict }: { mode: TransitMode; reversed: boolean; verdict: string }) {
@@ -118,19 +82,6 @@ export function TransitGuide() {
         .tg-field select:focus-visible, .tg-swap:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
 
         .tg-overview { display: flex; flex-direction: column; align-items: center; gap: 8px; background: #fff; border: 1px solid #F3F4F6; border-radius: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.05); padding: 16px 20px 20px; margin-bottom: 20px; }
-        .tg-map { display: block; width: 100%; max-width: 300px; height: auto; }
-        .tg-route-line { animation: tg-dash 1s linear infinite; }
-        @keyframes tg-dash { to { stroke-dashoffset: -9; } }
-        @media (prefers-reduced-motion: reduce) { .tg-route-line { animation: none; } }
-        .tg-pin { cursor: pointer; outline: none; }
-        .tg-pin .tg-dot { fill: #D1D5DB; stroke: #fff; stroke-width: 1.5; transition: fill .15s; }
-        .tg-pin text { font: 500 11px "DM Sans", Inter, system-ui, sans-serif; fill: #6B7280; }
-        .tg-pin.is-from .tg-dot { fill: #111827; stroke-width: 2; }
-        .tg-pin.is-to .tg-dot { fill: #C8102E; stroke-width: 2; }
-        .tg-pin.is-from text { font-weight: 700; fill: #111827; }
-        .tg-pin.is-to text { font-weight: 700; fill: #C8102E; }
-        .tg-pin:focus-visible .tg-dot { stroke: #C8102E; stroke-width: 3; }
-        @media (hover: hover) { .tg-pin:not(.is-from):not(.is-to):hover .tg-dot { fill: #6B7280; } }
         .tg-summary { text-align: center; }
         .tg-route { font-family: "Playfair Display", Georgia, serif; font-size: 24px; font-weight: 700; line-height: 1.2; color: #111827; margin: 0 0 4px; }
         .tg-hint { font-size: 13px; color: #6B7280; margin: 0; }
@@ -158,7 +109,7 @@ export function TransitGuide() {
           .tg-bar { grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr); }
           .tg-swap { width: 52px; }
           .tg-overview { flex-direction: row; justify-content: center; gap: 40px; padding: 20px 28px; }
-          .tg-map { width: 300px; flex: 0 0 auto; }
+          .km-map { width: 300px; flex: 0 0 auto; }
           .tg-summary { text-align: left; }
           .tg-route { font-size: 30px; }
           .tg-modes.is-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -183,7 +134,7 @@ export function TransitGuide() {
       </div>
 
       <section className="tg-overview">
-        <RouteMap from={from} to={to} onPick={pickOnMap} />
+        <KoreaRouteMap from={from} to={to} onPick={pickOnMap} />
         <div className="tg-summary">
           <h2 key={`${from}-${to}`} className="tg-route notranslate" translate="no">{short(cityOf(from))} → {short(cityOf(to))}</h2>
           <p className="tg-hint">Tap a city on the map to set your destination.</p>

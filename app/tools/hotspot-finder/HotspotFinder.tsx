@@ -2,12 +2,17 @@
 
 import { useState } from 'react'
 import { CATEGORY_EMOJI, HOTSPOT_CITIES, type SeoulClusterId } from '@/data/regionalHotspots'
+import { CITIES, type CityId } from '@/data/transitRoutes'
+import { KoreaRouteMap } from '../KoreaRouteMap'
 import { SeoulHotspotMap } from './SeoulHotspotMap'
 
+// 해시태그에는 공백 · & · 가운뎃점을 못 쓴다 — '명동거리 & 야시장' 은 앞쪽 이름 하나만 태그로 쓴다
+const instagramTag = (ko: string) => ko.split(/[&·]/)[0].replace(/\s+/g, '')
+
 export function HotspotFinder() {
-  const [selected, setSelected] = useState(0)
+  const [cityId, setCityId] = useState<CityId>('seoul')
   const [clusterId, setClusterId] = useState<SeoulClusterId>('jongno')
-  const city = HOTSPOT_CITIES[selected]
+  const city = HOTSPOT_CITIES.find(c => c.id === cityId) ?? HOTSPOT_CITIES[0]
   const cluster = city.clusters?.find(c => c.id === clusterId)
   const spots = cluster?.spots ?? city.spots
 
@@ -20,8 +25,13 @@ export function HotspotFinder() {
         .hs-tab[aria-selected="true"] { background: #111827; border-color: #111827; color: #fff; }
 
         .hs-seoul { display: flex; flex-direction: column; gap: 14px; padding: 16px; margin-bottom: 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; }
-        .hs-map { display: block; width: 100%; max-width: 300px; height: auto; margin: 0 auto; }
+        .hs-map { display: block; width: 100%; max-width: 340px; height: auto; margin: 0 auto; }
+        .hs-mapbox { width: 100%; animation: hs-in .2s ease-out; }
+        .hs-mapbox .km-map { margin: 0 auto; }
+        @media (prefers-reduced-motion: reduce) { .hs-mapbox { animation: none; } }
+        .hs-city-hint { margin: 0; font-size: 13px; color: #6B7280; }
         .hs-river { font: 500 9px "DM Sans", Inter, system-ui, sans-serif; fill: #7D9BB0; }
+        .hs-side-label { font: 700 9px "DM Sans", Inter, system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; fill: #9CA3AF; }
         .hs-zone { cursor: pointer; outline: none; }
         .hs-zone polygon { fill: #F3F1EC; stroke: #fff; stroke-width: 3; transition: fill .15s; }
         .hs-zone text { font: 600 12px "DM Sans", Inter, system-ui, sans-serif; fill: #4B5563; pointer-events: none; transition: fill .15s; }
@@ -50,30 +60,58 @@ export function HotspotFinder() {
         .hs-what { margin: 0 0 12px; font-size: 15px; line-height: 1.5; color: #111827; }
         .hs-tip { margin: 0; padding-top: 12px; border-top: 1px solid #F3F4F6; font-size: 13px; line-height: 1.5; color: #4B5563; }
         .hs-tip strong { display: block; color: #111827; font-weight: 700; }
+        /* margin-top:auto — 팁 길이가 달라도 같은 줄 카드의 버튼 높이가 맞는다 */
+        .hs-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: auto; padding-top: 12px; }
+        .hs-link { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 6px 4px; box-sizing: border-box; border: 1px solid #E5E7EB; border-radius: 10px; background: #fff; color: #374151; text-decoration: none; white-space: nowrap; font: 600 13px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
+        @media (hover: hover) { .hs-link:hover { background: #F9FAFB; border-color: #9CA3AF; } }
+        .hs-link:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 10px 16px; margin-bottom: 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
         .hs-tab:focus-visible, .hs-chip:focus-visible, .hs-route:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
-        @media (max-width: 767px) { .hs-map { max-width: 240px; } }
         @media (min-width: 768px) {
-          .hs-tabs { grid-template-columns: repeat(9, minmax(0, 1fr)); }
-          .hs-deck { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+          .hs-tabs { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+          .hs-deck { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
           .hs-seoul { flex-direction: row; align-items: center; gap: 32px; padding: 20px 28px; }
-          .hs-map { flex: 0 0 300px; margin: 0; }
+          .hs-mapbox { flex: 0 0 340px; width: 340px; }
           .hs-cluster-name { font-size: 26px; }
           .hs-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
           .hs-chip-short { display: none; }
           .hs-chip-full { display: inline; }
         }
+        @media (min-width: 1024px) {
+          .hs-tabs { grid-template-columns: repeat(11, minmax(0, 1fr)); gap: 6px; }
+          .hs-tab { padding: 8px 2px; font-size: 13px; }
+          /* 서울 권역은 네 곳이라 2x2 를 유지한다 */
+          .hs-deck:not(.is-four) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
       `}</style>
 
       <div className="hs-tabs notranslate" translate="no" role="tablist" aria-label="City">
-        {HOTSPOT_CITIES.map((c, i) => (
-          <button key={c.id} type="button" role="tab" className="hs-tab" aria-selected={i === selected} onClick={() => setSelected(i)}>{c.name}</button>
+        {HOTSPOT_CITIES.map(c => (
+          <button key={c.id} type="button" role="tab" className="hs-tab" aria-selected={c.id === city.id} onClick={() => setCityId(c.id)}>{c.name}</button>
         ))}
       </div>
 
+      {!city.clusters && (
+        <section className="hs-seoul" aria-label="Choose a city on the map">
+          {/* 서울 ↔ 전국 지도가 바뀔 때만 다시 그려 페이드한다 — 지방 도시끼리는 핀과 점선만 움직인다 */}
+          <div key="korea" className="hs-mapbox">
+            <KoreaRouteMap from="seoul" to={city.id} onPick={setCityId} />
+          </div>
+          <div className="hs-side">
+            <h2 key={city.id} className="hs-cluster-name notranslate" translate="no">{city.name}</h2>
+            <p key={`${city.id}-theme`} className="hs-cluster-theme">
+              <span className="notranslate" translate="no" lang="ko">{CITIES.find(c => c.id === city.id)?.ko}</span> · {spots.length} spots
+            </p>
+            <p className="hs-city-hint">Tap a city on the map to see its spots.</p>
+          </div>
+        </section>
+      )}
+
       {city.clusters && cluster && (
         <section className="hs-seoul" aria-label="Choose a Seoul area">
-          <SeoulHotspotMap selected={cluster.id} onSelect={setClusterId} />
+          <div key="seoul" className="hs-mapbox">
+            <SeoulHotspotMap selected={cluster.id} onSelect={setClusterId} />
+          </div>
           <div className="hs-side">
             <h2 key={cluster.id} className="hs-cluster-name notranslate" translate="no">{cluster.name}</h2>
             <p key={`${cluster.id}-theme`} className="hs-cluster-theme"><span className="notranslate" translate="no" lang="ko">{cluster.ko}</span> · {cluster.theme}</p>
@@ -91,7 +129,7 @@ export function HotspotFinder() {
 
       {/* key: 자동 번역이 글자 노드를 바꿔 끼우고, 바뀔 때마다 카드가 부드럽게 나타나게 새로 그린다 */}
       <div key={`${city.id}-${cluster?.id ?? ''}`} role="tabpanel" aria-label={cluster?.name ?? city.name}>
-        <div className="hs-deck">
+        <div className={`hs-deck${cluster ? ' is-four' : ''}`}>
           {spots.map((spot, i) => (
             <article key={spot.name} className="hs-card">
               <div className="hs-top">
@@ -102,6 +140,10 @@ export function HotspotFinder() {
               <p className="hs-ko notranslate" translate="no" lang="ko">{spot.ko}</p>
               <p className="hs-what">{spot.what}</p>
               <p className="hs-tip"><strong>Walking &amp; Transit tip</strong>{spot.tip}</p>
+              <div className="hs-links notranslate" translate="no">
+                <a className="hs-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot.ko} ${spot.name}`)}`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Google Maps`}>🗺️ Google Maps</a>
+                <a className="hs-link" href={`https://www.instagram.com/explore/tags/${encodeURIComponent(instagramTag(spot.ko))}/`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Instagram`}>📸 Live Vibes</a>
+              </div>
             </article>
           ))}
         </div>

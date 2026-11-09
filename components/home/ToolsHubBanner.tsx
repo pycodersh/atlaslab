@@ -4,16 +4,16 @@ import { TOOL_ART } from '@/app/tools/toolArt'
 
 const FEATURED: { id: ToolId; badge: string; title: string; desc: string }[] = [
   {
-    id: 'kpop-calendar', badge: 'Concerts & Guides', title: 'K-Pop Event Calendar',
-    desc: 'Upcoming idol tour schedules, global ticketing links, and subway exit tips for KSPO Dome & Gocheok.',
+    id: 'hotspot-finder', badge: 'City Clusters', title: 'Regional Hotspot Finder',
+    desc: 'Curated walking clusters across Seoul and 10 regional cities with zero photo bloat.',
   },
   {
     id: 'transit-guide', badge: 'Transit Navigator', title: 'Intercity Transit Guide',
     desc: 'Compare KTX trains, express buses, and flights across major routes between 10 cities.',
   },
   {
-    id: 'order-builder', badge: 'Dining Survival', title: 'K-Food Order Assistant',
-    desc: 'Point-and-order phrases, spice-level adjustments ("Not spicy"), and allergen alerts.',
+    id: 'kpop-calendar', badge: 'Concerts & Guides', title: 'K-Pop Event Calendar',
+    desc: 'Upcoming idol tour schedules, global ticketing links, and subway exit tips for KSPO Dome & Gocheok.',
   },
 ]
 
@@ -73,7 +73,7 @@ export function ToolsHubBanner() {
 
       <div className="thb-strip">
         {/* 날씨는 1시간마다 갱신된다 — 'Real-time' 이라 쓰지 않는다 */}
-        <p>Looking for Regional Hotspots, Subway Survival, or Weather Forecasts?</p>
+        <p>Looking for K-Food Orders, Subway Survival, or Weather Forecasts?</p>
         <a className="thb-cta" href="/tools">Launch Travel Hub ({TOOLS.length} Tools) →</a>
       </div>
     </section>
