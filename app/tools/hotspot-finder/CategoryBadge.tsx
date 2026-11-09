@@ -1,12 +1,14 @@
-import type { ReactNode } from 'react'
+'use client'
+
+import { useState, type ReactNode } from 'react'
 import type { HotspotCategory } from '@/data/regionalHotspots'
 
 // 사진 대신 쓰는 테마 썸네일 — 66곳이 이 8장을 나눠 쓴다
 const STRIPES = [0, 1, 2, 3, 4]
 
-const THEMES: Record<HotspotCategory, { from: string; to: string; ink: string; art: ReactNode }> = {
+const THEMES: Record<HotspotCategory, { from: string; to: string; art: ReactNode }> = {
   'Nature & Park': {
-    from: '#DCFCE7', to: '#A7F3D0', ink: '#166534',
+    from: '#DCFCE7', to: '#A7F3D0',
     art: <>
       <circle cx="72" cy="22" r="9" fill="#FDE68A" />
       <path fill="#34D399" d="M4 78 32 38l26 40z" />
@@ -16,7 +18,7 @@ const THEMES: Record<HotspotCategory, { from: string; to: string; ink: string; a
     </>,
   },
   'Art & Culture': {
-    from: '#EDE9FE', to: '#C4B5FD', ink: '#5B21B6',
+    from: '#EDE9FE', to: '#C4B5FD',
     art: <>
       <path fill="#7C3AED" d="M48 10a38 38 0 1 0 0 76c8 0 11-5 9-11-2-6 2-13 9-13h8c8 0 14-6 14-14 0-21-18-38-40-38z" />
       <circle cx="30" cy="44" r="7" fill="#FDE68A" />
@@ -26,7 +28,7 @@ const THEMES: Record<HotspotCategory, { from: string; to: string; ink: string; a
     </>,
   },
   'Local Market': {
-    from: '#FEF3C7', to: '#FCD34D', ink: '#92400E',
+    from: '#FEF3C7', to: '#FCD34D',
     art: <>
       <path fill="#B45309" d="M18 48h5v36h-5zM73 48h5v36h-5z" />
       {STRIPES.map(i => <path key={i} fill={i % 2 ? '#FFFBEB' : '#D97706'} d={`M${12 + i * 14.4} 16h14.4v24a7.200 7.200 0 0 1-14.400 0z`} />)}
@@ -37,7 +39,7 @@ const THEMES: Record<HotspotCategory, { from: string; to: string; ink: string; a
     </>,
   },
   Heritage: {
-    from: '#FFE4E6', to: '#FDA4AF', ink: '#9F1239',
+    from: '#FFE4E6', to: '#FDA4AF',
     art: <>
       <rect x="34" y="14" width="28" height="6" rx="3" fill="#881337" />
       <path fill="#9F1239" d="M6 46c15-3 26-13 32-27h20c6 14 17 24 32 27-23-7-61-7-84 0z" />
@@ -47,7 +49,7 @@ const THEMES: Record<HotspotCategory, { from: string; to: string; ink: string; a
     </>,
   },
   'Trendy Cafe': {
-    from: '#FFEDD5', to: '#FDBA74', ink: '#9A3412',
+    from: '#FFEDD5', to: '#FDBA74',
     art: <>
       <path fill="none" stroke="#FB923C" strokeWidth="4" strokeLinecap="round" d="M34 12c-5 6 5 11 0 18M48 12c-5 6 5 11 0 18" />
       <path fill="none" stroke="#C2410C" strokeWidth="6" d="M66 47h5a9 9 0 0 1 0 18h-7" />
@@ -57,7 +59,7 @@ const THEMES: Record<HotspotCategory, { from: string; to: string; ink: string; a
     </>,
   },
   'Skyline & Modern': {
-    from: '#E0E7FF', to: '#A5B4FC', ink: '#3730A3',
+    from: '#E0E7FF', to: '#A5B4FC',
     art: <>
       <rect x="12" y="46" width="20" height="38" rx="2" fill="#818CF8" />
       <rect x="62" y="36" width="22" height="48" rx="2" fill="#6366F1" />
@@ -68,7 +70,7 @@ const THEMES: Record<HotspotCategory, { from: string; to: string; ink: string; a
     </>,
   },
   'Coastal & Sea': {
-    from: '#E0F2FE', to: '#7DD3FC', ink: '#075985',
+    from: '#E0F2FE', to: '#7DD3FC',
     art: <>
       <circle cx="72" cy="22" r="10" fill="#FDE68A" />
       <path fill="#fff" d="M44 12v28h18z" />
@@ -81,7 +83,7 @@ const THEMES: Record<HotspotCategory, { from: string; to: string; ink: string; a
     </>,
   },
   'Shopping & Street': {
-    from: '#FCE7F3', to: '#F9A8D4', ink: '#9D174D',
+    from: '#FCE7F3', to: '#F9A8D4',
     art: <>
       <path fill="none" stroke="#9D174D" strokeWidth="5" strokeLinecap="round" d="M36 36V26a12 12 0 0 1 24 0v10" />
       <path fill="#DB2777" d="M24 32h48l6 54H18z" />
@@ -90,12 +92,17 @@ const THEMES: Record<HotspotCategory, { from: string; to: string; ink: string; a
   },
 }
 
-export function CategoryArt({ category }: { category: HotspotCategory }) {
-  const { from, to, ink, art } = THEMES[category]
+/** 사진이 있으면 사진, 없거나 못 불러오면(오프라인 포함) 테마 일러스트를 보여 준다 */
+export function CategoryArt({ category, photo, alt }: { category: HotspotCategory; photo?: string; alt: string }) {
+  const [failed, setFailed] = useState(false)
+  const { from, to, art } = THEMES[category]
   return (
     <div className="hs-art" style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}>
-      <svg viewBox="0 0 96 96" aria-hidden="true">{art}</svg>
-      <span className="hs-theme" style={{ color: ink }}>{category}</span>
+      {photo && !failed
+        // eslint-disable-next-line @next/next/no-img-element -- 256px 로 미리 줄인 webp 라 이미지 최적화가 필요 없다
+        ? <img src={photo} alt={alt} width={256} height={256} loading="lazy" decoding="async" onError={() => setFailed(true)} />
+        : <svg viewBox="0 0 96 96" aria-hidden="true">{art}</svg>}
+      <span className="hs-theme">{category}</span>
     </div>
   )
 }

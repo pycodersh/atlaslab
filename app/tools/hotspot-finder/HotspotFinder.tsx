@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { HOTSPOT_CITIES, type SeoulClusterId } from '@/data/regionalHotspots'
 import { CategoryArt } from './CategoryBadge'
+import { HOTSPOT_PHOTOS } from '@/data/hotspotPhotos'
 import { CITIES, type CityId } from '@/data/transitRoutes'
 import { KoreaRouteMap } from '../KoreaRouteMap'
 import { SeoulHotspotMap } from './SeoulHotspotMap'
@@ -56,34 +57,34 @@ export function HotspotFinder() {
         .hs-deck { display: flex; flex-direction: column; gap: 16px; max-width: 768px; margin: 0 auto 18px; animation: hs-in .2s ease-out; }
         @keyframes hs-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
         @media (prefers-reduced-motion: reduce) { .hs-deck { animation: none; } }
-        .hs-card { display: flex; flex-direction: column; gap: 20px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,.05); transition: border-color .15s; }
+        .hs-card { display: flex; align-items: flex-start; gap: 14px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.05); transition: border-color .15s; }
         @media (hover: hover) { .hs-card:hover { border-color: #D1D5DB; } .hs-tab:not([aria-selected="true"]):hover { border-color: #9CA3AF; } }
-        .hs-art { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; flex-shrink: 0; box-sizing: border-box; width: 100%; height: 128px; padding: 6px; border-radius: 16px; }
-        .hs-art svg { display: block; width: 84px; height: 84px; }
-        .hs-theme { padding: 2px 8px; border-radius: 6px; background: rgba(255,255,255,.7); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); font-size: 11px; font-weight: 600; line-height: 1.4; white-space: nowrap; }
+        .hs-art { position: relative; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-sizing: border-box; width: 96px; aspect-ratio: 1; padding-bottom: 14px; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+        .hs-art img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; }
+        .hs-art svg { display: block; width: 58px; height: 58px; }
+        .hs-theme { position: absolute; left: 50%; bottom: 5px; transform: translateX(-50%); box-sizing: border-box; width: max-content; max-width: calc(100% - 8px); padding: 2px 6px; border-radius: 6px; background: rgba(0,0,0,.5); -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); color: #fff; font-size: 11px; font-weight: 600; line-height: 1.2; text-align: center; }
         .hs-body { flex: 1; min-width: 0; }
         .hs-name { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.25; color: #111827; }
         .hs-ko { margin: 4px 0 0; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 14px; font-weight: 500; color: #6B7280; }
         .hs-what { margin: 6px 0 0; font-size: 14px; line-height: 1.55; color: #374151; }
-        .hs-tip { margin: 10px 0 0; padding-top: 10px; border-top: 1px solid #F1F5F9; font-size: 12px; line-height: 1.625; color: #64748B; }
+        .hs-tip { margin: 8px 0 0; padding-top: 8px; border-top: 1px solid #F1F5F9; font-size: 12px; line-height: 1.625; color: #64748B; }
         .hs-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
         .hs-link { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 6px 4px; box-sizing: border-box; border: 1px solid #E5E7EB; border-radius: 10px; background: #fff; color: #374151; text-decoration: none; white-space: nowrap; font: 600 13px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
         @media (hover: hover) { .hs-link:hover { background: #F9FAFB; border-color: #9CA3AF; } }
         .hs-link:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
         .hs-tab:focus-visible, .hs-chip:focus-visible, .hs-route:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        /* 폰은 글 칸이 좁아 버튼 글자가 넘치므로 버튼 줄만 썸네일 아래까지 펼친다 */
+        @media (max-width: 639px) { .hs-links { margin-left: -110px; } }
         @media (min-width: 640px) {
-          .hs-card { flex-direction: row; align-items: flex-start; }
-          .hs-art { width: 112px; height: 112px; }
+          .hs-art { width: 112px; }
           .hs-art svg { width: 68px; height: 68px; }
         }
         @media (min-width: 768px) {
-          .hs-art { width: 128px; height: 128px; }
-          .hs-art svg { width: 84px; height: 84px; }
           .hs-tabs { grid-template-columns: repeat(6, minmax(0, 1fr)); }
           .hs-links { display: flex; justify-content: flex-end; }
           .hs-link { min-height: 36px; padding: 4px 14px; font-size: 12px; }
-          .hs-card { padding: 24px; }
+          .hs-card { gap: 20px; padding: 20px; }
           .hs-seoul { flex-direction: row; align-items: center; gap: 32px; padding: 20px 28px; }
           .hs-mapbox { flex: 0 0 340px; width: 340px; }
           .hs-cluster-name { font-size: 26px; }
@@ -144,7 +145,7 @@ export function HotspotFinder() {
         <div className="hs-deck">
           {spots.map(spot => (
             <article key={spot.name} className="hs-card">
-              <CategoryArt category={spot.category} />
+              <CategoryArt category={spot.category} photo={HOTSPOT_PHOTOS[spot.name]} alt={spot.name} />
               <div className="hs-body">
               <h2 className="hs-name notranslate" translate="no">{spot.name}</h2>
               <p className="hs-ko notranslate" translate="no" lang="ko">{spot.ko}</p>
