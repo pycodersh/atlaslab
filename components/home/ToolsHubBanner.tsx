@@ -36,12 +36,21 @@ export function ToolsHubBanner() {
         .thb-badge { padding: 3px 8px; border-radius: 6px; background: #FBEFEA; color: #C8102E; font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
         .thb-name { font-family: "Playfair Display", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.25; color: #111827; margin-bottom: 6px; }
         .thb-desc { font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.55; color: #4B5563; }
+        .thb-arrow { display: none; }
         .thb-strip { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 16px; padding: 16px; border: 1px solid #E5E7EB; border-radius: 16px; background: #F9FAFB; }
         .thb-strip p { margin: 0; font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 14px; font-weight: 500; line-height: 1.45; color: #374151; }
         .thb-cta { flex: none; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 16px; box-sizing: border-box; border-radius: 12px; background: #000; color: #fff; font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 14px; font-weight: 700; text-decoration: none; white-space: nowrap; }
         .thb-card:focus-visible, .thb-cta:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         @media (max-width: 767px) {
-          .thb-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+          /* 폰은 /tools 허브 같은 가로 줄 — 글자 크기는 바로 위 Travel & Life 카드(.gw-*)와 맞춘다 */
+          .thb-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+          .thb-card { flex-direction: row; align-items: center; gap: 12px; padding: 10px 12px 10px 10px; border-radius: 14px; }
+          .thb-art { flex: 0 0 80px; width: 80px; height: 80px; aspect-ratio: auto; border-radius: 12px; overflow: hidden; }
+          .thb-body { min-width: 0; padding: 0; }
+          .thb-badge { margin-bottom: 4px; padding: 2px 6px; font-size: 11px; }
+          .thb-name { font-size: 18px; margin-bottom: 3px; }
+          .thb-desc { font-size: 14px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+          .thb-arrow { display: block; flex: none; font-size: 14px; line-height: 1; color: #9CA3AF; }
           .thb-strip { flex-direction: column; align-items: stretch; text-align: center; }
         }
       `}</style>
@@ -57,6 +66,7 @@ export function ToolsHubBanner() {
               <span className="thb-name">{tool.title}</span>
               <span className="thb-desc">{tool.desc}</span>
             </span>
+            <span className="thb-arrow" aria-hidden="true">↗</span>
           </a>
         ))}
       </div>
