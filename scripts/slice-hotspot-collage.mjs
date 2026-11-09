@@ -1,15 +1,14 @@
 /**
- * 콜라주 두 장을 스팟별 정사각 webp 로 자른다.
- *   node scripts/slice-hotspot-collage.mjs <콜라주1.png> <콜라주2.png> [대조표.jpg]
+ * 콜라주 세 장을 스팟별 정사각 webp 로 자른다.
+ *   node scripts/slice-hotspot-collage.mjs <콜라주1.png> <콜라주2.png> <누락 이미지.png> [대조표.jpg]
  * 칸 경계는 흰 여백을 읽어 찾는다 — 콜라주마다 칸 크기가 조금씩 달라 균등 분할하면 어긋난다.
  * 결과: public/images/hotspots/spot-*.webp, data/hotspotPhotos.ts(스팟 이름 → 경로)
- * 여기 없는 스팟은 콜라주에 맞는 사진이 없어 테마 일러스트를 그대로 쓴다.
  */
 import { mkdirSync, writeFileSync } from 'node:fs'
 import sharp from 'sharp'
 
-const COLS = 6
-const ROWS = 9
+// 시트별 격자 [행, 열]
+const GRID = { 1: [9, 6], 2: [9, 6], 3: [3, 5] }
 const OUT = 256
 const INSET = 0.04
 
@@ -30,6 +29,9 @@ const MAP = {
   'Dongseongno and Spark Land': [1, 9, 3], 'Seomun Night Market': [1, 9, 1], 'Kim Gwangseok Street': [1, 9, 2], 'Apsan Observatory': [1, 9, 4],
   'Hahoe Folk Village': [1, 8, 5], 'Woryeonggyo Bridge': [1, 8, 6],
   'Nami Island': [1, 9, 5], 'LEGOLAND Korea': [1, 9, 6],
+  'DDP & Cheonggyecheon': [3, 1, 1], 'Daelim Changgo Gallery': [3, 1, 2], 'Ttukseom Cafe Street': [3, 1, 3], 'Hannam-dong Designer Street': [3, 1, 4], 'Nambu Night Market': [3, 1, 5],
+  'Jaman Mural Village': [3, 2, 1], 'ARTE Museum Gangneung': [3, 2, 2], 'Jeongdongjin Sea Fan Trail': [3, 2, 3], 'Sokcho Eye': [3, 2, 4], 'Seoraksan Cable Car': [3, 2, 5],
+  'Yi Sun-sin Square Food Street': [3, 3, 1], 'Andong Jjimdak Alley': [3, 3, 2], 'Myeongdong Dakgalbi Street': [3, 3, 3], 'Dongmun Night Market': [3, 3, 4], Soesokkak: [3, 3, 5],
   'Seongsan Ilchulbong': [1, 6, 1], 'Hamdeok Beach': [1, 6, 3], 'Osulloc Tea Museum': [1, 6, 5],
 }
 
@@ -57,7 +59,7 @@ function bands(ratio, count, reach) {
   return Array.from({ length: count }, (_, i) => [i === 0 ? head : gutters[i][1] + 1, i === count - 1 ? tail + 1 : gutters[i + 1][0]])
 }
 
-async function gridOf(file) {
+async function gridOf(file, [ROWS, COLS]) {
   const { data, info } = await sharp(file).removeAlpha().raw().toBuffer({ resolveWithObject: true })
   const { width, height, channels } = info
   const white = (x, y) => { const p = (y * width + x) * channels; return data[p] > 238 && data[p + 1] > 238 && data[p + 2] > 238 }
@@ -69,10 +71,10 @@ async function gridOf(file) {
   })
 }
 
-const [one, two, sheetPath] = process.argv.slice(2)
-if (!one || !two) throw new Error('콜라주 두 장의 경로가 필요하다')
-const files = { 1: one, 2: two }
-const grids = { 1: await gridOf(one), 2: await gridOf(two) }
+const [one, two, three, sheetPath] = process.argv.slice(2)
+if (!one || !two || !three) throw new Error('콜라주 세 장의 경로가 필요하다')
+const files = { 1: one, 2: two, 3: three }
+const grids = { 1: await gridOf(one, GRID[1]), 2: await gridOf(two, GRID[2]), 3: await gridOf(three, GRID[3]) }
 
 mkdirSync('public/images/hotspots', { recursive: true })
 const entries = []
