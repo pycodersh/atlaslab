@@ -1,4 +1,5 @@
-import { Composition } from 'remotion'
+import { Composition, Still } from 'remotion'
+import { BasicsThumb } from './KoreanBasic/BasicsThumb'
 import { DangerPronounsVideo, DANGER_PRONOUNS } from './KoreanBasic/DangerPronounsVideo'
 import { TemplateVideo, BASICS_VIDEO, videoLayout } from './KoreanBasic/TemplateVideo'
 import { BASICS_VIDEOS } from './KoreanBasic/videos'
@@ -12,6 +13,13 @@ export function RemotionRoot() {
   return (
     <>
       <Composition id="DangerPronouns" component={DangerPronounsVideo} {...DANGER_PRONOUNS} />
+      <Still
+        id="BasicsThumb"
+        component={BasicsThumb}
+        width={BASICS_VIDEO.width}
+        height={BASICS_VIDEO.height}
+        defaultProps={{ data: Object.values(BASICS_VIDEOS)[0], variant: 'keyword' as const }}
+      />
       {Object.entries(BASICS_VIDEOS).map(([slug, data]) => (
         <Composition
           key={slug}

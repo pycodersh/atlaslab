@@ -13,6 +13,7 @@ import {
   groupKeyOf,
 } from '@/lib/blog/sections'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
+import { KoreanBasicsArt } from '@/components/home/KoreanBasicsArt'
 import type { Metadata } from 'next'
 import { ORGANIZATION_JSON_LD, WEBSITE_JSON_LD, DEFAULT_OPEN_GRAPH, SITE_TITLE, SITE_DESC, SITE_URL } from '@/lib/seo/site'
 
@@ -174,7 +175,7 @@ export default async function AtlasLabHome() {
     {
       key: 'basics', title: 'Korean Basics',
       desc: 'Essential Hangul, pronunciation, and core grammar rules made easy.',
-      href: '/learn-korean/basics', thumb: thumbOf('korean-never-say-dangsin-neo'), thumbAlt: 'Korean grammar rule card',
+      href: '/learn-korean/basics', art: <KoreanBasicsArt />,
     },
   ]
   // Travel & Life 는 목록 탭 순서(Explore Korea → Food → Life)와 같게 둔다
@@ -192,7 +193,7 @@ export default async function AtlasLabHome() {
     {
       key: 'life', title: 'Korea Life',
       desc: 'Subway navigation, T-Money, and everyday survival tips.',
-      href: '/life', thumb: thumbOf('korean-subway-etiquette-guide'), thumbAlt: 'Seoul subway platform',
+      href: '/life', thumb: { kind: 'image', src: '/images/articles/home-korea-life-seoul.jpg' }, thumbAlt: 'Sunset over the Han River with people relaxing in a riverside park in Seoul',
     },
   ]
   // 바로가기 바는 헤더 드로어와 같은 3대 축(Our Apps · Learn Korean · Travel & Life) — 각 게이트웨이 섹션으로 간다

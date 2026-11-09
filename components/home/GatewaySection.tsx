@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { SectionHeader } from '@/components/SectionHeader'
 import { BlogThumb } from '@/components/blog/BlogThumb'
@@ -20,6 +21,8 @@ export type GatewayCard = {
   href: string
   thumb?: BlogThumbnail | null
   thumbAlt?: string
+  /** 사진 대신 쓸 코드 일러스트(SVG) — 사진 카드와 같은 틀에 들어간다 */
+  art?: ReactNode
 }
 
 export function GatewaySection({
@@ -49,6 +52,7 @@ export function GatewaySection({
         .gw-card .blog-thumb { aspect-ratio: 16 / 9; border-radius: 0; }
         /* 3열 카드는 폭이 좁아 16:9 면 납작하다 — 4:3 으로 키워 위 2열(Learn Korean) 카드와 키를 맞춘다 */
         .is-guide .gw-card .blog-thumb { aspect-ratio: 4 / 3; }
+        .gw-art svg { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
         .gw-body { padding: 20px; display: flex; flex-direction: column; flex: 1; min-width: 0; }
         .gw-title { font-family: "Playfair Display", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.3; color: #111827; margin-bottom: 6px; }
         .gw-desc {
@@ -69,7 +73,7 @@ export function GatewaySection({
       <div className={`gw-grid is-${variant}`}>
         {cards.map(c => (
           <Link key={c.key} href={c.href} className="gw-card">
-            <BlogThumb thumb={c.thumb ?? null} alt={c.thumbAlt ?? ''} />
+            {c.art ? <div className="blog-thumb gw-art">{c.art}</div> : <BlogThumb thumb={c.thumb ?? null} alt={c.thumbAlt ?? ''} />}
             <div className="gw-body">
               <span className="gw-title">{c.title}</span>
               <span className="gw-desc">{c.desc}</span>

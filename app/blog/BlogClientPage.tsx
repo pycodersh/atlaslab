@@ -1,6 +1,7 @@
 'use client'
 
-import { Fragment } from 'react'
+import { Fragment, type CSSProperties } from 'react'
+import { BASICS_ACCENTS, basicsSceneThumb } from '@/lib/blog/basicsScene'
 import Link from 'next/link'
 import { DEFAULT_TAB, familyOf, familyTabs, groupKeyOf, layoutForKey, tabDescription, tabLabel } from '@/lib/blog/sections'
 import { SectionHeader } from '@/components/SectionHeader'
@@ -80,22 +81,27 @@ export function BlogClientPage({
   const family = familyOf(activeTab)
   const tabs = familyTabs(activeTab)
 
-  const card = (post: Post) => (
-    <Link
-      key={post.slug}
-      href={`/blog/${post.locale}/${post.app}/${post.slug}`}
-      className="bl-card"
-    >
-      <BlogThumb thumb={post.thumb} alt={post.title} label={tabLabel(groupKeyOf(post.app, post.category) ?? '')} />
-      <div className="bl-body">
-        <div className="bl-title">{post.title}</div>
-        {post.description && (
-          <div className="bl-desc">{post.description}</div>
-        )}
-        <div className="bl-read">{post.readMin} min read</div>
-      </div>
-    </Link>
-  )
+  const card = (post: Post, index: number) => {
+    // Basics 영상 스틸만 위치에 따라 구도와 윗선 색이 돈다. 사진 카드는 그대로다
+    const scene = basicsSceneThumb(post.thumb, index)
+    return (
+      <Link
+        key={post.slug}
+        href={`/blog/${post.locale}/${post.app}/${post.slug}`}
+        className={scene ? 'bl-card is-accent' : 'bl-card'}
+        style={scene ? ({ '--bl-accent': BASICS_ACCENTS[index % 4] } as CSSProperties) : undefined}
+      >
+        <BlogThumb key={scene?.kind === 'image' ? scene.src : undefined} thumb={scene ?? post.thumb} alt={post.title} label={tabLabel(groupKeyOf(post.app, post.category) ?? '')} />
+        <div className="bl-body">
+          <div className="bl-title">{post.title}</div>
+          {post.description && (
+            <div className="bl-desc">{post.description}</div>
+          )}
+          <div className="bl-read">{post.readMin} min read</div>
+        </div>
+      </Link>
+    )
+  }
 
   return (
     <>
@@ -258,6 +264,7 @@ export function BlogClientPage({
           display: flex; flex-direction: column; flex: 1;
         }
         .bl-card:hover { background: #ECEAE7; }
+        .bl-card.is-accent .blog-thumb { border-top: 3px solid var(--bl-accent); }
         .bl-cat {
           font-family: ${BODY};
           font-size: 9.5px; font-weight: 700;

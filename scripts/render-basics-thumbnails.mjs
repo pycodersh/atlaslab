@@ -30,24 +30,32 @@ const force = args.includes('--force')
 const wanted = args.filter(a => !a.startsWith('--'))
 const unknown = wanted.filter(s => !(s in videos))
 if (unknown.length) throw new Error(`videos.json 에 없는 slug: ${unknown.join(', ')}`)
-const slugs = (wanted.length ? wanted : Object.keys(videos))
-  .filter(s => force || wanted.length || !fs.existsSync(path.join(outDir, `${s}.webp`)))
+/** 글마다 세 구도 — 목록이 카드 위치에 따라 고른다(lib/blog/basicsScene). contrast 만 영상 프레임이고 나머지는 BasicsThumb 정지 화면이다 */
+const VARIANTS = [
+  { variant: 'contrast', file: s => `${s}.webp` },
+  { variant: 'example', file: s => `${s}--example.webp` },
+  { variant: 'keyword', file: s => `${s}--keyword.webp` },
+]
+const jobs = (wanted.length ? wanted : Object.keys(videos))
+  .flatMap(slug => VARIANTS.map(v => ({ slug, ...v, name: v.file(slug) })))
+  .filter(j => force || wanted.length || !fs.existsSync(path.join(outDir, j.name)))
 
 fs.mkdirSync(outDir, { recursive: true })
 fs.mkdirSync(tmpDir, { recursive: true })
 /** Scene 2 시작 + 2초의 프레임 번호 */
 const frameOf = slug => Math.round(((videos[slug].timing?.scenes?.[1]?.[0] ?? 4) + AFTER_SCENE2) * FPS)
 
-console.log(`${slugs.length}편 — Scene 2 + ${AFTER_SCENE2}s, 960×540 webp`)
-if (!slugs.length) process.exit(0)
+console.log(`${jobs.length}장 — 960×540 webp`)
+if (!jobs.length) process.exit(0)
 
 const serveUrl = await bundle({ entryPoint: path.join(root, 'remotion', 'index.ts') })
-for (const slug of slugs) {
-  const composition = await selectComposition({ serveUrl, id: slug })
-  const png = path.join(tmpDir, `${slug}.png`)
-  const frame = frameOf(slug)
-  await renderStill({ composition, serveUrl, frame, scale: 0.5, output: png })
-  const out = path.join(outDir, `${slug}.webp`)
+for (const { slug, variant, name } of jobs) {
+  const isVideo = variant === 'contrast'
+  const inputProps = isVideo ? {} : { data: videos[slug], variant }
+  const composition = await selectComposition({ serveUrl, id: isVideo ? slug : 'BasicsThumb', inputProps })
+  const png = path.join(tmpDir, `${name}.png`)
+  await renderStill({ composition, serveUrl, frame: isVideo ? frameOf(slug) : 0, scale: 0.5, output: png, inputProps })
+  const out = path.join(outDir, name)
   await sharp(png).webp({ quality: 82 }).toFile(out)
-  console.log(`✓ ${slug} frame ${frame} (${Math.round(fs.statSync(out).size / 1024)} KB)`)
+  console.log(`✓ ${name} (${Math.round(fs.statSync(out).size / 1024)} KB)`)
 }
