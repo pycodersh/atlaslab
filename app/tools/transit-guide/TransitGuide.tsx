@@ -128,7 +128,7 @@ export function TransitGuide() {
         .tg-mode-name { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; color: #111827; margin: 0; }
         .tg-mode-name svg { flex: none; color: #1E293B; }
         .tg-stats, .tg-hubs { margin: 0; }
-        .tg-stats dt, .tg-hubs dt { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #94A3B8; margin-bottom: 2px; }
+        .tg-stats dt, .tg-hubs dt { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #64748B; margin-bottom: 2px; }
         .tg-stats dd, .tg-hubs dd { margin: 0; }
         .tg-duration { font-size: 14px; font-weight: 700; line-height: 1.4; color: #1E293B; }
         .tg-note-line { display: block; font-size: 12px; font-weight: 400; color: #64748B; }

@@ -5,7 +5,7 @@ import { TOOL_ART } from '@/app/tools/toolArt'
 const FEATURED: { id: ToolId; badge: string; title: string; desc: string }[] = [
   {
     id: 'hotspot-finder', badge: 'City Clusters', title: 'Regional Hotspot Finder',
-    desc: 'Curated walking clusters across Seoul and 10 regional cities with zero photo bloat.',
+    desc: 'Curated walking clusters across Seoul and 10 regional cities with visual previews and instant transit tips.',
   },
   {
     id: 'transit-guide', badge: 'Transit Navigator', title: 'Intercity Transit Guide',

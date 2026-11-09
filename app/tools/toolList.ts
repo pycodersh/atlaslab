@@ -12,7 +12,7 @@ export const TOOLS: Tool[] = [
   { id: 'weather', title: 'Korea Weather', desc: '7-day forecasts for ten cities, with rain chances and what to wear.', group: 'Planning' },
   { id: 'kpop-calendar', title: 'K-Pop Event Calendar', desc: 'Upcoming concerts, global ticketing links, and arena venue guides.', group: 'Planning' },
   { id: 'world-time', title: 'Seoul & World Time', desc: 'Compare Seoul time with hometowns via interactive day/night cards.', group: 'Planning' },
-  { id: 'hotspot-finder', title: 'Regional Hotspot Finder', desc: 'Curated walking clusters across Seoul and 10 regional cities with zero photo bloat.', group: 'Planning' },
+  { id: 'hotspot-finder', title: 'Regional Hotspot Finder', desc: 'Curated walking clusters across Seoul and 10 regional cities with visual previews and instant transit tips.', group: 'Planning' },
   { id: 'holiday-calendar', title: 'Korea Holiday & Peak Calendar', desc: 'Public holidays, Seollal/Chuseok shutdowns, and KTX peak booking warnings.', group: 'Planning' },
   { id: 'size-units', title: 'Korea Size & Travel Units', desc: 'Shoe sizes (mm), clothing fits, K-BBQ gram portions, and Pyeong room sizes.', group: 'Survival' },
 ]
