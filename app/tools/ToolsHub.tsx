@@ -13,6 +13,7 @@ import { KpopCalendar } from './kpop-calendar/KpopCalendar'
 import { WorldTime } from './world-time/WorldTime'
 import { HotspotFinder } from './hotspot-finder/HotspotFinder'
 import { KoreaHolidayModal } from './holiday-calendar/KoreaHolidayModal'
+import { KoreaUnitsModal } from './size-units/KoreaUnitsModal'
 
 const isToolId = (id: string): id is ToolId => TOOLS.some(t => t.id === id)
 
@@ -77,6 +78,7 @@ export function ToolsHub({ rates, updated }: { rates: Rates; updated: string }) 
     'world-time': <WorldTime />,
     'hotspot-finder': <HotspotFinder />,
     'holiday-calendar': <KoreaHolidayModal />,
+    'size-units': <KoreaUnitsModal />,
   }
   const openTool = TOOLS.find(t => t.id === openId)
 
