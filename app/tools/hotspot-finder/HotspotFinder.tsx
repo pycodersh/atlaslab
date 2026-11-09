@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { HOTSPOT_CITIES, type SeoulClusterId } from '@/data/regionalHotspots'
-import { CategoryBadge } from './CategoryBadge'
+import { CategoryArt, CategoryBadge } from './CategoryBadge'
 import { CITIES, type CityId } from '@/data/transitRoutes'
 import { KoreaRouteMap } from '../KoreaRouteMap'
 import { SeoulHotspotMap } from './SeoulHotspotMap'
@@ -53,15 +53,15 @@ export function HotspotFinder() {
         .hs-deck { display: flex; flex-direction: column; gap: 16px; max-width: 768px; margin: 0 auto 18px; animation: hs-in .2s ease-out; }
         @keyframes hs-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
         @media (prefers-reduced-motion: reduce) { .hs-deck { animation: none; } }
-        .hs-card { display: flex; flex-direction: column; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,.05); transition: border-color .15s; }
+        .hs-card { display: flex; flex-direction: column; gap: 20px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,.05); transition: border-color .15s; }
         @media (hover: hover) { .hs-card:hover { border-color: #D1D5DB; } .hs-tab:not([aria-selected="true"]):hover { border-color: #9CA3AF; } }
-        .hs-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
-        .hs-step { font-family: "DM Sans", Inter, system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: 18px; font-weight: 800; line-height: 1; color: #C8102E; }
-        .hs-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px 4px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
-        .hs-badge svg { flex: none; }
+        .hs-art { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 100%; height: 128px; border-radius: 16px; }
+        .hs-art svg { display: block; width: 96px; height: 96px; }
+        .hs-body { flex: 1; min-width: 0; }
+        .hs-badge { display: inline-block; margin-bottom: 8px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
         .hs-name { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.25; color: #111827; }
         .hs-ko { margin: 4px 0 0; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 14px; font-weight: 500; color: #6B7280; }
-        .hs-what { margin: 0 0 8px; padding: 8px 0; font-size: 16px; line-height: 1.625; color: #374151; }
+        .hs-what { margin: 8px 0 12px; font-size: 14px; line-height: 1.55; color: #374151; }
         .hs-tip { margin: 0; padding: 12px; background: #F8FAFC; border: 1px solid rgba(226,232,240,.6); border-radius: 12px; font-size: 12px; line-height: 1.55; color: #334155; }
         .hs-tip strong { display: block; color: #0F172A; font-weight: 700; margin-bottom: 2px; }
         .hs-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
@@ -70,7 +70,14 @@ export function HotspotFinder() {
         .hs-link:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
         .hs-tab:focus-visible, .hs-chip:focus-visible, .hs-route:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        @media (min-width: 640px) {
+          .hs-card { flex-direction: row; align-items: flex-start; }
+          .hs-art { width: 112px; height: 112px; }
+          .hs-art svg { width: 80px; height: 80px; }
+        }
         @media (min-width: 768px) {
+          .hs-art { width: 128px; height: 128px; }
+          .hs-art svg { width: 92px; height: 92px; }
           .hs-tabs { grid-template-columns: repeat(6, minmax(0, 1fr)); }
           .hs-links { display: flex; justify-content: flex-end; }
           .hs-link { padding: 6px 16px; }
@@ -133,12 +140,11 @@ export function HotspotFinder() {
       {/* key: 자동 번역이 글자 노드를 바꿔 끼우고, 바뀔 때마다 카드가 부드럽게 나타나게 새로 그린다 */}
       <div key={`${city.id}-${cluster?.id ?? ''}`} role="tabpanel" aria-label={cluster?.name ?? city.name}>
         <div className="hs-deck">
-          {spots.map((spot, i) => (
+          {spots.map(spot => (
             <article key={spot.name} className="hs-card">
-              <div className="hs-top">
-                <span className="hs-step notranslate" translate="no">{String(i + 1).padStart(2, '0')}</span>
+              <CategoryArt category={spot.category} />
+              <div className="hs-body">
                 <CategoryBadge category={spot.category} />
-              </div>
               <h2 className="hs-name notranslate" translate="no">{spot.name}</h2>
               <p className="hs-ko notranslate" translate="no" lang="ko">{spot.ko}</p>
               <p className="hs-what">{spot.what}</p>
@@ -146,6 +152,7 @@ export function HotspotFinder() {
               <div className="hs-links notranslate" translate="no">
                 <a className="hs-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot.ko} ${spot.name}`)}`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Google Maps`}>🗺️ Google Maps</a>
                 <a className="hs-link" href={`https://www.instagram.com/explore/tags/${encodeURIComponent(instagramTag(spot.ko))}/`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Instagram`}>📸 Live Vibes</a>
+              </div>
               </div>
             </article>
           ))}

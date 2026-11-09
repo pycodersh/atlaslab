@@ -1,57 +1,105 @@
 import type { ReactNode } from 'react'
 import type { HotspotCategory } from '@/data/regionalHotspots'
 
-// 사진 대신 쓰는 테마 뱃지 — [배경, 글자 · 아이콘 색, 16px 실루엣]
-const THEMES: Record<HotspotCategory, { bg: string; fg: string; icon: ReactNode }> = {
-  Heritage: {
-    bg: '#FEF3C7', fg: '#92400E',
-    icon: <path fill="currentColor" d="M2 10.5c3-.5 5-2.5 6-5.5h8c1 3 3 5 6 5.5-6-1.2-14-1.2-20 0zM5 11.5h14V13H5zM6 14h2.5v6H6zM10.75 14h2.5v6h-2.5zM15.5 14H18v6h-2.5zM4 20h16v2H4z" />,
+// 사진 대신 쓰는 테마 썸네일 — 66곳이 이 8장을 나눠 쓴다
+const STRIPES = [0, 1, 2, 3, 4]
+
+const THEMES: Record<HotspotCategory, { from: string; to: string; badgeBg: string; badgeFg: string; art: ReactNode }> = {
+  'Nature & Park': {
+    from: '#DCFCE7', to: '#A7F3D0', badgeBg: '#DCFCE7', badgeFg: '#166534',
+    art: <>
+      <circle cx="72" cy="22" r="9" fill="#FDE68A" />
+      <path fill="#34D399" d="M4 78 32 38l26 40z" />
+      <path fill="#059669" d="M30 78 60 28l32 50z" />
+      <path fill="#D1FAE5" d="m60 28-9 15 6-3 4 5 7-2z" />
+      <path fill="#047857" d="M2 78h92v5q-46 8-92 0z" />
+    </>,
   },
-  'Trendy Cafe': {
-    bg: '#F5EBE0', fg: '#7C4A21',
-    icon: <>
-      <path fill="currentColor" d="M4 10h13v5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6z" />
-      <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M17 12h1.5a2.5 2.5 0 0 1 0 5H16.5M8 3c-1 1.5 1 2.5 0 4M13 3c-1 1.5 1 2.5 0 4" />
+  'Art & Culture': {
+    from: '#EDE9FE', to: '#C4B5FD', badgeBg: '#EDE9FE', badgeFg: '#5B21B6',
+    art: <>
+      <path fill="#7C3AED" d="M48 10a38 38 0 1 0 0 76c8 0 11-5 9-11-2-6 2-13 9-13h8c8 0 14-6 14-14 0-21-18-38-40-38z" />
+      <circle cx="30" cy="44" r="7" fill="#FDE68A" />
+      <circle cx="44" cy="28" r="7" fill="#F9A8D4" />
+      <circle cx="64" cy="34" r="7" fill="#93C5FD" />
+      <circle cx="34" cy="64" r="7" fill="#A7F3D0" />
     </>,
   },
   'Local Market': {
-    bg: '#FFEDD5', fg: '#9A3412',
-    icon: <path fill="currentColor" d="M4 3h16l2 7a3 3 0 0 1-5 1.6 3.5 3.5 0 0 1-5 0 3.5 3.5 0 0 1-5 0A3 3 0 0 1 2 10zM5 14h2v8H5zM17 14h2v8h-2zM7 17h10v2.5H7z" />,
-  },
-  'Shopping & Street': {
-    bg: '#FCE7F3', fg: '#9D174D',
-    icon: <>
-      <path fill="currentColor" d="M5 8h14l1.2 14H3.8z" />
-      <path fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" d="M8.5 8V6a3.5 3.5 0 0 1 7 0v2" />
+    from: '#FEF3C7', to: '#FCD34D', badgeBg: '#FEF3C7', badgeFg: '#92400E',
+    art: <>
+      <path fill="#B45309" d="M18 48h5v36h-5zM73 48h5v36h-5z" />
+      {STRIPES.map(i => <path key={i} fill={i % 2 ? '#FFFBEB' : '#D97706'} d={`M${12 + i * 14.4} 16h14.4v24a7.200 7.200 0 0 1-14.400 0z`} />)}
+      <rect x="14" y="68" width="68" height="8" rx="3" fill="#92400E" />
+      <circle cx="34" cy="61" r="7" fill="#EF4444" />
+      <circle cx="48" cy="61" r="7" fill="#F97316" />
+      <circle cx="62" cy="61" r="7" fill="#EF4444" />
     </>,
   },
-  'Nature & Park': {
-    bg: '#DCFCE7', fg: '#166534',
-    icon: <path fill="currentColor" d="M12 1.5l6 8h-2.8l4.8 7.5h-7v5h-2v-5H4l4.8-7.5H6z" />,
+  Heritage: {
+    from: '#FFE4E6', to: '#FDA4AF', badgeBg: '#FFE4E6', badgeFg: '#9F1239',
+    art: <>
+      <rect x="34" y="14" width="28" height="6" rx="3" fill="#881337" />
+      <path fill="#9F1239" d="M6 46c15-3 26-13 32-27h20c6 14 17 24 32 27-23-7-61-7-84 0z" />
+      <path fill="#E11D48" d="M24 48h6v30h-6zM45 48h6v30h-6zM66 48h6v30h-6z" />
+      <rect x="20" y="46" width="56" height="6" fill="#BE123C" />
+      <rect x="13" y="78" width="70" height="7" rx="2" fill="#881337" />
+    </>,
+  },
+  'Trendy Cafe': {
+    from: '#FFEDD5', to: '#FDBA74', badgeBg: '#FFEDD5', badgeFg: '#9A3412',
+    art: <>
+      <path fill="none" stroke="#FB923C" strokeWidth="4" strokeLinecap="round" d="M34 12c-5 6 5 11 0 18M48 12c-5 6 5 11 0 18" />
+      <path fill="none" stroke="#C2410C" strokeWidth="6" d="M66 47h5a9 9 0 0 1 0 18h-7" />
+      <path fill="#EA580C" d="M20 40h46v18a18 18 0 0 1-18 18H38a18 18 0 0 1-18-18z" />
+      <path fill="#FFEDD5" opacity=".55" d="M27 46h6v14a9 9 0 0 0 4 8c-6-1-10-6-10-12z" />
+      <ellipse cx="43" cy="81" rx="31" ry="5" fill="#9A3412" />
+    </>,
   },
   'Skyline & Modern': {
-    bg: '#E0E7FF', fg: '#3730A3',
-    icon: <path fill="currentColor" d="M3 22V11h5v11zM10 22V6l2-4 2 4v16zM16 22v-9h5v9z" />,
+    from: '#E0E7FF', to: '#A5B4FC', badgeBg: '#E0E7FF', badgeFg: '#3730A3',
+    art: <>
+      <rect x="12" y="46" width="20" height="38" rx="2" fill="#818CF8" />
+      <rect x="62" y="36" width="22" height="48" rx="2" fill="#6366F1" />
+      <path fill="#3730A3" d="M46 6h4v14h-4zM39 20h18l3 10H36z" />
+      <rect x="42" y="30" width="12" height="54" fill="#4338CA" />
+      <path fill="#E0E7FF" d="M18 54h8v5h-8zM18 66h8v5h-8zM68 44h10v5H68zM68 56h10v5H68zM68 68h10v5H68z" />
+      <rect x="6" y="84" width="84" height="4" rx="2" fill="#312E81" />
+    </>,
   },
   'Coastal & Sea': {
-    bg: '#E0F2FE', fg: '#075985',
-    icon: <path fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" d="M2 7c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2.5 5-1M2 13c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2.5 5-1M2 19c2.5-3 5-3 7.5 0s5 3 7.5 0 3.5-2.5 5-1" />,
+    from: '#E0F2FE', to: '#7DD3FC', badgeBg: '#E0F2FE', badgeFg: '#075985',
+    art: <>
+      <circle cx="72" cy="22" r="10" fill="#FDE68A" />
+      <path fill="#fff" d="M44 12v28h18z" />
+      <path fill="#0369A1" d="M26 42h38l-7 10H33z" />
+      <g fill="none" strokeWidth="8" strokeLinecap="round">
+        <path stroke="#38BDF8" d="M8 58c10-10 20-10 30 0s20 10 30 0 14-7 20-5" />
+        <path stroke="#0EA5E9" d="M8 71c10-10 20-10 30 0s20 10 30 0 14-7 20-5" />
+        <path stroke="#0369A1" d="M8 84c10-10 20-10 30 0s20 10 30 0 14-7 20-5" />
+      </g>
+    </>,
   },
-  'Art & Culture': {
-    bg: '#F3E8FF', fg: '#6B21A8',
-    icon: <>
-      <path fill="currentColor" d="M12 2.5a9.5 9.5 0 1 0 0 19c2 0 2.8-1.3 2.2-2.8-.6-1.6.4-3.2 2.2-3.2h2.1a3.5 3.5 0 0 0 3.5-3.5c0-5.300-4.500-9.500-10-9.500z" />
-      <g fill="#F3E8FF"><circle cx="7.500" cy="11" r="1.600" /><circle cx="11" cy="7" r="1.600" /><circle cx="16" cy="8.500" r="1.600" /><circle cx="8.500" cy="16" r="1.600" /></g>
+  'Shopping & Street': {
+    from: '#FCE7F3', to: '#F9A8D4', badgeBg: '#FCE7F3', badgeFg: '#9D174D',
+    art: <>
+      <path fill="none" stroke="#9D174D" strokeWidth="5" strokeLinecap="round" d="M36 36V26a12 12 0 0 1 24 0v10" />
+      <path fill="#DB2777" d="M24 32h48l6 54H18z" />
+      <path fill="#FCE7F3" d="M48 74C33 62 36 49 43 49c3 0 5 3 5 3s2-3 5-3c7 0 10 13-5 25z" />
     </>,
   },
 }
 
-export function CategoryBadge({ category }: { category: HotspotCategory }) {
-  const { bg, fg, icon } = THEMES[category]
+export function CategoryArt({ category }: { category: HotspotCategory }) {
+  const { from, to, art } = THEMES[category]
   return (
-    <span className="hs-badge" style={{ background: bg, color: fg }}>
-      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true">{icon}</svg>
-      {category}
-    </span>
+    <div className="hs-art" style={{ background: `linear-gradient(135deg, ${from}, ${to})` }}>
+      <svg viewBox="0 0 96 96" aria-hidden="true">{art}</svg>
+    </div>
   )
+}
+
+export function CategoryBadge({ category }: { category: HotspotCategory }) {
+  const { badgeBg, badgeFg } = THEMES[category]
+  return <span className="hs-badge" style={{ background: badgeBg, color: badgeFg }}>{category}</span>
 }
