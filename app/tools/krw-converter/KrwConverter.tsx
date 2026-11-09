@@ -26,9 +26,9 @@ const BENCHMARKS: { name: string; scope: string; low: number; high?: number }[] 
 
 // 위 BENCHMARKS 의 서울 평균 · 지하철 기본운임과 같은 값
 const BUYS = [
-  { price: 12000, one: 'Bibimbap', many: 'Bibimbaps' },
-  { price: 3923, one: 'Gimbap roll', many: 'Gimbap rolls' },
-  { price: 1550, one: 'Subway ride', many: 'Subway rides' },
+  { price: 12000, one: 'Bibimbap', many: 'Bibimbaps', emoji: '🍚', tint: 'is-orange' },
+  { price: 3923, one: 'Gimbap roll', many: 'Gimbap rolls', emoji: '🍙', tint: 'is-emerald' },
+  { price: 1550, one: 'Subway ride', many: 'Subway rides', emoji: '🚇', tint: 'is-blue' },
 ]
 
 // 타일 폭이 좁아 큰 수는 6.5M 처럼 줄인다
@@ -75,18 +75,22 @@ export function KrwConverter({ rates, updated }: { rates: Rates; updated: string
         .kc-quick { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
         .kc-chip {
           min-height: 44px; padding: 8px 4px; border: 1px solid #E5E7EB; border-radius: 12px; background: #fff; cursor: pointer; white-space: nowrap;
-          font: 500 13px "DM Sans", Inter, system-ui, sans-serif; color: #111827; transition: background .15s;
+          font: 500 13px "DM Sans", Inter, system-ui, sans-serif; color: #111827; transition: background .15s, border-color .15s, color .15s;
         }
-        .kc-chip[aria-pressed="true"] { background: #111827; border-color: #111827; color: #fff; }
+        .kc-chip[aria-pressed="true"] { background: #172554; border-color: #172554; color: #fff; font-weight: 700; }
         .kc-chip:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
-        @media (hover: hover) { .kc-chip:not([aria-pressed="true"]):hover { background: #F9FAFB; } }
-        .kc-panel { margin-top: 16px; padding: 20px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 16px; }
-        .kc-result { margin: 0; font-size: clamp(32px, 9vw, 44px); font-weight: 700; line-height: 1.15; color: #111827; overflow-wrap: anywhere; }
-        .kc-sub { font-size: 14px; color: #4B5563; margin: 6px 0 0; }
+        @media (hover: hover) { .kc-chip:not([aria-pressed="true"]):hover { background: #EFF6FF; border-color: #93C5FD; color: #1E3A8A; } }
+        .kc-panel { margin-top: 16px; padding: 24px; background: linear-gradient(135deg, rgba(239,246,255,.7), rgba(238,242,255,.5)); border: 1px solid rgba(219,234,254,.8); border-radius: 16px; }
+        .kc-result { margin: 0; font-size: clamp(32px, 9vw, 44px); font-weight: 800; line-height: 1.15; color: #172554; overflow-wrap: anywhere; }
+        .kc-sub { font-size: 14px; color: #475569; margin: 6px 0 0; }
         .kc-buys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; text-align: center; }
-        .kc-tile { padding: 16px 6px; background: #F9FAFB; border: 1px solid #F3F4F6; border-radius: 12px; }
-        .kc-count { display: block; font-size: 24px; font-weight: 700; line-height: 1.2; color: #111827; }
-        .kc-what { display: block; font-size: 12px; line-height: 1.3; color: #4B5563; margin-top: 4px; }
+        .kc-tile { padding: 14px 6px 16px; border: 1px solid; border-radius: 12px; }
+        .kc-tile.is-orange { background: #FFF7ED; border-color: #FED7AA; color: #9A3412; }
+        .kc-tile.is-emerald { background: #ECFDF5; border-color: #A7F3D0; color: #065F46; }
+        .kc-tile.is-blue { background: #EFF6FF; border-color: #BFDBFE; color: #1E40AF; }
+        .kc-emoji { display: block; font-size: 20px; line-height: 1; margin-bottom: 6px; }
+        .kc-count { display: block; font-size: 24px; font-weight: 800; line-height: 1.2; }
+        .kc-what { display: block; font-size: 12px; font-weight: 500; line-height: 1.3; margin-top: 4px; }
         .kc-row { display: flex; justify-content: space-between; align-items: center; gap: 14px; padding: 14px 0; border-top: 1px solid #F3F4F6; }
         .kc-row:first-of-type { border-top: 0; padding-top: 0; }
         .kc-row:last-of-type { padding-bottom: 0; }
@@ -128,7 +132,8 @@ export function KrwConverter({ rates, updated }: { rates: Rates; updated: string
           {BUYS.map(b => {
             const count = howMany(amount / b.price)
             return (
-              <div key={b.one} className="kc-tile">
+              <div key={b.one} className={`kc-tile ${b.tint}`}>
+                <span className="kc-emoji" aria-hidden="true">{b.emoji}</span>
                 <span className="kc-count notranslate" translate="no">{count}</span>
                 {/* key: 자동 번역이 글자 노드를 바꿔 끼워도 단수 · 복수가 바뀌면 새로 그려지게 */}
                 <span key={count === '1' ? 'one' : 'many'} className="kc-what">{count === '1' ? b.one : b.many}</span>

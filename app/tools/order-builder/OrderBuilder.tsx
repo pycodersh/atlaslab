@@ -64,6 +64,10 @@ const DISHES: Dish[] = [
   { id: 'eomuk', group: 'street', label: 'Eomuk / Fish Cake', koLabel: '어묵', ko: '어묵', roman: 'Eomuk', en: 'fish cake', counter: 'skewer' },
 ]
 
+// 메뉴 카드의 이모지. 묶음 기본값을 쓰고, 묶음과 어긋나는 메뉴만 따로 적는다(Noodles/Rice 안의 비빔밥 · 만두 등)
+const GROUP_EMOJI: Record<GroupId, string> = { bbq: '🥩', soups: '🍲', noodles: '🍜', street: '🥟' }
+const DISH_EMOJI: Record<string, string> = { bibimbap: '🍚', dolsot: '🍚', mandu: '🥟', chicken: '🍗' }
+
 const SPICE: SpicePhrase[] = [
   { id: 'none', label: 'Not spicy', koLabel: '안 맵게', ko: '안 맵게 해 주세요', roman: 'An maepge hae juseyo', en: 'Not spicy, please.' },
   { id: 'less', label: 'Less spicy', koLabel: '덜 맵게', ko: '덜 맵게 해 주세요', roman: 'Deol maepge hae juseyo', en: 'Less spicy, please.' },
@@ -178,12 +182,25 @@ export function OrderBuilder() {
 
         .ob-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
         .ob-dish {
-          display: flex; flex-direction: column; justify-content: space-between; min-height: 64px; padding: 12px; text-align: left;
+          display: flex; align-items: center; gap: 8px; min-height: 64px; padding: 10px; text-align: left;
           border: 1px solid #E5E7EB; border-radius: 12px; background: #fff; cursor: pointer; transition: border-color .15s, background .15s, box-shadow .15s;
           font-family: "DM Sans", Inter, system-ui, sans-serif;
         }
-        .ob-dish[aria-pressed="true"] { border-color: #111827; background: #F9FAFB; box-shadow: 0 0 0 1px #111827; }
+        .ob-dish[aria-pressed="true"] { border-color: #F43F5E; background: #FFF1F2; box-shadow: 0 0 0 2px #FECDD3; }
+        .ob-dish-emoji { flex: none; display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 10px; font-size: 18px; line-height: 1; }
+        .ob-dish-emoji.is-bbq { background: #FFE4E6; }
+        .ob-dish-emoji.is-soups { background: #FFEDD5; }
+        .ob-dish-emoji.is-noodles { background: #FEF3C7; }
+        .ob-dish-emoji.is-street { background: #ECFCCB; }
+        .ob-dish-text { display: flex; flex-direction: column; min-width: 0; overflow-wrap: anywhere; }
+        /* 폰 2열은 칸이 좁아 Seolleongtang 같은 긴 이름이 글자 중간에서 끊기지 않게 줄인다 */
+        @media (max-width: 639px) {
+          .ob-dish { gap: 6px; padding: 8px; }
+          .ob-dish-emoji { width: 26px; height: 26px; border-radius: 8px; font-size: 15px; }
+          .ob-dish .ob-dish-en { font-size: 13px; }
+        }
         .ob-dish-en { font-size: 14px; font-weight: 600; line-height: 1.3; color: #111827; }
+        .ob-dish[aria-pressed="true"] .ob-dish-en { color: #4C0519; }
         .ob-dish-ko { font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 12px; color: #6B7280; margin-top: 2px; }
 
         .ob-picked { margin-top: 16px; }
@@ -195,13 +212,19 @@ export function OrderBuilder() {
         .ob-qty button:disabled { color: #D1D5DB; cursor: default; }
         .ob-qty span { width: 28px; text-align: center; font-weight: 700; }
 
-        .ob-segment { display: flex; gap: 4px; padding: 4px; background: #F3F4F6; border-radius: 12px; }
+        /* 맵기는 단계마다 색이 있고, 윗선 길이가 1/3 → 2/3 → 꽉 참으로 늘어난다. 고른 단계는 같은 색으로 꽉 채운다 */
+        .ob-segment { display: flex; gap: 8px; }
         .ob-seg {
-          flex: 1 1 0; min-width: 0; min-height: 52px; padding: 8px 4px; text-align: center; background: transparent; border: 0; border-radius: 8px; cursor: pointer;
-          font: 500 14px "DM Sans", Inter, system-ui, sans-serif; color: #6B7280; transition: background .15s, color .15s, box-shadow .15s;
+          position: relative; overflow: hidden; flex: 1 1 0; min-width: 0; min-height: 60px; padding: 12px 4px 8px; text-align: center; background: var(--seg-soft); border: 1px solid var(--seg-line); border-radius: 12px; cursor: pointer;
+          font: 600 14px "DM Sans", Inter, system-ui, sans-serif; color: var(--seg-ink); transition: background .15s, color .15s, border-color .15s;
         }
-        .ob-seg-ko { display: block; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 12px; font-weight: 400; margin-top: 1px; }
-        .ob-seg[aria-pressed="true"] { background: #fff; color: #111827; font-weight: 600; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+        .ob-seg::before { content: ""; position: absolute; top: 0; left: 0; height: 4px; width: var(--seg-bar); background: var(--seg-solid); }
+        .ob-seg-none { --seg-soft: #ECFDF5; --seg-line: #A7F3D0; --seg-ink: #065F46; --seg-solid: #047857; --seg-bar: 33.4%; }
+        .ob-seg-less { --seg-soft: #FFFBEB; --seg-line: #FCD34D; --seg-ink: #92400E; --seg-solid: #B45309; --seg-bar: 66.7%; }
+        .ob-seg-extra { --seg-soft: #FFF1F2; --seg-line: #FDA4AF; --seg-ink: #9F1239; --seg-solid: #BE123C; --seg-bar: 100%; }
+        .ob-seg-ko { display: block; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 12px; font-weight: 500; margin-top: 1px; }
+        .ob-seg[aria-pressed="true"] { background: var(--seg-solid); border-color: var(--seg-solid); color: #fff; font-weight: 700; }
+        .ob-seg[aria-pressed="true"]::before { background: rgba(255,255,255,.55); }
 
         .ob-requests { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
         .ob-request {
@@ -214,9 +237,11 @@ export function OrderBuilder() {
         .ob-request[aria-pressed="true"] .ob-check { visibility: visible; }
 
         @media (hover: hover) {
-          .ob-tab:hover, .ob-seg:hover { color: #1F2937; }
+          .ob-tab:hover { color: #1F2937; }
+          .ob-seg:not([aria-pressed="true"]):hover { border-color: var(--seg-solid); }
           .ob-dish:hover, .ob-request:hover { border-color: #9CA3AF; }
-          .ob-dish[aria-pressed="true"]:hover, .ob-request[aria-pressed="true"]:hover { border-color: #111827; }
+          .ob-dish[aria-pressed="true"]:hover { border-color: #F43F5E; }
+          .ob-request[aria-pressed="true"]:hover { border-color: #111827; }
           .ob-primary:not(:disabled):hover { background: #1F2937; border-color: #1F2937; }
         }
         .ob-tab:focus-visible, .ob-dish:focus-visible, .ob-seg:focus-visible, .ob-request:focus-visible, .ob-primary:focus-visible, .ob-secondary:focus-visible, .ob-qty button:focus-visible {
@@ -262,8 +287,11 @@ export function OrderBuilder() {
         <div className="ob-grid">
           {visibleDishes.map(d => (
             <button key={d.id} type="button" className="ob-dish" aria-pressed={!!qty[d.id]} onClick={() => toggleDish(d.id)}>
-              <span className="ob-dish-en notranslate" translate="no">{d.label}</span>
-              <span className="ob-dish-ko notranslate" translate="no" lang="ko">{d.koLabel ?? d.ko}</span>
+              <span className={`ob-dish-emoji is-${d.group}`} aria-hidden="true">{DISH_EMOJI[d.id] ?? GROUP_EMOJI[d.group]}</span>
+              <span className="ob-dish-text">
+                <span className="ob-dish-en notranslate" translate="no">{d.label}</span>
+                <span className="ob-dish-ko notranslate" translate="no" lang="ko">{d.koLabel ?? d.ko}</span>
+              </span>
             </button>
           ))}
         </div>
@@ -291,8 +319,8 @@ export function OrderBuilder() {
         <h2 className="tl-h2">2. Spice level</h2>
         <div className="ob-segment" role="group" aria-label="Spice level">
           {SPICE.map(s => (
-            <button key={s.id} type="button" className="ob-seg" aria-pressed={spice === s.id} onClick={() => setSpice(v => v === s.id ? null : s.id)}>
-              {s.label}
+            <button key={s.id} type="button" className={`ob-seg ob-seg-${s.id}`} aria-pressed={spice === s.id} onClick={() => setSpice(v => v === s.id ? null : s.id)}>
+              {s.id === 'extra' && <span aria-hidden="true">🌶️ </span>}{s.label}
               <span className="ob-seg-ko notranslate" translate="no" lang="ko">{s.koLabel}</span>
             </button>
           ))}

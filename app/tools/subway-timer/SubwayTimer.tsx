@@ -32,6 +32,14 @@ function timeOfDay(ts: number) {
 
 const R = 92
 const CIRCUMFERENCE = 2 * Math.PI * R
+const LOW_MS = 3 * MINUTE_MS
+
+// 링 색 [진행, 트랙] — 진행 중 · 3분 이하 · 종료
+const RING = {
+  ok: ['#10B981', '#D1FAE5'],
+  low: ['#F59E0B', '#FEF3C7'],
+  done: ['#E11D48', '#FFE4E6'],
+} as const
 
 export function SubwayTimer() {
   // 남은 시간은 저장된 종료 시각에서 매번 계산한다 — 화면이 꺼져 interval 이 멈춰도 어긋나지 않는다
@@ -56,7 +64,9 @@ export function SubwayTimer() {
   const remaining = end === null ? WINDOW_MS : Math.max(end - now, 0)
   const running = end !== null && remaining > 0
   const expired = end !== null && remaining === 0
-  const dash = CIRCUMFERENCE * (remaining / WINDOW_MS)
+  // 종료되면 남은 길이가 0 이라 링이 사라지므로 빨간 링을 꽉 채워 보여 준다
+  const dash = expired ? CIRCUMFERENCE : CIRCUMFERENCE * (remaining / WINDOW_MS)
+  const [stroke, track] = RING[expired ? 'done' : running && remaining <= LOW_MS ? 'low' : 'ok']
 
   return (
     <section className="tl-card st-card" aria-label="Re-entry countdown">
@@ -64,17 +74,18 @@ export function SubwayTimer() {
         .st-card { text-align: center; }
         .st-ring { position: relative; width: 220px; height: 220px; margin: 4px auto 18px; }
         .st-ring svg { display: block; transform: rotate(-90deg); }
-        .st-time { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 48px; font-weight: 700; color: #111827; }
+        .st-time { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: "DM Sans", Inter, system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: 48px; font-weight: 900; letter-spacing: -.025em; color: #030712; }
         .st-status { font-size: 17px; font-weight: 700; margin: 0 0 18px; color: #111827; min-height: 24px; }
-        .st-alert { font-size: 14px; line-height: 1.5; background: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; border-radius: 12px; padding: 12px; margin: 0 0 18px; }
-        .st-main { display: block; width: 100%; padding: 14px 20px; border-radius: 12px; font-weight: 700; }
+        .st-alert { font-size: 14px; font-weight: 500; line-height: 1.5; background: #FFF1F2; color: #9F1239; border: 1px solid #FDA4AF; border-radius: 12px; padding: 16px; margin: 0 0 18px; }
+        .tl-btn.st-main { display: block; width: 100%; padding: 14px 20px; border-radius: 12px; font-weight: 600; background: #111827; border-color: #111827; color: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.05); transition: background .15s, border-color .15s; }
+        @media (hover: hover) { .tl-btn.st-main:hover { background: #000; border-color: #000; } }
         .st-late { display: block; width: 100%; min-height: 44px; margin-top: 6px; background: none; border: 0; font: 600 14px "DM Sans", Inter, system-ui, sans-serif; color: #4B5563; cursor: pointer; }
         .st-late:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
       `}</style>
       <div className="st-ring">
         <svg width="220" height="220" viewBox="0 0 220 220" aria-hidden="true">
-          <circle cx="110" cy="110" r={R} fill="none" stroke="#E5E7EB" strokeWidth="14" />
-          <circle cx="110" cy="110" r={R} fill="none" stroke="#C8102E" strokeWidth="14" strokeLinecap="round"
+          <circle cx="110" cy="110" r={R} fill="none" stroke={track} strokeWidth="14" />
+          <circle cx="110" cy="110" r={R} fill="none" stroke={stroke} strokeWidth="14" strokeLinecap="round"
             strokeDasharray={`${dash} ${CIRCUMFERENCE}`} />
         </svg>
         <div className="st-time notranslate" translate="no" role="timer">{clock(remaining)}</div>
@@ -95,7 +106,7 @@ export function SubwayTimer() {
       {/* key: 자동 번역이 글자 노드를 바꿔 끼워 React 의 글자 갱신이 화면에 안 나온다 — 문구가 바뀌면 요소를 새로 만든다 */}
       {end === null
         ? <button key="start" type="button" className="tl-btn st-main" onClick={() => update(Date.now() + WINDOW_MS)}>Start 15-Min Timer</button>
-        : <button key="reset" type="button" className="tl-btn tl-btn-ghost st-main" onClick={() => update(null)}>Reset Timer</button>}
+        : <button key="reset" type="button" className="tl-btn st-main" onClick={() => update(null)}>Reset Timer</button>}
       {running && end !== null && <button type="button" className="st-late" onClick={() => update(end - MINUTE_MS)}>Started late? Take off 1 min</button>}
     </section>
   )
