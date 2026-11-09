@@ -15,4 +15,7 @@ export const TOOLS: Tool[] = [
   { id: 'hotspot-finder', title: 'Regional Hotspot Finder', desc: 'Curated 3-spot half-day walking clusters across 9 cities with zero photo bloat.', group: 'Planning' },
 ]
 
+/** /tools 허브의 노출 순서 — 대표 도구 3종이 먼저, 생활 유틸리티가 뒤 */
+export const HUB_ORDER: ToolId[] = ['hotspot-finder', 'transit-guide', 'kpop-calendar', 'order-builder', 'subway-timer', 'krw-converter', 'weather', 'world-time']
+
 export const toolHref = (id: ToolId) => `/tools/${id}`

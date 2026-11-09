@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect, useRef, useState, type ComponentType, type MouseEvent, type ReactNode } from 'react'
-import { Banknote, Clock, CloudSun, MapPin, Ticket, Timer, TrainFront, UtensilsCrossed } from 'lucide-react'
-import { TOOLS, toolHref, type ToolId } from './toolList'
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from 'react'
+import { HUB_ORDER, TOOLS, toolHref, type ToolId } from './toolList'
+import { TOOL_ART } from './toolArt'
 import { OrderBuilder } from './order-builder/OrderBuilder'
 import { SubwayTimer } from './subway-timer/SubwayTimer'
 import { SubwayRules } from './subway-timer/SubwayRules'
@@ -13,27 +13,6 @@ import { KpopCalendar } from './kpop-calendar/KpopCalendar'
 import { WorldTime } from './world-time/WorldTime'
 import { HotspotFinder } from './hotspot-finder/HotspotFinder'
 
-const ICONS: Record<ToolId, ComponentType<{ size?: number; strokeWidth?: number }>> = {
-  'order-builder': UtensilsCrossed,
-  'subway-timer': Timer,
-  'krw-converter': Banknote,
-  'transit-guide': TrainFront,
-  weather: CloudSun,
-  'kpop-calendar': Ticket,
-  'world-time': Clock,
-  'hotspot-finder': MapPin,
-}
-// 도구 성격별 아이콘 색 [배경, 글자]
-const TINTS: Record<ToolId, [string, string]> = {
-  'order-builder': ['#FEE2E2', '#B91C1C'],
-  'subway-timer': ['#FEF3C7', '#B45309'],
-  'krw-converter': ['#D1FAE5', '#047857'],
-  'transit-guide': ['#DBEAFE', '#1D4ED8'],
-  weather: ['#E0F2FE', '#0369A1'],
-  'kpop-calendar': ['#F3E8FF', '#7E22CE'],
-  'world-time': ['#E0E7FF', '#4338CA'],
-  'hotspot-finder': ['#CCFBF1', '#0F766E'],
-}
 const isToolId = (id: string): id is ToolId => TOOLS.some(t => t.id === id)
 
 /**
@@ -104,20 +83,22 @@ export function ToolsHub({ rates, updated }: { rates: Rates; updated: string }) 
       <style>{`
         .tl-wrap.th-wrap { max-width: 1040px; }
         .th-hero { background: #121212; color: #fff; }
-        .th-hero-inner { box-sizing: border-box; max-width: 1040px; margin: 0 auto; padding: 20px 32px 48px; }
+        .th-hero-inner { box-sizing: border-box; max-width: 832px; margin: 0 auto; padding: 20px 32px 48px; }
         .th-back { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 18px; color: #D1D5DB; text-decoration: none; font-size: 14px; font-weight: 600; }
         .th-tag { display: block; width: fit-content; margin: 0 0 12px; padding: 4px 8px; border-radius: 6px; background: #C8102E; color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .12em; }
         .th-hero h1 { margin: 0 0 10px; font-family: "Playfair Display", Georgia, serif; font-size: 40px; font-weight: 700; line-height: 1.15; color: #fff; }
         .th-hero-sub { margin: 0; font-size: 16px; line-height: 1.6; color: #D1D5DB; }
         @media (hover: hover) { .th-back:hover { color: #fff; } }
-        .th-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-        .th-card { position: relative; display: flex; flex-direction: column; padding: 18px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.05); text-decoration: none; color: inherit; transition: transform .2s, box-shadow .2s, border-color .2s; }
-        @media (hover: hover) { .th-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(0,0,0,.1); border-color: #D1D5DB; } .th-card:hover .th-arrow { color: #111827; } }
-        @media (prefers-reduced-motion: reduce) { .th-card { transition: none; } .th-card:hover { transform: none; } }
-        .th-arrow { position: absolute; top: 14px; right: 16px; font-size: 16px; line-height: 1; color: #9CA3AF; transition: color .2s; }
-        .th-icon { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; margin-bottom: 12px; }
-        .th-title { font-family: "Playfair Display", Georgia, serif; font-size: 17px; font-weight: 700; line-height: 1.25; color: #111827; margin-bottom: 4px; }
-        .th-desc { font-size: 13.5px; line-height: 1.55; color: #374151; }
+        .th-list { display: flex; flex-direction: column; gap: 16px; max-width: 768px; margin: 0 auto; }
+        .th-card { display: flex; align-items: center; gap: 20px; padding: 14px 20px 14px 14px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.05); text-decoration: none; color: inherit; transition: transform .2s, box-shadow .2s, border-color .2s; }
+        .th-thumb { flex: none; display: block; width: 112px; height: 84px; border-radius: 12px; overflow: hidden; }
+        .th-thumb svg { display: block; width: 100%; height: 100%; }
+        .th-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+        .th-title { font-family: "Playfair Display", Georgia, serif; font-size: 18px; font-weight: 700; line-height: 1.25; color: #111827; margin-bottom: 4px; }
+        .th-desc { font-size: 14px; line-height: 1.5; color: #374151; }
+        .th-arrow { flex: none; display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #E5E7EB; border-radius: 50%; font-size: 16px; line-height: 1; color: #6B7280; transition: color .2s, border-color .2s, background .2s; }
+        @media (hover: hover) { .th-card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,.08); border-color: #C8102E; } .th-card:hover .th-arrow { color: #fff; background: #C8102E; border-color: #C8102E; } }
+        @media (prefers-reduced-motion: reduce) { .th-card, .th-arrow { transition: none; } .th-card:hover { transform: none; } }
 
         .th-overlay { position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center; background: rgba(17,24,39,.55); }
         .th-modal { display: flex; flex-direction: column; width: min(980px, calc(100vw - 48px)); height: min(88vh, 920px); background: #FAFAF8; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
@@ -129,11 +110,15 @@ export function ToolsHub({ rates, updated }: { rates: Rates; updated: string }) 
         .th-body .kp-calendar { top: 0; }
         .th-back:focus-visible, .th-card:focus-visible, .th-action:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
 
-        @media (min-width: 640px) { .th-grid { gap: 16px; } .th-card { padding: 22px; } }
-        @media (min-width: 1024px) { .th-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .th-title { font-size: 18px; } .th-desc { font-size: 14px; } }
         @media (max-width: 767px) {
           .th-hero-inner { padding: 12px 20px 36px; }
           .th-hero h1 { font-size: 30px; }
+          .th-list { gap: 12px; }
+          .th-card { gap: 12px; padding: 10px 12px 10px 10px; }
+          .th-thumb { width: 72px; height: 54px; border-radius: 10px; }
+          .th-title { font-size: 16px; margin-bottom: 2px; }
+          .th-desc { font-size: 13px; line-height: 1.45; }
+          .th-arrow { width: 28px; height: 28px; font-size: 14px; }
           .th-overlay { align-items: stretch; background: #FAFAF8; }
           .th-modal { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
           .th-head { padding: 8px 12px 8px 16px; }
@@ -146,26 +131,24 @@ export function ToolsHub({ rates, updated }: { rates: Rates; updated: string }) 
         <div className="th-hero-inner">
           {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- 오프라인 캐시에 있는 이 페이지에서 홈으로 페이지째 이동한다 */}
           <a className="th-back" href="/">← Back to Home</a>
-          <p className="th-tag">TRAVEL UTILITIES</p>
+          <p className="th-tag">TRAVEL TOOLS</p>
           <h1>Your Pocket Companion for Traveling Korea</h1>
           <p className="th-hero-sub">Fast, lightweight utilities designed for your pocket on the go.</p>
         </div>
       </header>
 
       <div className="tl-wrap th-wrap">
-        <div className="th-grid">
-          {TOOLS.map(t => {
-            const Icon = ICONS[t.id]
-            const [background, color] = TINTS[t.id]
-            return (
-              <a key={t.id} href={toolHref(t.id)} className="th-card" onClick={e => open(e, t.id)}>
-                <span className="th-arrow" aria-hidden="true">↗</span>
-                <span className="th-icon" style={{ background, color }} aria-hidden="true"><Icon size={22} strokeWidth={1.75} /></span>
+        <div className="th-list">
+          {HUB_ORDER.map(id => TOOLS.find(t => t.id === id)!).map(t => (
+            <a key={t.id} href={toolHref(t.id)} className="th-card" onClick={e => open(e, t.id)}>
+              <span className="th-thumb" style={{ background: TOOL_ART[t.id].background }}>{TOOL_ART[t.id].art}</span>
+              <span className="th-text">
                 <span className="th-title">{t.title}</span>
                 <span className="th-desc">{t.desc}</span>
-              </a>
-            )
-          })}
+              </span>
+              <span className="th-arrow" aria-hidden="true">↗</span>
+            </a>
+          ))}
         </div>
       </div>
 
