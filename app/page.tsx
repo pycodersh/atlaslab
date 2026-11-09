@@ -14,6 +14,7 @@ import {
 } from '@/lib/blog/sections'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
 import { KoreanBasicsArt } from '@/components/home/KoreanBasicsArt'
+import { KoreaLifeArt } from '@/components/home/KoreaLifeArt'
 import type { Metadata } from 'next'
 import { ORGANIZATION_JSON_LD, WEBSITE_JSON_LD, DEFAULT_OPEN_GRAPH, SITE_TITLE, SITE_DESC, SITE_URL } from '@/lib/seo/site'
 
@@ -193,7 +194,7 @@ export default async function AtlasLabHome() {
     {
       key: 'life', title: 'Korea Life',
       desc: 'Subway navigation, T-Money, and everyday survival tips.',
-      href: '/life', thumb: { kind: 'image', src: '/images/articles/home-korea-life-seoul.jpg' }, thumbAlt: 'Sunset over the Han River with people relaxing in a riverside park in Seoul',
+      href: '/life', art: <KoreaLifeArt />,
     },
   ]
   // 바로가기 바는 헤더 드로어와 같은 3대 축(Our Apps · Learn Korean · Travel & Life) — 각 게이트웨이 섹션으로 간다
