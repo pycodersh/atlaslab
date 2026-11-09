@@ -1,6 +1,6 @@
 /** 도구 목록 단일 출처 — 홈 배너의 개수, /tools 허브, 도구 페이지의 More tools 가 함께 쓴다 */
 export type ToolGroup = 'Survival' | 'Planning'
-export type ToolId = 'order-builder' | 'subway-timer' | 'krw-converter' | 'transit-guide' | 'weather' | 'kpop-calendar' | 'world-time' | 'hotspot-finder'
+export type ToolId = 'order-builder' | 'subway-timer' | 'krw-converter' | 'transit-guide' | 'weather' | 'kpop-calendar' | 'world-time' | 'hotspot-finder' | 'holiday-calendar'
 export type Tool = { id: ToolId; title: string; desc: string; group: ToolGroup }
 
 export const TOOLS: Tool[] = [
@@ -13,9 +13,10 @@ export const TOOLS: Tool[] = [
   { id: 'kpop-calendar', title: 'K-Pop Event Calendar', desc: 'Upcoming concerts, global ticketing links, and arena venue guides.', group: 'Planning' },
   { id: 'world-time', title: 'Seoul & World Time', desc: 'Compare Seoul time with hometowns via interactive day/night cards.', group: 'Planning' },
   { id: 'hotspot-finder', title: 'Regional Hotspot Finder', desc: 'Curated walking clusters across Seoul and 10 regional cities with zero photo bloat.', group: 'Planning' },
+  { id: 'holiday-calendar', title: 'Korea Holiday & Peak Calendar', desc: 'Public holidays, Seollal/Chuseok shutdowns, and KTX peak booking warnings.', group: 'Planning' },
 ]
 
-/** /tools 허브의 노출 순서 — 대표 도구 3종이 먼저, 생활 유틸리티가 뒤 */
-export const HUB_ORDER: ToolId[] = ['hotspot-finder', 'transit-guide', 'kpop-calendar', 'order-builder', 'subway-timer', 'krw-converter', 'weather', 'world-time']
+/** /tools 허브의 노출 순서 — 여행 중 실제로 자주 여는 순서 */
+export const HUB_ORDER: ToolId[] = ['hotspot-finder', 'transit-guide', 'kpop-calendar', 'krw-converter', 'order-builder', 'weather', 'holiday-calendar', 'subway-timer', 'world-time']
 
 export const toolHref = (id: ToolId) => `/tools/${id}`

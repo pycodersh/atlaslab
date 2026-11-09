@@ -11,6 +11,16 @@ const art = (children: ReactNode) => (
  * background 는 일러스트 뒤에 깔 그라데이션이다.
  */
 export const TOOL_ART: Record<ToolId, { background: string; art: ReactNode }> = {
+  'holiday-calendar': {
+    background: 'linear-gradient(135deg, #F43F5E, #DC2626)',
+    art: art(<>
+      <rect x="112" y="24" width="96" height="108" rx="14" fill="#fff" />
+      <path d="M112 38a14 14 0 0 1 14-14h68a14 14 0 0 1 14 14v12h-96z" fill="#FECDD3" />
+      <g stroke="#9F1239" strokeWidth="6" strokeLinecap="round"><path d="M136 16v18M184 16v18" /></g>
+      <circle cx="160" cy="91" r="29" fill="#27509B" />
+      <path d="M131 91a29 29 0 0 1 58 0 14.500 14.500 0 0 1-29 0 14.500 14.500 0 0 0-29 0z" fill="#CD2E3A" />
+    </>),
+  },
   'kpop-calendar': {
     background: 'linear-gradient(135deg, #4C1D95, #DB2777)',
     art: art(<>
