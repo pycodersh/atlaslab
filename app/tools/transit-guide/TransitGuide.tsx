@@ -6,20 +6,43 @@ import { KoreaRouteMap, shortCity as short } from '../KoreaRouteMap'
 
 const cityOf = (id: CityId) => CITIES.find(c => c.id === id) as City
 
+const iata = (hubName: string) => hubName.match(/\(([A-Z]{3})\)/)?.[1].toLowerCase()
+
+/** 교통수단별 공식 예매처. 시외버스는 고속버스 전용인 KOBUS 에 없어 T-money 로 보낸다 */
+function bookingFor(mode: TransitMode, departure: string, arrival: string) {
+  if (mode.kind === 'train') return { href: 'https://www.korail.com/global/eng/main', label: '🚆 Book on Korail ↗' }
+  if (mode.kind === 'flight') {
+    const [from, to] = [iata(departure), iata(arrival)]
+    return { href: from && to ? `https://www.skyscanner.net/transport/flights/${from}/${to}/` : 'https://www.skyscanner.net/', label: '✈️ Search Flights ↗' }
+  }
+  if (mode.kind === 'bus') {
+    return mode.name.startsWith('Intercity')
+      ? { href: 'https://txbuse.t-money.co.kr/main.do', label: '🚌 Book Bus (T-money) ↗' }
+      : { href: 'https://www.kobus.co.kr/', label: '🚌 Book Bus (KOBUS) ↗' }
+  }
+  return null
+}
+
 /** 방향에 맞춰 허브를 뒤집어 읽는다 — 팁은 언제나 내리는 허브의 것이다 */
 function ModeCard({ mode, reversed, verdict }: { mode: TransitMode; reversed: boolean; verdict: string }) {
   const departure = HUBS[mode.hubs[reversed ? 1 : 0]]
   const arrival = HUBS[mode.hubs[reversed ? 0 : 1]]
+  const booking = bookingFor(mode, departure.name, arrival.name)
   return (
     <article className={`tg-mode${verdict === 'Best Choice' ? ' is-best' : ''}`}>
-      <p className="tg-verdict">{verdict || ' '}</p>
-      <h3 className="tg-mode-name">{mode.name}</h3>
-      <dl className="tg-facts">
+      <div className="tg-mode-head">
+        <p className="tg-verdict">{verdict || '\u00A0'}</p>
+        <h3 className="tg-mode-name">{mode.name}</h3>
+      </div>
+      <dl className="tg-stats">
         <div><dt>Duration</dt><dd>{mode.duration}{mode.via && <span className="tg-via">{mode.via}</span>}</dd></div>
-        <div><dt>Estimated Fare</dt><dd className="tg-fare notranslate" translate="no">{mode.fare}</dd></div>
+        <div><dt>Estimated Fare</dt><dd className="notranslate" translate="no">{mode.fare}</dd></div>
+      </dl>
+      <dl className="tg-hubs">
         <div><dt>Departure Hub</dt><dd>{departure.name}</dd></div>
         <div><dt>Arrival Hub &amp; City Connection Tip</dt><dd><strong>{arrival.name}</strong><span className="tg-tip">{arrival.tip}</span></dd></div>
       </dl>
+      {booking && <a className="tg-book notranslate" translate="no" href={booking.href} target="_blank" rel="noopener noreferrer">{booking.label}</a>}
     </article>
   )
 }
@@ -88,19 +111,29 @@ export function TransitGuide() {
 
         .tg-modes { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-bottom: 12px; }
         .tg-modes.is-1 { max-width: 460px; margin-left: auto; margin-right: auto; }
-        .tg-mode { background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; }
+        .tg-mode { display: flex; flex-direction: column; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; }
         .tg-mode.is-best { border-color: #C8102E; box-shadow: 0 0 0 1px #C8102E; }
+        .tg-mode-head { margin-bottom: 14px; }
         .tg-verdict { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #C8102E; margin: 0 0 4px; }
-        .tg-mode-name { font-size: 18px; font-weight: 700; color: #111827; margin: 0 0 14px; }
-        .tg-facts { margin: 0; }
-        .tg-facts > div { padding: 10px 0; border-top: 1px solid #F3F4F6; }
-        .tg-facts > div:last-child { padding-bottom: 0; }
-        .tg-facts dt { font-size: 12px; color: #6B7280; margin-bottom: 2px; }
-        .tg-facts dd { margin: 0; font-size: 14px; line-height: 1.5; color: #111827; }
-        .tg-facts .tg-fare { font-size: 16px; font-weight: 700; }
-        .tg-facts strong { display: block; font-weight: 600; }
+        .tg-mode-name { font-size: 18px; font-weight: 700; color: #111827; margin: 0; }
+        .tg-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; }
+        .tg-stats dt, .tg-hubs dt { font-size: 12px; color: #6B7280; margin-bottom: 2px; }
+        .tg-stats dd { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.35; color: #111827; }
+        .tg-hubs { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid #F1F5F9; }
+        .tg-hubs > div + div { margin-top: 10px; }
+        .tg-hubs dd { margin: 0; font-size: 14px; line-height: 1.5; color: #111827; }
+        .tg-hubs strong { display: block; font-weight: 600; }
         .tg-tip { display: block; color: #4B5563; margin-top: 4px; }
-        .tg-via { display: block; color: #B45309; font-weight: 600; }
+        .tg-via { display: block; color: #B45309; font-weight: 600; font-size: 13px; }
+        .tg-book { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 44px; margin-top: auto; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; color: #1E293B; text-decoration: none; font: 600 12px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s; }
+        .tg-hubs { margin-bottom: 14px; }
+        @media (hover: hover) { .tg-book:hover { background: #F8FAFC; } }
+        .tg-book:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        /* 카드끼리 머리 · 수치 · 허브 · 버튼 줄을 같은 높이로 맞춘다 */
+        @supports (grid-template-rows: subgrid) {
+          @media (min-width: 640px) { .tg-modes.is-2 .tg-mode { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; } }
+          @media (min-width: 768px) { .tg-modes.is-3 .tg-mode { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; } }
+        }
         .tg-banner { font-size: 13px; line-height: 1.5; color: #374151; background: #F3F4F6; border-radius: 10px; padding: 10px 14px; margin: 0 0 12px; }
         .tg-tipbox { font-size: 14px; line-height: 1.6; color: #1F2937; background: rgba(255,251,235,.6); border: 1px solid #FDE68A; border-radius: 12px; padding: 12px 16px; margin: 0 0 12px; }
         .tg-note { margin-top: 12px; }
