@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { CATEGORY_EMOJI, HOTSPOT_CITIES, type SeoulClusterId } from '@/data/regionalHotspots'
+import { HOTSPOT_CITIES, type SeoulClusterId } from '@/data/regionalHotspots'
+import { CategoryBadge } from './CategoryBadge'
 import { CITIES, type CityId } from '@/data/transitRoutes'
 import { KoreaRouteMap } from '../KoreaRouteMap'
 import { SeoulHotspotMap } from './SeoulHotspotMap'
@@ -49,14 +50,15 @@ export function HotspotFinder() {
         .hs-chip[aria-pressed="true"] { background: #C8102E; border-color: #C8102E; color: #fff; }
         .hs-chip-full { display: none; }
 
-        .hs-deck { display: flex; flex-direction: column; gap: 16px; margin-bottom: 18px; animation: hs-in .2s ease-out; }
+        .hs-deck { display: flex; flex-direction: column; gap: 16px; max-width: 768px; margin: 0 auto 18px; animation: hs-in .2s ease-out; }
         @keyframes hs-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
         @media (prefers-reduced-motion: reduce) { .hs-deck { animation: none; } }
         .hs-card { display: flex; flex-direction: column; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,.05); transition: border-color .15s; }
         @media (hover: hover) { .hs-card:hover { border-color: #D1D5DB; } .hs-tab:not([aria-selected="true"]):hover { border-color: #9CA3AF; } }
         .hs-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
         .hs-step { font-family: "DM Sans", Inter, system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: 18px; font-weight: 800; line-height: 1; color: #C8102E; }
-        .hs-badge { padding: 3px 8px; border-radius: 6px; background: #F3F4F6; font-size: 12px; font-weight: 600; color: #374151; white-space: nowrap; }
+        .hs-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px 4px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .hs-badge svg { flex: none; }
         .hs-name { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.25; color: #111827; }
         .hs-ko { margin: 4px 0 0; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 14px; font-weight: 500; color: #6B7280; }
         .hs-what { margin: 0 0 8px; padding: 8px 0; font-size: 16px; line-height: 1.625; color: #374151; }
@@ -66,14 +68,13 @@ export function HotspotFinder() {
         .hs-link { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 6px 4px; box-sizing: border-box; border: 1px solid #E5E7EB; border-radius: 10px; background: #fff; color: #374151; text-decoration: none; white-space: nowrap; font: 600 13px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
         @media (hover: hover) { .hs-link:hover { background: #F9FAFB; border-color: #9CA3AF; } }
         .hs-link:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
-        .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; padding: 10px 16px; margin-bottom: 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
+        .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
         .hs-tab:focus-visible, .hs-chip:focus-visible, .hs-route:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         @media (min-width: 768px) {
           .hs-tabs { grid-template-columns: repeat(6, minmax(0, 1fr)); }
           .hs-links { display: flex; justify-content: flex-end; }
           .hs-link { padding: 6px 16px; }
           .hs-card { padding: 24px; }
-          .hs-name { font-size: 22px; }
           .hs-seoul { flex-direction: row; align-items: center; gap: 32px; padding: 20px 28px; }
           .hs-mapbox { flex: 0 0 340px; width: 340px; }
           .hs-cluster-name { font-size: 26px; }
@@ -136,7 +137,7 @@ export function HotspotFinder() {
             <article key={spot.name} className="hs-card">
               <div className="hs-top">
                 <span className="hs-step notranslate" translate="no">{String(i + 1).padStart(2, '0')}</span>
-                <span className="hs-badge">{CATEGORY_EMOJI[spot.category]} {spot.category}</span>
+                <CategoryBadge category={spot.category} />
               </div>
               <h2 className="hs-name notranslate" translate="no">{spot.name}</h2>
               <p className="hs-ko notranslate" translate="no" lang="ko">{spot.ko}</p>
