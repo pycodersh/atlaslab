@@ -32,13 +32,15 @@ export function HotspotFinder() {
         .hs-city-hint { margin: 0; font-size: 13px; color: #6B7280; }
         .hs-river { font: 500 9px "DM Sans", Inter, system-ui, sans-serif; fill: #7D9BB0; }
         .hs-side-label { font: 700 9px "DM Sans", Inter, system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; fill: #9CA3AF; }
+        .hs-outline { fill: #FAF8F4; stroke: #E5E1D8; stroke-width: 1.5; }
+        .hs-han { stroke: #CFE2EF; stroke-width: 11; }
         .hs-zone { cursor: pointer; outline: none; }
-        .hs-zone polygon { fill: #F3F1EC; stroke: #fff; stroke-width: 3; transition: fill .15s; }
+        .hs-zone path { fill: #E9E4DA; stroke: #fff; stroke-width: 2; transition: fill .15s; }
         .hs-zone text { font: 600 12px "DM Sans", Inter, system-ui, sans-serif; fill: #4B5563; pointer-events: none; transition: fill .15s; }
-        .hs-zone.is-active polygon { fill: #C8102E; }
+        .hs-zone.is-active path { fill: #9F1239; }
         .hs-zone.is-active text { fill: #fff; font-weight: 700; }
-        .hs-zone:focus-visible polygon { stroke: #111827; }
-        @media (hover: hover) { .hs-zone:not(.is-active):hover polygon { fill: #E7E3DB; } }
+        .hs-zone:focus-visible path { stroke: #111827; }
+        @media (hover: hover) { .hs-zone:not(.is-active):hover path { fill: #D9D2C4; } }
         .hs-side { flex: 1; min-width: 0; }
         .hs-cluster-name { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 22px; font-weight: 700; line-height: 1.2; color: #111827; }
         .hs-cluster-theme { margin: 2px 0 12px; font-size: 13px; color: #4B5563; }
@@ -47,21 +49,20 @@ export function HotspotFinder() {
         .hs-chip[aria-pressed="true"] { background: #C8102E; border-color: #C8102E; color: #fff; }
         .hs-chip-full { display: none; }
 
-        .hs-deck { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-bottom: 18px; animation: hs-in .2s ease-out; }
+        .hs-deck { display: flex; flex-direction: column; gap: 16px; margin-bottom: 18px; animation: hs-in .2s ease-out; }
         @keyframes hs-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
         @media (prefers-reduced-motion: reduce) { .hs-deck { animation: none; } }
         .hs-card { display: flex; flex-direction: column; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,.05); transition: border-color .15s; }
         @media (hover: hover) { .hs-card:hover { border-color: #D1D5DB; } .hs-tab:not([aria-selected="true"]):hover { border-color: #9CA3AF; } }
-        .hs-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
-        .hs-step { font-family: "Playfair Display", Georgia, serif; font-size: 22px; font-weight: 700; line-height: 1; color: #C8102E; }
+        .hs-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 14px; }
+        .hs-step { font-family: "DM Sans", Inter, system-ui, sans-serif; font-variant-numeric: tabular-nums; font-size: 18px; font-weight: 800; line-height: 1; color: #C8102E; }
         .hs-badge { padding: 3px 8px; border-radius: 6px; background: #F3F4F6; font-size: 12px; font-weight: 600; color: #374151; white-space: nowrap; }
         .hs-name { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.25; color: #111827; }
-        .hs-ko { margin: 2px 0 10px; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 13px; color: #6B7280; }
-        .hs-what { margin: 0 0 12px; font-size: 15px; line-height: 1.5; color: #111827; }
-        .hs-tip { margin: 0; padding-top: 12px; border-top: 1px solid #F3F4F6; font-size: 13px; line-height: 1.5; color: #4B5563; }
-        .hs-tip strong { display: block; color: #111827; font-weight: 700; }
-        /* margin-top:auto — 팁 길이가 달라도 같은 줄 카드의 버튼 높이가 맞는다 */
-        .hs-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: auto; padding-top: 12px; }
+        .hs-ko { margin: 4px 0 0; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 14px; font-weight: 500; color: #6B7280; }
+        .hs-what { margin: 0 0 8px; padding: 8px 0; font-size: 16px; line-height: 1.625; color: #374151; }
+        .hs-tip { margin: 0; padding: 12px; background: #F8FAFC; border: 1px solid rgba(226,232,240,.6); border-radius: 12px; font-size: 12px; line-height: 1.55; color: #334155; }
+        .hs-tip strong { display: block; color: #0F172A; font-weight: 700; margin-bottom: 2px; }
+        .hs-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
         .hs-link { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 6px 4px; box-sizing: border-box; border: 1px solid #E5E7EB; border-radius: 10px; background: #fff; color: #374151; text-decoration: none; white-space: nowrap; font: 600 13px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
         @media (hover: hover) { .hs-link:hover { background: #F9FAFB; border-color: #9CA3AF; } }
         .hs-link:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
@@ -69,7 +70,10 @@ export function HotspotFinder() {
         .hs-tab:focus-visible, .hs-chip:focus-visible, .hs-route:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         @media (min-width: 768px) {
           .hs-tabs { grid-template-columns: repeat(6, minmax(0, 1fr)); }
-          .hs-deck { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+          .hs-links { display: flex; justify-content: flex-end; }
+          .hs-link { padding: 6px 16px; }
+          .hs-card { padding: 24px; }
+          .hs-name { font-size: 22px; }
           .hs-seoul { flex-direction: row; align-items: center; gap: 32px; padding: 20px 28px; }
           .hs-mapbox { flex: 0 0 340px; width: 340px; }
           .hs-cluster-name { font-size: 26px; }
@@ -80,8 +84,6 @@ export function HotspotFinder() {
         @media (min-width: 1024px) {
           .hs-tabs { grid-template-columns: repeat(11, minmax(0, 1fr)); gap: 6px; }
           .hs-tab { padding: 8px 2px; font-size: 13px; }
-          /* 서울 권역은 네 곳이라 2x2 를 유지한다 */
-          .hs-deck:not(.is-four) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
         }
       `}</style>
 
@@ -93,9 +95,9 @@ export function HotspotFinder() {
 
       {!city.clusters && (
         <section className="hs-seoul" aria-label="Choose a city on the map">
-          {/* 서울 ↔ 전국 지도가 바뀔 때만 다시 그려 페이드한다 — 지방 도시끼리는 핀과 점선만 움직인다 */}
+          {/* 서울 ↔ 전국 지도가 바뀔 때만 다시 그려 페이드한다 — 지방 도시끼리는 강조 핀만 옮겨 간다 */}
           <div key="korea" className="hs-mapbox">
-            <KoreaRouteMap from="seoul" to={city.id} onPick={setCityId} />
+            <KoreaRouteMap to={city.id} onPick={setCityId} />
           </div>
           <div className="hs-side">
             <h2 key={city.id} className="hs-cluster-name notranslate" translate="no">{city.name}</h2>
@@ -129,11 +131,11 @@ export function HotspotFinder() {
 
       {/* key: 자동 번역이 글자 노드를 바꿔 끼우고, 바뀔 때마다 카드가 부드럽게 나타나게 새로 그린다 */}
       <div key={`${city.id}-${cluster?.id ?? ''}`} role="tabpanel" aria-label={cluster?.name ?? city.name}>
-        <div className={`hs-deck${cluster ? ' is-four' : ''}`}>
+        <div className="hs-deck">
           {spots.map((spot, i) => (
             <article key={spot.name} className="hs-card">
               <div className="hs-top">
-                <span className="hs-step notranslate" translate="no">{i + 1}</span>
+                <span className="hs-step notranslate" translate="no">{String(i + 1).padStart(2, '0')}</span>
                 <span className="hs-badge">{CATEGORY_EMOJI[spot.category]} {spot.category}</span>
               </div>
               <h2 className="hs-name notranslate" translate="no">{spot.name}</h2>
