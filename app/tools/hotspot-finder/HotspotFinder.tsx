@@ -14,6 +14,27 @@ const instagramTag = (ko: string) => ko.split(/[&·]/)[0].replace(/\s+/g, '')
 // 문장으로 쓴 팁을 '역 · 휴무일' 형태의 메타 문구로 잇는다 — Univ. 같은 약어의 마침표는 문장 끝이 아니다
 const metaTip = (tip: string) => tip.replace(/\.$/, '').replace(/(\S+)\. (?=[A-Z])/g, (match, word) => (word === 'Univ' ? match : `${word} · `))
 
+function GoogleIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true">
+      <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+      <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-16.65z" />
+      <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+      <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+    </svg>
+  )
+}
+
+function InstagramIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F43F5E" strokeWidth="2" aria-hidden="true">
+      <rect x="2.500" y="2.500" width="19" height="19" rx="5.500" />
+      <circle cx="12" cy="12" r="4.500" />
+      <circle cx="17.500" cy="6.500" r="1" fill="#F43F5E" stroke="none" />
+    </svg>
+  )
+}
+
 export function HotspotFinder() {
   const [cityId, setCityId] = useState<CityId>('seoul')
   const [clusterId, setClusterId] = useState<SeoulClusterId>('jongno')
@@ -67,9 +88,9 @@ export function HotspotFinder() {
         .hs-name { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.25; color: #111827; }
         .hs-ko { margin: 4px 0 0; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 14px; font-weight: 500; color: #6B7280; }
         .hs-what { margin: 6px 0 0; font-size: 14px; line-height: 1.55; color: #374151; }
-        .hs-tip { margin: 8px 0 0; padding-top: 8px; border-top: 1px solid #F1F5F9; font-size: 12px; line-height: 1.625; color: #64748B; }
+        .hs-tip { margin: 8px 0 0; padding-top: 8px; border-top: 1px solid #F1F5F9; font-size: 12px; font-weight: 500; line-height: 1.625; color: #64748B; }
         .hs-links { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 10px; }
-        .hs-link { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 6px 4px; box-sizing: border-box; border: 1px solid #E5E7EB; border-radius: 10px; background: #fff; color: #374151; text-decoration: none; white-space: nowrap; font: 600 13px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
+        .hs-link { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 6px 4px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; background: #fff; color: #334155; text-decoration: none; white-space: nowrap; font: 600 12px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
         @media (hover: hover) { .hs-link:hover { background: #F9FAFB; border-color: #9CA3AF; } }
         .hs-link:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
@@ -150,10 +171,10 @@ export function HotspotFinder() {
               <h2 className="hs-name notranslate" translate="no">{spot.name}</h2>
               <p className="hs-ko notranslate" translate="no" lang="ko">{spot.ko}</p>
               <p className="hs-what">{spot.what}</p>
-              <p className="hs-tip"><span aria-hidden="true">💡 </span>{metaTip(spot.tip)}</p>
+              <p className="hs-tip">{metaTip(spot.tip)}</p>
               <div className="hs-links notranslate" translate="no">
-                <a className="hs-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot.ko} ${spot.name}`)}`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Google Maps`}>🗺️ Google Maps</a>
-                <a className="hs-link" href={`https://www.instagram.com/explore/tags/${encodeURIComponent(instagramTag(spot.ko))}/`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Instagram`}>📸 Live Vibes</a>
+                <a className="hs-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot.ko} ${spot.name}`)}`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Google Maps`}><GoogleIcon />Google Maps</a>
+                <a className="hs-link" href={`https://www.instagram.com/explore/tags/${encodeURIComponent(instagramTag(spot.ko))}/`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Instagram`}><InstagramIcon />Live Vibes</a>
               </div>
               </div>
             </article>
