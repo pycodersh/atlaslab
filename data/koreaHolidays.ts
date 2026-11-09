@@ -21,8 +21,8 @@ type Info = Pick<Holiday, 'name' | 'koreanName' | 'impact' | 'travelTip'>
 type Dates = Pick<Holiday, 'date' | 'endDate' | 'substitute'>
 
 const INFO = {
-  newYear: { name: 'New Year’s Day', koreanName: '신정', impact: 'normal', travelTip: 'Most shops and restaurants stay open. East coast sunrise spots get busy before dawn.' },
-  seollal: { name: 'Seollal (Lunar New Year)', koreanName: '설날 연휴', impact: 'major-shutdown', travelTip: 'Trains and highways jam nationwide and many markets and small shops close. Royal palaces have usually opened free.' },
+  newYear: { name: 'New Year’s Day', koreanName: '신정', impact: 'normal', travelTip: 'East coast sunrise spots get busy before dawn.' },
+  seollal: { name: 'Seollal (Lunar New Year)', koreanName: '설날 연휴', impact: 'major-shutdown', travelTip: 'Trains and highways jam nationwide. Most small shops close, but major royal palaces usually open for free.' },
   independence: { name: 'Independence Movement Day', koreanName: '삼일절', impact: 'normal', travelTip: 'Government offices close, while tourist areas run as usual.' },
   labor: { name: 'Labor Day', koreanName: '노동절', impact: 'normal', travelTip: 'Banks and government offices close, while malls and restaurants mostly stay open.' },
   children: { name: 'Children’s Day', koreanName: '어린이날', impact: 'crowded', travelTip: 'Theme parks, museums and city parks fill with families. Go early or pick an adult-friendly area.' },
@@ -30,7 +30,7 @@ const INFO = {
   memorial: { name: 'Memorial Day', koreanName: '현충일', impact: 'normal', travelTip: 'A siren sounds nationwide at 10 a.m. for a moment of silence. It is not an emergency.' },
   constitution: { name: 'Constitution Day', koreanName: '제헌절', impact: 'normal', travelTip: 'Government offices close, while shops and sights run as usual.' },
   liberation: { name: 'Liberation Day', koreanName: '광복절', impact: 'normal', travelTip: 'Government offices close, while shops and restaurants mostly stay open.' },
-  chuseok: { name: 'Chuseok (Harvest Festival)', koreanName: '추석 연휴', impact: 'major-shutdown', travelTip: 'KTX seats sell out early and return traffic is heavy. Many small restaurants close. Royal palaces have usually opened free.' },
+  chuseok: { name: 'Chuseok (Harvest Festival)', koreanName: '추석 연휴', impact: 'major-shutdown', travelTip: 'KTX seats sell out early and return traffic is heavy. Many small restaurants close, but major royal palaces usually open for free.' },
   foundation: { name: 'National Foundation Day', koreanName: '개천절', impact: 'normal', travelTip: 'Government offices close, while tourist areas run as usual.' },
   hangeul: { name: 'Hangeul Day', koreanName: '한글날', impact: 'normal', travelTip: 'Government offices close, while shops and sights run as usual.' },
   christmas: { name: 'Christmas Day', koreanName: '크리스마스', impact: 'crowded', travelTip: 'Myeongdong, Seongsu and other city centers get packed. Book restaurants ahead.' },

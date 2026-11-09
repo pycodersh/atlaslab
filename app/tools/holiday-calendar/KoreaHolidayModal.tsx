@@ -11,16 +11,24 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 const UPCOMING_COUNT = 6
 
-const IMPACT: Record<HolidayImpact, { label: string; hint: string; bg: string; fg: string; dot: string }> = {
-  'major-shutdown': { label: 'Major Shutdown', hint: 'Avoid long trips and book KTX early', bg: '#FFE4E6', fg: '#9F1239', dot: '#E11D48' },
-  crowded: { label: 'Crowded Holiday', hint: 'Expect longer waits at popular sights', bg: '#FEF3C7', fg: '#92400E', dot: '#F59E0B' },
-  normal: { label: 'Normal Operations', hint: 'Most shops and restaurants stay open', bg: '#DCFCE7', fg: '#166534', dot: '#16A34A' },
+const IMPACT: Record<HolidayImpact, { label: string; bg: string; fg: string; dot: string }> = {
+  'major-shutdown': { label: 'Major Shutdown', bg: '#FFE4E6', fg: '#9F1239', dot: '#E11D48' },
+  crowded: { label: 'Crowded', bg: '#FEF3C7', fg: '#92400E', dot: '#F59E0B' },
+  normal: { label: 'Normal Operations', bg: '#DCFCE7', fg: '#166534', dot: '#16A34A' },
 }
 
 // 날짜 문자열은 달력 날짜 그대로 읽는다 — 방문자의 시간대를 타면 하루가 밀린다
 const parts = (iso: string) => new Date(`${iso}T00:00:00Z`)
 const fmt = (iso: string, options: Intl.DateTimeFormatOptions) => new Intl.DateTimeFormat('en-US', { timeZone: 'UTC', ...options }).format(parts(iso))
-const dayLabel = (iso: string) => fmt(iso, { weekday: 'short', month: 'short', day: 'numeric' })
+const monthDay = (iso: string) => fmt(iso, { month: 'short', day: 'numeric' })
+
+// 'Fri, Jan 1, 2027' · 연휴는 'Feb 6–8, 2027' · 대체공휴일은 뒤에 한 줄로 잇는다
+function whenLabel({ date, endDate, substitute }: Holiday) {
+  const year = parts(date).getUTCFullYear()
+  const span = !endDate ? `${fmt(date, { weekday: 'short' })}, ${monthDay(date)}`
+    : `${monthDay(date)}–${date.slice(0, 7) === endDate.slice(0, 7) ? parts(endDate).getUTCDate() : monthDay(endDate)}`
+  return `${span}, ${year}${substitute ? ` · Substitute: ${monthDay(substitute)}` : ''}`
+}
 const seoulToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date())
 
 function HolidayCard({ holiday, past }: { holiday: Holiday; past: boolean }) {
@@ -34,17 +42,15 @@ function HolidayCard({ holiday, past }: { holiday: Holiday; past: boolean }) {
         <span className={`hc-day${holiday.endDate ? ' is-range' : ''}`}>{days}</span>
       </div>
       <div className="hc-body">
-        <h3 className="hc-name notranslate" translate="no">{holiday.name}</h3>
-        <p className="hc-ko notranslate" translate="no" lang="ko">{holiday.koreanName}</p>
-        <p className="hc-when notranslate" translate="no">
-          {dayLabel(holiday.date)}{holiday.endDate && ` – ${dayLabel(holiday.endDate)}`}, {start.getUTCFullYear()}
-          {holiday.substitute && <span className="hc-sub">Substitute day off: {dayLabel(holiday.substitute)}</span>}
-        </p>
-        <p className="hc-impact">
-          <span className="hc-tag" style={{ background: impact.bg, color: impact.fg }}><i style={{ background: impact.dot }} />{impact.label}</span>
-          <span className="hc-hint">{impact.hint}</span>
-        </p>
-        <p className="hc-tip">{holiday.travelTip}</p>
+        <div className="hc-head">
+          <div className="hc-titles">
+            <h3 className="hc-name notranslate" translate="no">{holiday.name}</h3>
+            <p className="hc-ko notranslate" translate="no" lang="ko">{holiday.koreanName}</p>
+          </div>
+          <span className="hc-tag notranslate" translate="no" style={{ background: impact.bg, color: impact.fg }}><i style={{ background: impact.dot }} />{impact.label}</span>
+        </div>
+        <p className="hc-when notranslate" translate="no">{whenLabel(holiday)}</p>
+        <p className="hc-tip"><span aria-hidden="true">💡 </span>{holiday.travelTip}</p>
       </div>
     </article>
   )
@@ -90,16 +96,15 @@ export function KoreaHolidayModal() {
         .hc-month { font: 700 11px "DM Sans", Inter, system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
         .hc-day { font: 800 28px/1.1 "DM Sans", Inter, system-ui, sans-serif; }
         .hc-day.is-range { font-size: 20px; line-height: 1.5; }
-        .hc-body { flex: 1; min-width: 0; }
+        .hc-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+        .hc-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+        .hc-titles { min-width: 0; }
         .hc-name { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 18px; font-weight: 700; line-height: 1.25; color: #111827; }
-        .hc-ko { margin: 2px 0 0; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 13px; font-weight: 500; color: #6B7280; }
-        .hc-when { margin: 6px 0 0; font-size: 13px; color: #374151; }
-        .hc-sub { display: block; font-weight: 600; color: #B45309; }
-        .hc-impact { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 10px 0 0; }
-        .hc-tag { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px 3px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; white-space: nowrap; }
-        .hc-tag i { width: 8px; height: 8px; border-radius: 50%; }
-        .hc-hint { font-size: 12px; color: #4B5563; }
-        .hc-tip { margin: 8px 0 0; font-size: 14px; line-height: 1.5; color: #1F2937; }
+        .hc-ko { margin: 1px 0 0; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 13px; font-weight: 500; color: #6B7280; }
+        .hc-when { margin: 0; font-size: 12px; color: #64748B; }
+        .hc-tag { flex: none; display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px 3px 7px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+        .hc-tag i { width: 7px; height: 7px; border-radius: 50%; }
+        .hc-tip { margin: 0; padding: 8px 12px; background: #F8FAFC; border-radius: 8px; font-size: 12px; line-height: 1.5; color: #334155; }
         .hc-seasons { padding: 16px; background: rgba(238,242,255,.7); border: 1px solid #E0E7FF; border-radius: 16px; margin-bottom: 12px; }
         .hc-seasons h3 { margin: 0 0 2px; font-family: "Playfair Display", Georgia, serif; font-size: 18px; font-weight: 700; color: #1E1B4B; }
         .hc-seasons-lead { margin: 0 0 12px; font-size: 13px; color: #4338CA; }
@@ -116,7 +121,8 @@ export function KoreaHolidayModal() {
         .hc-notes ul { margin: 0; padding-left: 18px; font-size: 13px; line-height: 1.55; color: #334155; }
         .hc-notes li + li { margin-top: 6px; }
         .hc-notes strong { color: #0F172A; }
-        @media (max-width: 479px) { .hc-card { gap: 12px; padding: 14px; } .hc-date { width: 60px; height: 66px; } .hc-day { font-size: 25px; } .hc-day.is-range { font-size: 18px; } }
+        /* 폰은 뱃지가 제목 칸을 눌러 긴 이름이 넘치므로 제목 아래로 내린다 */
+        @media (max-width: 479px) { .hc-head { flex-direction: column; gap: 4px; } .hc-card { gap: 12px; padding: 14px; } .hc-date { width: 60px; height: 66px; } .hc-day { font-size: 25px; } .hc-day.is-range { font-size: 18px; } }
       `}</style>
 
       <div className="hc-root">
