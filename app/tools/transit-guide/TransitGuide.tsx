@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { CITIES, HUBS, routeBetween, type City, type CityId, type TransitMode, type TransitRoute } from '@/data/transitRoutes'
+import { Bus, ExternalLink, Plane, TrainFront, type LucideIcon } from 'lucide-react'
 import { KoreaRouteMap, shortCity as short } from '../KoreaRouteMap'
 
 const cityOf = (id: CityId) => CITIES.find(c => c.id === id) as City
@@ -10,39 +11,48 @@ const iata = (hubName: string) => hubName.match(/\(([A-Z]{3})\)/)?.[1].toLowerCa
 
 /** 교통수단별 공식 예매처. 시외버스는 고속버스 전용인 KOBUS 에 없어 T-money 로 보낸다 */
 function bookingFor(mode: TransitMode, departure: string, arrival: string) {
-  if (mode.kind === 'train') return { href: 'https://www.korail.com/global/eng/main', label: '🚆 Book on Korail ↗' }
+  if (mode.kind === 'train') return { href: 'https://www.korail.com/global/eng/main', label: 'Book on Korail' }
   if (mode.kind === 'flight') {
     const [from, to] = [iata(departure), iata(arrival)]
-    return { href: from && to ? `https://www.skyscanner.net/transport/flights/${from}/${to}/` : 'https://www.skyscanner.net/', label: '✈️ Search Flights ↗' }
+    return { href: from && to ? `https://www.skyscanner.net/transport/flights/${from}/${to}/` : 'https://www.skyscanner.net/', label: 'Search Flights' }
   }
   if (mode.kind === 'bus') {
     return mode.name.startsWith('Intercity')
-      ? { href: 'https://txbuse.t-money.co.kr/main.do', label: '🚌 Book Bus (T-money) ↗' }
-      : { href: 'https://www.kobus.co.kr/', label: '🚌 Book Bus (KOBUS) ↗' }
+      ? { href: 'https://txbuse.t-money.co.kr/main.do', label: 'Book Bus (T-money)' }
+      : { href: 'https://www.kobus.co.kr/', label: 'Book Bus (KOBUS)' }
   }
   return null
 }
+
+const MODE_ICON: Partial<Record<TransitMode['kind'], LucideIcon>> = { train: TrainFront, flight: Plane, bus: Bus }
 
 /** 방향에 맞춰 허브를 뒤집어 읽는다 — 팁은 언제나 내리는 허브의 것이다 */
 function ModeCard({ mode, reversed, verdict }: { mode: TransitMode; reversed: boolean; verdict: string }) {
   const departure = HUBS[mode.hubs[reversed ? 1 : 0]]
   const arrival = HUBS[mode.hubs[reversed ? 0 : 1]]
   const booking = bookingFor(mode, departure.name, arrival.name)
+  const Icon = MODE_ICON[mode.kind]
+  // 항공은 '비행시간; 공항 포함 시간' 으로 적혀 있다 — 둘째 줄은 보조 글자로 내린다
+  const [duration, durationNote] = mode.duration.split('; ')
   return (
     <article className={`tg-mode${verdict === 'Best Choice' ? ' is-best' : ''}`}>
       <div className="tg-mode-head">
-        <p className="tg-verdict">{verdict || '\u00A0'}</p>
-        <h3 className="tg-mode-name">{mode.name}</h3>
+        <p className="tg-verdict">{verdict}</p>
+        <h3 className="tg-mode-name">{Icon && <Icon size={20} aria-hidden="true" />}{mode.name}</h3>
       </div>
       <dl className="tg-stats">
-        <div><dt>Duration</dt><dd>{mode.duration}{mode.via && <span className="tg-via">{mode.via}</span>}</dd></div>
-        <div><dt>Estimated Fare</dt><dd className="notranslate" translate="no">{mode.fare}</dd></div>
+        <div><dt>Duration</dt>
+        <dd className="tg-duration">{duration}{durationNote && <span className="tg-note-line">{durationNote}</span>}{mode.via && <span className="tg-via">{mode.via}</span>}</dd></div>
+        <div><dt className="tg-fare-label">Estimated Fare</dt>
+        <dd className="tg-fare notranslate" translate="no">{mode.fare}</dd></div>
       </dl>
       <dl className="tg-hubs">
-        <div><dt>Departure Hub</dt><dd>{departure.name}</dd></div>
-        <div><dt>Arrival Hub &amp; City Connection Tip</dt><dd><strong>{arrival.name}</strong><span className="tg-tip">{arrival.tip}</span></dd></div>
+        <dt>Departure</dt>
+        <dd className="tg-depart">{departure.name}</dd>
+        <dt className="tg-arrive-label">Arrival &amp; Tips</dt>
+        <dd><strong>{arrival.name}</strong><span className="tg-tip">{arrival.tip}</span></dd>
       </dl>
-      {booking && <a className="tg-book notranslate" translate="no" href={booking.href} target="_blank" rel="noopener noreferrer">{booking.label}</a>}
+      {booking && <a className="tg-book" href={booking.href} target="_blank" rel="noopener noreferrer"><span className="notranslate" translate="no">{booking.label}</span><ExternalLink size={14} color="#64748B" aria-hidden="true" /></a>}
     </article>
   )
 }
@@ -114,25 +124,30 @@ export function TransitGuide() {
         .tg-mode { display: flex; flex-direction: column; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; }
         .tg-mode.is-best { border-color: #C8102E; box-shadow: 0 0 0 1px #C8102E; }
         .tg-mode-head { margin-bottom: 14px; }
-        .tg-verdict { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #C8102E; margin: 0 0 4px; }
-        .tg-mode-name { font-size: 18px; font-weight: 700; color: #111827; margin: 0; }
-        .tg-stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 0; }
-        .tg-stats dt, .tg-hubs dt { font-size: 12px; color: #6B7280; margin-bottom: 2px; }
-        .tg-stats dd { margin: 0; font-size: 15px; font-weight: 700; line-height: 1.35; color: #111827; }
-        .tg-hubs { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid #F1F5F9; }
-        .tg-hubs > div + div { margin-top: 10px; }
-        .tg-hubs dd { margin: 0; font-size: 14px; line-height: 1.5; color: #111827; }
-        .tg-hubs strong { display: block; font-weight: 600; }
-        .tg-tip { display: block; color: #4B5563; margin-top: 4px; }
-        .tg-via { display: block; color: #B45309; font-weight: 600; font-size: 13px; }
-        .tg-book { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 44px; margin-top: auto; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; color: #1E293B; text-decoration: none; font: 600 12px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s; }
-        .tg-hubs { margin-bottom: 14px; }
+        .tg-verdict { min-height: 20px; font-size: 11px; font-weight: 700; line-height: 20px; letter-spacing: .1em; text-transform: uppercase; color: #C8102E; margin: 0 0 4px; }
+        .tg-mode-name { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; color: #111827; margin: 0; }
+        .tg-mode-name svg { flex: none; color: #1E293B; }
+        .tg-stats, .tg-hubs { margin: 0; }
+        .tg-stats dt, .tg-hubs dt { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #94A3B8; margin-bottom: 2px; }
+        .tg-stats dd, .tg-hubs dd { margin: 0; }
+        .tg-duration { font-size: 14px; font-weight: 700; line-height: 1.4; color: #1E293B; }
+        .tg-note-line { display: block; font-size: 12px; font-weight: 400; color: #64748B; }
+        .tg-via { display: block; color: #B45309; font-weight: 600; font-size: 12px; }
+        .tg-stats .tg-fare-label { margin-top: 12px; }
+        .tg-fare { font-size: 16px; font-weight: 800; line-height: 1.35; color: #2563EB; }
+        .tg-hubs { margin: 16px 0; padding-top: 16px; border-top: 1px solid #F1F5F9; }
+        .tg-hubs dt { margin-bottom: 4px; }
+        .tg-hubs .tg-arrive-label { margin-top: 12px; }
+        .tg-depart { font-size: 14px; font-weight: 500; line-height: 1.45; color: #1E293B; }
+        .tg-hubs strong { display: block; font-size: 14px; font-weight: 700; line-height: 1.45; color: #0F172A; }
+        .tg-tip { display: block; margin-top: 2px; font-size: 12px; line-height: 1.625; color: #64748B; }
+        .tg-book { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; min-height: 44px; margin-top: auto; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; background: #fff; color: #1E293B; text-decoration: none; font: 600 12px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s; }
         @media (hover: hover) { .tg-book:hover { background: #F8FAFC; } }
         .tg-book:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         /* 카드끼리 머리 · 수치 · 허브 · 버튼 줄을 같은 높이로 맞춘다 */
         @supports (grid-template-rows: subgrid) {
-          @media (min-width: 640px) { .tg-modes.is-2 .tg-mode { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; } }
-          @media (min-width: 768px) { .tg-modes.is-3 .tg-mode { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: 0; } }
+          @media (min-width: 640px) { .tg-modes.is-2 .tg-mode { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; } .tg-modes.is-2 .tg-stats { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; } }
+          @media (min-width: 768px) { .tg-modes.is-3 .tg-mode { display: grid; grid-row: span 5; grid-template-rows: subgrid; row-gap: 0; } .tg-modes.is-3 .tg-stats { display: grid; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; } }
         }
         .tg-banner { font-size: 13px; line-height: 1.5; color: #374151; background: #F3F4F6; border-radius: 10px; padding: 10px 14px; margin: 0 0 12px; }
         .tg-tipbox { font-size: 14px; line-height: 1.6; color: #1F2937; background: rgba(255,251,235,.6); border: 1px solid #FDE68A; border-radius: 12px; padding: 12px 16px; margin: 0 0 12px; }
