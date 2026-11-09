@@ -6,13 +6,13 @@ const cityOf = (id: CityId) => CITIES.find(c => c.id === id) as City
 export const shortCity = (city: City) => city.name.split(' / ')[0]
 
 // 지도는 위경도를 그대로 평면에 옮긴 약도다
-const project = (lon: number, lat: number) => [Math.round((lon - 125.7) * 56) + 14, Math.round((38.8 - lat) * 66) + 4] as const
-const COAST = [
+export const project = (lon: number, lat: number) => [Math.round((lon - 125.7) * 56) + 14, Math.round((38.8 - lat) * 66) + 4] as const
+export const COAST = [
   [126.35, 37.85], [126.55, 37.45], [126.75, 37.0], [126.35, 36.75], [126.5, 36.4], [126.75, 35.95], [126.45, 35.55], [126.4, 35.0],
   [126.25, 34.6], [126.55, 34.3], [127.0, 34.55], [127.5, 34.7], [128.1, 34.85], [128.6, 34.85], [129.05, 35.05], [129.35, 35.4],
   [129.5, 36.0], [129.4, 36.5], [129.4, 37.0], [129.1, 37.55], [128.7, 38.0], [128.35, 38.6], [127.4, 38.35], [126.7, 38.0],
 ].map(([lon, lat]) => project(lon, lat).join(',')).join(' ')
-const [JEJU_X, JEJU_Y] = project(126.55, 33.38)
+export const [JEJU_X, JEJU_Y] = project(126.55, 33.38)
 
 /**
  * 한반도 거점 약도 — Transit Guide 와 Hotspot Finder 가 함께 쓴다.
