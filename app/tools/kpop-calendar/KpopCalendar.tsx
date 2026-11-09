@@ -14,28 +14,61 @@ const shortDate = (date: string) => date.slice(5).replace('-', '.')
 const dateRange = (e: KpopEvent) => e.endDate ? `${shortDate(e.date)} - ${shortDate(e.endDate)}` : shortDate(e.date)
 const seoulToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date())
 
-function EventCard({ event, onQuickGuide }: { event: KpopEvent; onQuickGuide: (key: VenueKey) => void }) {
+// 'TOMORROW X TOGETHER' → TXT · 한 단어 이름은 그대로 쓴다
+const initials = (artist: string) => {
+  const words = artist.split(/\s+/)
+  return words.length > 1 ? words.map(w => w[0]).join('').toUpperCase() : artist
+}
+
+function dayBadge(event: KpopEvent, today: string | null) {
+  if (event.status !== 'Upcoming' || !today) return event.status
+  const days = Math.round((Date.parse(event.date) - Date.parse(today)) / 86400000)
+  if (days <= 0) return 'D-Day'
+  return days <= 30 ? `D-${days}` : 'Upcoming'
+}
+
+function EventPoster({ event }: { event: KpopEvent }) {
+  const [failed, setFailed] = useState(false)
+  return (
+    <div className="kp-poster" style={{ background: `linear-gradient(150deg, ${event.themeColor}, #111827 135%)` }}>
+      {event.posterUrl && !failed
+        // eslint-disable-next-line @next/next/no-img-element -- 외부 포스터라 이미지 최적화 도메인에 묶지 않는다
+        ? <img src={event.posterUrl} alt={`${event.artist} ${event.title} poster`} loading="lazy" onError={() => setFailed(true)} />
+        : (
+          <div className="kp-poster-art notranslate" translate="no" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="9" y="2" width="6" height="12" rx="3" fill="#fff" />
+              <path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8" />
+            </svg>
+            <span>{initials(event.artist)}</span>
+          </div>
+        )}
+    </div>
+  )
+}
+
+function EventCard({ event, today, onQuickGuide }: { event: KpopEvent; today: string | null; onQuickGuide: (key: VenueKey) => void }) {
   const soldOut = event.status === 'Sold Out'
   const quickKey = !event.guideSlug && event.venueKey && VENUE_QUICK_GUIDES[event.venueKey] ? event.venueKey : null
-  const hasGuideButton = !!event.guideSlug || !!quickKey
   return (
     <article className="kp-card">
-      <div className="kp-top">
-        <p className="kp-date notranslate" translate="no">{dateRange(event)}</p>
-        <div className="kp-info">
-          <p className={`kp-status${soldOut ? ' is-out' : ''}`}>{event.status}</p>
-          <h3 className="kp-artist notranslate" translate="no">{event.artist}</h3>
-          <p className="kp-title notranslate" translate="no">{event.title}</p>
-          <p className="kp-venue">{event.venue}</p>
+      <EventPoster event={event} />
+      <div className="kp-info">
+        <div className="kp-meta">
+          <p className="kp-date notranslate" translate="no">{dateRange(event)}</p>
+          <p className={`kp-status notranslate${soldOut ? ' is-out' : ''}`} translate="no">{dayBadge(event, today)}</p>
         </div>
-      </div>
-      <div className={`kp-actions${hasGuideButton ? '' : ' is-single'}`}>
-        <a className="kp-btn is-primary" href={event.ticketUrl} target="_blank" rel="noopener noreferrer">
-          {soldOut ? 'Check Availability' : 'Buy Tickets (Global)'} <span aria-hidden="true">↗</span>
-        </a>
-        {event.guideSlug
-          ? <a className="kp-btn" href={event.guideSlug}>Venue &amp; Survival Guide</a>
-          : quickKey && <button type="button" className="kp-btn" onClick={() => onQuickGuide(quickKey)}>Venue &amp; Survival Guide</button>}
+        <h3 className="kp-artist notranslate" translate="no">{event.artist}</h3>
+        <p className="kp-title notranslate" translate="no">{event.title}</p>
+        <p className="kp-venue"><span aria-hidden="true">📍 </span>{event.venue}</p>
+        <div className="kp-actions">
+          <a className="kp-btn is-primary" href={event.ticketUrl} target="_blank" rel="noopener noreferrer">
+            {soldOut ? 'Check Availability' : 'Buy Tickets (Global)'} <span aria-hidden="true">↗</span>
+          </a>
+          {event.guideSlug
+            ? <a className="kp-btn" href={event.guideSlug}>Venue &amp; Survival Guide</a>
+            : quickKey && <button type="button" className="kp-btn" onClick={() => onQuickGuide(quickKey)}>Venue &amp; Survival Guide</button>}
+        </div>
       </div>
     </article>
   )
@@ -120,30 +153,36 @@ export function KpopCalendar() {
         .kp-layout { display: block; }
         .kp-calendar { display: none; }
         .kp-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
-        .kp-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
-        .kp-top { display: flex; gap: 14px; }
-        .kp-date { flex: 0 0 62px; margin: 0; font-size: 16px; font-weight: 800; line-height: 1.3; color: #C8102E; }
-        .kp-info { min-width: 0; }
-        .kp-status { margin: 0 0 2px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #6B7280; }
-        .kp-status.is-out { color: #C8102E; }
-        .kp-artist { margin: 0; font-size: 18px; font-weight: 700; line-height: 1.3; color: #111827; overflow-wrap: anywhere; }
-        .kp-title, .kp-venue { margin: 2px 0 0; font-size: 14px; line-height: 1.45; color: #4B5563; overflow-wrap: anywhere; }
-        .kp-actions { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-top: 16px; }
+        .kp-card { display: flex; gap: 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+        .kp-poster { position: relative; flex-shrink: 0; align-self: flex-start; width: 80px; aspect-ratio: 2 / 3; border-radius: 12px; overflow: hidden; background: #F1F5F9; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+        .kp-poster img { display: block; width: 100%; height: 100%; object-fit: cover; }
+        .kp-poster-art { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 4px; color: #fff; font: 800 15px/1.1 "DM Sans", Inter, system-ui, sans-serif; text-align: center; }
+        .kp-info { flex: 1; min-width: 0; }
+        .kp-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .kp-date { margin: 0; font-size: 14px; font-weight: 700; line-height: 1.3; color: #E11D48; }
+        .kp-status { flex: none; margin: 0; padding: 2px 8px; border-radius: 999px; background: #FFE4E6; font-size: 11px; font-weight: 700; color: #9F1239; }
+        .kp-status.is-out { background: #E5E7EB; color: #374151; }
+        .kp-artist { margin: 6px 0 0; font-size: 18px; font-weight: 900; line-height: 1.25; color: #030712; overflow-wrap: anywhere; }
+        .kp-title { margin: 2px 0 0; font-size: 12px; font-weight: 500; line-height: 1.4; color: #4B5563; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .kp-venue { margin: 6px 0 0; font-size: 12px; font-weight: 500; line-height: 1.4; color: #374151; overflow-wrap: anywhere; }
+        .kp-actions { display: flex; gap: 8px; margin-top: 12px; }
+        .kp-actions .kp-btn { flex: 1; min-width: 0; padding: 6px 8px; font-size: 12px; line-height: 1.25; }
         .kp-btn {
           display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 10px 14px; box-sizing: border-box;
           border: 1px solid #D1D5DB; border-radius: 10px; background: #fff; color: #374151; text-decoration: none; text-align: center;
           font: 700 14px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s;
         }
+        .kp-card .kp-btn.is-primary { background: #E11D48; border-color: #E11D48; color: #fff; }
         .kp-btn.is-primary { background: #111827; border-color: #111827; color: #fff; }
         .kp-btn:focus-visible, .kp-nav:focus-visible, .kp-day:focus-visible, .kp-clear:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         @media (hover: hover) {
           .kp-btn:hover { background: #F9FAFB; }
           .kp-btn.is-primary:hover { background: #1F2937; }
+          .kp-card .kp-btn.is-primary:hover { background: #BE123C; }
         }
         .kp-empty { background: #fff; border: 1px dashed #D1D5DB; border-radius: 16px; padding: 24px; font-size: 14px; color: #4B5563; margin: 0; }
         .kp-note { margin-top: 20px; }
 
-        .kp-actions.is-single { grid-template-columns: minmax(0, 1fr) !important; }
         button.kp-btn { cursor: pointer; width: 100%; }
         .kp-quick-overlay { position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(17,24,39,.55); }
         .kp-quick { box-sizing: border-box; width: 100%; max-width: 440px; max-height: calc(100dvh - 32px); overflow-y: auto; overscroll-behavior: contain; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
@@ -156,13 +195,11 @@ export function KpopCalendar() {
         .kp-quick-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
         @media (max-width: 767px) { .tl-wrap.kp-wrap { padding-left: 16px; padding-right: 16px; } }
         @media (min-width: 640px) {
-          .kp-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+          .kp-poster { width: 96px; }
         }
         @media (min-width: 768px) {
           .kp-layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 24px; align-items: start; }
           .kp-calendar { display: block; position: sticky; top: 76px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 20px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
-          .kp-card { padding: 20px; }
-          .kp-date { flex-basis: 76px; }
         }
         .kp-month { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
         .kp-month h2 { font-size: 16px; font-weight: 700; margin: 0; color: #111827; }
@@ -204,7 +241,7 @@ export function KpopCalendar() {
         {/* key: 자동 번역이 글자 노드를 바꿔 끼우므로 목록이 바뀌면 새로 그린다 */}
         <div key={selectedDay ?? 'all'} className="kp-list">
           {shown.length > 0
-            ? shown.map(e => <EventCard key={e.id} event={e} onQuickGuide={setQuickGuide} />)
+            ? shown.map(e => <EventCard key={e.id} event={e} today={today} onQuickGuide={setQuickGuide} />)
             : <p className="kp-empty">No upcoming events listed. New dates are added as they&apos;re announced.</p>}
         </div>
       </div>
