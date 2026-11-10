@@ -27,7 +27,8 @@ const FONT = 'Inter, sans-serif'
 /**
  * Lifetime Pass 언락 모달 — 잠긴 레시피(93개)를 누르면 뜬다.
  * 결제는 K-PATTO 와 같은 방식: Gumroad 상품 페이지를 새 탭으로 열고(오버레이 없음),
- * 영수증의 라이선스 키를 아래 폼에 넣으면 /api/verify-license?app=kpantry 가 확인해 패스 쿠키를 심는다.
+ * 영수증의 주문 번호(또는 결제 이메일)를 아래 폼에 넣으면 /api/verify-license?app=kpantry 가
+ * Gumroad 판매 내역에서 찾아 패스 쿠키를 심는다(이 상품은 라이선스 키를 켤 수 없다).
  */
 export default function UnlockModal({ onClose, onUnlocked, recipeName }: Props) {
   const [showKeyForm, setShowKeyForm] = useState(false)
@@ -149,7 +150,7 @@ export default function UnlockModal({ onClose, onUnlocked, recipeName }: Props) 
         )}
         <p style={{ fontFamily: FONT, fontSize: 12, color: '#78716C', textAlign: 'center', margin: '8px 0 0' }}>
           {KPANTRY_CHECKOUT_URL
-            ? 'Checkout opens on Gumroad. Your license key arrives on the receipt.'
+            ? 'Checkout opens on Gumroad. Then enter your order number or email here.'
             : 'Checkout is not open yet.'}
         </p>
 
@@ -179,7 +180,7 @@ export default function UnlockModal({ onClose, onUnlocked, recipeName }: Props) 
                 fontFamily: FONT, fontSize: 14, fontWeight: 600, cursor: 'pointer',
               }}
             >
-              <KeyRound {...INLINE_ICON} />Already bought? Enter license key
+              <KeyRound {...INLINE_ICON} />Already bought? Enter order number or email
             </button>
           )}
         </div>

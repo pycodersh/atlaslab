@@ -106,7 +106,7 @@ export default function SubscribePage() {
               fontFamily: 'Inter, sans-serif', fontSize: 12,
               color: '#6B6B6B', textAlign: 'center', margin: '8px 0 0', lineHeight: 1.5,
             }}>
-              Checkout opens on Gumroad. Your license key arrives on the receipt.
+              Checkout opens on Gumroad. Then enter your order number or purchase email below.
             </p>
           )}
 

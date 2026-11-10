@@ -1,3 +1,5 @@
+import { KPANTRY_CHECKOUT_URL } from '@/lib/kpantry/purchase'
+
 /**
  * K-Pantry 레시피 열람 범위 — 무료 10개, 나머지 93개는 Lifetime Pass 로 연다.
  *
@@ -23,7 +25,14 @@ export const FREE_RECIPE_SLUGS: ReadonlySet<string> = new Set([
 
 export const TOTAL_RECIPES = 103
 
+/**
+ * 결제 링크(NEXT_PUBLIC_KPANTRY_CHECKOUT_URL)가 있을 때만 잠근다.
+ * 링크 없이 배포되면 살 방법 없이 93개가 잠기므로, 그땐 전부 연다.
+ */
+export const RECIPE_LOCK_ENABLED = !!KPANTRY_CHECKOUT_URL
+
 export const isFreeRecipe = (slug: string | null | undefined) => !!slug && FREE_RECIPE_SLUGS.has(slug)
 
 /** 이 레시피를 열 수 있나 — 무료이거나 Pro 가 열려 있으면 */
-export const canOpenRecipe = (slug: string | null | undefined, unlocked: boolean) => unlocked || isFreeRecipe(slug)
+export const canOpenRecipe = (slug: string | null | undefined, unlocked: boolean) =>
+  !RECIPE_LOCK_ENABLED || unlocked || isFreeRecipe(slug)

@@ -157,7 +157,7 @@ export default function PaywallModal({ feature, onClose }: Props) {
                 fontSize: 14, fontWeight: 600, cursor: 'pointer',
               }}
             >
-              <KeyRound {...INLINE_ICON} />Enter License Key
+              <KeyRound {...INLINE_ICON} />Already bought? Restore purchase
             </button>
           )}
         </div>

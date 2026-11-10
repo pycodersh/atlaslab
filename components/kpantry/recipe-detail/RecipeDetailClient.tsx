@@ -18,7 +18,7 @@ import { createClient } from '@/lib/kpantry/supabase'
 import PaywallModal from '@/components/kpantry/paywall/PaywallModal'
 import AuthModal from '@/components/kpantry/auth/AuthModal'
 import UnlockModal from '@/components/kpantry/paywall/UnlockModal'
-import { isFreeRecipe, TOTAL_RECIPES } from '@/lib/kpantry/access'
+import { canOpenRecipe, TOTAL_RECIPES } from '@/lib/kpantry/access'
 import { KPANTRY_PRICE } from '@/lib/kpantry/purchase'
 import { useUnlocked } from '@/lib/kpantry/useUnlocked'
 
@@ -42,7 +42,7 @@ export default function RecipeDetailClient({ slug }: Props) {
   const [showAuth, setShowAuth] = useState(false)
   const { isUnlocked, markUnlocked } = useUnlocked()
   // 무료 10개가 아니고 Pro 도 아니면 재료·조리 단계를 가린다(확인 중엔 가리지 않고 기다린다)
-  const locked = isUnlocked === false && !isFreeRecipe(slug)
+  const locked = isUnlocked === false && !canOpenRecipe(slug, false)
   const [showUnlock, setShowUnlock] = useState(true)
 
   useEffect(() => {
@@ -111,7 +111,7 @@ export default function RecipeDetailClient({ slug }: Props) {
     setTimeout(() => setToastMsg(null), 2000)
   }
 
-  if (loading || (isUnlocked === null && !isFreeRecipe(slug))) {
+  if (loading || (isUnlocked === null && !canOpenRecipe(slug, false))) {
     return (
       <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ fontFamily: 'Inter, sans-serif', color: '#9E9E9E' }}>Loading recipe...</p>

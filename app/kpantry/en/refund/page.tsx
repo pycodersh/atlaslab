@@ -16,18 +16,18 @@ export default function KPantryRefundPage() {
   return (
     <LegalPage>
       <h1>K-Pantry Refund Policy</h1>
-      <p className="legal-meta">Last updated: November 1, 2026 &nbsp;·&nbsp; Effective: November 1, 2026</p>
+      <p className="legal-meta">Last updated: November 10, 2026 &nbsp;·&nbsp; Effective: November 10, 2026</p>
 
       <p>
         This policy applies to digital products for K-Pantry sold by Atlas Lab Studios
         (&quot;Atlas Lab&quot;, &quot;we&quot;) through <strong>Gumroad</strong>, including the
-        K-Pantry Pro lifetime pass (unlocked with a license key) and any downloadable recipe
+        K-Pantry Pro lifetime pass (unlocked with your Gumroad order number or purchase email) and any downloadable recipe
         books (PDF/eBook).
       </p>
 
       <h2>1. Digital products are delivered instantly</h2>
       <p>
-        Your license key and any download links are delivered on your Gumroad receipt right
+        Your order number and any download links are delivered on your Gumroad receipt right
         after payment, and the content is available to use immediately. Because a digital
         product cannot be returned once it has been delivered, <strong>we do not offer refunds
         for a change of mind</strong> — for example, if you no longer want the product, bought
@@ -45,7 +45,7 @@ export default function KPantryRefundPage() {
         This includes cases where:
       </p>
       <ul>
-        <li>your license key is rejected and we cannot fix it for you within a reasonable time;</li>
+        <li>your purchase is not recognized when you activate it and we cannot fix it for you within a reasonable time;</li>
         <li>Pro features stay locked after a successful activation because of a defect in K-Pantry;</li>
         <li>a downloadable file is missing, corrupted, or cannot be opened, and we cannot send you a working copy;</li>
         <li>you were charged more than once for the same order.</li>
@@ -72,9 +72,9 @@ export default function KPantryRefundPage() {
 
       <h2>4. What happens after a refund</h2>
       <p>
-        When a purchase is refunded, charged back, or disputed, its license key stops working
+        When a purchase is refunded, charged back, or disputed, it can no longer unlock K-Pantry
         and K-Pantry Pro is turned off on every browser where it was activated (within 30 days
-        at most, when the key is next re-checked). Please delete any downloaded files.
+        at most, when the purchase is next re-checked). Please delete any downloaded files.
       </p>
 
       <h2>5. Your statutory rights</h2>

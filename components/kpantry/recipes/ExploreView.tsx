@@ -12,7 +12,7 @@ import AuthModal from '@/components/kpantry/auth/AuthModal'
 import HomeLink from '@/components/kpantry/layout/HomeLink'
 import PageBanner from '@/components/kpantry/layout/PageBanner'
 import UnlockModal from '@/components/kpantry/paywall/UnlockModal'
-import { canOpenRecipe, FREE_RECIPE_SLUGS, TOTAL_RECIPES } from '@/lib/kpantry/access'
+import { canOpenRecipe, FREE_RECIPE_SLUGS, RECIPE_LOCK_ENABLED, TOTAL_RECIPES } from '@/lib/kpantry/access'
 import { useUnlocked } from '@/lib/kpantry/useUnlocked'
 
 type Sort = 'popular' | 'name'
@@ -40,7 +40,7 @@ export default function ExploreView() {
   const [unlockFor, setUnlockFor] = useState<string | null>(null)
   const { isUnlocked, markUnlocked } = useUnlocked()
   // 확인 중(null)엔 잠금을 그리지 않는다 — Pro 사용자에게 자물쇠가 깜빡이지 않게
-  const showLocks = isUnlocked === false
+  const showLocks = RECIPE_LOCK_ENABLED && isUnlocked === false
 
   useEffect(() => {
     async function load() {

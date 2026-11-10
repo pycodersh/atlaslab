@@ -18,7 +18,7 @@ export default function LicenseKeyForm({ onUnlocked }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!key.trim()) {
-      setError('Paste the license key from your Gumroad receipt.')
+      setError('Enter the order number or email from your Gumroad receipt.')
       return
     }
     setChecking(true)
@@ -52,7 +52,7 @@ export default function LicenseKeyForm({ onUnlocked }: Props) {
         fontFamily: 'Inter, sans-serif', fontSize: 12, fontWeight: 600,
         color: '#6B6B6B', display: 'block', marginBottom: 6,
       }}>
-        LICENSE KEY
+        ORDER NUMBER OR PURCHASE EMAIL
       </label>
       <div style={{ display: 'flex', gap: 8 }}>
         <input
@@ -60,9 +60,10 @@ export default function LicenseKeyForm({ onUnlocked }: Props) {
           type="text"
           value={key}
           onChange={e => setKey(e.target.value)}
-          placeholder="XXXXXXXX-XXXXXXXX-XXXXXXXX-XXXXXXXX"
+          placeholder="Order # or you@email.com"
           autoComplete="off"
-          autoCapitalize="characters"
+          autoCapitalize="none"
+          inputMode="email"
           spellCheck={false}
           style={{
             flex: 1,
@@ -70,7 +71,7 @@ export default function LicenseKeyForm({ onUnlocked }: Props) {
             padding: '12px 14px',
             borderRadius: 12,
             border: '1.5px solid var(--kp-rule)',
-            fontFamily: 'ui-monospace, Menlo, monospace',
+            fontFamily: 'Inter, sans-serif',
             fontSize: 13,
             color: '#1A1A1A',
             backgroundColor: '#FAFAFA',

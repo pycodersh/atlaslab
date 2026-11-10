@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { verifyKPantryLicense, verifyKPattoLicense } from '@/lib/kpatto/gumroad'
+import { normalizePurchaseRef, verifyKPantryPurchase, verifyKPattoLicense } from '@/lib/kpatto/gumroad'
 import {
   createPass,
   KPANTRY_PASS_COOKIE,
@@ -19,8 +19,19 @@ import {
 type App = 'kpatto' | 'kpantry'
 
 const APPS = {
-  kpatto: { cookie: PASS_COOKIE, read: readPass, verify: verifyKPattoLicense, recordLifetime: true },
-  kpantry: { cookie: KPANTRY_PASS_COOKIE, read: readKPantryPass, verify: verifyKPantryLicense, recordLifetime: false },
+  kpatto: {
+    cookie: PASS_COOKIE, read: readPass, verify: verifyKPattoLicense, recordLifetime: true,
+    normalize: (v: string) => v, minLength: 8,
+    invalid: 'Invalid license key. Please check your Gumroad receipt.',
+    refunded: 'This purchase was refunded or disputed, so the key no longer unlocks the app.',
+  },
+  // K-Pantry 는 라이선스 키가 없다 — 영수증의 주문 번호·Sale ID 또는 결제 이메일로 판매 내역을 찾는다
+  kpantry: {
+    cookie: KPANTRY_PASS_COOKIE, read: readKPantryPass, verify: (ref: string) => verifyKPantryPurchase(ref), recordLifetime: false,
+    normalize: normalizePurchaseRef, minLength: 5,
+    invalid: "We couldn't find a K-Pantry purchase with that order number or email. Please check your Gumroad receipt.",
+    refunded: 'This purchase was refunded or disputed, so it no longer unlocks K-Pantry.',
+  },
 } as const
 
 const appFrom = (value: unknown): App => (value === 'kpantry' ? 'kpantry' : 'kpatto')
@@ -50,7 +61,7 @@ export async function DELETE(req: Request) {
 /**
  * POST /api/verify-license  { license_key, renew?, app? }
  *
- * 로그인 없이 Gumroad 라이선스 키로 앱을 연다(app: 'kpatto' 기본 | 'kpantry').
+ * 로그인 없이 Gumroad 구매로 앱을 연다(app: 'kpatto' 기본 = 라이선스 키 | 'kpantry' = 주문 번호·Sale ID·결제 이메일).
  *  - Gumroad licenses/verify 로 확인(그 앱의 상품만). 환불·분쟁·차지백은 거절.
  *    처음 입력은 사용 횟수를 늘리고(기기 등록 추적), renew=true(30일 재확인)는 늘리지 않는다.
  *  - 성공하면 서버 서명 패스를 httpOnly 쿠키로 준다 — 서버 게이트는 이것만 믿는다.
@@ -59,8 +70,6 @@ export async function DELETE(req: Request) {
  *
  * 응답: { valid: true, product, exp } | { valid: false, error }
  */
-const INVALID = 'Invalid license key. Please check your Gumroad receipt.'
-
 export async function POST(req: Request) {
   let key = ''
   let renew = false
@@ -72,8 +81,9 @@ export async function POST(req: Request) {
     app = appFrom(body?.app)
   } catch { /* 빈 키로 거절 */ }
   const cfg = APPS[app]
-  if (key.length < 8 || key.length > 100) {
-    return NextResponse.json({ valid: false, error: INVALID }, { status: 400 })
+  key = cfg.normalize(key)
+  if (key.length < cfg.minLength || key.length > 100) {
+    return NextResponse.json({ valid: false, reason: 'invalid', error: cfg.invalid }, { status: 400 })
   }
 
   const check = await cfg.verify(key, { incrementUses: !renew })
@@ -83,10 +93,10 @@ export async function POST(req: Request) {
         valid: false,
         reason: check.reason,
         error: check.reason === 'refunded'
-          ? 'This purchase was refunded or disputed, so the key no longer unlocks the app.'
+          ? cfg.refunded
           : check.reason === 'invalid'
-            ? INVALID
-            : "We couldn't verify your key right now. Please try again in a minute.",
+            ? cfg.invalid
+            : "We couldn't verify your purchase right now. Please try again in a minute.",
       },
       { status: check.reason === 'invalid' || check.reason === 'refunded' ? 400 : 503 },
     )
