@@ -1,5 +1,5 @@
 'use client'
-import { Play, ShoppingBasket } from 'lucide-react'
+import { Lock, Play, ShoppingBasket } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import HeroSection from '@/components/kpantry/recipe-detail/HeroSection'
@@ -17,6 +17,10 @@ import { getUserPlan, canAccess } from '@/lib/kpantry/subscription'
 import { createClient } from '@/lib/kpantry/supabase'
 import PaywallModal from '@/components/kpantry/paywall/PaywallModal'
 import AuthModal from '@/components/kpantry/auth/AuthModal'
+import UnlockModal from '@/components/kpantry/paywall/UnlockModal'
+import { isFreeRecipe, TOTAL_RECIPES } from '@/lib/kpantry/access'
+import { KPANTRY_PRICE } from '@/lib/kpantry/purchase'
+import { useUnlocked } from '@/lib/kpantry/useUnlocked'
 
 interface Props {
   /** 서버 컴포넌트가 존재 여부를 확인한 레시피 슬러그 */
@@ -36,6 +40,10 @@ export default function RecipeDetailClient({ slug }: Props) {
   const [plan, setPlan] = useState<'free' | 'pro'>('free')
   const [showPaywall, setShowPaywall] = useState(false)
   const [showAuth, setShowAuth] = useState(false)
+  const { isUnlocked, markUnlocked } = useUnlocked()
+  // 무료 10개가 아니고 Pro 도 아니면 재료·조리 단계를 가린다(확인 중엔 가리지 않고 기다린다)
+  const locked = isUnlocked === false && !isFreeRecipe(slug)
+  const [showUnlock, setShowUnlock] = useState(true)
 
   useEffect(() => {
     async function load() {
@@ -103,7 +111,7 @@ export default function RecipeDetailClient({ slug }: Props) {
     setTimeout(() => setToastMsg(null), 2000)
   }
 
-  if (loading) {
+  if (loading || (isUnlocked === null && !isFreeRecipe(slug))) {
     return (
       <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <p style={{ fontFamily: 'Inter, sans-serif', color: '#9E9E9E' }}>Loading recipe...</p>
@@ -146,15 +154,49 @@ export default function RecipeDetailClient({ slug }: Props) {
           servings={recipe.servings}
         />
 
-        <IngredientsSection
-          recipeIngredients={recipe.pantry_recipe_ingredients ?? []}
-          userPantryIds={userPantryIds}
-          onAddToShoppingList={handleAddToShoppingList}
-        />
+        {locked ? (
+          <div style={{
+            margin: '8px 16px 24px', padding: '28px 20px', textAlign: 'center',
+            backgroundColor: '#FFFFFF', border: '1px solid var(--kp-rule)', borderRadius: 18,
+          }}>
+            <span style={{
+              width: 44, height: 44, borderRadius: 999, margin: '0 auto 12px',
+              backgroundColor: 'var(--kp-surface-muted)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <Lock size={20} strokeWidth={2} color="#1C1917" aria-hidden="true" />
+            </span>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#1C1917', margin: 0 }}>
+              Ingredients and steps are locked
+            </p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#78716C', margin: '6px 0 16px', lineHeight: 1.5 }}>
+              Unlock all {TOTAL_RECIPES} recipes with a one-time Lifetime Pass.
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowUnlock(true)}
+              style={{
+                padding: '12px 20px', backgroundColor: 'var(--kp-accent)', color: '#FFFFFF',
+                border: 'none', borderRadius: 12, fontFamily: 'Inter, sans-serif',
+                fontSize: 14, fontWeight: 700, cursor: 'pointer',
+              }}
+            >
+              Unlock Lifetime Access — {KPANTRY_PRICE}
+            </button>
+          </div>
+        ) : (
+          <>
+            <IngredientsSection
+              recipeIngredients={recipe.pantry_recipe_ingredients ?? []}
+              userPantryIds={userPantryIds}
+              onAddToShoppingList={handleAddToShoppingList}
+            />
 
-        <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: 'var(--kp-rule)' }} />
+            <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: 'var(--kp-rule)' }} />
 
-        <StepsSection slug={recipe.slug} steps={recipe.pantry_recipe_steps ?? []} />
+            <StepsSection slug={recipe.slug} steps={recipe.pantry_recipe_steps ?? []} />
+          </>
+        )}
       </div>
 
       {/* 상세 화면은 이 액션 바가 하단을 차지한다 — 전역 BottomNav 는 두지 않는다(둘 다 bottom:0 고정이라 겹쳤다).
@@ -244,6 +286,13 @@ export default function RecipeDetailClient({ slug }: Props) {
           feature="shopping_list"
           onClose={() => setShowPaywall(false)}
           onSignIn={() => { setShowPaywall(false); setShowAuth(true) }}
+        />
+      )}
+      {locked && showUnlock && (
+        <UnlockModal
+          recipeName={recipe.name_en}
+          onClose={() => setShowUnlock(false)}
+          onUnlocked={() => { markUnlocked(); setShowUnlock(false) }}
         />
       )}
       {showAuth && (

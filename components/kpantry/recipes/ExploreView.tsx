@@ -1,6 +1,6 @@
 'use client'
 import Link from 'next/link'
-import { Bookmark, Clock, Flame, UtensilsCrossed, X } from 'lucide-react'
+import { Bookmark, Clock, Flame, Lock, UtensilsCrossed, X } from 'lucide-react'
 import { META_ICON, PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -11,6 +11,9 @@ import { createClient } from '@/lib/kpantry/supabase'
 import AuthModal from '@/components/kpantry/auth/AuthModal'
 import HomeLink from '@/components/kpantry/layout/HomeLink'
 import PageBanner from '@/components/kpantry/layout/PageBanner'
+import UnlockModal from '@/components/kpantry/paywall/UnlockModal'
+import { canOpenRecipe, FREE_RECIPE_SLUGS, TOTAL_RECIPES } from '@/lib/kpantry/access'
+import { useUnlocked } from '@/lib/kpantry/useUnlocked'
 
 type Sort = 'popular' | 'name'
 
@@ -33,6 +36,11 @@ export default function ExploreView() {
   const [userId, setUserId] = useState<string | null>(null)
   const [savedIds, setSavedIds] = useState<Set<string>>(new Set())
   const [showAuth, setShowAuth] = useState(false)
+  // 잠긴 레시피를 눌렀을 때 그 이름 — null 이면 모달 닫힘
+  const [unlockFor, setUnlockFor] = useState<string | null>(null)
+  const { isUnlocked, markUnlocked } = useUnlocked()
+  // 확인 중(null)엔 잠금을 그리지 않는다 — Pro 사용자에게 자물쇠가 깜빡이지 않게
+  const showLocks = isUnlocked === false
 
   useEffect(() => {
     async function load() {
@@ -111,7 +119,9 @@ export default function ExploreView() {
           color: '#6B6B6B',
           margin: '2px 0 0',
         }}>
-          Discover Korean recipes
+          {showLocks
+            ? `${FREE_RECIPE_SLUGS.size} free recipes · unlock all ${TOTAL_RECIPES} with Lifetime Access`
+            : 'Discover Korean recipes'}
         </p>
       </div>
 
@@ -198,6 +208,7 @@ export default function ExploreView() {
         <ul style={{ listStyle: 'none', margin: 0, padding: '12px 16px 0', display: 'flex', flexDirection: 'column', gap: 10 }}>
           {list.map(r => {
             const saved = savedIds.has(r.id)
+            const locked = showLocks && !canOpenRecipe(r.slug, false)
             return (
               <li key={r.id} style={{
                 display: 'flex',
@@ -208,7 +219,11 @@ export default function ExploreView() {
                 borderRadius: 14,
                 boxShadow: '0 1px rgba(0,0,0,0.05)',
               }}>
-                <Link href={`/kpantry/en/recipes/${r.slug}`} style={{
+                <Link
+                  href={`/kpantry/en/recipes/${r.slug}`}
+                  aria-label={locked ? `${r.name_en} — locked, unlock with Lifetime Access` : undefined}
+                  onClick={locked ? e => { e.preventDefault(); setUnlockFor(r.name_en) } : undefined}
+                  style={{
                   flex: 1,
                   minWidth: 0,
                   display: 'flex',
@@ -218,6 +233,7 @@ export default function ExploreView() {
                   textDecoration: 'none',
                 }}>
                   <span style={{
+                    position: 'relative',
                     width: 72,
                     height: 72,
                     flexShrink: 0,
@@ -233,6 +249,20 @@ export default function ExploreView() {
                         style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     ) : (
                       <UtensilsCrossed size={24} {...PLACEHOLDER_ICON} />
+                    )}
+                    {locked && (
+                      <span aria-hidden="true" style={{
+                        position: 'absolute', inset: 0,
+                        backgroundColor: 'rgba(28, 25, 23, 0.38)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        <span style={{
+                          width: 28, height: 28, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.94)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        }}>
+                          <Lock size={14} strokeWidth={2.25} color="#1C1917" />
+                        </span>
+                      </span>
                     )}
                   </span>
                   <span style={{ minWidth: 0, display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -255,6 +285,14 @@ export default function ExploreView() {
                     <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 12, color: '#78716C', marginTop: 2 }}>
                       {r.cooking_time_min != null && <><Clock {...META_ICON} />{r.cooking_time_min} min</>}
                       {r.calories != null && <span style={{ marginLeft: 10 }}><Flame {...META_ICON} />{r.calories} kcal</span>}
+                      {showLocks && !locked && (
+                        <span style={{
+                          marginLeft: 10, fontSize: 11, fontWeight: 600, color: '#15803D',
+                          backgroundColor: '#ECFDF3', borderRadius: 999, padding: '1px 7px',
+                        }}>
+                          Free
+                        </span>
+                      )}
                     </span>
                   </span>
                 </Link>
@@ -290,6 +328,13 @@ export default function ExploreView() {
         </ul>
       )}
 
+      {unlockFor && (
+        <UnlockModal
+          recipeName={unlockFor}
+          onClose={() => setUnlockFor(null)}
+          onUnlocked={() => { markUnlocked(); setUnlockFor(null) }}
+        />
+      )}
       {showAuth && (
         <AuthModal
           onClose={() => setShowAuth(false)}
