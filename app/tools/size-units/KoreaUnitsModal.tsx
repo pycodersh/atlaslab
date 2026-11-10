@@ -1,15 +1,16 @@
 'use client'
 
 import { useState } from 'react'
+import { Footprints, Maximize2, Shirt, Utensils, type LucideIcon } from 'lucide-react'
 
 type Tab = 'shoes' | 'clothes' | 'meat' | 'room'
 type Gender = 'women' | 'men'
 
-const TABS: { id: Tab; label: string }[] = [
-  { id: 'shoes', label: '👟 Shoes' },
-  { id: 'clothes', label: '👕 Clothes' },
-  { id: 'meat', label: '🥩 Meat Portions' },
-  { id: 'room', label: '🏠 Room / Pyeong' },
+const TABS: { id: Tab; label: string; icon: LucideIcon }[] = [
+  { id: 'shoes', label: 'Shoes', icon: Footprints },
+  { id: 'clothes', label: 'Clothes', icon: Shirt },
+  { id: 'meat', label: 'Meat Portions', icon: Utensils },
+  { id: 'room', label: 'Room / Pyeong', icon: Maximize2 },
 ]
 
 // 대형 스포츠 브랜드 표를 기준으로 한 일반값. 브랜드마다 반 치수쯤 다를 수 있다 — [mm, US, UK, EU]
@@ -132,7 +133,10 @@ export function KoreaUnitsModal() {
         .tl-wrap.ku-wrap { max-width: 640px; }
         .ku-root { max-width: 640px; margin: 0 auto; }
         .ku-tabs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; border-bottom: 1px solid #F1F5F9; margin-bottom: 18px; }
-        .ku-tab { min-height: 52px; padding: 6px 4px; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; color: #64748B; cursor: pointer; font: 600 13px/1.25 "DM Sans", Inter, system-ui, sans-serif; }
+        .ku-tab { min-height: 52px; padding: 6px 4px; border: 0; border-bottom: 2px solid transparent; margin-bottom: -1px; background: none; color: #94A3B8; cursor: pointer; font: 500 13px/1.25 "DM Sans", Inter, system-ui, sans-serif; display: flex; align-items: center; justify-content: center; gap: 6px; transition: color .15s; }
+        .ku-tab svg { flex: none; }
+        @media (hover: hover) { .ku-tab:not([aria-selected="true"]):hover { color: #475569; } }
+        @media (max-width: 479px) { .ku-tab { flex-direction: column; gap: 4px; } }
         .ku-tab[aria-selected="true"] { color: #0F766E; border-bottom-color: #0F766E; font-weight: 700; }
         .ku-toggle { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-bottom: 12px; }
         .ku-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); gap: 6px; }
@@ -161,7 +165,7 @@ export function KoreaUnitsModal() {
 
       <div className="ku-root">
         <div className="ku-tabs" role="tablist" aria-label="Size and unit type">
-          {TABS.map(t => <button key={t.id} type="button" role="tab" className="ku-tab" aria-selected={tab === t.id} onClick={() => setTab(t.id)}>{t.label}</button>)}
+          {TABS.map(({ id, label, icon: Icon }) => <button key={id} type="button" role="tab" className="ku-tab" aria-selected={tab === id} onClick={() => setTab(id)}><Icon size={16} strokeWidth={1.75} aria-hidden="true" />{label}</button>)}
         </div>
         {/* key: 자동 번역이 글자 노드를 바꿔 끼우므로 탭이 바뀌면 새로 그린다 */}
         <div key={tab} role="tabpanel">
