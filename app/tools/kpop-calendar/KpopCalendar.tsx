@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { MapPin } from 'lucide-react'
 import { KPOP_EVENTS, type KpopEvent } from '@/data/kpopEvents'
 import { VENUE_QUICK_GUIDES, type VenueKey } from '@/data/venueQuickGuides'
 
@@ -14,12 +15,6 @@ const shortDate = (date: string) => date.slice(5).replace('-', '.')
 const dateRange = (e: KpopEvent) => e.endDate ? `${shortDate(e.date)} - ${shortDate(e.endDate)}` : shortDate(e.date)
 const seoulToday = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Seoul' }).format(new Date())
 
-// 'TOMORROW X TOGETHER' → TXT · 한 단어 이름은 그대로 쓴다
-const initials = (artist: string) => {
-  const words = artist.split(/\s+/)
-  return words.length > 1 ? words.map(w => w[0]).join('').toUpperCase() : artist
-}
-
 function dayBadge(event: KpopEvent, today: string | null) {
   if (event.status !== 'Upcoming' || !today) return event.status
   const days = Math.round((Date.parse(event.date) - Date.parse(today)) / 86400000)
@@ -27,32 +22,11 @@ function dayBadge(event: KpopEvent, today: string | null) {
   return days <= 30 ? `D-${days}` : 'Upcoming'
 }
 
-function EventPoster({ event }: { event: KpopEvent }) {
-  const [failed, setFailed] = useState(false)
-  return (
-    <div className="kp-poster" style={{ background: `linear-gradient(150deg, ${event.themeColor}, #111827 135%)` }}>
-      {event.posterUrl && !failed
-        // eslint-disable-next-line @next/next/no-img-element -- 외부 포스터라 이미지 최적화 도메인에 묶지 않는다
-        ? <img src={event.posterUrl} alt={`${event.artist} ${event.title} poster`} loading="lazy" onError={() => setFailed(true)} />
-        : (
-          <div className="kp-poster-art notranslate" translate="no" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <rect x="9" y="2" width="6" height="12" rx="3" fill="#fff" />
-              <path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8" />
-            </svg>
-            <span>{initials(event.artist)}</span>
-          </div>
-        )}
-    </div>
-  )
-}
-
 function EventCard({ event, today, onQuickGuide }: { event: KpopEvent; today: string | null; onQuickGuide: (key: VenueKey) => void }) {
   const soldOut = event.status === 'Sold Out'
   const quickKey = !event.guideSlug && event.venueKey && VENUE_QUICK_GUIDES[event.venueKey] ? event.venueKey : null
   return (
     <article className="kp-card">
-      <EventPoster event={event} />
       <div className="kp-info">
         <div className="kp-meta">
           <p className="kp-date notranslate" translate="no">{dateRange(event)}</p>
@@ -60,7 +34,7 @@ function EventCard({ event, today, onQuickGuide }: { event: KpopEvent; today: st
         </div>
         <h3 className="kp-artist notranslate" translate="no">{event.artist}</h3>
         <p className="kp-title notranslate" translate="no">{event.title}</p>
-        <p className="kp-venue"><span aria-hidden="true">📍 </span>{event.venue}</p>
+        <p className="kp-venue"><MapPin size={14} aria-hidden="true" />{event.venue}</p>
         <div className="kp-actions">
           <a className="kp-btn is-primary" href={event.ticketUrl} target="_blank" rel="noopener noreferrer">
             {soldOut ? 'Check Availability' : 'Buy Tickets (Global)'} <span aria-hidden="true">↗</span>
@@ -153,32 +127,31 @@ export function KpopCalendar() {
         .kp-layout { display: block; }
         .kp-calendar { display: none; }
         .kp-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
-        .kp-card { display: flex; gap: 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
-        .kp-poster { position: relative; flex-shrink: 0; align-self: flex-start; width: 80px; aspect-ratio: 2 / 3; border-radius: 12px; overflow: hidden; background: #F1F5F9; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
-        .kp-poster img { display: block; width: 100%; height: 100%; object-fit: cover; }
-        .kp-poster-art { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 4px; color: #fff; font: 800 15px/1.1 "DM Sans", Inter, system-ui, sans-serif; text-align: center; }
-        .kp-info { flex: 1; min-width: 0; }
+        .kp-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+        .kp-info { min-width: 0; }
         .kp-meta { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-        .kp-date { margin: 0; font-size: 14px; font-weight: 700; line-height: 1.3; color: #E11D48; }
-        .kp-status { flex: none; margin: 0; padding: 2px 8px; border-radius: 999px; background: #FFE4E6; font-size: 11px; font-weight: 700; color: #9F1239; }
-        .kp-status.is-out { background: #E5E7EB; color: #374151; }
-        .kp-artist { margin: 6px 0 0; font-size: 18px; font-weight: 900; line-height: 1.25; color: #030712; overflow-wrap: anywhere; }
-        .kp-title { margin: 2px 0 0; font-size: 12px; font-weight: 500; line-height: 1.4; color: #4B5563; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .kp-venue { margin: 6px 0 0; font-size: 12px; font-weight: 500; line-height: 1.4; color: #374151; overflow-wrap: anywhere; }
-        .kp-actions { display: flex; gap: 8px; margin-top: 12px; }
-        .kp-actions .kp-btn { flex: 1; min-width: 0; padding: 6px 8px; font-size: 12px; line-height: 1.25; }
+        .kp-date { margin: 0; font-size: 12px; font-weight: 700; line-height: 1.3; letter-spacing: .025em; color: #E11D48; }
+        .kp-status { flex: none; margin: 0; padding: 2px 8px; border-radius: 999px; background: #FFF1F2; font-size: 11px; font-weight: 600; color: #E11D48; }
+        .kp-status.is-out { background: #F1F5F9; color: #475569; }
+        .kp-artist { margin: 8px 0 0; font-size: 18px; font-weight: 700; line-height: 1.25; letter-spacing: -.01em; color: #0F172A; overflow-wrap: anywhere; }
+        .kp-title { margin: 2px 0 0; font-size: 12px; font-weight: 500; line-height: 1.4; letter-spacing: .05em; text-transform: uppercase; color: #64748B; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .kp-venue { display: flex; align-items: center; gap: 4px; margin: 8px 0 0; font-size: 12px; line-height: 1.4; color: #475569; overflow-wrap: anywhere; }
+        .kp-venue svg { flex: none; color: #94A3B8; }
+        .kp-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 16px; }
+        .kp-actions .kp-btn { min-width: 0; padding: 8px 16px; border-color: #E2E8F0; border-radius: 12px; color: #334155; font-size: 12px; font-weight: 600; line-height: 1.25; }
         .kp-btn {
           display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 10px 14px; box-sizing: border-box;
           border: 1px solid #D1D5DB; border-radius: 10px; background: #fff; color: #374151; text-decoration: none; text-align: center;
           font: 700 14px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s;
         }
-        .kp-card .kp-btn.is-primary { background: #E11D48; border-color: #E11D48; color: #fff; }
+        .kp-card .kp-btn.is-primary { background: #0F172A; border-color: #0F172A; color: #fff; }
         .kp-btn.is-primary { background: #111827; border-color: #111827; color: #fff; }
         .kp-btn:focus-visible, .kp-nav:focus-visible, .kp-day:focus-visible, .kp-clear:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         @media (hover: hover) {
           .kp-btn:hover { background: #F9FAFB; }
           .kp-btn.is-primary:hover { background: #1F2937; }
-          .kp-card .kp-btn.is-primary:hover { background: #BE123C; }
+          .kp-card .kp-btn.is-primary:hover { background: #1E293B; }
+          .kp-card .kp-btn:not(.is-primary):hover { background: #F8FAFC; }
         }
         .kp-empty { background: #fff; border: 1px dashed #D1D5DB; border-radius: 16px; padding: 24px; font-size: 14px; color: #4B5563; margin: 0; }
         .kp-note { margin-top: 20px; }
@@ -195,7 +168,10 @@ export function KpopCalendar() {
         .kp-quick-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; margin-top: 14px; }
         @media (max-width: 767px) { .tl-wrap.kp-wrap { padding-left: 16px; padding-right: 16px; } }
         @media (min-width: 640px) {
-          .kp-poster { width: 96px; }
+          .kp-card { padding: 20px; }
+          .kp-artist { font-size: 20px; }
+          .kp-actions { display: flex; justify-content: flex-start; }
+          .kp-actions .kp-btn { width: auto; }
         }
         @media (min-width: 768px) {
           .kp-layout { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 24px; align-items: start; }
