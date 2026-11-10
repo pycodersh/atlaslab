@@ -10,6 +10,7 @@ import {
   LIFETIME_BENEFITS,
   REFUND_DAYS,
 } from '@/lib/kpantry/purchase'
+import GumroadCheckoutLink from '@/components/kpantry/paywall/GumroadCheckoutLink'
 import UnlockLink from './UnlockLink'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
@@ -324,9 +325,7 @@ export default function KPantryLandingPage() {
           <div className="lp-head"><p className="lp-label">Pricing</p></div>
           <h2 className="lp-h2">Start free, unlock every recipe once</h2>
           <p className="lp-lead">
-            One-time payment, lifetime access. No subscription. After checkout, use the order number or email on your Gumroad
-            receipt —{' '}
-            <UnlockLink style={{ color: INK, fontWeight: 600 }}>already bought? Unlock the app here</UnlockLink>.
+            Ten recipes are free to cook. One payment unlocks all {TOTAL_RECIPES} for life — no subscription, no account needed.
           </p>
           <div className="lp-plans">
             <div className="lp-plan">
@@ -346,7 +345,7 @@ export default function KPantryLandingPage() {
               <LaunchButton className="lp-btn" />
             </div>
             <div className="lp-plan lp-plan--featured">
-              <span className="lp-badge">Launch price</span>
+              <span className="lp-badge">Lifetime pass</span>
               <p className="lp-plan-ed">K-Pantry Pro</p>
               <h3>{KPANTRY_PRODUCT_NAME}</h3>
               <p className="lp-price notranslate" translate="no">
@@ -359,15 +358,18 @@ export default function KPantryLandingPage() {
                 {LIFETIME_BENEFITS.map(b => <li key={b}>{b}</li>)}
               </ul>
               {KPANTRY_CHECKOUT_URL ? (
-                <a href={KPANTRY_CHECKOUT_URL} target="_blank" rel="noopener noreferrer" className="lp-btn lp-btn-primary">
-                  <span translate="no" className="notranslate">Get K-Pantry Pro &mdash; {KPANTRY_PRICE}</span> ↗
-                </a>
+                <GumroadCheckoutLink href={KPANTRY_CHECKOUT_URL} className="lp-btn lp-btn-primary">
+                  <span translate="no" className="notranslate">Get K-Pantry Pro &mdash; {KPANTRY_PRICE}</span>
+                </GumroadCheckoutLink>
               ) : (
                 // 결제 링크가 없으면(로컬 등) 누를 수 없는 버튼으로만 둔다
                 <span className="lp-btn lp-btn-primary notranslate" aria-disabled="true" translate="no">Get K-Pantry Pro &mdash; {KPANTRY_PRICE}</span>
               )}
               <p className="lp-plan-note">
-                {REFUND_DAYS}-day money-back guarantee ·{' '}
+                <UnlockLink style={{ color: INK, fontWeight: 600 }}>Already bought? Unlock here</UnlockLink>
+              </p>
+              <p className="lp-plan-note" style={{ marginTop: 6 }}>
+                Secure checkout by Gumroad · {REFUND_DAYS}-day money-back guarantee ·{' '}
                 <a href={`${APP}/refund`} style={{ color: MUTED, textUnderlineOffset: 3 }}>Refund policy</a>
               </p>
             </div>
