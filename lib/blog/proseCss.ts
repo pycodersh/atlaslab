@@ -361,10 +361,22 @@ export function proseCss(bodyFont: string): string {
           word-break: keep-all; overflow-wrap: break-word;
           -webkit-hyphens: auto; hyphens: auto;
         }
+        /* 표 글자색은 상속에 맡기지 않고 직접 박는다 — 배경이 크림·베이지라 글자가 밝아지면 안 보인다.
+           강제 다크 모드(삼성 인터넷·Chrome 웹 콘텐츠 다크 모드)가 상속 글자색만 밝게 바꾸는 일을 막으려고
+           표만 color-scheme: only light 로 둔다(배경도 글자도 원래 색 그대로).
+           th = neutral-900 semibold, td = neutral-800, 표 안 링크 = red-700 + hover 밑줄. 모든 글에 공통. */
+        .blog-prose table { color-scheme: only light; }
         .blog-prose th {
-          background: #F0EADF; font-weight: 700;
-          font-size: 13px; letter-spacing: 0.02em; color: #111;
+          background: #F0EADF; font-weight: 600;
+          font-size: 13px; letter-spacing: 0.02em; color: #171717;
         }
+        .blog-prose td { color: #262626; }
+        .blog-prose th *, .blog-prose td * { color: inherit; }
+        .blog-prose th strong, .blog-prose td strong { color: #171717; }
+        .blog-prose table a, .blog-prose th a, .blog-prose td a {
+          color: #B91C1C; font-weight: 500; text-decoration: none;
+        }
+        .blog-prose table a:hover { color: #B91C1C; text-decoration: underline; text-underline-offset: 3px; }
         .blog-prose tr:nth-child(even) td { background: #F5F3F0; }
         @media (min-width: 768px) {
           .blog-prose table { font-size: 16px; }
