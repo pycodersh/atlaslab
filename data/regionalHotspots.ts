@@ -18,7 +18,7 @@ const SEOUL_CLUSTERS: SeoulCluster[] = [
   {
     id: 'jongno', name: 'Jongno & Bukchon', short: 'Jongno', ko: '종로·북촌', theme: 'Palaces & Hanok Heritage', spots: [
       { name: 'Gyeongbokgung Palace', ko: '경복궁', category: 'Heritage', what: 'Walk the courtyards of Seoul’s main royal palace.', tip: 'Subway Line 3 (Gyeongbokgung Station). Closed on Tuesdays.' },
-      { name: 'Bukchon Hanok Village', ko: '북촌 한옥마을', category: 'Heritage', what: 'Climb quiet lanes of tiled-roof houses where people still live.', tip: 'Near Anguk Station (Line 3). The main lanes bar tourists from 5 p.m. to 10 a.m., with a ₩100,000 fine.' },
+      { name: 'Bukchon Hanok Village', ko: '북촌 한옥마을', category: 'Heritage', what: 'Climb quiet lanes of tiled-roof houses where people still live.', tip: 'Near Anguk Station (Line 3). Red Zone sightseeing 10 a.m.–5 p.m.; ₩100,000 fine only after a warning.' },
       { name: 'Ikseon-dong Hanok Alley', ko: '익선동', category: 'Trendy Cafe', what: 'Browse cafes and small shops in narrow hanok alleys.', tip: 'Next to Jongno 3-ga Station (Lines 1, 3 and 5), one stop from Anguk on Line 3.' },
       { name: 'Changdeokgung & Secret Garden', ko: '창덕궁 & 후원', category: 'Heritage', what: 'Tour the UNESCO palace and its wooded royal garden.', tip: 'Near Anguk Station. Closed on Mondays. The garden is by guided tour only, with a separate ticket, so book ahead.' },
     ],

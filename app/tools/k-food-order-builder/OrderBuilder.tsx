@@ -82,8 +82,9 @@ const REQUESTS: Phrase[] = [
   { id: 'egg', label: 'No egg', ko: '계란 빼 주세요', roman: 'Gyeran ppae juseyo', en: 'No egg, please.' },
   { id: 'pork', label: 'No pork', ko: '돼지고기 빼 주세요', roman: 'Dwaejigogi ppae juseyo', en: 'No pork, please.' },
   { id: 'salt', label: 'Less salty', ko: '덜 짜게 해 주세요', roman: 'Deol jjage hae juseyo', en: 'Less salty, please.' },
-  { id: 'peanut', label: 'Peanut allergy', ko: '땅콩 알레르기가 있어요', roman: 'Ttangkong allereugiga isseoyo', en: 'I have a peanut allergy.' },
-  { id: 'seafood', label: "Can't eat seafood", ko: '해산물 못 먹어요', roman: 'Haesanmul mot meogeoyo', en: "I can't eat seafood." },
+  // 알레르기는 안전 문제라 '못 먹어요'(선호로 들릴 수 있다) 대신 알레르기임과 '들어가면 안 된다'를 두 문장으로 못 박는다
+  { id: 'peanut', label: 'Peanut allergy', ko: '땅콩 알레르기가 있어요. 땅콩이 조금이라도 들어가면 안 돼요', roman: 'Ttangkong allereugiga isseoyo. Ttangkongi jogeumirado deureogamyeon an dwaeyo', en: 'I have a peanut allergy. Not even a little peanut, please.' },
+  { id: 'seafood', label: "Can't eat seafood", ko: '해산물 알레르기가 있어요. 해산물이 들어가면 안 돼요', roman: 'Haesanmul allereugiga isseoyo. Haesanmuri deureogamyeon an dwaeyo', en: 'I have a seafood allergy. No seafood in it, please.' },
   { id: 'meat', label: "Can't eat meat", ko: '고기는 못 먹어요', roman: 'Gogineun mot meogeoyo', en: "I can't eat meat." },
   { id: 'sauce', label: 'Sauce on the side', ko: '소스는 따로 주세요', roman: 'Soseuneun ttaro juseyo', en: 'Sauce on the side, please.' },
   { id: 'togo', label: 'To go', ko: '포장해 주세요', roman: 'Pojanghae juseyo', en: 'To go, please.' },

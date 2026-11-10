@@ -56,7 +56,7 @@ export function ItalkiBanner() {
           Find a Korean Tutor →
         </a>
       </div>
-      <span className="itk-note">*Partner offer. New learners may receive bonus lesson credits.</span>
+      <span className="itk-note">We earn a commission if you sign up through this link, at no extra cost to you.</span>
     </aside>
   )
 }

@@ -42,7 +42,7 @@ export const HUBS = {
   'busan-station': { name: 'Busan Station', tip: 'On Metro Line 1. For Haeundae or Gwangalli, change to Line 2 at Seomyeon and allow 45–60 minutes.' },
   bujeon: { name: 'Bujeon Station', tip: 'This is a different station from Busan Station. Check your ticket.' },
   'busan-central': { name: 'Busan Central Bus Terminal', tip: 'On the north edge of the city. Take Metro Line 1 into town.' },
-  gimhae: { name: 'Gimhae Airport (PUS)', tip: 'Farther from central Busan than Busan Station. The bus to Haeundae takes about 1h 40m.' },
+  gimhae: { name: 'Gimhae Airport (PUS)', tip: 'Farther from central Busan than Busan Station. Check a map app for bus times to Haeundae.' },
 
   'dongdaegu-station': { name: 'Dongdaegu Station', tip: 'On Metro Line 1. Ride toward Banwoldang for the Dongseongno shopping area.' },
   'daegu-station': { name: 'Daegu Station', tip: 'On Metro Line 1, close to downtown.' },

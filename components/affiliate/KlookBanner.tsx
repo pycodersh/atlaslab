@@ -47,6 +47,10 @@ export function KlookBanner() {
           <p className="mt-1 mb-0 text-xs leading-relaxed text-slate-600 sm:text-sm">
             AREX airport express, KTX rail passes, and attraction tickets.
           </p>
+          {/* 제휴 고지 — italki 배너 각주(.itk-note: 12px · #A3A3A3 · 위 12px)와 같은 모양. 카드가 가로 배치라 글 열 안에 둔다 */}
+          <p className="mt-3 mb-0 text-xs text-[#A3A3A3]">
+            We earn a commission if you book through this link, at no extra cost to you.
+          </p>
         </div>
       </div>
       <a
