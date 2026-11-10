@@ -46,9 +46,33 @@ function money(value: number, currency: string) {
   }).format(value).replace(/ /g, ' ')
 }
 
+type Mode = 'to-fx' | 'to-krw'
+const USD_PRESETS = [5, 10, 20, 50]
+
+// 고른 통화로 $5 · $10 · $20 · $50 쯤 되는 금액 — 10 미만은 정수, 그 위는 앞 두 자리를 5 단위로 둥글린다(¥735 → ¥750, ¥1,470 → ¥1,500)
+const roundNice = (n: number) => {
+  if (n < 10) return Math.max(1, Math.round(n))
+  const p = 10 ** (Math.floor(Math.log10(n)) - 1)
+  return Math.round(n / p / 5) * 5 * p
+}
+const fxPresets = (rates: Rates, currency: string) => USD_PRESETS.map(usd => roundNice(usd * rates[currency] / rates.USD))
+const fxValue = (krw: number, rate: number, currency: string) =>
+  String(NO_DECIMALS.has(currency) ? Math.round(krw * rate) : Math.round(krw * rate * 100) / 100)
+const symbolMoney = (value: number, currency: string) =>
+  new Intl.NumberFormat('en-US', { style: 'currency', currency, currencyDisplay: 'symbol', maximumFractionDigits: 0 }).format(value)
+// 1 외화가 몇 원인지 — 엔·동처럼 작은 단위는 소수점까지 보여 준다
+const wonPrecise = (n: number) => `₩${n.toLocaleString('en-US', { maximumFractionDigits: n < 100 ? 2 : 0 })}`
+// 입력값에 천 단위 쉼표를 넣되, 외화 모드에서 치는 중인 소수점은 그대로 둔다
+const withCommas = (raw: string) => {
+  if (raw === '') return ''
+  const [int, frac] = raw.split('.')
+  return `${Number(int || 0).toLocaleString('en-US')}${frac === undefined ? '' : `.${frac}`}`
+}
+
 export function KrwConverter({ rates, updated }: { rates: Rates; updated: string }) {
   const [raw, setRaw] = useState('10000')
   const [currency, setCurrency] = useState('USD')
+  const [mode, setMode] = useState<Mode>('to-fx')
 
   useEffect(() => {
     try {
@@ -59,18 +83,43 @@ export function KrwConverter({ rates, updated }: { rates: Rates; updated: string
   }, [])
 
   const chooseCurrency = (code: string) => {
+    // 외화 → 원화 방향이면 입력이 그 통화 금액이므로, 같은 원화 가치를 새 통화로 옮겨 적는다
+    if (mode === 'to-krw') {
+      const krw = rates[currency] ? (Number(raw) || 0) / rates[currency] : 0
+      setRaw(fxValue(krw, rates[code], code))
+    }
     setCurrency(code)
     try { localStorage.setItem(STORAGE_KEY, code) } catch { /* 이번 방문에만 적용된다 */ }
   }
 
   const amount = Number(raw) || 0
   const rate = rates[currency]
-  const display = raw === '' ? '' : Number(raw).toLocaleString('en-US')
+  const toKrw = mode === 'to-krw'
+  // 'What it buys' 와 결과는 언제나 원화 기준으로 계산한다
+  const krwAmount = toKrw ? (rate ? amount / rate : 0) : amount
+  const presets = toKrw ? fxPresets(rates, currency) : QUICK_AMOUNTS
+
+  const onAmount = (value: string) => {
+    if (!toKrw) return setRaw(value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 10))
+    const clean = value.replace(/[^\d.]/g, '').replace(/(\..*)\./g, '$1').replace(/^0+(?=\d)/, '')
+    const [int, frac] = clean.split('.')
+    setRaw(`${int.slice(0, 9)}${frac === undefined ? '' : `.${frac.slice(0, NO_DECIMALS.has(currency) ? 0 : 2)}`}`)
+  }
+
+  // 방향을 바꿔도 같은 금액을 이어서 보여 준다(₩10,000 → USD 7.38)
+  const swap = () => {
+    setRaw(toKrw ? String(Math.round(krwAmount)) : fxValue(krwAmount, rate, currency))
+    setMode(toKrw ? 'to-fx' : 'to-krw')
+  }
 
   return (
     <>
       <style>{`
-        .kc-fields { display: grid; grid-template-columns: minmax(0, 1fr) 120px; gap: 10px; }
+        .kc-fields { display: grid; grid-template-columns: minmax(0, 1fr) 44px 120px; gap: 10px; align-items: end; }
+        .kc-swap { align-self: stretch; display: flex; align-items: flex-end; }
+        .kc-swap button { width: 44px; height: 52px; padding: 0; border: 1px solid #E5E7EB; border-radius: 12px; background: #fff; color: #172554; font-size: 18px; line-height: 1; cursor: pointer; transition: background .15s, border-color .15s; }
+        @media (hover: hover) { .kc-swap button:hover { background: #EFF6FF; border-color: #93C5FD; } }
+        .kc-swap button:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         .kc-label { display: block; font-size: 13px; font-weight: 600; color: #4B5563; margin-bottom: 6px; }
         .kc-quick { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
         .kc-chip {
@@ -104,25 +153,28 @@ export function KrwConverter({ rates, updated }: { rates: Rates; updated: string
       <section className="tl-card">
         <div className="kc-fields">
           <div>
-            <label className="kc-label" htmlFor="kc-amount">Amount in KRW</label>
-            <input id="kc-amount" className="tl-input notranslate" translate="no" inputMode="numeric" autoComplete="off" value={display}
-              onChange={e => setRaw(e.target.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '').slice(0, 10))} />
+            <label key={`${mode}-${currency}`} className="kc-label notranslate" translate="no" htmlFor="kc-amount">Amount in {toKrw ? currency : 'KRW'}</label>
+            <input id="kc-amount" className="tl-input notranslate" translate="no" inputMode={toKrw ? 'decimal' : 'numeric'} autoComplete="off" value={withCommas(raw)}
+              onChange={e => onAmount(e.target.value)} />
+          </div>
+          <div className="kc-swap">
+            <button type="button" aria-label={toKrw ? `Convert KRW to ${currency}` : `Convert ${currency} to KRW`} onClick={swap}>⇄</button>
           </div>
           <div>
-            <label className="kc-label" htmlFor="kc-currency">To</label>
+            <label key={mode} className="kc-label" htmlFor="kc-currency">{toKrw ? 'From' : 'To'}</label>
             <select id="kc-currency" className="tl-input notranslate" translate="no" value={currency} onChange={e => chooseCurrency(e.target.value)}>
               {CURRENCIES.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
           </div>
         </div>
         <div className="kc-quick notranslate" translate="no">
-          {QUICK_AMOUNTS.map(a => (
-            <button key={a} type="button" className="kc-chip" aria-pressed={amount === a} onClick={() => setRaw(String(a))}>{won(a)}</button>
+          {presets.map((a, i) => (
+            <button key={`${mode}-${i}`} type="button" className="kc-chip" aria-pressed={amount === a} onClick={() => setRaw(String(a))}>{toKrw ? symbolMoney(a, currency) : won(a)}</button>
           ))}
         </div>
         <div className="kc-panel">
-          <p className="kc-result notranslate" translate="no" aria-live="polite">{money(amount * rate, currency)}</p>
-          <p className="kc-sub notranslate" translate="no">{won(1000)} = {money(1000 * rate, currency)}</p>
+          <p className="kc-result notranslate" translate="no" aria-live="polite">{toKrw ? won(krwAmount) : money(krwAmount * rate, currency)}</p>
+          <p className="kc-sub notranslate" translate="no">{won(1000)} = {money(1000 * rate, currency)} · 1 {currency} ≈ {wonPrecise(1 / rate)}</p>
         </div>
       </section>
 
@@ -130,7 +182,7 @@ export function KrwConverter({ rates, updated }: { rates: Rates; updated: string
         <h2 className="tl-h2">What it buys</h2>
         <div className="kc-buys">
           {BUYS.map(b => {
-            const count = howMany(amount / b.price)
+            const count = howMany(krwAmount / b.price)
             return (
               <div key={b.one} className={`kc-tile ${b.tint}`}>
                 <span className="kc-emoji" aria-hidden="true">{b.emoji}</span>
