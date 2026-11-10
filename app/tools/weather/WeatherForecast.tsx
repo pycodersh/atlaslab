@@ -109,14 +109,19 @@ export function WeatherForecast() {
         .wf-map { display: block; width: 100%; max-width: 440px; height: auto; margin: 0 auto; }
         .wf-pin { cursor: pointer; outline: none; }
         .wf-pin-dot { fill: #94A3B8; stroke: #fff; stroke-width: 1.5; }
-        .wf-pin.is-active .wf-pin-dot { fill: #C8102E; }
-        .wf-pin-chip { fill: #fff; stroke: #E2E8F0; stroke-width: 1; }
-        .wf-pin.is-active .wf-pin-chip { stroke: #111827; stroke-width: 2.25; }
-        .wf-pin:focus-visible .wf-pin-chip { stroke: #C8102E; stroke-width: 2.25; }
-        @media (hover: hover) { .wf-pin:not(.is-active):hover .wf-pin-chip { stroke: #94A3B8; } }
-        .wf-pin-name { font: 600 10px "DM Sans", Inter, system-ui, sans-serif; fill: #374151; }
-        .wf-pin.is-active .wf-pin-name { font-weight: 800; fill: #111827; }
-        .wf-pin-temp { font: 800 10px "DM Sans", Inter, system-ui, sans-serif; fill: #111827; }
+        .wf-pin.is-active .wf-pin-dot { fill: #2563EB; stroke-width: 2; }
+        .wf-pin-ping { fill: #2563EB; pointer-events: none; transform-box: fill-box; transform-origin: center; animation: wf-ping 1.6s cubic-bezier(0,0,.2,1) infinite; }
+        @keyframes wf-ping { from { transform: scale(1); opacity: .5; } to { transform: scale(2.6); opacity: 0; } }
+        @media (prefers-reduced-motion: reduce) { .wf-pin-ping { animation: none; opacity: .2; transform: scale(1.8); } }
+        /* 배경 없는 라벨 — 흰 번짐 그림자로 지도 위에서도 또렷하게 읽힌다 */
+        .wf-label { display: flex; align-items: center; gap: 4px; height: 100%; white-space: nowrap; font: 600 12px/1 "DM Sans", Inter, system-ui, sans-serif; color: #1E293B; text-shadow: 0 0 2px #fff, 0 0 3px #fff, 0 1px 2px rgba(255,255,255,.8); }
+        .wf-label.is-left { justify-content: flex-end; }
+        .wf-label.is-top { justify-content: center; }
+        .wf-label svg { flex: none; filter: drop-shadow(0 0 1px #fff); }
+        .wf-pin-temp { font-weight: 700; color: #0F172A; }
+        .wf-pin.is-active .wf-label, .wf-pin.is-active .wf-pin-temp { font-weight: 800; color: #2563EB; }
+        .wf-pin:focus-visible .wf-pin-name { text-decoration: underline; }
+        @media (hover: hover) { .wf-pin:not(.is-active):hover .wf-pin-name { color: #2563EB; } }
         .wf-units button:focus-visible, .wf-retry:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
 
         .wf-panel { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; }

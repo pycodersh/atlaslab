@@ -72,11 +72,12 @@ export const barTone = (code: number) => BAR[kindOf(code)]
 
 // 칩이 서로 겹치지 않게 도시마다 놓을 쪽을 정한다
 const SIDE: Record<string, 'left' | 'right' | 'top'> = {
-  Seoul: 'left', Chuncheon: 'top', Sokcho: 'right', Gangneung: 'right', Daegu: 'left',
+  Seoul: 'left', Chuncheon: 'top', Sokcho: 'right', Gangneung: 'right', Daegu: 'top',
   Gyeongju: 'right', Busan: 'right', Jeonju: 'left', Yeosu: 'left', Jeju: 'right',
 }
-const CHIP_H = 22
-const chipWidth = (name: string) => Math.round(name.length * 5.900 + 48)
+// 라벨 [도시명 · 아이콘 · 기온] 은 HTML 로 넣어 글자 폭만큼만 차지하게 한다 — 이 상자 안에서 쪽에 맞춰 정렬된다
+const LABEL_W = 116
+const LABEL_H = 18
 
 export type MapCity = { name: string; current: { temp: number; code: number; isDay: boolean; text: string } }
 
@@ -90,19 +91,22 @@ export function KoreaWeatherMap({ cities, selected, onSelect, temp }: { cities: 
         if (!place) return null
         const [x, y] = project(place.lon, place.lat)
         const active = i === selected
-        const w = chipWidth(city.name)
         const side = SIDE[city.name]
-        const left = side === 'left' ? x - 8 - w : side === 'right' ? x + 8 : x - w + 26
-        const top = side === 'top' ? y - 8 - CHIP_H : y - CHIP_H / 2
+        const left = side === 'left' ? x - 8 - LABEL_W : side === 'right' ? x + 8 : x - LABEL_W / 2
+        const top = side === 'top' ? y - 7 - LABEL_H : y - LABEL_H / 2
         return (
           <g key={city.name} className={`wf-pin${active ? ' is-active' : ''}`} role="button" tabIndex={0} aria-pressed={active}
             aria-label={`${city.name}, ${city.current.text}, ${temp(city.current.temp)}`} onClick={() => onSelect(i)}
             onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(i) } }}>
-            <circle className="wf-pin-dot" cx={x} cy={y} r={active ? 5 : 3} />
-            <rect className="wf-pin-chip" x={left} y={top} width={w} height={CHIP_H} rx={CHIP_H / 2} />
-            <text className="wf-pin-name" x={left + 8} y={top + 15}>{city.name}</text>
-            <svg x={left + w - 38} y={top + 4} width="14" height="14" viewBox="0 0 24 24" fill="none" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">{art(kindOf(city.current.code), city.current.isDay)}</svg>
-            <text className="wf-pin-temp" x={left + w - 7} y={top + 15} textAnchor="end">{temp(city.current.temp)}</text>
+            {active && <circle className="wf-pin-ping" cx={x} cy={y} r="6" />}
+            <circle className="wf-pin-dot" cx={x} cy={y} r={active ? 6 : 3} />
+            <foreignObject x={left} y={top} width={LABEL_W} height={LABEL_H}>
+              <div className={`wf-label is-${side}`}>
+                <span className="wf-pin-name">{city.name}</span>
+                <WeatherIcon code={city.current.code} isDay={city.current.isDay} size={14} />
+                <span className="wf-pin-temp">{temp(city.current.temp)}</span>
+              </div>
+            </foreignObject>
           </g>
         )
       })}
