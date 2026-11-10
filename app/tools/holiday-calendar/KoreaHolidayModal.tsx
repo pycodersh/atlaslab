@@ -11,10 +11,10 @@ const FILTERS: { id: Filter; label: string }[] = [
 ]
 const UPCOMING_COUNT = 6
 
-const IMPACT: Record<HolidayImpact, { label: string; bg: string; fg: string; dot: string }> = {
-  'major-shutdown': { label: 'Major Shutdown', bg: '#FFE4E6', fg: '#9F1239', dot: '#E11D48' },
-  crowded: { label: 'Crowded', bg: '#FEF3C7', fg: '#92400E', dot: '#F59E0B' },
-  normal: { label: 'Normal Operations', bg: '#DCFCE7', fg: '#166534', dot: '#16A34A' },
+const IMPACT: Record<HolidayImpact, { label: string; fg: string; dot: string }> = {
+  'major-shutdown': { label: 'Major Shutdown', fg: '#E11D48', dot: '#F43F5E' },
+  crowded: { label: 'Crowded', fg: '#D97706', dot: '#F59E0B' },
+  normal: { label: 'Normal Operations', fg: '#059669', dot: '#10B981' },
 }
 
 // 날짜 문자열은 달력 날짜 그대로 읽는다 — 방문자의 시간대를 타면 하루가 밀린다
@@ -47,10 +47,10 @@ function HolidayCard({ holiday, past }: { holiday: Holiday; past: boolean }) {
             <h3 className="hc-name notranslate" translate="no">{holiday.name}</h3>
             <p className="hc-ko notranslate" translate="no" lang="ko">{holiday.koreanName}</p>
           </div>
-          <span className="hc-tag notranslate" translate="no" style={{ background: impact.bg, color: impact.fg }}><i style={{ background: impact.dot }} />{impact.label}</span>
+          <span className="hc-tag notranslate" translate="no" style={{ color: impact.fg }}><i style={{ background: impact.dot }} />{impact.label}</span>
         </div>
         <p className="hc-when notranslate" translate="no">{whenLabel(holiday)}</p>
-        <p className="hc-tip"><span aria-hidden="true">💡 </span>{holiday.travelTip}</p>
+        <p className="hc-tip">{holiday.travelTip}</p>
       </div>
     </article>
   )
@@ -102,9 +102,9 @@ export function KoreaHolidayModal() {
         .hc-name { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 18px; font-weight: 700; line-height: 1.25; color: #111827; }
         .hc-ko { margin: 1px 0 0; font-family: Pretendard, "DM Sans", system-ui, sans-serif; font-size: 13px; font-weight: 500; color: #6B7280; }
         .hc-when { margin: 0; font-size: 12px; color: #64748B; }
-        .hc-tag { flex: none; display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px 3px 7px; border-radius: 999px; font-size: 11px; font-weight: 700; white-space: nowrap; }
-        .hc-tag i { width: 7px; height: 7px; border-radius: 50%; }
-        .hc-tip { margin: 0; padding: 8px 12px; background: #F8FAFC; border-radius: 8px; font-size: 12px; line-height: 1.5; color: #334155; }
+        .hc-tag { flex: none; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; line-height: 1.5; white-space: nowrap; }
+        .hc-tag i { flex: none; width: 6px; height: 6px; border-radius: 50%; }
+        .hc-tip { margin: 2px 0 0; padding: 2px 0 2px 10px; border-left: 2px solid #E2E8F0; font-size: 12px; line-height: 1.625; color: #64748B; }
         .hc-seasons { padding: 16px; background: rgba(238,242,255,.7); border: 1px solid #E0E7FF; border-radius: 16px; margin-bottom: 12px; }
         .hc-seasons h3 { margin: 0 0 2px; font-family: "Playfair Display", Georgia, serif; font-size: 18px; font-weight: 700; color: #1E1B4B; }
         .hc-seasons-lead { margin: 0 0 12px; font-size: 13px; color: #4338CA; }
