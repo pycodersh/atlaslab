@@ -154,6 +154,8 @@ export default function KPattoLandingPage() {
         .lp-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
         .lp-plan { position: relative; display: flex; flex-direction: column; background: #fff; border: 1px solid ${RULE}; padding: 30px 24px 26px; }
         .lp-plan--featured { border: 2px solid ${RED}; box-shadow: 0 10px 30px rgba(200,16,46,.10); }
+        /* 테두리가 1px 두꺼운 만큼 아래 여백을 1px 줄여 — 옆 카드와 버튼이 같은 선에 온다 */
+        .lp-plan--featured { padding-bottom: 25px; }
         .lp-badge { position: absolute; top: -12px; left: 24px; background: ${RED}; color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 5px 10px; border-radius: 4px; }
         .lp-plan-ed { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: ${MUTED}; margin: 0 0 6px; }
         .lp-plan h3 { font-family: ${SERIF}; font-size: 21px; line-height: 1.25; margin: 0 0 16px; font-weight: 700; }
@@ -167,7 +169,7 @@ export default function KPattoLandingPage() {
         .lp-list { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 9px; flex: 1; }
         .lp-list li { position: relative; padding-left: 22px; font-size: 14px; line-height: 1.5; color: #444; }
         .lp-list li::before { content: ''; position: absolute; left: 2px; top: 6px; width: 10px; height: 6px; border-left: 2px solid ${RED}; border-bottom: 2px solid ${RED}; transform: rotate(-45deg); }
-        /* 가격 카드 버튼 — Gumroad 상품 페이지를 새 탭으로 연다(BuyButton) */
+        /* 가격 카드 버튼 — Gumroad 오버레이로 랜딩 위에 결제창을 띄운다(BuyButton) */
         .lp .lp-plan .lp-buy { width: 100%; min-width: 0; height: 50px; border-radius: 6px; font-size: 14.5px; font-weight: 600; box-shadow: none; background-image: none; }
         .lp .lp-plan .lp-buy:not(.lp-btn-primary) { background: transparent; border: 1px solid ${INK}; color: ${INK}; }
         .lp .lp-plan .lp-buy:not(.lp-btn-primary):hover { background: ${INK}; color: #fff; }

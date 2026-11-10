@@ -10,7 +10,7 @@ import {
   LIFETIME_BENEFITS,
   REFUND_DAYS,
 } from '@/lib/kpantry/purchase'
-import GumroadCheckoutLink from '@/components/kpantry/paywall/GumroadCheckoutLink'
+import GumroadOverlayLink from '@/components/checkout/GumroadOverlayLink'
 import UnlockLink from './UnlockLink'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
@@ -135,6 +135,8 @@ export default function KPantryLandingPage() {
         .lp-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
         .lp-plan { position: relative; background: #fff; border: 1px solid ${RULE}; padding: 30px 24px 26px; display: flex; flex-direction: column; }
         .lp-plan--featured { border: 2px solid ${RED}; box-shadow: 0 10px 30px rgba(200,16,46,.10); }
+        /* 테두리가 1px 두꺼운 만큼 아래 여백을 1px 줄여 — 옆 카드와 버튼이 같은 선에 온다 */
+        .lp-plan--featured { padding-bottom: 25px; }
         .lp-badge { position: absolute; top: -12px; left: 24px; background: ${RED}; color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 5px 10px; border-radius: 4px; }
         .lp-plan-ed { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: ${MUTED}; margin: 0 0 6px; }
         .lp-plan h3 { font-family: ${SERIF}; font-size: 21px; line-height: 1.25; margin: 0 0 16px; font-weight: 700; }
@@ -148,11 +150,13 @@ export default function KPantryLandingPage() {
         .lp-list { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 9px; flex: 1; }
         .lp-list li { position: relative; padding-left: 22px; font-size: 14px; line-height: 1.5; color: #444; }
         .lp-list li::before { content: ''; position: absolute; left: 2px; top: 6px; width: 10px; height: 6px; border-left: 2px solid ${RED}; border-bottom: 2px solid ${RED}; transform: rotate(-45deg); }
-        .lp-plan .lp-btn { width: 100%; min-width: 0; height: 50px; font-size: 14.5px; }
+        /* 버튼은 카드 맨 아래에 붙인다(margin-top:auto) — 목록 길이가 달라도 두 카드 버튼이 같은 선에 온다.
+           그래서 버튼 아래에는 아무것도 두지 않는다(보조 문구는 카드 밖 .lp-plans-note) */
+        .lp-plan .lp-btn { width: 100%; min-width: 0; height: 50px; font-size: 14.5px; margin-top: auto; }
         .lp-plan .lp-btn:not(.lp-btn-primary) { background: transparent; border-color: ${INK}; color: ${INK}; }
         .lp-plan .lp-btn:not(.lp-btn-primary):hover { background: ${INK}; color: #fff; }
         .lp-plan .lp-btn[aria-disabled='true'] { opacity: .45; pointer-events: none; }
-        .lp-plan-note { font-size: 12.5px; color: ${MUTED}; text-align: center; margin: 10px 0 0; }
+        .lp-plans-note { font-size: 12.5px; color: ${MUTED}; text-align: center; margin: 18px 0 0; }
 
         /* 고정 'Launch App' — PC 는 오른쪽 아래 알약, 모바일은 아래 띠 */
         .lp-sticky { position: fixed; right: 24px; bottom: 24px; z-index: 50; }
@@ -325,7 +329,8 @@ export default function KPantryLandingPage() {
           <div className="lp-head"><p className="lp-label">Pricing</p></div>
           <h2 className="lp-h2">Start free, unlock every recipe once</h2>
           <p className="lp-lead">
-            Ten recipes are free to cook. One payment unlocks all {TOTAL_RECIPES} for life — no subscription, no account needed.
+            Ten recipes are free to cook. One payment unlocks all {TOTAL_RECIPES} for life — no subscription, no account needed.{' '}
+            <UnlockLink style={{ color: INK, fontWeight: 600 }}>Already bought? Unlock here</UnlockLink>.
           </p>
           <div className="lp-plans">
             <div className="lp-plan">
@@ -358,22 +363,19 @@ export default function KPantryLandingPage() {
                 {LIFETIME_BENEFITS.map(b => <li key={b}>{b}</li>)}
               </ul>
               {KPANTRY_CHECKOUT_URL ? (
-                <GumroadCheckoutLink href={KPANTRY_CHECKOUT_URL} className="lp-btn lp-btn-primary">
+                <GumroadOverlayLink href={KPANTRY_CHECKOUT_URL} className="lp-btn lp-btn-primary">
                   <span translate="no" className="notranslate">Get K-Pantry Pro &mdash; {KPANTRY_PRICE}</span>
-                </GumroadCheckoutLink>
+                </GumroadOverlayLink>
               ) : (
                 // 결제 링크가 없으면(로컬 등) 누를 수 없는 버튼으로만 둔다
                 <span className="lp-btn lp-btn-primary notranslate" aria-disabled="true" translate="no">Get K-Pantry Pro &mdash; {KPANTRY_PRICE}</span>
               )}
-              <p className="lp-plan-note">
-                <UnlockLink style={{ color: INK, fontWeight: 600 }}>Already bought? Unlock here</UnlockLink>
-              </p>
-              <p className="lp-plan-note" style={{ marginTop: 6 }}>
-                Secure checkout by Gumroad · {REFUND_DAYS}-day money-back guarantee ·{' '}
-                <a href={`${APP}/refund`} style={{ color: MUTED, textUnderlineOffset: 3 }}>Refund policy</a>
-              </p>
             </div>
           </div>
+          <p className="lp-plans-note">
+            Secure checkout by Gumroad · {REFUND_DAYS}-day money-back guarantee ·{' '}
+            <a href={`${APP}/refund`} style={{ color: MUTED, textUnderlineOffset: 3 }}>Refund policy</a>
+          </p>
           <div className="lp-end-pad" />
         </div>
       </section>

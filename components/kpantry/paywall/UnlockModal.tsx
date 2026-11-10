@@ -2,7 +2,7 @@
 import Link from 'next/link'
 import { ArrowUpRight, Check, KeyRound, ShieldCheck, X } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import GumroadCheckoutLink from './GumroadCheckoutLink'
+import GumroadOverlayLink from '@/components/checkout/GumroadOverlayLink'
 import LicenseKeyForm from './LicenseKeyForm'
 import LegalLinks from '@/components/kpantry/layout/LegalLinks'
 import { INLINE_ICON } from '@/components/kpantry/ui/icon'
@@ -27,7 +27,7 @@ const FONT = 'Inter, sans-serif'
 
 /**
  * Lifetime Pass 언락 모달 — 잠긴 레시피(93개)를 누르면 뜬다.
- * 결제는 Gumroad 오버레이로 이 화면 위에 띄운다(GumroadCheckoutLink — 스크립트가 없으면 새 탭),
+ * 결제는 Gumroad 오버레이로 이 화면 위에 띄운다(GumroadOverlayLink — 스크립트가 막히면 같은 탭에서 Gumroad 로 이동),
  * 영수증의 주문 번호(또는 결제 이메일)를 아래 폼에 넣으면 /api/verify-license?app=kpantry 가
  * Gumroad 판매 내역에서 찾아 패스 쿠키를 심는다(이 상품은 라이선스 키를 켤 수 없다).
  */
@@ -140,9 +140,9 @@ export default function UnlockModal({ onClose, onUnlocked, recipeName }: Props) 
         </ul>
 
         {KPANTRY_CHECKOUT_URL ? (
-          <GumroadCheckoutLink href={KPANTRY_CHECKOUT_URL} style={ctaStyle}>
+          <GumroadOverlayLink href={KPANTRY_CHECKOUT_URL} style={ctaStyle}>
             {cta}<ArrowUpRight size={16} strokeWidth={2.25} aria-hidden="true" />
-          </GumroadCheckoutLink>
+          </GumroadOverlayLink>
         ) : (
           // 결제 링크가 없으면 누를 수 없는 버튼으로만 둔다 — 아무 데도 안 가는 버튼을 누르게 하지 않는다
           <button type="button" disabled style={{ ...ctaStyle, opacity: 0.45, cursor: 'not-allowed' }}>
