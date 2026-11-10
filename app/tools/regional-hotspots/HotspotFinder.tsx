@@ -190,7 +190,7 @@ export function HotspotFinder() {
             </article>
           ))}
         </div>
-        {city.routeLink && <a className="hs-route" href={`/tools/transit-guide?to=${city.id}`}>Check Route from Seoul in Transit Guide →</a>}
+        {city.routeLink && <a className="hs-route" href={`/tools/intercity-transit?to=${city.id}`}>Check Route from Seoul in Transit Guide →</a>}
       </div>
 
       <p className="hs-disclaimer">* Spot visuals are AI-rendered previews for illustrative purposes. Always check Google Maps for real-time views.</p>

@@ -18,6 +18,15 @@ const nextConfig: NextConfig = {
       { source: '/blog/en/k-patto/eun-neun-vs-i-ga-difference',             destination: '/blog/en/k-patto/korean-topic-vs-subject-particle',    statusCode: 301 },
       { source: '/blog/en/k-patto/why-korean-has-two-number-systems',       destination: '/blog/en/k-patto/korean-two-number-systems',           statusCode: 301 },
       { source: '/blog/en/k-patto/formal-vs-casual-korean-when-to-drop-yo', destination: '/blog/en/k-patto/korean-politeness-levels-explained', statusCode: 301 },
+      // 2026-11-10 도구 주소를 검색용 슬러그로 바꿨다 — 옛 주소는 이미 색인됐으므로 301
+      { source: '/tools/hotspot-finder',   destination: '/tools/regional-hotspots',    statusCode: 301 },
+      { source: '/tools/transit-guide',    destination: '/tools/intercity-transit',    statusCode: 301 },
+      { source: '/tools/krw-converter',    destination: '/tools/krw-price-sense',      statusCode: 301 },
+      { source: '/tools/order-builder',    destination: '/tools/k-food-order-builder', statusCode: 301 },
+      { source: '/tools/weather',          destination: '/tools/korea-weather',        statusCode: 301 },
+      { source: '/tools/holiday-calendar', destination: '/tools/korea-holidays',       statusCode: 301 },
+      { source: '/tools/size-units',       destination: '/tools/korea-size-converter', statusCode: 301 },
+      { source: '/tools/world-time',       destination: '/tools/seoul-world-time',     statusCode: 301 },
       // /kpatto/welcome → /kpatto (308 — 색인됐을 수 있으므로 permanent)
       {
         source:      '/kpatto/welcome',

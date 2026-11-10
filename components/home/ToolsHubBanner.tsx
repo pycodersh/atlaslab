@@ -1,5 +1,5 @@
 import { SectionHeader } from '@/components/SectionHeader'
-import { TOOLS, type ToolId } from '@/app/tools/toolList'
+import { TOOLS, toolHref, type ToolId } from '@/app/tools/toolList'
 import { TOOL_ART } from '@/app/tools/toolArt'
 import { CalendarDays, CloudSun, Globe, Ruler, Timer, UtensilsCrossed, type LucideIcon } from 'lucide-react'
 
@@ -32,7 +32,7 @@ const QUICK: { id: ToolId; label: string; icon: LucideIcon | null }[] = [
 /**
  * 홈의 도구 섹션 — 대표 도구 3개는 바로 실행하고 나머지는 허브로 보낸다.
  * 머리글은 Travel & Life 와 같은 SectionHeader 를 쓴다.
- * 카드는 /tools#도구id 로 가서 허브가 위젯을 바로 연다(일반 <a>: 페이지가 뜰 때 주소의 # 을 읽어야 한다).
+ * 카드와 칩은 도구마다 따로 있는 페이지(/tools/슬러그)로 바로 간다.
  */
 export function ToolsHubBanner() {
   return (
@@ -78,7 +78,7 @@ export function ToolsHubBanner() {
 
       <div className="thb-grid">
         {FEATURED.map(tool => (
-          <a key={tool.id} className="thb-card" href={`/tools#${tool.id}`}>
+          <a key={tool.id} className="thb-card" href={toolHref(tool.id)}>
             <span className="thb-art" style={{ background: TOOL_ART[tool.id].background }}>{TOOL_ART[tool.id].art}</span>
             <span className="thb-body">
               <span className="thb-name">{tool.title}</span>
@@ -93,7 +93,7 @@ export function ToolsHubBanner() {
         <ul className="thb-chips">
           {QUICK.map(({ id, label, icon: Icon }) => (
             <li key={id}>
-              <a className="thb-chip" href={'/tools#' + id} aria-label={TOOLS.find(t => t.id === id)?.title}>
+              <a className="thb-chip" href={toolHref(id)} aria-label={TOOLS.find(t => t.id === id)?.title}>
                 {Icon ? <Icon size={14} aria-hidden="true" /> : <span className="thb-won" aria-hidden="true">₩</span>}
                 <span className="notranslate" translate="no">{label}</span>
               </a>

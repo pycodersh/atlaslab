@@ -20,4 +20,21 @@ export const TOOLS: Tool[] = [
 /** /tools 허브의 노출 순서 — 여행 중 실제로 자주 여는 순서 */
 export const HUB_ORDER: ToolId[] = ['hotspot-finder', 'transit-guide', 'kpop-calendar', 'krw-converter', 'order-builder', 'weather', 'holiday-calendar', 'size-units', 'subway-timer', 'world-time']
 
-export const toolHref = (id: ToolId) => `/tools/${id}`
+/**
+ * 도구별 공개 주소(검색용 슬러그). 폴더 이름(app/tools/슬러그)과 같아야 한다.
+ * 2026-11-10 에 바꾼 옛 주소는 next.config.ts 에서 301 로 넘긴다.
+ */
+export const TOOL_SLUG: Record<ToolId, string> = {
+  'hotspot-finder': 'regional-hotspots',
+  'transit-guide': 'intercity-transit',
+  'kpop-calendar': 'kpop-calendar',
+  'krw-converter': 'krw-price-sense',
+  'order-builder': 'k-food-order-builder',
+  weather: 'korea-weather',
+  'holiday-calendar': 'korea-holidays',
+  'size-units': 'korea-size-converter',
+  'subway-timer': 'subway-timer',
+  'world-time': 'seoul-world-time',
+}
+
+export const toolHref = (id: ToolId) => `/tools/${TOOL_SLUG[id]}`
