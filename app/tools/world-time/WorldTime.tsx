@@ -42,7 +42,7 @@ function differenceLabel(zone: string, instant: number) {
 
 type Phase = 'night' | 'day' | 'evening'
 const phaseOf = (hour: number): Phase => hour < 7 ? 'night' : hour < 18 ? 'day' : 'evening'
-const BADGE: Record<Phase, string> = { night: '🌙 Sleeping', day: '☀️ Active / Call OK', evening: '🌆 Evening' }
+const BADGE: Record<Phase, string> = { night: 'Sleeping', day: 'Active / Call OK', evening: 'Evening' }
 
 function CityCard({ city, instant }: { city: typeof CITIES[number]; instant: number | null }) {
   const w = instant === null ? null : wall(city.zone, instant)
@@ -56,7 +56,7 @@ function CityCard({ city, instant }: { city: typeof CITIES[number]; instant: num
           <h2>{city.name}</h2>
           <p className="wt-sub notranslate" translate="no">{isBase ? 'Base city' : instant === null ? ' ' : differenceLabel(city.zone, instant)}</p>
         </div>
-        {w && <span key={phase} className="wt-badge">{BADGE[phase]}</span>}
+        {w && <span key={phase} className="wt-badge"><i aria-hidden="true" />{BADGE[phase]}</span>}
       </div>
       <p className="wt-time notranslate" translate="no">{w ? `${pad(w.hour)}:${pad(w.minute)}` : '--:--'}</p>
       <p className="wt-sub notranslate" translate="no">{date || ' '}</p>
@@ -107,10 +107,14 @@ export function WorldTime() {
         .wt-city h2 { margin: 0; font-size: 16px; font-weight: 700; line-height: 1.3; }
         .wt-sub { margin: 2px 0 0; font-size: 12px; color: #4B5563; }
         .is-night .wt-sub { color: #CBD5E1; }
-        .wt-badge { flex: none; padding: 4px 10px; border-radius: 999px; font-size: 12px; white-space: nowrap; }
-        .is-night .wt-badge { background: rgba(30,41,59,.8); color: #CBD5E1; }
-        .is-day .wt-badge { background: #D1FAE5; color: #065F46; font-weight: 600; }
-        .is-evening .wt-badge { background: #E0E7FF; color: #3730A3; }
+        .wt-badge { flex: none; display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
+        .wt-badge i { flex: none; width: 6px; height: 6px; border-radius: 50%; }
+        .is-night .wt-badge { color: #C7D2FE; }
+        .is-night .wt-badge i { background: #818CF8; }
+        .is-day .wt-badge { color: #047857; }
+        .is-day .wt-badge i { background: #10B981; }
+        .is-evening .wt-badge { color: #B45309; }
+        .is-evening .wt-badge i { background: #F59E0B; }
         .wt-time { margin: 14px 0 0; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 24px; font-weight: 700; letter-spacing: -.025em; line-height: 1.2; }
         @media (min-width: 640px) {
           .wt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
