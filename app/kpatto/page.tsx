@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
+import { FileDown, Play, RefreshCw, ShieldCheck } from 'lucide-react'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
 import {
   EBOOK_PAGES, PRICING_ANCHOR, PRODUCTS, SAMPLE_PATTERNS, SAMPLE_PDF_URL, TRY_APP_PATH,
@@ -145,7 +146,9 @@ export default function KPattoLandingPage() {
         .lp-free-card .lp-label { margin-bottom: 10px; color: ${RED}; }
         .lp-free-card h3 { font-family: ${SERIF}; font-size: 22px; line-height: 1.25; margin: 0 0 10px; font-weight: 700; }
         .lp-free-card p { font-size: 14.5px; line-height: 1.7; color: #4A4540; margin: 0 0 22px; flex: 1; }
-        .lp-free-card .lp-btn { width: 100%; min-width: 0; }
+        /* 좁은 화면 · 번역된 긴 문구에서 버튼 밖으로 넘치지 않게 줄을 바꾼다 */
+        .lp-free-card .lp-btn { width: 100%; min-width: 0; height: auto; min-height: 52px; padding: 12px 16px; line-height: 1.3; white-space: normal; }
+        .lp-free-card .lp-btn svg { flex: none; }
 
         /* 가격 3단 — 번들은 레드 테두리 + BEST VALUE 뱃지 */
         .lp-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
@@ -170,10 +173,12 @@ export default function KPattoLandingPage() {
         .lp .lp-plan .lp-buy:not(.lp-btn-primary):hover { background: ${INK}; color: #fff; }
 
         /* 보장 2칸 */
-        .lp-trust { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .lp-trust-item { background: #fff; border: 1px solid ${RULE}; padding: 24px; }
-        .lp-trust-item h3 { font-size: 16px; font-weight: 700; margin: 0 0 8px; display: flex; align-items: center; gap: 8px; }
-        .lp-trust-item p { font-size: 14px; line-height: 1.7; color: #4A4540; margin: 0; }
+        /* 상자 없이 배경 위에 아이콘 + 글만 둔다 */
+        .lp-trust { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding-top: 16px; }
+        .lp-trust-item { display: flex; align-items: flex-start; gap: 12px; }
+        .lp-trust-item svg { flex: none; margin-top: 2px; }
+        .lp-trust-item h3 { font-size: 16px; font-weight: 700; color: #0F172A; margin: 0; }
+        .lp-trust-item p { font-size: 14px; line-height: 1.625; color: #475569; margin: 4px 0 0; }
 
         @media (max-width: 900px) {
           .lp-show { grid-template-columns: 1fr; gap: 32px; }
@@ -211,12 +216,76 @@ export default function KPattoLandingPage() {
         </div>
       </section>
 
+      {/* ── Webtoon showcase — 실제 앱 화면 ── */}
+      <section className="lp-section">
+        <div className="lp-wrap">
+          <div className="lp-head"><p className="lp-label">The webtoon</p></div>
+          <div className="lp-show">
+            <div className="lp-show-text">
+              <h3>How real Koreans actually talk in everyday situations.</h3>
+              <p>
+                Follow one story through cafés, subways, and markets in Seoul. Every line is a sentence Koreans really use —
+                with the English right underneath and the pattern you&rsquo;re learning highlighted in the bubble.
+              </p>
+              <ul className="lp-points">
+                <li>100 full-color episodes, 300+ patterns</li>
+                <li>Native audio on every line — tap and listen</li>
+                <li>Switch Korean / English on and off as you improve</li>
+                <li>Review quizzes and a streak to keep you going</li>
+              </ul>
+            </div>
+            <figure style={{ margin: 0 }}>
+              <div className="lp-phones">
+                <div className="lp-phone">
+                  <img src={`${IMG}/webtoon-ep01-a.webp`} alt="K-PATTO app, Episode 1 'At the Café': a speech bubble in Korean with the English translation, under the KO, EN and audio buttons" width={780} height={1520} loading="lazy" />
+                </div>
+                <div className="lp-phone">
+                  <img src={`${IMG}/webtoon-ep01-b.webp`} alt="K-PATTO app: the pattern 뭐예요? highlighted inside a speech bubble, 'Excuse me, what is this?'" width={780} height={1520} loading="lazy" />
+                </div>
+              </div>
+              <figcaption className="lp-caption">Real screens from Episode 1 of the app.</figcaption>
+            </figure>
+          </div>
+
+          <div style={{ maxWidth: 640, marginTop: 52 }}>
+            <p className="lp-label" style={{ marginBottom: 6 }}>Sample audio</p>
+            <h3 style={{ fontFamily: SERIF, fontSize: 22, margin: '0 0 6px', fontWeight: 700 }}>Tap to listen</h3>
+            <p style={{ fontSize: 14.5, color: MUTED, margin: '0 0 16px' }}>Real audio from the app and the eBook.</p>
+            <SampleAudio samples={SAMPLES} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Try it free — 무료 체험 · 무료 샘플 ── */}
+      <section className="lp-section" style={{ paddingTop: 8 }}>
+        <div className="lp-wrap">
+          <div className="lp-head"><p className="lp-label">Try it free</p></div>
+          <div className="lp-free">
+            <div className="lp-free-card">
+              <p className="lp-label">Web app demo</p>
+              <h3>Read the first {FREE_EPISODES} episodes free</h3>
+              <p>Experience the first {FREE_EPISODES} episodes directly in your browser with synchronized native audio. No sign-up required.</p>
+              {/* 새 탭 — 랜딩을 떠나지 않게 */}
+              <a href={TRY_APP_PATH} target="_blank" rel="noopener noreferrer" className="lp-btn lp-btn-primary">
+                <Play size={16} fill="currentColor" aria-hidden="true" /><span>{`Launch Free Demo (${FREE_EPISODES} Episodes) →`}</span>
+              </a>
+            </div>
+            <div className="lp-free-card">
+              <p className="lp-label">eBook sample</p>
+              <h3>Download {SAMPLE_PATTERNS} patterns as a PDF</h3>
+              <p>Download a {SAMPLE_PAGES}-page printable PDF containing the top {SAMPLE_PATTERNS} core patterns and grammar points.</p>
+              <a href={SAMPLE_PDF_URL} download className="lp-btn lp-btn-outline"><FileDown size={16} strokeWidth={2} aria-hidden="true" />Download Free Sample PDF</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── How Korean works — 패턴 중심 학습 + TOPIK 단계 ── */}
-      <section id="inside" className="lp-section">
+      <section id="inside" className="lp-section" style={{ paddingTop: 8 }}>
         <div className="lp-wrap">
           <div className="lp-head"><p className="lp-label">How Korean actually works</p></div>
           <div className="lp-justify" lang="en">
-            <h2 className="lp-h2">Korean is a Language of Patterns — Not Endless Memorization</h2>
+            <h2 className="lp-h2">From Story to Fluency: How 100 Episodes Get You to Level 3</h2>
             {/* 근거 없는 수치("서울 일상 대화의 80%")는 쓰지 않는다 — 주장은 살리고 숫자는 뺀다 */}
             <p className="lp-body-text" style={{ marginBottom: 18 }}>
               Unlike English, spoken Korean relies heavily on combining core sentence frames with interchangeable words. A native
@@ -266,46 +335,6 @@ export default function KPattoLandingPage() {
         </div>
       </section>
 
-      {/* ── Webtoon showcase — 실제 앱 화면 ── */}
-      <section className="lp-section" style={{ paddingTop: 8 }}>
-        <div className="lp-wrap">
-          <div className="lp-head"><p className="lp-label">The webtoon</p></div>
-          <div className="lp-show">
-            <div className="lp-show-text">
-              <h3>How real Koreans actually talk in everyday situations.</h3>
-              <p>
-                Follow one story through cafés, subways, and markets in Seoul. Every line is a sentence Koreans really use —
-                with the English right underneath and the pattern you&rsquo;re learning highlighted in the bubble.
-              </p>
-              <ul className="lp-points">
-                <li>100 full-color episodes, 300+ patterns</li>
-                <li>Native audio on every line — tap and listen</li>
-                <li>Switch Korean / English on and off as you improve</li>
-                <li>Review quizzes and a streak to keep you going</li>
-              </ul>
-            </div>
-            <figure style={{ margin: 0 }}>
-              <div className="lp-phones">
-                <div className="lp-phone">
-                  <img src={`${IMG}/webtoon-ep01-a.webp`} alt="K-PATTO app, Episode 1 'At the Café': a speech bubble in Korean with the English translation, under the KO, EN and audio buttons" width={780} height={1520} loading="lazy" />
-                </div>
-                <div className="lp-phone">
-                  <img src={`${IMG}/webtoon-ep01-b.webp`} alt="K-PATTO app: the pattern 뭐예요? highlighted inside a speech bubble, 'Excuse me, what is this?'" width={780} height={1520} loading="lazy" />
-                </div>
-              </div>
-              <figcaption className="lp-caption">Real screens from Episode 1 of the app.</figcaption>
-            </figure>
-          </div>
-
-          <div style={{ maxWidth: 640, marginTop: 52 }}>
-            <p className="lp-label" style={{ marginBottom: 6 }}>Sample audio</p>
-            <h3 style={{ fontFamily: SERIF, fontSize: 22, margin: '0 0 6px', fontWeight: 700 }}>Tap to listen</h3>
-            <p style={{ fontSize: 14.5, color: MUTED, margin: '0 0 16px' }}>Real audio from the app and the eBook.</p>
-            <SampleAudio samples={SAMPLES} />
-          </div>
-        </div>
-      </section>
-
       {/* ── eBook preview — 실제 PDF 페이지 ── */}
       <section className="lp-section" style={{ paddingTop: 8 }}>
         <div className="lp-wrap">
@@ -331,30 +360,6 @@ export default function KPattoLandingPage() {
               </div>
               <figcaption className="lp-caption">Actual pages from the {EBOOK_PAGES}-page eBook.</figcaption>
             </figure>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Try it free — 무료 체험 · 무료 샘플 ── */}
-      <section className="lp-section" style={{ paddingTop: 8 }}>
-        <div className="lp-wrap">
-          <div className="lp-head"><p className="lp-label">Try it free</p></div>
-          <div className="lp-free">
-            <div className="lp-free-card">
-              <p className="lp-label">Web app demo</p>
-              <h3>Read the first {FREE_EPISODES} episodes free</h3>
-              <p>Experience the first {FREE_EPISODES} episodes directly in your browser with synchronized native audio. No sign-up required.</p>
-              {/* 새 탭 — 랜딩을 떠나지 않게 */}
-              <a href={TRY_APP_PATH} target="_blank" rel="noopener noreferrer" className="lp-btn lp-btn-primary">
-                🚀 Launch Free Demo ({FREE_EPISODES} Episodes) →
-              </a>
-            </div>
-            <div className="lp-free-card">
-              <p className="lp-label">eBook sample</p>
-              <h3>Download {SAMPLE_PATTERNS} patterns as a PDF</h3>
-              <p>Download a {SAMPLE_PAGES}-page printable PDF containing the top {SAMPLE_PATTERNS} core patterns and grammar points.</p>
-              <a href={SAMPLE_PDF_URL} download className="lp-btn lp-btn-outline">📥 Download Free Sample PDF</a>
-            </div>
           </div>
         </div>
       </section>
@@ -401,12 +406,18 @@ export default function KPattoLandingPage() {
           <div className="lp-head"><p className="lp-label">Buy with confidence</p></div>
           <div className="lp-trust">
             <div className="lp-trust-item">
-              <h3><span aria-hidden>🔒</span> 14-Day Money-Back Guarantee</h3>
-              <p>Not happy with it? Email us within 14 days of purchase for a 100% full refund.</p>
+              <ShieldCheck size={20} color="#059669" aria-hidden="true" />
+              <div>
+                <h3>14-Day Money-Back Guarantee</h3>
+                <p>Not happy with it? Email us within 14 days of purchase for a 100% full refund.</p>
+              </div>
             </div>
             <div className="lp-trust-item">
-              <h3><span aria-hidden>💡</span> Fair Upgrade Guarantee</h3>
-              <p>Bought the $14.99 eBook first? Upgrade to the Complete Bundle anytime by paying just the $10 difference. You will never pay more than the bundle price.</p>
+              <RefreshCw size={20} color="#2563EB" aria-hidden="true" />
+              <div>
+                <h3>Fair Upgrade Guarantee</h3>
+                <p>Bought the $14.99 eBook first? Upgrade to the Complete Bundle anytime by paying just the $10 difference. You will never pay more than the bundle price.</p>
+              </div>
             </div>
           </div>
         </div>
