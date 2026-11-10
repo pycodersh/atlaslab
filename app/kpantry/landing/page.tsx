@@ -1,6 +1,16 @@
 import type { Metadata } from 'next'
 import { SiteNav } from '@/components/SiteNav'
 import { SiteFooter } from '@/components/SiteFooter'
+import { FREE_RECIPE_SLUGS, TOTAL_RECIPES } from '@/lib/kpantry/access'
+import {
+  KPANTRY_CHECKOUT_URL,
+  KPANTRY_LIST_PRICE,
+  KPANTRY_PRICE,
+  KPANTRY_PRODUCT_NAME,
+  LIFETIME_BENEFITS,
+  REFUND_DAYS,
+} from '@/lib/kpantry/purchase'
+import UnlockLink from './UnlockLink'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 const CANONICAL = `${SITE}/kpantry/landing`
@@ -23,7 +33,8 @@ export const metadata: Metadata = {
  * 문구는 실물과 맞춘다: 레시피 103개 · 재료 95개(pantry_recipes · pantry_ingredients),
  * 영양은 kcal · 단백질 · 탄수화물 · 지방, 재료는 Essential / Recommended / Optional 세 단계.
  * '+1 · +2 재료' 결과는 Pro 기능(lib/kpantry/subscription.ts 의 pantry_plus1/2)이라 Pro 로 표시한다.
- * 가격은 결제 연동을 확인하지 못해 적지 않는다.
+ * 가격 카드는 /kpatto 랜딩의 가격 3단과 같은 구조다(에디션 라벨 · 큰 가격 · One-time · For · 체크 목록 · 버튼).
+ * 가격·결제 링크·혜택은 lib/kpantry/purchase.ts 한 곳에서 읽는다 — 모달과 랜딩 문구가 어긋나지 않게.
  */
 
 const SERIF = '"Playfair Display", Georgia, serif'
@@ -119,16 +130,28 @@ export default function KPantryLandingPage() {
         .lp-tier h4 { font-size: 15px; font-weight: 700; margin: 0 0 4px; }
         .lp-tier p { font-size: 13.5px; line-height: 1.6; color: ${MUTED}; margin: 0; }
 
-        /* 무료 · Pro */
-        .lp-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .lp-plan { background: #fff; border: 1px solid ${RULE}; padding: 28px 26px; display: flex; flex-direction: column; }
-        .lp-plan--pro { border: 2px solid ${INK}; }
-        .lp-plan h3 { font-family: ${SERIF}; font-size: 22px; line-height: 1.25; margin: 0 0 6px; font-weight: 700; }
-        .lp-plan-sub { font-size: 13.5px; color: ${MUTED}; margin: 0 0 18px; }
+        /* 무료 · Pro — /kpatto 가격 카드와 같은 구조. Pro 는 레드 테두리 + 뱃지 */
+        .lp-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: stretch; }
+        .lp-plan { position: relative; background: #fff; border: 1px solid ${RULE}; padding: 30px 24px 26px; display: flex; flex-direction: column; }
+        .lp-plan--featured { border: 2px solid ${RED}; box-shadow: 0 10px 30px rgba(200,16,46,.10); }
+        .lp-badge { position: absolute; top: -12px; left: 24px; background: ${RED}; color: #fff; font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 5px 10px; border-radius: 4px; }
+        .lp-plan-ed { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: ${MUTED}; margin: 0 0 6px; }
+        .lp-plan h3 { font-family: ${SERIF}; font-size: 21px; line-height: 1.25; margin: 0 0 16px; font-weight: 700; }
+        .lp-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; margin: 0 0 4px; }
+        .lp-price-now { font-family: ${SERIF}; font-size: 40px; font-weight: 700; line-height: 1; letter-spacing: -.02em; }
+        .lp-plan--featured .lp-price-now { color: ${RED}; }
+        .lp-price-was { font-size: 15px; color: #A8A39C; text-decoration: line-through; }
+        .lp-price-save { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: ${RED}; }
+        .lp-once { font-size: 12.5px; color: ${MUTED}; margin: 0 0 18px; }
+        .lp-for { font-size: 13.5px; color: ${INK}; font-weight: 600; margin: 0 0 14px; padding-top: 14px; border-top: 1px solid ${RULE}; }
         .lp-list { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 9px; flex: 1; }
         .lp-list li { position: relative; padding-left: 22px; font-size: 14px; line-height: 1.5; color: #444; }
         .lp-list li::before { content: ''; position: absolute; left: 2px; top: 6px; width: 10px; height: 6px; border-left: 2px solid ${RED}; border-bottom: 2px solid ${RED}; transform: rotate(-45deg); }
-        .lp-plan .lp-btn { width: 100%; min-width: 0; }
+        .lp-plan .lp-btn { width: 100%; min-width: 0; height: 50px; font-size: 14.5px; }
+        .lp-plan .lp-btn:not(.lp-btn-primary) { background: transparent; border-color: ${INK}; color: ${INK}; }
+        .lp-plan .lp-btn:not(.lp-btn-primary):hover { background: ${INK}; color: #fff; }
+        .lp-plan .lp-btn[aria-disabled='true'] { opacity: .45; pointer-events: none; }
+        .lp-plan-note { font-size: 12.5px; color: ${MUTED}; text-align: center; margin: 10px 0 0; }
 
         /* 고정 'Launch App' — PC 는 오른쪽 아래 알약, 모바일은 아래 띠 */
         .lp-sticky { position: fixed; right: 24px; bottom: 24px; z-index: 50; }
@@ -148,7 +171,7 @@ export default function KPantryLandingPage() {
           .lp-h2 { font-size: 26px; }
           .lp-btn { width: 100%; min-width: 0; }
           .lp-hero-btns { flex-direction: column; }
-          .lp-plans { grid-template-columns: 1fr; }
+          .lp-plans { grid-template-columns: 1fr; gap: 28px; }
           .lp-phone { border-radius: 22px; padding: 6px; }
           .lp-phone img { border-radius: 17px; }
           .lp-phone:nth-child(2) { margin-top: 32px; }
@@ -295,36 +318,58 @@ export default function KPantryLandingPage() {
         </div>
       </section>
 
-      {/* ── Free · Pro ── */}
-      <section className="lp-section" style={{ paddingTop: 8 }}>
+      {/* ── Pricing: Free · Pro ── */}
+      <section id="pricing" className="lp-section" style={{ paddingTop: 8, scrollMarginTop: 72 }}>
         <div className="lp-wrap">
-          <div className="lp-head"><p className="lp-label">Start free</p></div>
-          <h2 className="lp-h2">Start cooking free, upgrade when you want more</h2>
-          <p className="lp-lead">No sign-up needed to browse recipes. Open the web app in your browser on any phone or computer.</p>
+          <div className="lp-head"><p className="lp-label">Pricing</p></div>
+          <h2 className="lp-h2">Start free, unlock every recipe once</h2>
+          <p className="lp-lead">
+            One-time payment, lifetime access. No subscription. After checkout, use the order number or email on your Gumroad
+            receipt —{' '}
+            <UnlockLink style={{ color: INK, fontWeight: 600 }}>already bought? Unlock the app here</UnlockLink>.
+          </p>
           <div className="lp-plans">
             <div className="lp-plan">
-              <p className="lp-label" style={{ color: RED, marginBottom: 10 }}>Free</p>
-              <h3>Everything you need to cook tonight</h3>
-              <p className="lp-plan-sub">Open the app and start.</p>
+              <p className="lp-plan-ed">Free</p>
+              <h3>Cook tonight, no sign-up</h3>
+              <p className="lp-price notranslate" translate="no">
+                <span className="lp-price-now">$0</span>
+              </p>
+              <p className="lp-once">Free forever · Works in any browser</p>
+              <p className="lp-for">For: trying Korean cooking at home</p>
               <ul className="lp-list">
-                <li>All {RECIPES} recipes with step-by-step guides</li>
-                <li>Nutrition per serving on every recipe</li>
+                <li>{FREE_RECIPE_SLUGS.size} full recipes with step-by-step photo guides</li>
+                <li>Browse all {TOTAL_RECIPES} recipes with time, calories and nutrition</li>
                 <li>Recipes you can cook with what you have</li>
                 <li>&ldquo;I want to cook&rdquo; dish picker</li>
               </ul>
-              <LaunchButton />
+              <LaunchButton className="lp-btn" />
             </div>
-            <div className="lp-plan lp-plan--pro">
-              <p className="lp-label" style={{ color: INK, marginBottom: 10 }}>K-Pantry Pro</p>
-              <h3>For cooking Korean every week</h3>
-              <p className="lp-plan-sub">Unlock inside the app.</p>
+            <div className="lp-plan lp-plan--featured">
+              <span className="lp-badge">Launch price</span>
+              <p className="lp-plan-ed">K-Pantry Pro</p>
+              <h3>{KPANTRY_PRODUCT_NAME}</h3>
+              <p className="lp-price notranslate" translate="no">
+                <span className="lp-price-now">{KPANTRY_PRICE}</span>
+                <span className="lp-price-was"><span className="sr-only">Regular price </span>{KPANTRY_LIST_PRICE}</span>
+              </p>
+              <p className="lp-once">One-time · Lifetime access</p>
+              <p className="lp-for">For: cooking Korean every week</p>
               <ul className="lp-list">
-                <li>+1 and +2 ingredient suggestions</li>
-                <li>Shopping list for missing ingredients</li>
-                <li>Save your pantry and unlimited favorite recipes</li>
-                <li>Find stores for Korean ingredients</li>
+                {LIFETIME_BENEFITS.map(b => <li key={b}>{b}</li>)}
               </ul>
-              <LaunchButton className="lp-btn" label="Open the app to upgrade ↗" />
+              {KPANTRY_CHECKOUT_URL ? (
+                <a href={KPANTRY_CHECKOUT_URL} target="_blank" rel="noopener noreferrer" className="lp-btn lp-btn-primary">
+                  <span translate="no" className="notranslate">Get K-Pantry Pro &mdash; {KPANTRY_PRICE}</span> ↗
+                </a>
+              ) : (
+                // 결제 링크가 없으면(로컬 등) 누를 수 없는 버튼으로만 둔다
+                <span className="lp-btn lp-btn-primary notranslate" aria-disabled="true" translate="no">Get K-Pantry Pro &mdash; {KPANTRY_PRICE}</span>
+              )}
+              <p className="lp-plan-note">
+                {REFUND_DAYS}-day money-back guarantee ·{' '}
+                <a href={`${APP}/refund`} style={{ color: MUTED, textUnderlineOffset: 3 }}>Refund policy</a>
+              </p>
             </div>
           </div>
           <div className="lp-end-pad" />
