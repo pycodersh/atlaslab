@@ -25,6 +25,12 @@ function bookingFor(mode: TransitMode, departure: string, arrival: string) {
 }
 
 const MODE_ICON: Partial<Record<TransitMode['kind'], LucideIcon>> = { train: TrainFront, flight: Plane, bus: Bus }
+// 교통수단 테마 [아이콘 배경, 아이콘, 제목]
+const MODE_THEME: Partial<Record<TransitMode['kind'], [string, string, string]>> = {
+  train: ['#EFF6FF', '#2563EB', '#172554'],
+  flight: ['#F0F9FF', '#0284C7', '#082F49'],
+  bus: ['#FFFBEB', '#D97706', '#451A03'],
+}
 
 /** 방향에 맞춰 허브를 뒤집어 읽는다 — 팁은 언제나 내리는 허브의 것이다 */
 function ModeCard({ mode, reversed, verdict }: { mode: TransitMode; reversed: boolean; verdict: string }) {
@@ -38,7 +44,7 @@ function ModeCard({ mode, reversed, verdict }: { mode: TransitMode; reversed: bo
     <article className={`tg-mode${verdict === 'Best Choice' ? ' is-best' : ''}`}>
       <div className="tg-mode-head">
         <p className="tg-verdict">{verdict}</p>
-        <h3 className="tg-mode-name">{Icon && <Icon size={20} aria-hidden="true" />}{mode.name}</h3>
+        <h3 className="tg-mode-name" style={{ color: MODE_THEME[mode.kind]?.[2] }}>{Icon && <span className="tg-mode-icon" style={{ background: MODE_THEME[mode.kind]?.[0], color: MODE_THEME[mode.kind]?.[1] }}><Icon size={16} aria-hidden="true" /></span>}{mode.name}</h3>
       </div>
       <dl className="tg-stats">
         <div><dt>Duration</dt>
@@ -126,12 +132,12 @@ export function TransitGuide() {
         .tg-mode-head { margin-bottom: 14px; }
         .tg-verdict { min-height: 20px; font-size: 11px; font-weight: 700; line-height: 20px; letter-spacing: .1em; text-transform: uppercase; color: #C8102E; margin: 0 0 4px; }
         .tg-mode-name { display: flex; align-items: center; gap: 8px; font-size: 18px; font-weight: 700; color: #111827; margin: 0; }
-        .tg-mode-name svg { flex: none; color: #1E293B; }
+        .tg-mode-icon { flex: none; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 8px; }
         .tg-stats, .tg-hubs { margin: 0; }
         .tg-stats dt, .tg-hubs dt { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: #64748B; margin-bottom: 2px; }
         .tg-stats dd, .tg-hubs dd { margin: 0; }
-        .tg-duration { font-size: 14px; font-weight: 700; line-height: 1.4; color: #1E293B; }
-        .tg-note-line { display: block; font-size: 12px; font-weight: 400; color: #64748B; }
+        .tg-duration { font-size: 16px; font-weight: 800; line-height: 1.35; letter-spacing: -.01em; color: #0F172A; }
+        .tg-note-line { display: block; margin-top: 2px; font-size: 12px; font-weight: 400; letter-spacing: 0; color: #64748B; }
         .tg-via { display: block; color: #B45309; font-weight: 600; font-size: 12px; }
         .tg-stats .tg-fare-label { margin-top: 12px; }
         .tg-fare { font-size: 16px; font-weight: 800; line-height: 1.35; color: #2563EB; }
