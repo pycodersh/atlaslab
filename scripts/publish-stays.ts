@@ -42,6 +42,8 @@ async function main() {
       title: String(data.title),
       description: String(data.description ?? ''),
       content: content.trim(),
+      // featured_image 가 업로드된 URL(scripts/upload-stay-images.ts)이면 카드 · 상단 썸네일로 쓴다. 아니면 DB 값을 건드리지 않는다
+      ...(/^https?:\/\//.test(String(data.featured_image ?? '')) ? { thumbnail: String(data.featured_image) } : {}),
     }
   }).filter(p => !only.length || only.includes(p.slug))
 
