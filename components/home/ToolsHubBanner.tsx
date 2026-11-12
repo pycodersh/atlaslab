@@ -1,7 +1,7 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { TOOLS, toolHref, type ToolId } from '@/app/tools/toolList'
 import { TOOL_ART } from '@/app/tools/toolArt'
-import { CalendarDays, CloudSun, Globe, Ruler, Timer, UtensilsCrossed, type LucideIcon } from 'lucide-react'
+import { ToolIcon } from '@/app/tools/toolIcons'
 
 const FEATURED: { id: ToolId; title: string; desc: string }[] = [
   {
@@ -18,15 +18,16 @@ const FEATURED: { id: ToolId; title: string; desc: string }[] = [
   },
 ]
 
-/** 대표 카드에 없는 7개 도구 — 칩을 누르면 허브에서 그 도구가 바로 열린다 */
-const QUICK: { id: ToolId; label: string; icon: LucideIcon | null }[] = [
-  { id: 'krw-converter', label: 'KRW Calc', icon: null },
-  { id: 'order-builder', label: 'K-Food', icon: UtensilsCrossed },
-  { id: 'weather', label: 'Weather', icon: CloudSun },
-  { id: 'holiday-calendar', label: 'Holidays', icon: CalendarDays },
-  { id: 'size-units', label: 'Size & Units', icon: Ruler },
-  { id: 'subway-timer', label: 'Subway 15m', icon: Timer },
-  { id: 'world-time', label: 'World Time', icon: Globe },
+/** 대표 카드에 없는 7개 도구 — 4열 × 2행 미니 카드(마지막 8번째 칸은 All Tools). 부제는 3~4단어.
+ *  환율은 하루 한 번 갱신이라 'Live' 라 쓰지 않는다(toolList 의 같은 규칙) */
+const QUICK: { id: ToolId; label: string; sub: string }[] = [
+  { id: 'krw-converter', label: 'KRW Calc', sub: 'Daily-rate converter' },
+  { id: 'order-builder', label: 'K-Food', sub: 'Polite ordering phrases' },
+  { id: 'weather', label: 'Weather', sub: '7-day city forecasts' },
+  { id: 'holiday-calendar', label: 'Holidays', sub: 'Holiday & peak dates' },
+  { id: 'size-units', label: 'Size & Units', sub: 'Shoe & clothing sizes' },
+  { id: 'subway-timer', label: 'Subway 15m', sub: 'Free re-entry timer' },
+  { id: 'world-time', label: 'World Time', sub: 'Seoul vs home time' },
 ]
 
 /**
@@ -48,16 +49,21 @@ export function ToolsHubBanner() {
         .thb-name { font-family: "Playfair Display", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.25; color: #111827; margin-bottom: 8px; }
         .thb-desc { font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.55; color: #4B5563; }
         .thb-arrow { display: none; }
-        .thb-strip { display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 12px 12px 12px 16px; border: 1px solid #E5E7EB; border-radius: 16px; background: #F9FAFB; }
-        .thb-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; flex: 1; min-width: 0; margin: 0; padding: 0; list-style: none; }
-        .thb-chip { display: flex; flex-shrink: 0; align-items: center; gap: 6px; height: 36px; padding: 0 12px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 999px; background: #fff; color: #334155; text-decoration: none; white-space: nowrap; font: 500 12px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
-        .thb-chip svg { flex: none; color: #64748B; }
-        .thb-won { width: 14px; text-align: center; font-size: 13px; font-weight: 700; color: #64748B; }
-        .thb-chip:active { background: #F1F5F9; }
-        @media (hover: hover) { .thb-chip:hover { border-color: #94A3B8; } }
-        .thb-chip:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
-        .thb-cta { flex: none; display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 10px 16px; box-sizing: border-box; border-radius: 12px; background: #000; color: #fff; font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 14px; font-weight: 700; text-decoration: none; white-space: nowrap; }
-        .thb-card:focus-visible, .thb-cta:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        /* 나머지 7개 도구 + All Tools — 위 3열 카드와 같은 폭의 4열 × 2행(폰 2열) 미니 카드 */
+        .thb-mini { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 16px 0 0; padding: 0; list-style: none; }
+        @media (min-width: 768px) { .thb-mini { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+        .thb-mini-card { display: flex; flex-direction: column; gap: 4px; height: 100%; box-sizing: border-box; padding: 14px;
+          background: #fff; border: 1px solid rgba(231,229,228,.9); border-radius: 12px; color: #1C1917; text-decoration: none;
+          font-family: "DM Sans", Inter, system-ui, sans-serif; transition: border-color .15s, box-shadow .15s, background-color .15s; }
+        @media (hover: hover) { .thb-mini-card:hover { border-color: #A8A29E; box-shadow: 0 1px 2px rgba(0,0,0,.05); } }
+        .thb-mini-top { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; line-height: 1.3; }
+        .thb-mini-top svg, .thb-mini-top .thb-mini-ic { flex: none; color: #78716C; }
+        .thb-mini-sub { font-size: 12px; line-height: 1.4; color: #78716C; }
+        .thb-mini-all { justify-content: center; background: #1C1917; border-color: #1C1917; color: #fff; }
+        @media (hover: hover) { .thb-mini-all:hover { background: #292524; border-color: #292524; } }
+        .thb-mini-all .thb-mini-top { font-size: 14px; }
+        .thb-mini-all .thb-mini-sub { color: #D6D3D1; }
+        .thb-card:focus-visible, .thb-mini-card:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         @media (max-width: 767px) {
           /* 폰은 /tools 허브 같은 가로 줄 — 글자 크기는 바로 위 Travel & Life 카드(.gw-*)와 맞춘다 */
           .thb-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
@@ -67,10 +73,6 @@ export function ToolsHubBanner() {
           .thb-name { font-size: 18px; margin-bottom: 3px; }
           .thb-desc { font-size: 14px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
           .thb-arrow { display: block; flex: none; font-size: 14px; line-height: 1; color: #9CA3AF; }
-          /* 폰은 칩을 한 줄로 가로 스크롤 — 화면 끝까지 붙여 다음 칩이 걸쳐 보이게 한다 */
-          .thb-strip { flex-direction: column; align-items: stretch; padding: 12px 0; border: 0; background: none; }
-          .thb-chips { flex-wrap: nowrap; overflow-x: auto; margin: 0 -16px; padding: 4px 16px; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
-          .thb-chips::-webkit-scrollbar { display: none; }
         }
       `}</style>
 
@@ -89,18 +91,26 @@ export function ToolsHubBanner() {
         ))}
       </div>
 
-      <nav className="thb-strip" aria-label="More travel tools">
-        <ul className="thb-chips">
-          {QUICK.map(({ id, label, icon: Icon }) => (
+      <nav aria-label="More travel tools">
+        <ul className="thb-mini">
+          {QUICK.map(({ id, label, sub }) => (
             <li key={id}>
-              <a className="thb-chip" href={toolHref(id)} aria-label={TOOLS.find(t => t.id === id)?.title}>
-                {Icon ? <Icon size={14} aria-hidden="true" /> : <span className="thb-won" aria-hidden="true">₩</span>}
-                <span className="notranslate" translate="no">{label}</span>
+              <a className="thb-mini-card" href={toolHref(id)} aria-label={TOOLS.find(t => t.id === id)?.title}>
+                <span className="thb-mini-top">
+                  <ToolIcon id={id} size={16} className="thb-mini-ic" />
+                  <span className="notranslate" translate="no">{label}</span>
+                </span>
+                <span className="thb-mini-sub">{sub}</span>
               </a>
             </li>
           ))}
+          <li>
+            <a className="thb-mini-card thb-mini-all" href="/tools">
+              <span className="thb-mini-top">All Tools ({TOOLS.length}) →</span>
+              <span className="thb-mini-sub">Browse every travel tool</span>
+            </a>
+          </li>
         </ul>
-        <a className="thb-cta" href="/tools">All Tools ({TOOLS.length}) →</a>
       </nav>
     </section>
   )

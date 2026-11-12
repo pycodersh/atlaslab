@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import { MoreTools } from '../MoreTools'
+import { WidgetActionChips } from '../WidgetActionChips'
 import { ToolFaq, type FaqItem } from '../ToolFaq'
 import { KrwConverter } from './KrwConverter'
 import { loadRates } from './rates'
@@ -33,6 +34,7 @@ export default async function Page() {
       <h1 className="tl-h1">Korean Won (KRW) Price Sense &amp; Daily Travel Benchmark</h1>
       <p className="tl-lead">Convert Korean Won to your currency and see what that amount buys in Korea.</p>
       <KrwConverter rates={rates} updated={updated} />
+      <WidgetActionChips tool="krw-converter" />
       <ToolFaq items={FAQ} />
       <MoreTools current="/tools/krw-price-sense" />
     </div>

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import { MoreTools } from '../MoreTools'
+import { WidgetActionChips } from '../WidgetActionChips'
 import { ToolFaq, type FaqItem } from '../ToolFaq'
 import { TransitGuide } from './TransitGuide'
 
@@ -28,6 +29,7 @@ export default function Page() {
       <h1 className="tl-h1">Korea Intercity Transit &amp; Route Comparison Guide</h1>
       <p className="tl-lead">Find the fastest and cheapest ways to travel between major Korean cities.</p>
       <TransitGuide />
+      <WidgetActionChips tool="transit-guide" />
       <ToolFaq items={FAQ} />
       <MoreTools current="/tools/intercity-transit" />
     </div>

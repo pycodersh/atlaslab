@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import { MoreTools } from '../MoreTools'
+import { WidgetActionChips } from '../WidgetActionChips'
 import { ToolFaq, type FaqItem } from '../ToolFaq'
 import { WorldTime } from './WorldTime'
 
@@ -28,6 +29,7 @@ export default function Page() {
       <h1 className="tl-h1">Seoul vs World Time Comparison</h1>
       <p className="tl-lead">See when to call home. Works offline, right in your browser.</p>
       <WorldTime />
+      <WidgetActionChips tool="world-time" />
       <ToolFaq items={FAQ} />
       <MoreTools current="/tools/seoul-world-time" />
     </div>

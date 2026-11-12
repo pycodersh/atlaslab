@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import { MoreTools } from '../MoreTools'
+import { WidgetActionChips } from '../WidgetActionChips'
 import { ToolFaq, type FaqItem } from '../ToolFaq'
 import { WeatherForecast } from './WeatherForecast'
 
@@ -28,6 +29,7 @@ export default function Page() {
       <h1 className="tl-h1">Korea 7-Day Weather &amp; Clothing Advice</h1>
       <p className="tl-lead">Check the weather across Korea and what to wear today.</p>
       <WeatherForecast />
+      <WidgetActionChips tool="weather" />
       <ToolFaq items={FAQ} />
       <MoreTools current="/tools/korea-weather" />
     </div>

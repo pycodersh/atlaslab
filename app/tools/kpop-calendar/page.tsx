@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import { MoreTools } from '../MoreTools'
+import { WidgetActionChips } from '../WidgetActionChips'
 import { ToolFaq, type FaqItem } from '../ToolFaq'
 import { KpopCalendar } from './KpopCalendar'
 
@@ -28,6 +29,7 @@ export default function Page() {
       <h1 className="tl-h1">K-Pop Concerts &amp; Arena Venue Guide</h1>
       <p className="tl-lead">Upcoming concerts in Korea, with global ticketing links and arena guides.</p>
       <KpopCalendar />
+      <WidgetActionChips tool="kpop-calendar" />
       <ToolFaq items={FAQ} />
       <MoreTools current="/tools/kpop-calendar" />
     </div>

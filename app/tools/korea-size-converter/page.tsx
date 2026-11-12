@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import { MoreTools } from '../MoreTools'
+import { WidgetActionChips } from '../WidgetActionChips'
 import { ToolFaq, type FaqItem } from '../ToolFaq'
 import { KoreaUnitsModal } from './KoreaUnitsModal'
 
@@ -28,6 +29,7 @@ export default function Page() {
       <h1 className="tl-h1">Korea Size &amp; Travel Units Converter</h1>
       <p className="tl-lead">Shoes, clothes, meat portions and room sizes, converted in a second.</p>
       <KoreaUnitsModal />
+      <WidgetActionChips tool="size-units" />
       <ToolFaq items={FAQ} />
       <MoreTools current="/tools/korea-size-converter" />
     </div>

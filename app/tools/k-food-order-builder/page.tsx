@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import { MoreTools } from '../MoreTools'
+import { WidgetActionChips } from '../WidgetActionChips'
 import { ToolFaq, type FaqItem } from '../ToolFaq'
 import { OrderBuilder } from './OrderBuilder'
 
@@ -28,6 +29,7 @@ export default function Page() {
       <h1 className="tl-h1">Korean Restaurant Ordering Phrase Builder</h1>
       <p className="tl-lead">Pick your dishes and requests, then show the Korean to the staff.</p>
       <OrderBuilder />
+      <WidgetActionChips tool="order-builder" />
       <ToolFaq items={FAQ} />
       <MoreTools current="/tools/k-food-order-builder" />
     </div>

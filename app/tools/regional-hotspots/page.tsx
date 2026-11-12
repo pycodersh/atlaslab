@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import { MoreTools } from '../MoreTools'
+import { WidgetActionChips } from '../WidgetActionChips'
 import { ToolFaq, type FaqItem } from '../ToolFaq'
 import { HotspotFinder } from './HotspotFinder'
 
@@ -28,6 +29,7 @@ export default function Page() {
       <h1 className="tl-h1">Korea Regional Hotspots &amp; Walking Clusters</h1>
       <p className="tl-lead">24 spots across 6 Seoul areas, plus the places worth the trip in 10 regional cities.</p>
       <HotspotFinder />
+      <WidgetActionChips tool="hotspot-finder" />
       <ToolFaq items={FAQ} />
       <MoreTools current="/tools/regional-hotspots" />
     </div>

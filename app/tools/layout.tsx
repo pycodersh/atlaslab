@@ -32,10 +32,6 @@ export default function ToolsLayout({ children }: { children: React.ReactNode })
         }
         .tl-note { font-size: 13px; line-height: 1.6; color: #6B7280; margin: 0; }
         .tl-note a { color: #C8102E; }
-        .tl-more { display: flex; flex-wrap: wrap; gap: 8px 20px; align-items: center; margin-top: 32px; padding-top: 20px; border-top: 1px solid #E5E7EB; font-size: 14px; }
-        .tl-more-label { font-weight: 700; }
-        .tl-more a { color: #C8102E; text-decoration: none; font-weight: 500; }
-        @media (hover: hover) { .tl-more a:hover { text-decoration: underline; } }
         @media (max-width: 767px) {
           .tl-wrap { padding: 28px 20px 56px; }
           .tl-h1 { font-size: 28px; }

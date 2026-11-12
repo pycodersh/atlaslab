@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import { MoreTools } from '../MoreTools'
+import { WidgetActionChips } from '../WidgetActionChips'
 import { ToolFaq, type FaqItem } from '../ToolFaq'
 import { SubwayTimer } from './SubwayTimer'
 import { SubwayRules } from './SubwayRules'
@@ -32,6 +33,8 @@ export default function Page() {
       <SubwayTimer />
 
       <SubwayRules />
+
+      <WidgetActionChips tool="subway-timer" />
 
       <ToolFaq items={FAQ} />
       <MoreTools current="/tools/subway-timer" />
