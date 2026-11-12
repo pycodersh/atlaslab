@@ -201,13 +201,7 @@ Curated by Hyundai Department Store Group, **Le Space** is Korea’s largest int
 <figcaption>Le Space: an immersive projection room with a glowing sphere</figcaption>
 </figure>
 
-<div className="tip-box">
-
-**Day-Trip & Layover Visitor Pass:** Splash Bay is currently reserved exclusively for overnight hotel guests (check room packages that include pool access), whereas Le Space is open to all day-trip and layover visitors. Pre-book a Le Space pass online to skip the ticket line.
-
-<a href="https://www.klook.com/en-US/search/result/?query=Le%20Space%20INSPIRE&aid=138930" target="_blank" rel="nofollow sponsored noopener" className="cta-btn">Book Le Space INSPIRE Tickets on Klook →</a>
-
-</div>
+<ActivityCard href="https://www.klook.com/en-US/search/result/?query=Le%20Space%20INSPIRE&aid=138930" label="Book Le Space INSPIRE Tickets on Klook →">**Day-Trip & Layover Visitor Pass:** Splash Bay is currently reserved exclusively for overnight hotel guests (check room packages that include pool access), whereas Le Space is open to all day-trip and layover visitors. Pre-book a Le Space pass online to skip the ticket line.</ActivityCard>
 
 ---
 
@@ -219,13 +213,7 @@ INSPIRE hosts an extensive culinary lineup catering to both high-end gastronomes
 - **Chef’s Kitchen**: An upscale open-kitchen international buffet offering freshly prepared seafood, prime roasts, sushi, and Asian delicacies across six live stations.
 - **Oasis Gourmet Village**: A themed indoor food pavilion designed like a tranquil Korean forest grove with indoor waterways and weeping willows. It features famous Seoul eateries serving authentic K-comfort food (bibimbap, tteokbokki, K-fried chicken, and noodle soups) at accessible casual price points.
 
-<div className="tip-box">
-
-**Planning a Buffet Night?** Chef's Kitchen can be reserved online in advance, so you can lock in a table before you arrive.
-
-<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1561868&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F115641-chefs-kitchen-inspire-entertainment-resort-incheon%2F" target="_blank" rel="nofollow sponsored noopener" className="cta-btn">Reserve Chef's Kitchen Buffet on Klook →</a>
-
-</div>
+<ActivityCard href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1561868&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F115641-chefs-kitchen-inspire-entertainment-resort-incheon%2F" label="Reserve Chef's Kitchen Buffet on Klook →">**Planning a Buffet Night?** Chef's Kitchen can be reserved online in advance, so you can lock in a table before you arrive.</ActivityCard>
 
 ---
 

@@ -1,5 +1,18 @@
 <p className="post-disclosure"><strong>Disclosure:</strong> This post contains affiliate links. If you make a booking or purchase through these links, I may earn a small commission at no additional cost to you.</p>
 
+<div className="quick-card">
+<p className="quick-card__title">Quick Stay Highlights</p>
+<ul className="quick-card__list">
+<li><strong>Incheon Airport transit:</strong> free shuttle every 30 mins from Terminal 1 (5–10 min ride)</li>
+<li><strong>Must-do:</strong> CIMER European Aqua Spa &amp; Jjimjilbang + Wonderbox</li>
+<li><strong>Booking tip:</strong> free CIMER / Wonderbox access is included in select room packages</li>
+</ul>
+<div className="quick-card__btns">
+<a href="https://www.trip.com/t/d0jPwqYrlW2" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Check Room Rates on Trip.com ↗</a>
+<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497066&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F226558-paradise-cimer-spa-incheon-ticket%2F%3Fcampaignid%3D24261382032%26device%3Dc%26loc_physical_ms%3D9220764%26network%3Dx%26gad_campaignid%3D24272442907" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn cta-btn-outline">Get CIMER Spa Day Pass on Klook ↗</a>
+</div>
+</div>
+
 Landing at Incheon International Airport after a long-haul flight usually means dragging your luggage through crowded subway stations or hailing expensive taxis into central Seoul. 
 
 However, there is an alternative that locals call the ultimate **"Hokangs" (호캉스: Hotel + Vacance)**: stepping out of arrival gates and checking into a 5-star paradise just minutes away from the airport.
@@ -12,29 +25,28 @@ Whether you need a rejuvenating transit stopover or a peaceful multi-day getaway
 
 ## 1. Getting There: Free Airport Shuttle Bus Guide
 
+<div className="post-gallery">
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-map-airport.webp" alt="Map of Paradise City and its distance from Incheon Airport Terminal 1 and Terminal 2" loading="lazy" />
 <figcaption>Paradise City and Incheon Airport Terminals 1 and 2: straight-line and road distances (map © OpenStreetMap contributors)</figcaption>
 </figure>
-
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-exterior.webp" alt="Paradise City hotel exterior at dusk" loading="lazy" />
 <figcaption>Paradise City hotel exterior at dusk</figcaption>
 </figure>
-
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-bus.webp" alt="Paradise City free shuttle bus at Incheon Airport" loading="lazy" />
 <figcaption>Paradise City free shuttle bus at Incheon Airport</figcaption>
 </figure>
-
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g1-sign.webp" alt="Free shuttle bus stop sign at Incheon Airport" loading="lazy" />
 <figcaption>Free shuttle bus stop sign at Incheon Airport</figcaption>
 </figure>
+</div>
 
 One of Paradise City's greatest perks for international travelers is its **100% free, direct shuttle bus service** operating daily between Incheon Airport (Terminal 1 and Terminal 2) and the resort.
 
-### 📍 Boarding Locations & Gates
+### Boarding Locations & Gates
 * **Terminal 1 (T1)**: 
   * Location: **1st Floor (Arrival Hall), Gate 3C or Gate 14C**
   * Frequency: Departs every **30 minutes** (Approx. 05:40 – 23:00)
@@ -44,7 +56,7 @@ One of Paradise City's greatest perks for international travelers is its **100% 
   * Frequency: Departs every **30 to 60 minutes**
   * Travel Time: **Approx. 15–20 mins ride** (requires bypassing the runway, ~13.3 km)
 
-> **💡 Traveler Tip:** You do not need to show a booking voucher or ticket to board the shuttle. Simply line up at the designated stop and step aboard with your luggage. If you are taking the Incheon Airport Maglev, get off directly at **Paradise City Station**.
+> **Traveler Tip:** You do not need to show a booking voucher or ticket to board the shuttle. Simply line up at the designated stop and step aboard with your luggage. If you are taking the Incheon Airport Maglev, get off directly at **Paradise City Station**.
 
 ---
 
@@ -60,28 +72,26 @@ Paradise City features two distinct accommodation experiences tailored to differ
 ### ① Paradise City Main Hotel (Family & Leisure)
 * **Best for**: Families, couples, business travelers, and first-time visitors.
 * **The Atmosphere**: Grand, bright, and welcoming. Standard Deluxe rooms are noticeably more spacious than average Seoul hotel rooms, featuring king or double beds, walk-in closets, and complimentary soft drinks and beer in the minibar.
+* **Bathrooms**: Finished in pure white Italian marble, equipped with deep-soaking bathtubs, separate rain showers, and premium amenities.
 
+<div className="post-gallery">
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-1-hd.webp" alt="Deluxe room with a king bed, sofa and floor-to-ceiling windows" loading="lazy" />
 <figcaption>Deluxe room with a king bed, sofa and floor-to-ceiling windows</figcaption>
 </figure>
-
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-2-hd.webp" alt="Guest room with a sofa in the foreground and a king bed beyond" loading="lazy" />
 <figcaption>Guest room with a sofa in the foreground and a king bed beyond</figcaption>
 </figure>
-
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g2-room-3-hd.webp" alt="Suite living room with a TV and armchairs, bedroom visible through the doors" loading="lazy" />
 <figcaption>Suite living room with a TV and armchairs, bedroom visible through the doors</figcaption>
 </figure>
-
-* **Bathrooms**: Finished in pure white Italian marble, equipped with deep-soaking bathtubs, separate rain showers, and premium amenities.
-
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g3-bathroom.webp" alt="Luxury marble bathroom with deep-soaking bathtub" loading="lazy" />
 <figcaption>Luxury marble bathroom with deep-soaking bathtub</figcaption>
 </figure>
+</div>
 
 ### ② Art Paradiso (Adults-Only Luxury Boutique)
 * **Best for**: Discerning couples, honeymooners, and design enthusiasts (Ages 19+ only).
@@ -96,8 +106,8 @@ Paradise City features two distinct accommodation experiences tailored to differ
 * **Best for**: World of Hyatt members, extended stays, and value-conscious travelers.
 * **The Atmosphere**: Located right next door and integrated directly into the Paradise City resort complex. It offers 501 refined rooms, including airport runway-view suites and multi-bedroom apartment-style residences with kitchenettes.
 * **Exclusive Guest Perks**:
-  * 🎟️ **50% OFF Cimer Spa & Wonderbox tickets**
-  * 🍽️ **15% OFF select Paradise City dining venues**
+  * **50% OFF Cimer Spa & Wonderbox tickets**
+  * **15% OFF select Paradise City dining venues**
   * Complimentary shuttle connection between terminals and the resort.
 
 <figure className="post-figure">
@@ -116,7 +126,7 @@ Paradise City features two distinct accommodation experiences tailored to differ
 
 <a href="https://www.trip.com/t/d0jPwqYrlW2" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Check Real-time Rates on Trip.com</a>
 
-<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1503551&k_site=https%3A%2F%2Fwww.klook.com%2Fko%2Fhotels%2F272152%3F" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">View Special Packages on Klook</a>
+<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1503551&k_site=https%3A%2F%2Fwww.klook.com%2Fko%2Fhotels%2F272152%3F" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn cta-btn-outline">View Special Packages on Klook</a>
 
 </div>
 
@@ -156,25 +166,19 @@ If there is one facility you cannot miss, it is **Cimer**. Unlike typical public
 <figcaption>CIMER indoor aqua spa pool hall with arched walls and a glass roof</figcaption>
 </figure>
 
-### 🌊 Aqua Spa Zone (1st – 3rd Floor)
+### Aqua Spa Zone (1st – 3rd Floor)
 * **The Water Plaza**: Inspired by the Piazza San Marco in Venice, featuring towering arches and submerged lounge seats.
 * **Virtual Spa**: A soothing lounge surrounded by floor-to-ceiling LED walls projecting surreal sunsets, underwater scenes, and dreamlike digital art.
 * **Infinity Pool**: An open-air rooftop swimming pool with uninterrupted runway views.
 
-### ♨️ Jjimjil Spa Zone (Traditional Korean Sauna Redefined)
+### Jjimjil Spa Zone (Traditional Korean Sauna Redefined)
 Put on the provided loungewear (Jjimjilbok) and explore specialized thermal therapy rooms:
 * **Amethyst & Charcoal Rooms**: Deep detoxifying heat therapy.
 * **Hinoki (Cypress) Wood Room**: Infused with calming natural forest scents.
 * **Wave Dream Room & Relax Lounges**: Zero-gravity reclining armchairs with individual TV monitors.
 * *Must-Try*: Sip a cold cup of sweet Sikhye (식혜) and order slow-baked sauna eggs at the snack bar.
 
-<div className="tip-box">
-
-**Visiting CIMER without Staying Overnight?** You don’t need to be a hotel guest to experience CIMER. If you have an Incheon Airport layover (6+ hours) or are visiting on a day trip from Seoul, booking a discounted day pass online in advance guarantees entry and skips ticket booth lines.
-
-<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497066&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F226558-paradise-cimer-spa-incheon-ticket%2F%3Fcampaignid%3D24261382032%26device%3Dc%26loc_physical_ms%3D9220764%26network%3Dx%26gad_campaignid%3D24272442907" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Get CIMER Spa Day Pass (Instant Confirmation)</a>
-
-</div>
+<ActivityCard href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497066&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F226558-paradise-cimer-spa-incheon-ticket%2F%3Fcampaignid%3D24261382032%26device%3Dc%26loc_physical_ms%3D9220764%26network%3Dx%26gad_campaignid%3D24272442907" label="Get CIMER Spa Day Pass (Instant Confirmation)">**Visiting CIMER without Staying Overnight?** You don’t need to be a hotel guest to experience CIMER. If you have an Incheon Airport layover (6+ hours) or are visiting on a day trip from Seoul, booking a discounted day pass online in advance guarantees entry and skips ticket booth lines.</ActivityCard>
 
 ---
 
@@ -182,37 +186,30 @@ Put on the provided loungewear (Jjimjilbok) and explore specialized thermal ther
 
 Traveling with kids or young-at-heart companions? **Wonderbox** is a family-oriented indoor amusement park designed around the aesthetic of a mythical nocturnal carnival.
 
+<div className="post-gallery">
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-1.webp" alt="Wonderbox building lit up at night" loading="lazy" />
 <figcaption>Wonderbox building lit up at night</figcaption>
 </figure>
-
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-2.webp" alt="Carnival game stalls inside Wonderbox" loading="lazy" />
 <figcaption>Carnival game stalls inside Wonderbox</figcaption>
 </figure>
-
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-3.webp" alt="Bumper cars on a red floor inside Wonderbox" loading="lazy" />
 <figcaption>Bumper cars on a red floor inside Wonderbox</figcaption>
 </figure>
-
 <figure className="post-figure">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/paradise-city-incheon-ultimate-guide-g9-wonderbox-4.webp" alt="Giant tree slide and carnival set inside Wonderbox" loading="lazy" />
 <figcaption>Giant tree slide and carnival set inside Wonderbox</figcaption>
 </figure>
+</div>
 
 * **Key Attractions**: A two-story classic carousel, bumper cars, a rotating sky buggy, and Korea's highest indoor giant slide.
 * **Carnival Games**: Try classic balloon darts and hoop tossing to win oversized plush toys.
 * **Daily Performances**: Acrobats, stilt walkers, and masquerade dancers roam the floor throughout the day.
 
-<div className="tip-box">
-
-**Wonderbox Access Guide**: While hotel guests without inclusive packages receive a 30% discount at the ticket counter, visitors coming solely for Wonderbox and the Plaza dining area can secure advance discounted admission online.
-
-<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497074&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F24620-paradise-city-theme-park-wonderbox-ticket-incheon%2F%3Fcampaignid%3D23585194543%26adgroupid%3D196179857169%26targetid%3Ddsa-2532931825917%26device%3Dc%26creative%3D797846915447%26loc_physical_ms%3D9220764%26network%3Dg%26gad_campaignid%3D23585194543" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Book Wonderbox Entry Ticket</a>
-
-</div>
+<ActivityCard href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497074&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F24620-paradise-city-theme-park-wonderbox-ticket-incheon%2F%3Fcampaignid%3D23585194543%26adgroupid%3D196179857169%26targetid%3Ddsa-2532931825917%26device%3Dc%26creative%3D797846915447%26loc_physical_ms%3D9220764%26network%3Dg%26gad_campaignid%3D23585194543" label="Book Wonderbox Entry Ticket">**Wonderbox Access Guide**: While hotel guests without inclusive packages receive a 30% discount at the ticket counter, visitors coming solely for Wonderbox and the Plaza dining area can secure advance discounted admission online.</ActivityCard>
 
 ---
 
@@ -232,12 +229,12 @@ For international travelers looking for world-class entertainment, Paradise City
 
 Designed with sophisticated luxury inspired by classic European gaming salons, it combines high-stakes excitement with top-tier hospitality.
 
-### 🎰 Key Highlights & Offerings
+### Key Highlights & Offerings
 * **Game Variety**: Features over 150 live table games (Baccarat, Blackjack, Roulette, Poker) and nearly 300 state-of-the-art slot machines and electronic table games (ETGs).
 * **VIP & High-Limit Salons**: Private gaming suites equipped with dedicated concierge dining and personalized service for VIP guests.
 * **Cafe & Dining**: Complimentary gourmet dining and beverage service available to active players at the dedicated casino restaurant and bar.
 
-### 📌 Visitor Requirements & Rules
+### Visitor Requirements & Rules
 * **Eligibility**: Strictly limited to **foreign passport holders only** (Korean nationals are legally prohibited from entry).
 * **Age Requirement**: Must be **19 years of age or older**.
 * **Entry Requirements**: You **must present your physical passport** at the entrance reception desk (digital photos or photocopies are not accepted).
@@ -265,7 +262,7 @@ At the core of the resort lies **The Plaza**, a grand sunlit indoor piazza conne
 <figcaption>A live performance in front of stone arches at The Plaza</figcaption>
 </figure>
 
-### 🍽️ Where to Eat
+### Where to Eat
 * **The Plaza Food Hall**: Perfect for casual dining. Find authentic Korean favorites (K-BBQ rice bowls, Gomtang beef soup, Tteokbokki), tonkatsu, and artisanal bakeries at everyday street prices.
 * **Fine Dining Highlights**:
   * **On the Plate**: The resort's flagship premium buffet featuring live seafood and grill stations.
@@ -273,7 +270,7 @@ At the core of the resort lies **The Plaza**, a grand sunlit indoor piazza conne
   * **La Scala**: Refined Italian dining with wood-fired pizzas and homemade pastas.
 * **Convenience Stores**: A 24-hour **CU convenience store** is located inside The Plaza for late-night snacks, drinks, and Korean cup noodles.
 
-### 🎨 Art & Visual Wonders
+### Art & Visual Wonders
 Paradise City houses over 3,000 museum-grade artworks scattered across the property:
 * **"Great Gigantic Pumpkin" by Yayoi Kusama**: The iconic yellow polka-dot pumpkin right in the center of the main lobby rotunda.
 * **"Golden Legend" by Damien Hirst**: A gilded winged Pegasus statue overlooking the grand entrance.
@@ -292,10 +289,10 @@ Paradise City houses over 3,000 museum-grade artworks scattered across the prope
 
 ## Summary
 
-- 📍 **Address**: 186, Yeongjonghaeannam-ro 321beon-gil, Jung-gu, Incheon, Republic of Korea
-- 🚌 **Free Airport Shuttle**: Every 30 mins from T1 (1F, Gate 3C/14C) & every 30–60 mins from T2 (1F, Gate 2A) — approx. 5–10 mins ride from T1 and 15–20 mins ride from T2 (T2 requires bypassing the runway, ~13.3 km)
-- ⏰ **Key Operating Hours**:
+- **Address**: 186, Yeongjonghaeannam-ro 321beon-gil, Jung-gu, Incheon, Republic of Korea
+- **Free Airport Shuttle**: Every 30 mins from T1 (1F, Gate 3C/14C) & every 30–60 mins from T2 (1F, Gate 2A) — approx. 5–10 mins ride from T1 and 15–20 mins ride from T2 (T2 requires bypassing the runway, ~13.3 km)
+- **Key Operating Hours**:
   - **Hotel Check-in / Out**: 15:00 / 11:00
   - **CIMER Spa**: 10:00 – 21:00
   - **Wonderbox**: 10:00 – 19:00 (Weekdays) / 10:00 – 20:00 (Weekends)
-- 💡 **Best For**: Airport layovers (6+ hours), luxury staycations, and traveling families
+- **Best For**: Airport layovers (6+ hours), luxury staycations, and traveling families
