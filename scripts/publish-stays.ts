@@ -89,8 +89,11 @@ async function main() {
     const url = `${PROD}/blog/${LOCALE}/${APP}/${p.slug}`
     const res = await fetch(url)
     const html = await res.text()
-    const ok = res.status === 200 && html.includes('stay-map') && html.includes('booking-cta')
-    console.log(`${ok ? '✅' : '❌'} HTTP ${res.status} 지도·버튼 ${html.includes('stay-map') && html.includes('booking-cta') ? '있음' : '없음'}  ${url}`)
+    // 호텔 글은 지도 · 예약 버튼이 있어야 하고, 여행지(Places) 글은 200 이면 된다
+    const hotel = topicSectionKey(p.app, p.category) === 'hotels'
+    const parts = hotel ? html.includes('stay-map') && html.includes('booking-cta') : true
+    const ok = res.status === 200 && parts
+    console.log(`${ok ? '✅' : '❌'} HTTP ${res.status}${hotel ? ` 지도·버튼 ${parts ? '있음' : '없음'}` : ''}  ${url}`)
   }
 }
 
