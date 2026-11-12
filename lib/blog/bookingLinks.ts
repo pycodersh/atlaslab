@@ -18,4 +18,6 @@ export const BOOKING_LINKS: Record<string, BookingLink> = {
   gyeongwonjae: { name: 'Gyeongwonjae by Walkerhill' },
   oakwood: { name: 'Oakwood Premier Incheon' },
   sheraton: { name: 'Sheraton Grand Incheon Hotel' },
+  'four-seasons-seoul': { name: 'Four Seasons Hotel Seoul' },
+  lescape: { name: "L'Escape Hotel Seoul" },
 }
