@@ -15,7 +15,7 @@ export type BookingLink = {
 }
 
 export const BOOKING_LINKS: Record<string, BookingLink> = {
-  gyeongwonjae: { name: 'Gyeongwonjae Ambassador Incheon' },
+  gyeongwonjae: { name: 'Gyeongwonjae by Walkerhill' },
   oakwood: { name: 'Oakwood Premier Incheon' },
   sheraton: { name: 'Sheraton Grand Incheon Hotel' },
 }
