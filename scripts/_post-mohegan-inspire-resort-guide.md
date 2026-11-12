@@ -213,8 +213,6 @@ INSPIRE hosts an extensive culinary lineup catering to both high-end gastronomes
 - **Chef’s Kitchen**: An upscale open-kitchen international buffet offering freshly prepared seafood, prime roasts, sushi, and Asian delicacies across six live stations.
 - **Oasis Gourmet Village**: A themed indoor food pavilion designed like a tranquil Korean forest grove with indoor waterways and weeping willows. It features famous Seoul eateries serving authentic K-comfort food (bibimbap, tteokbokki, K-fried chicken, and noodle soups) at accessible casual price points.
 
-<ActivityCard href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1561868&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F115641-chefs-kitchen-inspire-entertainment-resort-incheon%2F" label="Reserve Chef's Kitchen Buffet on Klook →">**Planning a Buffet Night?** Chef's Kitchen can be reserved online in advance, so you can lock in a table before you arrive.</ActivityCard>
-
 ---
 
 ## Summary
