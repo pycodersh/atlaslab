@@ -245,6 +245,7 @@ export default async function AppBlogPostPage({
   // Klook 범용 패스 배너 — 호텔 글(Explore Korea › Hotels)은 본문에 호텔별 Klook 액티비티 · 교통 카드가 이미 있어 내지 않는다
   const showKlook = sponsors.has('klook') && !cookAtHome && topicSectionKey(app, post.category) !== 'hotels'
   const showAppBanner = cookAtHome || !post.content.includes('<KpattoCta')
+  const showItalki = sponsors.has('italki')
 
   return (
     <div style={{ background: '#F9F8F6', minHeight: '100dvh' }}>
@@ -333,11 +334,16 @@ export default async function AppBlogPostPage({
         }
         .art-related-item:hover .art-related-title { color: #C8102E; }
 
-        /* ── 글 하단 카드 묶음(앱 CTA + Klook) ─────────────────────
-           카드마다 따로 있던 위아래 48px 여백을 없애고 14px 간격으로 붙인다.
+        /* ── 글 하단 카드 묶음(italki · 앱 CTA · Klook) ─────────────────────
+           카드마다 따로 있던 위아래 48px 여백을 없애고 16px 간격으로 붙인다(모든 카테고리 공통).
            K-Patto 카드(KpattoCtaCard)는 본문 속 <KpattoCta /> 와 같은 컴포넌트라, 컴팩트 크기는 이 묶음 안에서만 적용한다. */
-        .art-bottom-cards { display: flex; flex-direction: column; gap: 14px; margin: 24px 0; }
+        .art-bottom-cards { display: flex; flex-direction: column; gap: 16px; margin: 24px 0; }
         .art-bottom-cards > aside { margin: 0 !important; }
+        /* 본문이 K-Patto 카드(<KpattoCta variant="end" />)로 끝나면 그 카드와 아래 묶음 사이도 16px —
+           예전엔 카드 아래 48 + 본문 안쪽 여백 8 + italki 위 48 이 겹치지 않고 더해져 104px 이 벌어졌다 */
+        article.blog-prose:has(> aside.kcta:last-child) { padding-bottom: 0; }
+        article.blog-prose > aside.kcta:last-child { margin-bottom: 16px; }
+        article.blog-prose:has(> aside.kcta:last-child) + .art-wrap > .art-bottom-cards:first-child { margin-top: 0; }
         .art-bottom-cards .kcta .kcta__card { padding: 16px; gap: 12px; }
         .art-bottom-cards .kcta .kcta__eyebrow { margin-bottom: 4px; }
         .art-bottom-cards .kcta .kcta__title { font-size: 18px; line-height: 1.375; }
@@ -407,9 +413,18 @@ export default async function AppBlogPostPage({
         </article>
 
         <div className="art-wrap" style={{ paddingBottom: 8 }}>
-          {/* 본문 바로 아래 제휴 배너 자리 — italki(Phrases · Basics · Life).
-              어느 글에 무엇이 나갈지는 sponsorsFor() 의 글당 2개 상한이 정한다 */}
-          {sponsors.has('italki') && <ItalkiBanner />}
+          {/* 글 하단 카드 묶음 — italki · 앱 CTA · Klook 를 한 줄로 쌓고 카드 사이를 16px 로 맞춘다(모든 카테고리 공통).
+              italki 는 Phrases · Basics · Life, 어느 글에 무엇이 나갈지는 sponsorsFor() 의 글당 2개 상한이 정한다.
+              앱 CTA — Korean phrases / basics 글은 앱·PDF 버튼 대신 /kpatto 랜딩으로 가는 단일 CTA(lib/blog/appCta),
+              개편 글(본문에 <KpattoCta /> 가 있는 글)은 본문 CTA 와 겹쳐서 내지 않는다.
+              Klook — 여행·음식·생활 글에만, 집 요리 글(COOK_AT_HOME_SLUGS)과 호텔 글은 빼다(showKlook) */}
+          {(showItalki || showAppBanner || showKlook) && (
+            <div className="art-bottom-cards">
+              {showItalki && <ItalkiBanner />}
+              {showAppBanner && <ArticleAppBanner app={app} category={post.category} locale={locale} />}
+              {showKlook && <KlookBanner />}
+            </div>
+          )}
 
           {/*
             ── (추후) 글 전용 예약 버튼 자리 — 본문 Summary 바로 아래 ──────────────────────
@@ -427,20 +442,6 @@ export default async function AppBlogPostPage({
               </a>
             )}
           */}
-
-          {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위.
-              Korean phrases / basics 글은 앱·PDF 버튼 대신 /kpatto 랜딩으로 가는 단일 CTA(lib/blog/appCta).
-              개편 글(본문에 <KpattoCta /> 가 있는 Food·Life 글)은 본문 CTA 와 겹쳐서 내지 않는다 */}
-          {/* 앱 CTA 카드 + Klook 카드는 한 묶음 — 카드 각자의 위아래 여백(48px)을 없애고 14px 간격으로 붙인다 */}
-          {(showAppBanner || showKlook) && (
-            <div className="art-bottom-cards">
-              {showAppBanner && <ArticleAppBanner app={app} category={post.category} locale={locale} />}
-
-              {/* Klook 배너 — 앱 CTA 바로 아래. 여행·음식·생활 글에만(학습 글 phrases·basics 에는 넣지 않는다).
-                  집 요리 글(COOK_AT_HOME_SLUGS)은 해외에서 요리하는 독자라, 호텔 글은 본문 카드와 겹쳐서 내지 않는다(showKlook) */}
-              {showKlook && <KlookBanner />}
-            </div>
-          )}
 
           {/* Related posts */}
           {related && related.length > 0 && (
