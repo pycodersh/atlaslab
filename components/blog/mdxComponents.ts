@@ -6,6 +6,8 @@ import { NoTranslateCode, NoTranslatePre, KoreanTd, KoreanTh, KoreanStrong, Kore
 import { KeyTakeaways, Dialogue, Line, DoDont, Do, Dont, Callout, KpattoCta } from './ArticleBlocks'
 import { GrammarCheatCard, RuleCard, RuleAvoid, RuleInstead, RuleExample } from './GrammarCheatCard'
 import { KoreanBasicPlayer, DangerPronounsPlayer } from './KoreanBasicPlayer'
+import { StayMap } from './StayMap'
+import { BookingCta } from './BookingCta'
 import { createElement, Fragment, type JSX, type ReactNode } from 'react'
 
 function LegacyPlainText({ children }: { children?: ReactNode }): JSX.Element {
@@ -31,6 +33,8 @@ export const blogMdxComponents = {
   /** KoreanBasicVideo slug="..." — Basics 글 상단 12초 Remotion 쇼트(remotion/KoreanBasic/videos.json). DangerPronounsVideo 는 '너 vs 당신' 글의 첫 태그 */
   KoreanBasicVideo: KoreanBasicPlayer,
   DangerPronounsVideo: DangerPronounsPlayer,
+  /** StayMap id="..." — 숙소 글 상단 랜드마크 미니맵(lib/blog/stayMaps). BookingCta hotel="..." — 숙소 글 끝 예약 버튼(lib/blog/bookingLinks) */
+  StayMap, BookingCta,
   /** 임시: 제휴 링크를 걷어낸 옛 태그 — 링크 없이 안쪽 글자만 낸다. 원고 · DB 에서는 이미 지웠지만
    *  글 fetch 캐시(revalidate 하루)가 옛 본문을 하루 동안 돌려줄 수 있어, 그동안 빌드가 깨지지 않게 둔다.
    *  2026-11-06 이후 지울 것 */
