@@ -9,6 +9,7 @@ import { KoreanBasicPlayer, DangerPronounsPlayer } from './KoreanBasicPlayer'
 import { StayMap } from './StayMap'
 import { BookingCta } from './BookingCta'
 import { ActivityCard } from './ActivityCard'
+import { RouteDiagram } from './RouteDiagram'
 import { createElement, Fragment, type JSX, type ReactNode } from 'react'
 
 function LegacyPlainText({ children }: { children?: ReactNode }): JSX.Element {
@@ -38,6 +39,8 @@ export const blogMdxComponents = {
   StayMap, BookingCta,
   /** ActivityCard href label — 본문 중간 보조 제휴 링크(Klook 액티비티 · 교통) 미니 카드. 빨간 솔리드 버튼은 객실 예약에만 */
   ActivityCard,
+  /** RouteDiagram id="ski-resorts" | "dmz" — 여행 가이드의 서울 기준 거리 · 방향 개념도(인라인 SVG). StayMap 과 같은 틀 */
+  RouteDiagram,
   /** 임시: 제휴 링크를 걷어낸 옛 태그 — 링크 없이 안쪽 글자만 낸다. 원고 · DB 에서는 이미 지웠지만
    *  글 fetch 캐시(revalidate 하루)가 옛 본문을 하루 동안 돌려줄 수 있어, 그동안 빌드가 깨지지 않게 둔다.
    *  2026-11-06 이후 지울 것 */
