@@ -8,7 +8,7 @@ import type { Metadata } from 'next'
 import { proseCss, PROSE_FONT } from '@/lib/blog/proseCss'
 import { ArticleAppBanner } from '@/components/blog/ArticleAppBanner'
 import { COOK_AT_HOME_SLUGS } from '@/lib/blog/appCta'
-import { groupKeyOf } from '@/lib/blog/sections'
+import { groupKeyOf, topicSectionKey } from '@/lib/blog/sections'
 import { KlookBanner } from '@/components/affiliate/KlookBanner'
 import { ItalkiBanner } from '@/components/blog/ItalkiBanner'
 import { SaveActions } from '@/components/SaveActions'
@@ -242,6 +242,9 @@ export default async function AppBlogPostPage({
   // null 이면 히어로에 영역 자체를 만들지 않는다.
   const thumb = thumbnailForPost(post.slug, post.content, post.thumbnail)
   const sponsors = sponsorsFor(groupKeyOf(app, post.category) ?? '')
+  // Klook 범용 패스 배너 — 호텔 글(Explore Korea › Hotels)은 본문에 호텔별 Klook 액티비티 · 교통 카드가 이미 있어 내지 않는다
+  const showKlook = sponsors.has('klook') && !cookAtHome && topicSectionKey(app, post.category) !== 'hotels'
+  const showAppBanner = cookAtHome || !post.content.includes('<KpattoCta')
 
   return (
     <div style={{ background: '#F9F8F6', minHeight: '100dvh' }}>
@@ -429,15 +432,13 @@ export default async function AppBlogPostPage({
               Korean phrases / basics 글은 앱·PDF 버튼 대신 /kpatto 랜딩으로 가는 단일 CTA(lib/blog/appCta).
               개편 글(본문에 <KpattoCta /> 가 있는 Food·Life 글)은 본문 CTA 와 겹쳐서 내지 않는다 */}
           {/* 앱 CTA 카드 + Klook 카드는 한 묶음 — 카드 각자의 위아래 여백(48px)을 없애고 14px 간격으로 붙인다 */}
-          {((cookAtHome || !post.content.includes('<KpattoCta')) || (sponsors.has('klook') && !cookAtHome)) && (
+          {(showAppBanner || showKlook) && (
             <div className="art-bottom-cards">
-              {(cookAtHome || !post.content.includes('<KpattoCta')) && (
-                <ArticleAppBanner app={app} category={post.category} locale={locale} />
-              )}
+              {showAppBanner && <ArticleAppBanner app={app} category={post.category} locale={locale} />}
 
               {/* Klook 배너 — 앱 CTA 바로 아래. 여행·음식·생활 글에만(학습 글 phrases·basics 에는 넣지 않는다).
-                  집 요리 글(COOK_AT_HOME_SLUGS)은 해외에서 요리하는 독자라 여행 패스 광고를 내지 않는다 */}
-              {sponsors.has('klook') && !cookAtHome && <KlookBanner />}
+                  집 요리 글(COOK_AT_HOME_SLUGS)은 해외에서 요리하는 독자라, 호텔 글은 본문 카드와 겹쳐서 내지 않는다(showKlook) */}
+              {showKlook && <KlookBanner />}
             </div>
           )}
 
