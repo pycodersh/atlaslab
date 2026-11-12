@@ -178,7 +178,7 @@ Put on the provided loungewear (Jjimjilbok) and explore specialized thermal ther
 * **Wave Dream Room & Relax Lounges**: Zero-gravity reclining armchairs with individual TV monitors.
 * *Must-Try*: Sip a cold cup of sweet Sikhye (식혜) and order slow-baked sauna eggs at the snack bar.
 
-<ActivityCard href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497066&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F226558-paradise-cimer-spa-incheon-ticket%2F%3Fcampaignid%3D24261382032%26device%3Dc%26loc_physical_ms%3D9220764%26network%3Dx%26gad_campaignid%3D24272442907" label="Get CIMER Spa Day Pass (Instant Confirmation)">**Visiting CIMER without Staying Overnight?** You don’t need to be a hotel guest to experience CIMER. If you have an Incheon Airport layover (6+ hours) or are visiting on a day trip from Seoul, booking a discounted day pass online in advance guarantees entry and skips ticket booth lines.</ActivityCard>
+<ActivityCard href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497066&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F226558-paradise-cimer-spa-incheon-ticket%2F%3Fcampaignid%3D24261382032%26device%3Dc%26loc_physical_ms%3D9220764%26network%3Dx%26gad_campaignid%3D24272442907" label="Book on Klook →">**CIMER Day Pass** — Spa and jjimjilbang entry, no hotel stay needed.</ActivityCard>
 
 ---
 
@@ -209,7 +209,7 @@ Traveling with kids or young-at-heart companions? **Wonderbox** is a family-orie
 * **Carnival Games**: Try classic balloon darts and hoop tossing to win oversized plush toys.
 * **Daily Performances**: Acrobats, stilt walkers, and masquerade dancers roam the floor throughout the day.
 
-<ActivityCard href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497074&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F24620-paradise-city-theme-park-wonderbox-ticket-incheon%2F%3Fcampaignid%3D23585194543%26adgroupid%3D196179857169%26targetid%3Ddsa-2532931825917%26device%3Dc%26creative%3D797846915447%26loc_physical_ms%3D9220764%26network%3Dg%26gad_campaignid%3D23585194543" label="Book Wonderbox Entry Ticket">**Wonderbox Access Guide**: While hotel guests without inclusive packages receive a 30% discount at the ticket counter, visitors coming solely for Wonderbox and the Plaza dining area can secure advance discounted admission online.</ActivityCard>
+<ActivityCard href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1497074&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F24620-paradise-city-theme-park-wonderbox-ticket-incheon%2F%3Fcampaignid%3D23585194543%26adgroupid%3D196179857169%26targetid%3Ddsa-2532931825917%26device%3Dc%26creative%3D797846915447%26loc_physical_ms%3D9220764%26network%3Dg%26gad_campaignid%3D23585194543" label="Book on Klook →">**Wonderbox Entry** — Advance tickets for the indoor night-carnival theme park.</ActivityCard>
 
 ---
 

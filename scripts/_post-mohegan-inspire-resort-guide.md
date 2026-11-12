@@ -201,7 +201,7 @@ Curated by Hyundai Department Store Group, **Le Space** is Korea’s largest int
 <figcaption>Le Space: an immersive projection room with a glowing sphere</figcaption>
 </figure>
 
-<ActivityCard href="https://www.klook.com/en-US/search/result/?query=Le%20Space%20INSPIRE&aid=138930" label="Book Le Space INSPIRE Tickets on Klook →">**Day-Trip & Layover Visitor Pass:** Splash Bay is currently reserved exclusively for overnight hotel guests (check room packages that include pool access), whereas Le Space is open to all day-trip and layover visitors. Pre-book a Le Space pass online to skip the ticket line.</ActivityCard>
+<ActivityCard href="https://www.klook.com/en-US/search/result/?query=Le%20Space%20INSPIRE&aid=138930" label="Book on Klook →">**Le Space INSPIRE** — Pre-book Korea’s largest immersive art space.</ActivityCard>
 
 ---
 
