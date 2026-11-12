@@ -70,14 +70,33 @@ const BAR: Record<Kind, string> = {
 }
 export const barTone = (code: number) => BAR[kindOf(code)]
 
-// 칩이 서로 겹치지 않게 도시마다 놓을 쪽을 정한다
-const SIDE: Record<string, 'left' | 'right' | 'top'> = {
-  Seoul: 'left', Chuncheon: 'top', Sokcho: 'right', Gangneung: 'right', Daegu: 'top',
-  Gyeongju: 'right', Busan: 'right', Jeonju: 'left', Yeosu: 'left', Jeju: 'right',
+/**
+ * 배지 [도시명 · 아이콘 · 기온] 을 점의 어느 쪽에 둘지.
+ *   left / right — 점 옆 같은 높이(GAP 만큼 띄움).
+ *   top / bottom — 점 위·아래(gap 만큼 띄움). align 은 배지의 어느 끝을 점 x + dx 에 맞출지(center 가 기본).
+ *     위·아래 배지는 점과 떨어져 있어서 짧은 세로 연결선을 그린다.
+ * 값은 지도에서 배지 상자를 실측해 서로 · 다른 점과 안 겹치고 지도 틀(viewBox) 밖으로 안 나가게 맞췄다(2026-11-12, °F 세 자리까지 여유).
+ *   viewBox 를 넓히면 지도 전체가 줄어 폰에서 배지 글자가 10px 대로 작아지므로, 틀은 그대로 두고 배지를 안쪽으로 들였다.
+ *   Seoul · Jeonju 는 왼쪽 바다가 좁아 점 위로, Gangneung · Gyeongju 는 오른쪽 끝을 넘어 점 아래로 둔다.
+ *   Chuncheon 은 위쪽이되 오른쪽 끝을 점 바로 오른쪽에 맞춰 Sokcho 점 · 배지와 띄운다.
+ */
+type Place = { side: 'left' | 'right' | 'top' | 'bottom'; align?: 'start' | 'center' | 'end'; dx?: number; gap?: number }
+const PLACE: Record<string, Place> = {
+  Seoul: { side: 'top', align: 'end', dx: 10, gap: 4 },
+  Chuncheon: { side: 'top', align: 'end', dx: 30, gap: 16 },
+  Sokcho: { side: 'right' },
+  Gangneung: { side: 'bottom', align: 'start', dx: -16 },
+  Daegu: { side: 'top', dx: -12, gap: 12 },
+  Gyeongju: { side: 'bottom', align: 'start', dx: -18, gap: 4 },
+  Busan: { side: 'right' },
+  Jeonju: { side: 'top', align: 'end', dx: 10 },
+  Yeosu: { side: 'left' },
+  Jeju: { side: 'right' },
 }
-// 라벨 [도시명 · 아이콘 · 기온] 은 HTML 로 넣어 글자 폭만큼만 차지하게 한다 — 이 상자 안에서 쪽에 맞춰 정렬된다
-const LABEL_W = 116
-const LABEL_H = 18
+// 배지는 HTML 이라 글자 폭만큼만 차지한다 — 이 상자(foreignObject) 안에서 쪽에 맞춰 붙는다. 빈 자리는 클릭을 받지 않는다
+const BOX_W = 150
+const BOX_H = 24
+const GAP = 6
 
 export type MapCity = { name: string; current: { temp: number; code: number; isDay: boolean; text: string } }
 
@@ -86,25 +105,34 @@ export function KoreaWeatherMap({ cities, selected, onSelect, temp }: { cities: 
     <svg className="wf-map notranslate" viewBox="-6 24 322 350" role="group" aria-label="Map of Korea with current weather for ten cities. Not to scale.">
       <polygon points={COAST} fill="#F3F1EC" stroke="#D6D3CC" strokeWidth="1.500" strokeLinejoin="round" />
       <ellipse cx={JEJU_X} cy={JEJU_Y} rx="20" ry="10" fill="#F3F1EC" stroke="#D6D3CC" strokeWidth="1.500" />
-      {cities.map((city, i) => {
+      {/* 선택된 도시를 맨 마지막에 그려 다른 배지 위로 올라오게 한다 */}
+      {cities.map((city, i) => ({ city, i })).sort((a, b) => Number(a.i === selected) - Number(b.i === selected)).map(({ city, i }) => {
         const place = MAP_CITIES.find(c => c.name.split(' / ')[0] === city.name)
         if (!place) return null
         const [x, y] = project(place.lon, place.lat)
         const active = i === selected
-        const side = SIDE[city.name]
-        const left = side === 'left' ? x - 8 - LABEL_W : side === 'right' ? x + 8 : x - LABEL_W / 2
-        const top = side === 'top' ? y - 7 - LABEL_H : y - LABEL_H / 2
+        const { side, align = 'center', dx = 0, gap = GAP } = PLACE[city.name]
+        const vertical = side === 'top' || side === 'bottom'
+        const ax = x + dx
+        const left = side === 'left' ? x - GAP - BOX_W : side === 'right' ? x + GAP
+          : align === 'start' ? ax : align === 'end' ? ax - BOX_W : ax - BOX_W / 2
+        const top = side === 'top' ? y - gap - BOX_H : side === 'bottom' ? y + gap : y - BOX_H / 2
+        const justify = side === 'left' ? 'end' : side === 'right' ? 'start' : align
+        const r = active ? 6 : 3
         return (
           <g key={city.name} className={`wf-pin${active ? ' is-active' : ''}`} role="button" tabIndex={0} aria-pressed={active}
             aria-label={`${city.name}, ${city.current.text}, ${temp(city.current.temp)}`} onClick={() => onSelect(i)}
             onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(i) } }}>
+            {vertical && <line className="wf-pin-lead" x1={x} y1={side === 'top' ? y - r : y + r} x2={x} y2={side === 'top' ? y - gap : y + gap} />}
             {active && <circle className="wf-pin-ping" cx={x} cy={y} r="6" />}
-            <circle className="wf-pin-dot" cx={x} cy={y} r={active ? 6 : 3} />
-            <foreignObject x={left} y={top} width={LABEL_W} height={LABEL_H}>
-              <div className={`wf-label is-${side}`}>
-                <span className="wf-pin-name">{city.name}</span>
-                <WeatherIcon code={city.current.code} isDay={city.current.isDay} size={14} />
-                <span className="wf-pin-temp">{temp(city.current.temp)}</span>
+            <circle className="wf-pin-dot" cx={x} cy={y} r={r} />
+            <foreignObject x={left} y={top} width={BOX_W} height={BOX_H}>
+              <div className={`wf-label is-${justify}`}>
+                <span className="wf-badge">
+                  <span className="wf-pin-name">{city.name}</span>
+                  <WeatherIcon code={city.current.code} isDay={city.current.isDay} size={14} />
+                  <span className="wf-pin-temp">{temp(city.current.temp)}</span>
+                </span>
               </div>
             </foreignObject>
           </g>
