@@ -18,6 +18,8 @@ const nextConfig: NextConfig = {
       { source: '/blog/en/k-patto/eun-neun-vs-i-ga-difference',             destination: '/blog/en/k-patto/korean-topic-vs-subject-particle',    statusCode: 301 },
       { source: '/blog/en/k-patto/why-korean-has-two-number-systems',       destination: '/blog/en/k-patto/korean-two-number-systems',           statusCode: 301 },
       { source: '/blog/en/k-patto/formal-vs-casual-korean-when-to-drop-yo', destination: '/blog/en/k-patto/korean-politeness-levels-explained', statusCode: 301 },
+      // 2026-11-12 옛 DMZ 초안(일시정지)을 새 가이드로 대체
+      { source: '/blog/en/k-patto/dmz-tours-from-seoul-booking-rules',      destination: '/blog/en/k-patto/dmz-tours-from-seoul-guide-rules-booking', statusCode: 301 },
       // 2026-11-10 도구 주소를 검색용 슬러그로 바꿨다 — 옛 주소는 이미 색인됐으므로 301
       { source: '/tools/hotspot-finder',   destination: '/tools/regional-hotspots',    statusCode: 301 },
       { source: '/tools/transit-guide',    destination: '/tools/intercity-transit',    statusCode: 301 },

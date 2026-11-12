@@ -1,5 +1,5 @@
 /**
- * content/stays/*.mdx → blog_posts 업서트 (Explore Korea › Hotels)
+ * content/stays/*.mdx (Explore Korea › Hotels) · content/explore/*.mdx (Explore Korea › Places) → blog_posts 업서트
  *
  * 원고 파일이 단일 출처다. frontmatter 의 title · description · category · tags 를 쓰고, 본문은 frontmatter 를 뗀 MDX 그대로 넣는다.
  * 본문이 쓰는 <StayMap> · <BookingCta> 는 components/blog/mdxComponents 에 있으니,
@@ -20,7 +20,9 @@ import { topicSectionKey } from '../lib/blog/sections'
 const APP = 'k-patto'
 const LOCALE = 'en'
 const PROD = 'https://www.atlaslabstudios.com'
-const DIR = path.resolve(process.cwd(), 'content', 'stays')
+// content/stays = Explore Korea › Hotels, content/explore = Explore Korea › Places(여행지 · 투어 · 컬처 가이드)
+const DIRS = [path.resolve(process.cwd(), 'content', 'stays'), path.resolve(process.cwd(), 'content', 'explore')]
+const ALLOWED_SECTIONS = new Set(['hotels', 'places'])
 
 const args = process.argv.slice(2)
 const dry = args.includes('--dry')
@@ -30,9 +32,10 @@ async function main() {
   const { compile } = await import('@mdx-js/mdx')
   const { default: remarkGfm } = await import('remark-gfm')
 
-  const files = fs.readdirSync(DIR).filter(f => f.endsWith('.mdx'))
-  const posts = files.map(f => {
-    const { data, content } = matter(fs.readFileSync(path.join(DIR, f), 'utf8'))
+  const files = DIRS.filter(d => fs.existsSync(d)).flatMap(d => fs.readdirSync(d).filter(f => f.endsWith('.mdx')).map(f => path.join(d, f)))
+  const posts = files.map(file => {
+    const f = path.basename(file)
+    const { data, content } = matter(fs.readFileSync(file, 'utf8'))
     return {
       slug: String(data.slug ?? f.replace(/\.mdx$/, '')),
       locale: LOCALE,
@@ -49,7 +52,7 @@ async function main() {
 
   for (const p of posts) {
     const section = topicSectionKey(p.app, p.category)
-    if (section !== 'hotels') throw new Error(`${p.slug}: Hotels 섹션이 아니다(${section})`)
+    if (!section || !ALLOWED_SECTIONS.has(section)) throw new Error(`${p.slug}: Hotels · Places 섹션이 아니다(${section})`)
     if (/<!--/.test(p.content)) throw new Error(`${p.slug}: HTML 주석이 남아 있다(MDX 오류 원인)`)
     if (!p.description) throw new Error(`${p.slug}: description 없음`)
     await compile(p.content, { remarkPlugins: [remarkGfm] })
