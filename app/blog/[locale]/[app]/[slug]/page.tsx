@@ -330,6 +330,23 @@ export default async function AppBlogPostPage({
         }
         .art-related-item:hover .art-related-title { color: #C8102E; }
 
+        /* ── 글 하단 카드 묶음(앱 CTA + Klook) ─────────────────────
+           카드마다 따로 있던 위아래 48px 여백을 없애고 14px 간격으로 붙인다.
+           K-Patto 카드(KpattoCtaCard)는 본문 속 <KpattoCta /> 와 같은 컴포넌트라, 컴팩트 크기는 이 묶음 안에서만 적용한다. */
+        .art-bottom-cards { display: flex; flex-direction: column; gap: 14px; margin: 24px 0; }
+        .art-bottom-cards > aside { margin: 0 !important; }
+        .art-bottom-cards .kcta .kcta__card { padding: 16px; gap: 12px; }
+        .art-bottom-cards .kcta .kcta__eyebrow { margin-bottom: 4px; }
+        .art-bottom-cards .kcta .kcta__title { font-size: 18px; line-height: 1.375; }
+        .art-bottom-cards .kcta .kcta__desc { margin-top: 4px; font-size: 14px; line-height: 1.5; }
+        .art-bottom-cards .kcta .kcta__btn { height: auto; min-height: 40px; padding: 8px 16px; font-size: 14px; }
+        .art-bottom-cards .kpc-banner { padding: 16px; }
+        @media (min-width: 640px) {
+          .art-bottom-cards .kcta .kcta__card { padding: 20px 24px; }
+          .art-bottom-cards .kcta .kcta__title { font-size: 20px; }
+          .art-bottom-cards .kpc-banner { padding: 20px 24px; }
+        }
+
       `}</style>
 
       {/* ── Hero ── */}
@@ -411,13 +428,18 @@ export default async function AppBlogPostPage({
           {/* 앱 연계 CTA — 본문 결론 바로 다음, 관련 글 위.
               Korean phrases / basics 글은 앱·PDF 버튼 대신 /kpatto 랜딩으로 가는 단일 CTA(lib/blog/appCta).
               개편 글(본문에 <KpattoCta /> 가 있는 Food·Life 글)은 본문 CTA 와 겹쳐서 내지 않는다 */}
-          {(cookAtHome || !post.content.includes('<KpattoCta')) && (
-            <ArticleAppBanner app={app} category={post.category} locale={locale} />
-          )}
+          {/* 앱 CTA 카드 + Klook 카드는 한 묶음 — 카드 각자의 위아래 여백(48px)을 없애고 14px 간격으로 붙인다 */}
+          {((cookAtHome || !post.content.includes('<KpattoCta')) || (sponsors.has('klook') && !cookAtHome)) && (
+            <div className="art-bottom-cards">
+              {(cookAtHome || !post.content.includes('<KpattoCta')) && (
+                <ArticleAppBanner app={app} category={post.category} locale={locale} />
+              )}
 
-          {/* Klook 배너 — 앱 CTA 바로 아래. 여행·음식·생활 글에만(학습 글 phrases·basics 에는 넣지 않는다).
-              집 요리 글(COOK_AT_HOME_SLUGS)은 해외에서 요리하는 독자라 여행 패스 광고를 내지 않는다 */}
-          {sponsors.has('klook') && !cookAtHome && <KlookBanner />}
+              {/* Klook 배너 — 앱 CTA 바로 아래. 여행·음식·생활 글에만(학습 글 phrases·basics 에는 넣지 않는다).
+                  집 요리 글(COOK_AT_HOME_SLUGS)은 해외에서 요리하는 독자라 여행 패스 광고를 내지 않는다 */}
+              {sponsors.has('klook') && !cookAtHome && <KlookBanner />}
+            </div>
+          )}
 
           {/* Related posts */}
           {related && related.length > 0 && (
