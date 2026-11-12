@@ -205,7 +205,7 @@ Curated by Hyundai Department Store Group, **Le Space** is Korea’s largest int
 
 **Day-Trip & Layover Visitor Pass:** Splash Bay is currently reserved exclusively for overnight hotel guests (check room packages that include pool access), whereas Le Space is open to all day-trip and layover visitors. Pre-book a Le Space pass online to skip the ticket line.
 
-<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1561868&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F118426-le-space-inspire-ticket-incheon%2F" target="_blank" rel="nofollow sponsored noopener" className="cta-btn">Book Le Space INSPIRE Tickets on Klook →</a>
+<a href="https://www.klook.com/en-US/search/result/?query=Le%20Space%20INSPIRE&aid=138930" target="_blank" rel="nofollow sponsored noopener" className="cta-btn">Book Le Space INSPIRE Tickets on Klook →</a>
 
 </div>
 
