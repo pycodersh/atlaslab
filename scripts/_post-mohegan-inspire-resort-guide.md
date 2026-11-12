@@ -90,9 +90,7 @@ INSPIRE’s 1,275 rooms are divided among three separate luxury hotel towers. Ea
 
 **Pro-Tip on Room Bookings & K-POP Concert Dates:** On major concert, festival, or award show weekends at INSPIRE Arena, hotel rooms across all three towers routinely sell out 4 to 8 weeks in advance. If you have secured arena tickets, booking your room immediately spares you from midnight gridlock, crowded post-concert transit, and high late-night taxi fares back to central Seoul.
 
-{/* TODO(affiliate approval): enable after the Agoda / Trip.com link is ready — fill in href and remove this comment
-<a href="" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Check INSPIRE Room Rates & Availability</a>
-*/}
+<BookingCta hotel="inspire" />
 
 </div>
 
@@ -171,6 +169,7 @@ For decades, international K-POP fans suffered through cold outdoor sports stadi
 A tropical paradise sheltered beneath a glass-domed architectural pavilion:
 - **Features**: A lazy river meandering around towering palms, exhilarating water slide complexes, and private luxury cabanas.
 - **Seasonal Operations**: Operates in controlled morning and afternoon sessions to ensure guest comfort and water cleanliness. (Swim caps or baseball hats are strictly required).
+- **Access**: Hotel guests only. Splash Bay is not sold as a separate day ticket, so check room packages that include pool access.
 
 <figure className="post-figure post-figure-auto">
 <img src="https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/mohegan-inspire-resort-guide-p5-1.webp" alt="Splash Bay: the main pool and stage under the glass dome" loading="lazy" />
@@ -204,11 +203,9 @@ Curated by Hyundai Department Store Group, **Le Space** is Korea’s largest int
 
 <div className="tip-box">
 
-**Day-Trip & Layover Visitor Pass:** While select hotel packages bundle Splash Bay or Le Space admission, independent layover passengers and day-trippers from Seoul can pre-book discounted admission passes online to skip ticketing lines.
+**Day-Trip & Layover Visitor Pass:** Splash Bay is currently reserved exclusively for overnight hotel guests (check room packages that include pool access), whereas Le Space is open to all day-trip and layover visitors. Pre-book a Le Space pass online to skip the ticket line.
 
-{/* TODO(affiliate link): enable after the Klook link for Le Space / Splash Bay is ready — fill in href and remove this comment
-<a href="" target="_blank" rel="noopener noreferrer sponsored" className="cta-btn">Book Le Space / Splash Bay Tickets (Instant Confirmation)</a>
-*/}
+<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1561868&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F118426-le-space-inspire-ticket-incheon%2F" target="_blank" rel="nofollow sponsored noopener" className="cta-btn">Book Le Space INSPIRE Tickets on Klook →</a>
 
 </div>
 
@@ -222,6 +219,14 @@ INSPIRE hosts an extensive culinary lineup catering to both high-end gastronomes
 - **Chef’s Kitchen**: An upscale open-kitchen international buffet offering freshly prepared seafood, prime roasts, sushi, and Asian delicacies across six live stations.
 - **Oasis Gourmet Village**: A themed indoor food pavilion designed like a tranquil Korean forest grove with indoor waterways and weeping willows. It features famous Seoul eateries serving authentic K-comfort food (bibimbap, tteokbokki, K-fried chicken, and noodle soups) at accessible casual price points.
 
+<div className="tip-box">
+
+**Planning a Buffet Night?** Chef's Kitchen can be reserved online in advance, so you can lock in a table before you arrive.
+
+<a href="https://affiliate.klook.com/redirect?aid=138930&aff_adid=1561868&k_site=https%3A%2F%2Fwww.klook.com%2Fen-US%2Factivity%2F115641-chefs-kitchen-inspire-entertainment-resort-incheon%2F" target="_blank" rel="nofollow sponsored noopener" className="cta-btn">Reserve Chef's Kitchen Buffet on Klook →</a>
+
+</div>
+
 ---
 
 ## Summary
@@ -232,6 +237,6 @@ INSPIRE hosts an extensive culinary lineup catering to both high-end gastronomes
   - **Hotel Check-in / Out**: 15:00 / 11:00
   - **Aurora Media Show**: Daily 08:30 – 24:00 (Whale Show runs every 30 mins)
   - **The Rotunda Kinetic Show**: Daily 07:30 – 21:00 (Runs every 60 mins at half past)
-  - **Splash Bay**: Session 1 (10:00 – 14:00) / Session 2 (15:00 – 19:00) *(subject to seasonal schedule)*
+  - **Splash Bay** *(hotel guests only)*: Session 1 (10:00 – 14:00) / Session 2 (15:00 – 19:00) *(subject to seasonal schedule)*
   - **Le Space**: Daily 10:00 – 20:30 (Last entry 19:30)
 - 💡 **Best For**: K-POP concertgoers, modern art & entertainment seekers, 6+ hour airport layovers, and upscale family staycations

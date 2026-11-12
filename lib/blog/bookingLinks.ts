@@ -1,23 +1,49 @@
 /**
- * 숙소 글의 예약 버튼(<BookingCta hotel="..." />) 링크 표 — components/blog/BookingCta.
+ * 숙소 글 예약 버튼(<BookingCta hotel="..." />) 제휴 링크 표 — components/blog/BookingCta.
  *
- * 제휴 링크를 받으면 href 에 넣는다. 그러면 버튼에 rel="sponsored" 가 붙고 버튼 아래 제휴 고지가 나온다.
- * href 가 비어 있는 동안에는 Google Hotels 검색(요금 · 빈방 비교)으로 보낸다 — 버튼이 죽은 링크가 되지 않게.
- * 본문(DB content)을 다시 올리지 않고 이 파일만 고쳐 푸시하면 된다.
+ * trip: Trip.com 제휴 단축 링크(빨간 버튼), klook: Klook 제휴 리다이렉트(아웃라인 버튼). 입점하지 않은 곳은 비워 두면 버튼이 안 나온다.
+ * 둘 다 없으면 Google Hotels 검색으로 보낸다(버튼이 죽은 링크가 되지 않게).
+ * 본문(DB content)을 다시 올리지 않고 이 파일만 고쳐 푸시하면 된다. 제휴 고지는 각 글 맨 위 post-disclosure 줄이 맡는다.
  */
 export type BookingLink = {
   /** Google Hotels 검색어 겸 버튼 aria-label 의 호텔 이름 */
   name: string
-  /** 제휴 예약 링크(Trip.com · Agoda · Klook …). 없으면 Google Hotels 검색 */
-  href?: string
-  /** 버튼 글자(기본: Check Rates & Availability) */
-  label?: string
+  trip?: string
+  klook?: string
 }
 
+const KLOOK = (adid: number, path: string) =>
+  `https://affiliate.klook.com/redirect?aid=138930&aff_adid=${adid}&k_site=${encodeURIComponent(`https://www.klook.com/en-US/hotels/detail/${path}/`)}`
+
 export const BOOKING_LINKS: Record<string, BookingLink> = {
-  gyeongwonjae: { name: 'Gyeongwonjae by Walkerhill' },
-  oakwood: { name: 'Oakwood Premier Incheon' },
-  sheraton: { name: 'Sheraton Grand Incheon Hotel' },
-  'four-seasons-seoul': { name: 'Four Seasons Hotel Seoul' },
-  lescape: { name: "L'Escape Hotel Seoul" },
+  inspire: {
+    name: 'Mohegan INSPIRE Entertainment Resort',
+    trip: 'https://www.trip.com/t/WFyKkjPJ8X2',
+    klook: KLOOK(1561855, '1314498-inspire-entertainment-resort'),
+  },
+  gyeongwonjae: {
+    name: 'Gyeongwonjae by Walkerhill',
+    trip: 'https://www.trip.com/t/Q0B4aoRJ8X2',
+    klook: KLOOK(1561855, '558259-gyeongwonjae-by-walkerhill'),
+  },
+  oakwood: {
+    name: 'Oakwood Premier Incheon',
+    trip: 'https://www.trip.com/t/MmVi5SSJ8X2',
+    klook: KLOOK(1561855, '275167-oakwood-premier-incheon'),
+  },
+  // Klook 미입점 — Trip.com 버튼 하나만 나온다
+  sheraton: {
+    name: 'Sheraton Grand Incheon Hotel',
+    trip: 'https://www.trip.com/t/bmBgz7TJ8X2',
+  },
+  'four-seasons-seoul': {
+    name: 'Four Seasons Hotel Seoul',
+    trip: 'https://www.trip.com/t/7RBQcqTJ8X2',
+    klook: KLOOK(1561855, '436182-four-seasons-hotel-seoul'),
+  },
+  lescape: {
+    name: "L'Escape Hotel Seoul",
+    trip: 'https://www.trip.com/t/QXbhMbUJ8X2',
+    klook: KLOOK(1561859, '285832-lescape-a-luxury-collection-hotel-seoul-myeongdong'),
+  },
 }
