@@ -1,0 +1,77 @@
+{
+  "id": "jeju",
+  "title": "East Jeju (R11) and Jeju City & south (R12)",
+  "spots": [
+    {
+      "key": "seongsan",
+      "name": "Seongsan Ilchulbong",
+      "lat": 33.45889,
+      "lon": 126.94082,
+      "radius": 800,
+      "keywords": [
+        "Seongsan Ilchulbong",
+        "Seongsan"
+      ]
+    },
+    {
+      "key": "hamdeok",
+      "name": "Hamdeok Beach",
+      "lat": 33.54319,
+      "lon": 126.66988,
+      "radius": 600,
+      "keywords": [
+        "Hamdeok Beach",
+        "Hamdeok"
+      ]
+    },
+    {
+      "key": "dongmun",
+      "name": "Dongmun Market",
+      "lat": 33.51224,
+      "lon": 126.52759,
+      "radius": 300,
+      "keywords": [
+        "Dongmun Market",
+        "Dongmun Jeju"
+      ]
+    },
+    {
+      "key": "soesokkak",
+      "name": "Soesokkak",
+      "lat": 33.25259,
+      "lon": 126.62347,
+      "radius": 500,
+      "keywords": [
+        "Soesokkak"
+      ]
+    },
+    {
+      "key": "osulloc",
+      "name": "Osulloc Tea Museum",
+      "lat": 33.30595,
+      "lon": 126.28949,
+      "radius": 600,
+      "keywords": [
+        "Osulloc",
+        "O'sulloc tea"
+      ]
+    }
+  ],
+  "exclude": [
+    "seongsan-1",
+    "seongsan-3",
+    "seongsan-4",
+    "seongsan-8",
+    "hamdeok-2",
+    "hamdeok-5",
+    "hamdeok-6",
+    "dongmun-1",
+    "dongmun-2",
+    "dongmun-7",
+    "soesokkak-1",
+    "soesokkak-3",
+    "soesokkak-6",
+    "osulloc-3",
+    "osulloc-4"
+  ]
+}

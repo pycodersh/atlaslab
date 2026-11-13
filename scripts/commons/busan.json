@@ -1,0 +1,82 @@
+{
+  "id": "busan",
+  "title": "Busan east coast (R1) and old town & Yeongdo (R2)",
+  "spots": [
+    {
+      "key": "haeundae",
+      "name": "Haeundae Beach",
+      "lat": 35.15929,
+      "lon": 129.15861,
+      "radius": 600,
+      "keywords": [
+        "Haeundae Beach",
+        "Haeundae"
+      ]
+    },
+    {
+      "key": "gwangalli",
+      "name": "Gwangalli Beach",
+      "lat": 35.15089,
+      "lon": 129.11678,
+      "radius": 600,
+      "keywords": [
+        "Gwangalli",
+        "Gwangan Bridge",
+        "Gwangandaegyo"
+      ]
+    },
+    {
+      "key": "yonggungsa",
+      "name": "Haedong Yonggungsa",
+      "lat": 35.18843,
+      "lon": 129.22298,
+      "radius": 400,
+      "keywords": [
+        "Haedong Yonggungsa",
+        "Yonggungsa"
+      ]
+    },
+    {
+      "key": "gamcheon",
+      "name": "Gamcheon Culture Village",
+      "lat": 35.09634,
+      "lon": 129.00879,
+      "radius": 500,
+      "keywords": [
+        "Gamcheon Culture Village",
+        "Gamcheon"
+      ]
+    },
+    {
+      "key": "huinnyeoul",
+      "name": "Huinnyeoul Culture Village",
+      "lat": 35.0774,
+      "lon": 129.04565,
+      "radius": 400,
+      "keywords": [
+        "Huinnyeoul",
+        "Yeongdo Huinnyeoul"
+      ]
+    },
+    {
+      "key": "jagalchi",
+      "name": "Jagalchi Market",
+      "lat": 35.09574,
+      "lon": 129.02512,
+      "radius": 400,
+      "keywords": [
+        "Jagalchi Market",
+        "Jagalchi"
+      ]
+    }
+  ],
+  "exclude": [
+    "haeundae-6",
+    "haeundae-8",
+    "gwangalli-3",
+    "gwangalli-7",
+    "gamcheon-3",
+    "huinnyeoul-4",
+    "jagalchi-8"
+  ]
+}

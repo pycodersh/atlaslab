@@ -1,0 +1,7 @@
+{
+  "output": "map-preview/jeju-east-course-map.png", "width": 1600, "height": 900,
+  "stops": [
+    { "name": "Seongsan Ilchulbong", "lat": 33.45889, "lon": 126.94082, "labelPos": "down" },
+    { "name": "Hamdeok Beach", "lat": 33.54319, "lon": 126.66988, "mode": "drive", "labelPos": "up" }
+  ]
+}

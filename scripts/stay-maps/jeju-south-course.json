@@ -1,0 +1,8 @@
+{
+  "output": "map-preview/jeju-south-course-map.png", "width": 1600, "height": 900,
+  "stops": [
+    { "name": "Osulloc Tea Museum", "lat": 33.30595, "lon": 126.28949, "labelPos": "down" },
+    { "name": "Soesokkak", "lat": 33.25259, "lon": 126.62347, "mode": "drive", "labelPos": "down" },
+    { "name": "Dongmun Market", "label": "Dongmun Market (Jeju City)", "lat": 33.51224, "lon": 126.52759, "mode": "drive", "labelPos": "up" }
+  ]
+}

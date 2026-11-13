@@ -314,7 +314,10 @@ async function mainCourse() {
     const [x, y] = toPx(s.lat, s.lon)
     const lines = [`${i + 1}  ${s.label ?? s.name}`]
     const l = legs[i]
-    if (i > 0) lines.push(l ? `from ${i}: ${l.km.toFixed(1)} km, about ${Math.max(1, Math.round(l.min))} min ${l.mode === 'walk' ? 'on foot' : 'by road'}` : `from ${i}: ${haversineKm(stops[i - 1], s).toFixed(1)} km straight line`)
+    // 차로 가는 구간은 거리만 적는다 — OSRM 시간은 신호 · 정체 없는 계산값이라 도심에선 실제보다 한참 짧다(대중교통 시간은 글에 적는다)
+    if (i > 0) lines.push(!l ? `from ${i}: ${haversineKm(stops[i - 1], s).toFixed(1)} km straight line`
+      : l.mode === 'walk' ? `from ${i}: ${l.km.toFixed(1)} km, about ${Math.max(1, Math.round(l.min))} min on foot`
+      : `from ${i}: ${l.km.toFixed(1)} km by road`)
     const h = 16 + lines.length * 30
     // 상자 폭은 글자 길이로(Arial 굵게 24px ≈ 글자당 14px, 21px ≈ 11px) — 고정 폭이면 긴 이름이 상자 밖으로 넘친다
     const bw = Math.round(Math.min(Math.max(...lines.map((t, j) => t.length * (j === 0 ? 14 : 11))) + 36, W - 48))
@@ -325,6 +328,8 @@ async function mainCourse() {
     bx = Math.min(Math.max(bx, 12), W - bw - 12)
     let by = pos === 'up' ? y - 34 - h : pos === 'down' ? y + 34 : y - h / 2
     by = Math.min(Math.max(by, 12), H - h - 44)
+    // 지도 끝에서 밀려 들어온 상자가 자기 핀을 덮으면 핀 아래(자리가 없으면 위)로 옮긴다
+    if (overlap({ x: bx, y: by, w: bw, h }, { x: x - 24, y: y - 24, w: 48, h: 48 })) by = y + 34 + h <= H - 44 ? y + 34 : y - 34 - h
     for (let k = 0; k < 60 && !pos; k++) {
       if (!placed.some(p => overlap({ x: bx, y: by, w: bw, h }, p))) break
       by += 18

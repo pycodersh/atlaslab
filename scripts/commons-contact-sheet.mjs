@@ -131,8 +131,8 @@ async function main() {
   const result = []
   for (const s of spots) {
     console.log(`검색: ${s.name}`)
-    const c = await candidatesFor(s)
-    c.forEach((x, i) => { x.id = `${s.key}-${i + 1}` })
+    // 1차 검수에서 뺀 사진(config 의 exclude: ["haeundae-6", …]) — 번호는 처음 뽑은 순서 그대로 둔다
+    const c = (await candidatesFor(s)).map((x, i) => ({ ...x, id: `${s.key}-${i + 1}` })).filter(x => !(cfg.exclude ?? []).includes(x.id))
     result.push({ key: s.key, name: s.name, lat: s.lat, lon: s.lon, candidates: c })
     console.log(`  후보 ${c.length}장`)
   }

@@ -1,0 +1,8 @@
+{
+  "output": "map-preview/busan-east-course-map.png", "width": 1600, "height": 900,
+  "stops": [
+    { "name": "Haedong Yonggungsa", "lat": 35.18843, "lon": 129.22298, "labelPos": "up" },
+    { "name": "Haeundae Beach", "lat": 35.15929, "lon": 129.15861, "mode": "drive", "labelPos": "down" },
+    { "name": "Gwangalli Beach", "lat": 35.15089, "lon": 129.11678, "mode": "drive", "labelPos": "left" }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "output": "map-preview/busan-oldtown-course-map.png", "width": 1600, "height": 900,
+  "stops": [
+    { "name": "Gamcheon Culture Village", "lat": 35.09634, "lon": 129.00879, "labelPos": "left" },
+    { "name": "Jagalchi Market", "lat": 35.09574, "lon": 129.02512, "mode": "drive", "labelPos": "up" },
+    { "name": "Huinnyeoul Culture Village", "lat": 35.07740, "lon": 129.04565, "mode": "drive", "labelPos": "right" }
+  ]
+}

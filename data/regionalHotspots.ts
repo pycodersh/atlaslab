@@ -27,6 +27,11 @@ const GUIDES = {
   // 명소마다 절이 있는 도시 · 권역 가이드(2026-11-13 파일럿) — at(GUIDES.x, '절-id') 로 그 절에 바로 닿는다
   gyeongju: { slug: 'gyeongju-one-day-itinerary-bulguksa-daereungwon', label: 'Gyeongju one-day guide' },
   jongno: { slug: 'seoul-palaces-bukchon-walk-gyeongbokgung-changdeokgung', label: 'Palace & hanok walk guide' },
+  // Phase 3 배치 1(2026-11-13)
+  busanEast: { slug: 'busan-east-coast-haeundae-gwangalli-haedong-yonggungsa', label: 'Busan east coast guide' },
+  busanOld: { slug: 'busan-old-town-gamcheon-jagalchi-huinnyeoul', label: 'Busan old town guide' },
+  jejuEast: { slug: 'east-jeju-seongsan-ilchulbong-hamdeok-beach', label: 'East Jeju guide' },
+  jejuSouth: { slug: 'jeju-osulloc-soesokkak-dongmun-market', label: 'Jeju south & city guide' },
 } satisfies Record<string, SpotGuide>
 
 export type Hotspot = { name: string; ko: string; category: HotspotCategory; what: string; tip: string; guide?: SpotGuide }
@@ -93,12 +98,12 @@ export const HOTSPOT_CITIES: HotspotCity[] = [
   },
   {
     id: 'busan', name: 'Busan', routeLink: true, spots: [
-      { name: 'Haeundae Beach', ko: '해운대 해변', category: 'Coastal & Sea', what: 'Walk Korea’s best-known city beach and its high-rise waterfront.', tip: 'About a 10-minute walk from Haeundae Station (Line 2).' },
-      { name: 'Gwangalli Beach', ko: '광안리 해변', category: 'Coastal & Sea', what: 'Watch the free Saturday night drone show over the bridge.', tip: 'Near Gwangan Station (Line 2). The show runs on Saturdays, and start times change by season.' },
-      { name: 'Gamcheon Culture Village', ko: '감천문화마을', category: 'Art & Culture', what: 'Wander the painted hillside lanes and small art shops.', tip: 'Toseong Station (Line 1), Exit 6, then a village bus. Walking up is a steep 20 minutes.' },
-      { name: 'Huinnyeoul Culture Village', ko: '흰여울문화마을', category: 'Coastal & Sea', what: 'Follow a clifftop lane of white houses above the sea.', tip: 'On Yeongdo island. Take a bus or taxi from Nampo-dong, and check a map app for the route.' },
-      { name: 'Jagalchi Market', ko: '자갈치시장', category: 'Local Market', what: 'See Korea’s best-known seafood market and eat upstairs.', tip: 'Next to Jagalchi Station (Line 1).' },
-      { name: 'Haedong Yonggungsa Temple', ko: '해동용궁사', category: 'Heritage', what: 'Visit a Buddhist temple set right on the rocky shore.', tip: 'Bus 181 from Haeundae Station. Free entry. The way in goes down 108 stone steps.' },
+      { name: 'Haeundae Beach', ko: '해운대 해변', category: 'Coastal & Sea', what: 'Walk Korea’s best-known city beach and its high-rise waterfront.', tip: 'About a 10-minute walk from Haeundae Station (Line 2).', guide: at(GUIDES.busanEast, 'haeundae-beach') },
+      { name: 'Gwangalli Beach', ko: '광안리 해변', category: 'Coastal & Sea', what: 'Watch the free Saturday night drone show over the bridge.', tip: 'Near Gwangan Station (Line 2). The show runs on Saturdays, and start times change by season.', guide: at(GUIDES.busanEast, 'gwangalli-beach-and-the-drone-show') },
+      { name: 'Gamcheon Culture Village', ko: '감천문화마을', category: 'Art & Culture', what: 'Wander the painted hillside lanes and small art shops.', tip: 'Toseong Station (Line 1), Exit 6, then a village bus. Walking up is a steep 20 minutes.', guide: at(GUIDES.busanOld, 'gamcheon-culture-village') },
+      { name: 'Huinnyeoul Culture Village', ko: '흰여울문화마을', category: 'Coastal & Sea', what: 'Follow a clifftop lane of white houses above the sea.', tip: 'On Yeongdo island. Take a bus or taxi from Nampo-dong, and check a map app for the route.', guide: at(GUIDES.busanOld, 'huinnyeoul-culture-village') },
+      { name: 'Jagalchi Market', ko: '자갈치시장', category: 'Local Market', what: 'See Korea’s best-known seafood market and eat upstairs.', tip: 'Next to Jagalchi Station (Line 1).', guide: at(GUIDES.busanOld, 'jagalchi-market') },
+      { name: 'Haedong Yonggungsa Temple', ko: '해동용궁사', category: 'Heritage', what: 'Visit a Buddhist temple set right on the rocky shore.', tip: 'Bus 181 from Haeundae Station. Free entry. The way in goes down 108 stone steps.', guide: at(GUIDES.busanEast, 'haedong-yonggungsa-temple') },
     ],
   },
   {
@@ -166,11 +171,11 @@ export const HOTSPOT_CITIES: HotspotCity[] = [
   },
   {
     id: 'jeju', name: 'Jeju', routeLink: true, spots: [
-      { name: 'Seongsan Ilchulbong', ko: '성산일출봉', category: 'Nature & Park', what: 'Climb the volcanic crater on the island’s eastern tip.', tip: 'Far east of Jeju City, so plan a long bus ride or rent a car. Go early to see sunrise.' },
-      { name: 'Hamdeok Beach', ko: '함덕해수욕장', category: 'Coastal & Sea', what: 'Relax on pale sand beside clear turquoise water.', tip: 'On the north coast, east of Jeju City and an easy bus or taxi ride from town.' },
-      { name: 'Dongmun Night Market', ko: '동문시장 야시장', category: 'Local Market', what: 'Taste tangerines, seafood and evening street food.', tip: 'In central Jeju City. The night stalls open around sunset and run to about midnight.' },
-      { name: 'Soesokkak', ko: '쇠소깍', category: 'Nature & Park', what: 'See a jade-green river gorge where it meets the sea.', tip: 'On the south coast near Seogwipo, so pair it with other southern stops.' },
-      { name: 'Osulloc Tea Museum', ko: '오설록 티뮤지엄', category: 'Trendy Cafe', what: 'Try green tea desserts beside the rolling tea fields.', tip: 'In the southwest of the island. Check a map app for the bus, or drive.' },
+      { name: 'Seongsan Ilchulbong', ko: '성산일출봉', category: 'Nature & Park', what: 'Climb the volcanic crater on the island’s eastern tip.', tip: 'Far east of Jeju City, so plan a long bus ride or rent a car. Go early to see sunrise.', guide: at(GUIDES.jejuEast, 'seongsan-ilchulbong') },
+      { name: 'Hamdeok Beach', ko: '함덕해수욕장', category: 'Coastal & Sea', what: 'Relax on pale sand beside clear turquoise water.', tip: 'On the north coast, east of Jeju City and an easy bus or taxi ride from town.', guide: at(GUIDES.jejuEast, 'hamdeok-beach') },
+      { name: 'Dongmun Night Market', ko: '동문시장 야시장', category: 'Local Market', what: 'Taste tangerines, seafood and evening street food.', tip: 'In central Jeju City. The night stalls open around sunset and run to about midnight.', guide: at(GUIDES.jejuSouth, 'dongmun-market-and-the-night-market') },
+      { name: 'Soesokkak', ko: '쇠소깍', category: 'Nature & Park', what: 'See a jade-green river gorge where it meets the sea.', tip: 'On the south coast near Seogwipo, so pair it with other southern stops.', guide: at(GUIDES.jejuSouth, 'soesokkak') },
+      { name: 'Osulloc Tea Museum', ko: '오설록 티뮤지엄', category: 'Trendy Cafe', what: 'Try green tea desserts beside the rolling tea fields.', tip: 'In the southwest of the island. Check a map app for the bus, or drive.', guide: at(GUIDES.jejuSouth, 'osulloc-tea-museum') },
     ],
   },
 ]
