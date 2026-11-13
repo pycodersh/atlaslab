@@ -36,6 +36,33 @@
     "px": 160,
     "label": "1 km"
    }
+  },
+  "hongdae": {
+   "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-map-hongdae-v3.webp",
+   "w": 1200,
+   "h": 1101,
+   "scale": {
+    "px": 124,
+    "label": "500 m"
+   }
+  },
+  "haeundae": {
+   "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-map-haeundae-v3.webp",
+   "w": 1200,
+   "h": 839,
+   "scale": {
+    "px": 94,
+    "label": "500 m"
+   }
+  },
+  "jungmun": {
+   "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-map-jungmun-v3.webp",
+   "w": 1200,
+   "h": 957,
+   "scale": {
+    "px": 113,
+    "label": "500 m"
+   }
   }
  },
  "maps": {
@@ -1911,6 +1938,699 @@
       590.2,
       634.4,
       590.2
+     ]
+    }
+   ]
+  },
+  "ryse": {
+   "region": "hongdae",
+   "hotel": {
+    "x": 573.4,
+    "y": 595.4,
+    "title": "RYSE Hotel",
+    "lines": [
+     "On Yanghwa-ro, Hongdae"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "577.4,599.7 590.5,585.4 582.2,576.5 610,550.3"
+    },
+    {
+     "color": "#2e8b57",
+     "dash": true,
+     "pts": "577.4,599.7 590.5,585.4 582.2,576.5 585,574 578,566.6 666.6,483.8 589,363.3"
+    },
+    {
+     "color": "#7b3fe4",
+     "dash": true,
+     "pts": "577.4,599.7 580.4,597 591.9,608.3 590.4,611.8 592.9,612.8 590.4,617.6 599.7,630.8 610.4,636.5 621.3,635.9 625.6,645.1 633.6,643.1 638.6,637.1 641.6,640.8 639.8,642.3 652.3,653.1 671.8,659 675.3,666.3 670.1,682.4 670,685.3 671.6,686.2 671.2,705.2"
+    }
+   ],
+   "pins": [
+    {
+     "x": 609.2,
+     "y": 549.4,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 587.6,
+     "y": 364.2,
+     "num": 2,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 671.3,
+     "y": 705.2,
+     "num": 3,
+     "color": "#7b3fe4"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "RYSE Hotel",
+     "lines": [
+      "On Yanghwa-ro, Hongdae"
+     ],
+     "color": "#C8102E",
+     "x": 179.4,
+     "y": 548.9,
+     "leader": [
+      573.4,
+      595.4,
+      539.4,
+      595.4
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Hongik Univ. Stn Exit 9",
+     "lines": [
+      "AREX & Line 2 · 4 min walk"
+     ],
+     "color": "#e37400",
+     "x": 643.2,
+     "y": 502.9,
+     "leader": [
+      609.2,
+      549.4,
+      643.2,
+      549.4
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Gyeongui Line Forest Park",
+     "lines": [
+      "Yeonnam-dong · 17 min walk"
+     ],
+     "color": "#2e8b57",
+     "x": 621.6,
+     "y": 317.7,
+     "leader": [
+      587.6,
+      364.2,
+      621.6,
+      364.2
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "Hongdae Streets",
+     "lines": [
+      "About 10 min walk"
+     ],
+     "color": "#7b3fe4",
+     "x": 705.3,
+     "y": 658.7,
+     "leader": [
+      671.3,
+      705.2,
+      705.3,
+      705.2
+     ]
+    }
+   ]
+  },
+  "l7-hongdae": {
+   "region": "hongdae",
+   "hotel": {
+    "x": 580.4,
+    "y": 561,
+    "title": "L7 Hongdae",
+    "lines": [
+     "Rooftop pool on Yanghwa-ro"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "582,562.7 578,566.6 585,574 610,550.3"
+    },
+    {
+     "color": "#2e8b57",
+     "dash": true,
+     "pts": "582,562.7 666.6,483.8 589,363.3"
+    },
+    {
+     "color": "#7b3fe4",
+     "dash": true,
+     "pts": "582,562.7 578,566.6 585,574 582.2,576.5 638.6,637.1 641.6,640.8 639.8,642.3 652.3,653.1 671.8,659 675.3,666.3 670.1,682.4 670,685.3 671.6,686.2 671.2,705.2"
+    }
+   ],
+   "pins": [
+    {
+     "x": 609.2,
+     "y": 549.4,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 587.6,
+     "y": 364.2,
+     "num": 2,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 671.3,
+     "y": 705.2,
+     "num": 3,
+     "color": "#7b3fe4"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "L7 Hongdae",
+     "lines": [
+      "Rooftop pool on Yanghwa-ro"
+     ],
+     "color": "#C8102E",
+     "x": 186.4,
+     "y": 595,
+     "leader": [
+      580.4,
+      561,
+      546.4,
+      595
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Hongik Univ. Stn Exit 9",
+     "lines": [
+      "AREX & Line 2 · 3 min walk"
+     ],
+     "color": "#e37400",
+     "x": 643.2,
+     "y": 502.9,
+     "leader": [
+      609.2,
+      549.4,
+      643.2,
+      549.4
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Gyeongui Line Forest Park",
+     "lines": [
+      "Yeonnam-dong · 14 min walk"
+     ],
+     "color": "#2e8b57",
+     "x": 621.6,
+     "y": 317.7,
+     "leader": [
+      587.6,
+      364.2,
+      621.6,
+      364.2
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "Hongdae Streets",
+     "lines": [
+      "About 11 min walk"
+     ],
+     "color": "#7b3fe4",
+     "x": 705.3,
+     "y": 658.7,
+     "leader": [
+      671.3,
+      705.2,
+      705.3,
+      705.2
+     ]
+    }
+   ]
+  },
+  "andaz-seoul": {
+   "region": "gangnam",
+   "hotel": {
+    "x": 405.4,
+    "y": 168.9,
+    "title": "Andaz Seoul Gangnam",
+    "lines": [
+     "Apgujeong Stn Exit 3"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "407.7,169 407.4,174.8 402.5,174.4 401.3,190.6 398.3,190.4 398.1,198.3 382.8,197.6 355.9,214.7 349,215.7 349.7,221.7 347.5,221.9"
+    },
+    {
+     "color": "#7b3fe4",
+     "dash": true,
+     "pts": "407.7,169 408.7,152.2 422.3,143.4 448.4,134.6 466,136.6 476.7,140.5 479.7,129.2 506.9,137.6"
+    }
+   ],
+   "pins": [
+    {
+     "x": 347.5,
+     "y": 222.4,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 507.8,
+     "y": 134.6,
+     "num": 2,
+     "color": "#7b3fe4"
+    },
+    {
+     "x": 392.3,
+     "y": 146.8,
+     "num": 3,
+     "color": "#2e8b57"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Andaz Seoul Gangnam",
+     "lines": [
+      "Apgujeong Stn Exit 3"
+     ],
+     "color": "#C8102E",
+     "x": 439.4,
+     "y": 202.9,
+     "leader": [
+      405.4,
+      168.9,
+      439.4,
+      202.9
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Garosu-gil",
+     "lines": [
+      "1 km · about 13 min walk"
+     ],
+     "color": "#e37400",
+     "x": 167.5,
+     "y": 306.4,
+     "leader": [
+      347.5,
+      222.4,
+      347.5,
+      306.4
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Galleria & Cheongdam",
+     "lines": [
+      "1.2 km · about 17 min walk"
+     ],
+     "color": "#7b3fe4",
+     "x": 721.8,
+     "y": 348.6,
+     "leader": [
+      507.8,
+      134.6,
+      721.8,
+      348.6
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "Hyundai Dept. Store",
+     "lines": [
+      "Apgujeong main store"
+     ],
+     "color": "#2e8b57",
+     "x": 212.3,
+     "y": 19.8,
+     "leader": [
+      392.3,
+      146.8,
+      392.3,
+      112.8
+     ]
+    }
+   ]
+  },
+  "paradise-busan": {
+   "region": "haeundae",
+   "hotel": {
+    "x": 766.1,
+    "y": 416.7,
+    "title": "Paradise Hotel Busan",
+    "lines": [
+     "On Haeundae Beach"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#2e8b57",
+     "dash": true,
+     "pts": "766.6,416.7 766.4,426 729.7,431.5 727,435 723,433.3 662.2,448.4 649.4,453 615.5,471.3 601,479.9 591.2,491.1 587.7,492.4 577.3,490.3 571.8,491.8 576.8,516.3 553.6,546.5"
+    },
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "766.6,416.7 766.4,426 729.7,431.5 728.2,428.7 724.9,428.3 666.4,349 664.7,347.1 659.5,350 658.9,343.7 664,340.4"
+    }
+   ],
+   "pins": [
+    {
+     "x": 550.1,
+     "y": 544,
+     "num": 1,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 727.4,
+     "y": 386.9,
+     "num": 2,
+     "color": "#7b3fe4"
+    },
+    {
+     "x": 664.3,
+     "y": 340.8,
+     "num": 3,
+     "color": "#e37400"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Paradise Hotel Busan",
+     "lines": [
+      "On Haeundae Beach"
+     ],
+     "color": "#C8102E",
+     "x": 800.1,
+     "y": 370.2,
+     "leader": [
+      766.1,
+      416.7,
+      800.1,
+      416.7
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Dongbaek Island",
+     "lines": [
+      "1.5 km · 20 min walk"
+     ],
+     "color": "#2e8b57",
+     "x": 584.1,
+     "y": 497.5,
+     "leader": [
+      550.1,
+      544,
+      584.1,
+      544
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Haeundae Market",
+     "lines": [
+      "Street food alley"
+     ],
+     "color": "#7b3fe4",
+     "x": 761.4,
+     "y": 259.9,
+     "leader": [
+      727.4,
+      386.9,
+      761.4,
+      352.9
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "Haeundae Station",
+     "lines": [
+      "Line 2 · 12 min walk"
+     ],
+     "color": "#e37400",
+     "x": 270.3,
+     "y": 294.3,
+     "leader": [
+      664.3,
+      340.8,
+      630.3,
+      340.8
+     ]
+    }
+   ]
+  },
+  "signiel-busan": {
+   "region": "haeundae",
+   "hotel": {
+    "x": 853.9,
+    "y": 420.7,
+    "title": "Signiel Busan",
+    "lines": [
+     "In the LCT tower"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#2e8b57",
+     "dash": true,
+     "pts": "855.3,415.3 849.9,409.9 855.1,405.5 865.5,419.4 858.9,431.6 854.1,435.2 830.5,428.7 766.4,426 729.7,431.5 727,435 723,433.3 649.4,453 601,479.9 591.2,491.1 587.7,492.4 577.3,490.3 571.8,491.8 576.8,516.3 553.6,546.5"
+    },
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "855.3,415.3 849.9,409.9 855.1,405.5 850.4,397.9 846.9,395.6 839.1,378.3 801,374.2 779.8,377 763.7,357.3 762.3,358.1 753.6,345.5 729.6,359.6 687.7,328.5 689.7,327.1 688.4,325.2 664,340.4"
+    }
+   ],
+   "pins": [
+    {
+     "x": 722.6,
+     "y": 468.7,
+     "num": 1,
+     "color": "#1a73e8"
+    },
+    {
+     "x": 550.1,
+     "y": 544,
+     "num": 2,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 664.3,
+     "y": 340.8,
+     "num": 3,
+     "color": "#e37400"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Signiel Busan",
+     "lines": [
+      "In the LCT tower"
+     ],
+     "color": "#C8102E",
+     "x": 673.9,
+     "y": 504.7,
+     "leader": [
+      853.9,
+      420.7,
+      853.9,
+      504.7
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Haeundae Beach",
+     "lines": [
+      "Right outside"
+     ],
+     "color": "#1a73e8",
+     "x": 278.6,
+     "y": 291.7,
+     "leader": [
+      722.6,
+      468.7,
+      638.6,
+      384.7
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Dongbaek Island",
+     "lines": [
+      "2.2 km · 30 min walk"
+     ],
+     "color": "#2e8b57",
+     "x": 156.1,
+     "y": 497.5,
+     "leader": [
+      550.1,
+      544,
+      516.1,
+      544
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "Haeundae Station",
+     "lines": [
+      "Line 2 · 19 min walk"
+     ],
+     "color": "#e37400",
+     "x": 698.3,
+     "y": 213.8,
+     "leader": [
+      664.3,
+      340.8,
+      698.3,
+      306.8
+     ]
+    }
+   ]
+  },
+  "parnas-jeju": {
+   "region": "jungmun",
+   "hotel": {
+    "x": 483.4,
+    "y": 488.4,
+    "title": "Parnas Hotel Jeju",
+    "lines": [
+     "Clifftop above the sea"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#2e8b57",
+     "dash": true,
+     "pts": "476.7,491.4 474.4,495 481,502.3 489.2,500.5 497.4,491.3 499.5,492.1 510.8,484.5 521,481.5 574.2,476.5"
+    },
+    {
+     "color": "#7b3fe4",
+     "dash": false,
+     "pts": "478.3,479.4 480,476 477.4,471.9 476.8,462 499.2,425 500.4,405.5 515.6,368.2 515.2,347.3 581.8,345.5 598.7,342.9 609.1,334.9 617.7,316.3 629.2,311.9 666,332.2 671.7,339.8 675.7,351"
+    },
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "478.3,479.4 480,476 477.4,471.9 476.8,462 499.2,425 500.4,405.5 515.6,368.2 515.2,347.3 590.3,344.9 603.9,339.8 612.6,329.6 616.6,331.1 675.8,365.9 677.6,376.8 683.5,388.6 715,428.9 718.8,439.3 718.6,450.5 765.6,488 786.4,511.5 793.2,516.5 799.1,518.1 873.9,525 881.3,531.4 890.9,533.9 905.5,549.8 942.1,594 918.7,615.1 913,635.1 907.2,636.3 906.2,649.9"
+    }
+   ],
+   "pins": [
+    {
+     "x": 575.4,
+     "y": 482.1,
+     "num": 1,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 706.1,
+     "y": 348.7,
+     "num": 2,
+     "color": "#7b3fe4"
+    },
+    {
+     "x": 883.4,
+     "y": 681,
+     "num": 3,
+     "color": "#1a73e8"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Parnas Hotel Jeju",
+     "lines": [
+      "Clifftop above the sea"
+     ],
+     "color": "#C8102E",
+     "x": 89.4,
+     "y": 441.9,
+     "leader": [
+      483.4,
+      488.4,
+      449.4,
+      488.4
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Jungmun Saekdal Beach",
+     "lines": [
+      "0.5 km · 7 min walk"
+     ],
+     "color": "#2e8b57",
+     "x": 609.4,
+     "y": 435.6,
+     "leader": [
+      575.4,
+      482.1,
+      609.4,
+      482.1
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Cheonjeyeon Falls",
+     "lines": [
+      "About 5 min by taxi"
+     ],
+     "color": "#7b3fe4",
+     "x": 740.1,
+     "y": 302.2,
+     "leader": [
+      706.1,
+      348.7,
+      740.1,
+      348.7
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "Jusangjeolli Cliff",
+     "lines": [
+      "About 10 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 489.4,
+     "y": 634.5,
+     "leader": [
+      883.4,
+      681,
+      849.4,
+      681
      ]
     }
    ]

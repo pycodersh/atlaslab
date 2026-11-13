@@ -16,8 +16,8 @@ const KLOOK = (adid: number, path: string) =>
   `https://affiliate.klook.com/redirect?aid=138930&aff_adid=${adid}&k_site=${encodeURIComponent(`https://www.klook.com/en-US/hotels/detail/${path}/`)}`
 
 /** Trip.com 호텔 상세 직접 링크 — 단축 링크가 리다이렉트하며 붙이는 것과 같은 제휴 파라미터 */
-const TRIP = (idSlug: string) =>
-  `https://www.trip.com/hotels/seoul-hotel-detail-${idSlug}/?Allianceid=10997841&SID=333357760`
+const TRIP = (idSlug: string, city = 'seoul') =>
+  `https://www.trip.com/hotels/${city}-hotel-detail-${idSlug}/?Allianceid=10997841&SID=333357760`
 
 export const BOOKING_LINKS: Record<string, BookingLink> = {
   inspire: {
@@ -70,4 +70,11 @@ export const BOOKING_LINKS: Record<string, BookingLink> = {
   mondrian: { name: 'Mondrian Seoul Itaewon', trip: TRIP('59478652/mondrian-seoul-itaewon') },
   'westin-josun': { name: 'The Westin Josun Seoul', trip: TRIP('988507/the-westin-josun-seoul') },
   'hotel-naru': { name: 'Hotel Naru Seoul - MGallery', trip: TRIP('100964631/hotel-naru-seoul-mgallery-collection') },
+  // 홍대 · 압구정 · 부산 · 제주 6곳 (2026-11-13 브라우저로 200 · 호텔 페이지 확인). 부산 · 제주는 Trip.com 도시 경로가 다르다
+  ryse: { name: 'RYSE, Autograph Collection', trip: TRIP('687886/ryse-autograph-collection') },
+  'l7-hongdae': { name: 'L7 Hongdae by LOTTE', trip: TRIP('14186936/l7-hongdae-by-lotte-hotels') },
+  'andaz-seoul': { name: 'Andaz Seoul Gangnam', trip: TRIP('44995054/andaz-seoul-gangnam') },
+  'paradise-busan': { name: 'Paradise Hotel Busan', trip: TRIP('689014/paradise-hotel-busan', 'busan') },
+  'signiel-busan': { name: 'Signiel Busan', trip: TRIP('61927965/signiel-busan', 'busan') },
+  'parnas-jeju': { name: 'Parnas Hotel Jeju', trip: TRIP('94311150/parnas-hotel-jeju', 'seogwipo') },
 }

@@ -48,6 +48,13 @@ const P = {
   FAIRMONT: [37.52518, 126.92905], HYUNDAI: [37.52596, 126.92842], CONRAD: [37.52537, 126.92663],
   YEOUIDO: [37.52269, 126.92381], YEOUINARU: [37.52685, 126.93253], SQ63: [37.51985, 126.94025],
   NARU: [37.5372, 126.94432], MAPO: [37.53926, 126.94578],
+  // 홍대 · 압구정 · 해운대 · 중문 (2026-11-13: 호텔은 Trip.com 좌표, 역 출구 · 명소는 OSM 실측)
+  RYSE: [37.55437, 126.92128], L7H: [37.55562, 126.9216], HONGIK9: [37.55604, 126.92292],
+  HONGIK_UNIV: [37.55038, 126.92577], YEONNAM: [37.56277, 126.92193],
+  ANDAZ: [37.52549, 127.02892], GAROSU: [37.52089, 127.02265], GALLERIA: [37.52844, 127.04001], HYUNDAI_APGU: [37.52739, 127.0275],
+  PARADISE: [35.16013, 129.16469], SIGB: [35.15994, 129.16981], HAE_BEACH: [35.15765, 129.16215],
+  DONGBAEK: [35.15406, 129.15209], HAE_MARKET: [35.16155, 129.16243], HAE_STN: [35.16375, 129.15875],
+  PJEJU: [33.2446, 126.40596], SAEKDAL: [33.24485, 126.41033], CHEONJEYEON: [33.25015, 126.41654], JUSANG: [33.23695, 126.42496],
 }
 
 /* ── 지역 바탕 ─────────────────────────────────────────────── */
@@ -88,6 +95,31 @@ const REGIONS = {
       { t: 'Bamseom', at: [37.5395, 126.930], size: 16, italic: true },
       { t: 'MAPO', at: [37.552, 126.94], size: 18 },
       { t: 'YEONGDEUNGPO', at: [37.507, 126.91], size: 18 },
+    ],
+  },
+  hongdae: {
+    bbox: [37.536, 126.895, 37.576, 126.950], // 홍대 · 연남 · 합정 · 망원 · 한강
+    labels: [
+      { t: 'HONGDAE', at: [37.5525, 126.9285], size: 18 },
+      { t: 'YEONNAM', at: [37.5665, 126.9245], size: 16 },
+      { t: 'MANGWON', at: [37.5565, 126.9025], size: 16 },
+      { t: 'SINCHON', at: [37.5595, 126.942], size: 16 },
+      { t: 'Han River', at: [37.5385, 126.912], size: 22, italic: true },
+    ],
+  },
+  haeundae: {
+    bbox: [35.140, 129.120, 35.180, 129.190], // 해운대 해변 · 동백섬 · 엘시티 · 마린시티
+    labels: [
+      { t: 'HAEUNDAE', at: [35.1705, 129.162], size: 18 },
+      { t: 'MARINE CITY', at: [35.1585, 129.142], size: 14 },
+      { t: 'Suyeong Bay', at: [35.1455, 129.135], size: 22, italic: true },
+    ],
+  },
+  jungmun: {
+    bbox: [33.226, 126.383, 33.264, 126.440], // 중문관광단지 · 색달해변 · 천제연 · 주상절리
+    labels: [
+      { t: 'JUNGMUN RESORT', at: [33.2565, 126.425], size: 18 },
+      { t: 'SAEKDAL', at: [33.2585, 126.395], size: 16 },
     ],
   },
 }
@@ -288,6 +320,81 @@ const MAPS = {
     cards: [
       { at: P.MAPO, title: 'Mapo Station', lines: ['Line 5 · short walk'], color: '#e37400' },
       { at: P.YEOUINARU, title: 'Yeouido Hangang Park', lines: ['Across Mapo Bridge'], color: '#1a73e8' },
+    ],
+  },
+  ryse: {
+    region: 'hongdae', hotel: { at: P.RYSE, title: 'RYSE Hotel', lines: ['On Yanghwa-ro, Hongdae'] },
+    routes: [
+      { from: 'RYSE', to: 'HONGIK9', mode: 'walk', color: '#e37400' },
+      { from: 'RYSE', to: 'YEONNAM', mode: 'walk', color: '#2e8b57' },
+      { from: 'RYSE', to: 'HONGIK_UNIV', mode: 'walk', color: '#7b3fe4' },
+    ],
+    cards: [
+      { at: P.HONGIK9, title: 'Hongik Univ. Stn Exit 9', lines: ['AREX & Line 2 · 4 min walk'], color: '#e37400' },
+      { at: P.YEONNAM, title: 'Gyeongui Line Forest Park', lines: ['Yeonnam-dong · 17 min walk'], color: '#2e8b57' },
+      { at: P.HONGIK_UNIV, title: 'Hongdae Streets', lines: ['About 10 min walk'], color: '#7b3fe4' },
+    ],
+  },
+  'l7-hongdae': {
+    region: 'hongdae', hotel: { at: P.L7H, title: 'L7 Hongdae', lines: ['Rooftop pool on Yanghwa-ro'] },
+    routes: [
+      { from: 'L7H', to: 'HONGIK9', mode: 'walk', color: '#e37400' },
+      { from: 'L7H', to: 'YEONNAM', mode: 'walk', color: '#2e8b57' },
+      { from: 'L7H', to: 'HONGIK_UNIV', mode: 'walk', color: '#7b3fe4' },
+    ],
+    cards: [
+      { at: P.HONGIK9, title: 'Hongik Univ. Stn Exit 9', lines: ['AREX & Line 2 · 3 min walk'], color: '#e37400' },
+      { at: P.YEONNAM, title: 'Gyeongui Line Forest Park', lines: ['Yeonnam-dong · 14 min walk'], color: '#2e8b57' },
+      { at: P.HONGIK_UNIV, title: 'Hongdae Streets', lines: ['About 11 min walk'], color: '#7b3fe4' },
+    ],
+  },
+  'andaz-seoul': {
+    region: 'gangnam', hotel: { at: P.ANDAZ, title: 'Andaz Seoul Gangnam', lines: ['Apgujeong Stn Exit 3'] },
+    routes: [
+      { from: 'ANDAZ', to: 'GAROSU', mode: 'walk', color: '#e37400' },
+      { from: 'ANDAZ', to: 'GALLERIA', mode: 'walk', color: '#7b3fe4' },
+    ],
+    cards: [
+      { at: P.GAROSU, title: 'Garosu-gil', lines: ['1 km · about 13 min walk'], color: '#e37400' },
+      { at: P.GALLERIA, title: 'Galleria & Cheongdam', lines: ['1.2 km · about 17 min walk'], color: '#7b3fe4' },
+      { at: P.HYUNDAI_APGU, title: 'Hyundai Dept. Store', lines: ['Apgujeong main store'], color: '#2e8b57' },
+    ],
+  },
+  'paradise-busan': {
+    region: 'haeundae', hotel: { at: P.PARADISE, title: 'Paradise Hotel Busan', lines: ['On Haeundae Beach'] },
+    routes: [
+      { from: 'PARADISE', to: 'DONGBAEK', mode: 'walk', color: '#2e8b57' },
+      { from: 'PARADISE', to: 'HAE_STN', mode: 'walk', color: '#e37400' },
+    ],
+    cards: [
+      { at: P.DONGBAEK, title: 'Dongbaek Island', lines: ['1.5 km · 20 min walk'], color: '#2e8b57' },
+      { at: P.HAE_MARKET, title: 'Haeundae Market', lines: ['Street food alley'], color: '#7b3fe4' },
+      { at: P.HAE_STN, title: 'Haeundae Station', lines: ['Line 2 · 12 min walk'], color: '#e37400' },
+    ],
+  },
+  'signiel-busan': {
+    region: 'haeundae', hotel: { at: P.SIGB, title: 'Signiel Busan', lines: ['In the LCT tower'] },
+    routes: [
+      { from: 'SIGB', to: 'DONGBAEK', mode: 'walk', color: '#2e8b57' },
+      { from: 'SIGB', to: 'HAE_STN', mode: 'walk', color: '#e37400' },
+    ],
+    cards: [
+      { at: P.HAE_BEACH, title: 'Haeundae Beach', lines: ['Right outside'], color: '#1a73e8' },
+      { at: P.DONGBAEK, title: 'Dongbaek Island', lines: ['2.2 km · 30 min walk'], color: '#2e8b57' },
+      { at: P.HAE_STN, title: 'Haeundae Station', lines: ['Line 2 · 19 min walk'], color: '#e37400' },
+    ],
+  },
+  'parnas-jeju': {
+    region: 'jungmun', hotel: { at: P.PJEJU, title: 'Parnas Hotel Jeju', lines: ['Clifftop above the sea'] },
+    routes: [
+      { from: 'PJEJU', to: 'SAEKDAL', mode: 'walk', color: '#2e8b57' },
+      { from: 'PJEJU', to: 'CHEONJEYEON', mode: 'drive', color: '#7b3fe4' },
+      { from: 'PJEJU', to: 'JUSANG', mode: 'drive', color: '#1a73e8' },
+    ],
+    cards: [
+      { at: P.SAEKDAL, title: 'Jungmun Saekdal Beach', lines: ['0.5 km · 7 min walk'], color: '#2e8b57' },
+      { at: P.CHEONJEYEON, title: 'Cheonjeyeon Falls', lines: ['About 5 min by taxi'], color: '#7b3fe4' },
+      { at: P.JUSANG, title: 'Jusangjeolli Cliff', lines: ['About 10 min by taxi'], color: '#1a73e8' },
     ],
   },
 }
