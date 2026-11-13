@@ -7,7 +7,23 @@
 import type { CityId } from './transitRoutes'
 
 export type HotspotCategory = 'Heritage' | 'Trendy Cafe' | 'Local Market' | 'Shopping & Street' | 'Nature & Park' | 'Skyline & Modern' | 'Coastal & Sea' | 'Art & Culture'
-export type Hotspot = { name: string; ko: string; category: HotspotCategory; what: string; tip: string }
+/**
+ * 명소 카드 아래 '이 명소를 다룬 우리 글' 링크. 같은 글을 여러 명소가 가리키므로 여기 한 번만 적고 이름으로 붙인다.
+ * label 은 어디로 가는지 그대로 말한다 — 일정 글로 가는데 명소 단독 가이드처럼 보이면 안 된다.
+ * 아직 글 제목 앵커(#section)는 쓰지 않는다: 본문 제목에 id 가 없고, 일정 글은 명소가 아니라 날짜로 묶여 있다(2026-11-13).
+ */
+export type SpotGuide = { slug: string; label: string }
+const GUIDES = {
+  itinerary: { slug: 'seoul-itinerary-first-timers-3-4-5-days', label: 'In our Seoul itinerary' },
+  seongsu: { slug: 'seongsu-dong-pop-up-cafe-guide', label: 'Seongsu-dong guide' },
+  myeongdongFood: { slug: 'myeongdong-street-food-guide', label: 'Myeongdong street food guide' },
+  hongdaeFood: { slug: 'hongdae-street-food-guide', label: 'Hongdae street food guide' },
+  hanRiver: { slug: 'han-river-parks-seoul-guide', label: 'Han River picnic guide' },
+  blossom: { slug: 'korea-cherry-blossom-autumn-foliage-guide', label: 'Cherry blossom & foliage guide' },
+  nami: { slug: 'nami-island-day-trip-seoul-guide', label: 'Nami Island day trip guide' },
+} satisfies Record<string, SpotGuide>
+
+export type Hotspot = { name: string; ko: string; category: HotspotCategory; what: string; tip: string; guide?: SpotGuide }
 type FourSpots = [Hotspot, Hotspot, Hotspot, Hotspot]
 export type SeoulClusterId = 'jongno' | 'myeongdong' | 'hongdae' | 'seongsu' | 'yeouido' | 'gangnam'
 export type SeoulCluster = { id: SeoulClusterId; name: string; short: string; ko: string; theme: string; spots: FourSpots }
@@ -17,23 +33,23 @@ export type HotspotCity = { id: CityId; name: string; routeLink: boolean; spots:
 const SEOUL_CLUSTERS: SeoulCluster[] = [
   {
     id: 'jongno', name: 'Jongno & Bukchon', short: 'Jongno', ko: '종로·북촌', theme: 'Palaces & Hanok Heritage', spots: [
-      { name: 'Gyeongbokgung Palace', ko: '경복궁', category: 'Heritage', what: 'Walk the courtyards of Seoul’s main royal palace.', tip: 'Subway Line 3 (Gyeongbokgung Station). Closed on Tuesdays.' },
-      { name: 'Bukchon Hanok Village', ko: '북촌 한옥마을', category: 'Heritage', what: 'Climb quiet lanes of tiled-roof houses where people still live.', tip: 'Near Anguk Station (Line 3). Red Zone sightseeing 10 a.m.–5 p.m.; ₩100,000 fine only after a warning.' },
+      { name: 'Gyeongbokgung Palace', ko: '경복궁', category: 'Heritage', what: 'Walk the courtyards of Seoul’s main royal palace.', tip: 'Subway Line 3 (Gyeongbokgung Station). Closed on Tuesdays.', guide: GUIDES.itinerary },
+      { name: 'Bukchon Hanok Village', ko: '북촌 한옥마을', category: 'Heritage', what: 'Climb quiet lanes of tiled-roof houses where people still live.', tip: 'Near Anguk Station (Line 3). Red Zone sightseeing 10 a.m.–5 p.m.; ₩100,000 fine only after a warning.', guide: GUIDES.itinerary },
       { name: 'Ikseon-dong Hanok Alley', ko: '익선동', category: 'Trendy Cafe', what: 'Browse cafes and small shops in narrow hanok alleys.', tip: 'Next to Jongno 3-ga Station (Lines 1, 3 and 5), one stop from Anguk on Line 3.' },
       { name: 'Changdeokgung & Secret Garden', ko: '창덕궁 & 후원', category: 'Heritage', what: 'Tour the UNESCO palace and its wooded royal garden.', tip: 'Near Anguk Station. Closed on Mondays. The garden is by guided tour only, with a separate ticket, so book ahead.' },
     ],
   },
   {
     id: 'myeongdong', name: 'Myeongdong & Central', short: 'Myeongdong', ko: '명동·중구', theme: 'Shopping, Markets & Tower', spots: [
-      { name: 'Myeongdong Street & Night Market', ko: '명동거리 & 야시장', category: 'Local Market', what: 'Shop for K-beauty, then graze the street food stalls.', tip: 'Myeongdong Station (Line 4). The food stalls are at their fullest in the evening.' },
-      { name: 'N Seoul Tower', ko: 'N서울타워', category: 'Skyline & Modern', what: 'Take in the whole city from the top of Namsan.', tip: 'Ride the Namsan cable car or a local bus up the mountain. Sunset is the busiest time.' },
+      { name: 'Myeongdong Street & Night Market', ko: '명동거리 & 야시장', category: 'Local Market', what: 'Shop for K-beauty, then graze the street food stalls.', tip: 'Myeongdong Station (Line 4). The food stalls are at their fullest in the evening.', guide: GUIDES.myeongdongFood },
+      { name: 'N Seoul Tower', ko: 'N서울타워', category: 'Skyline & Modern', what: 'Take in the whole city from the top of Namsan.', tip: 'Ride the Namsan cable car or a local bus up the mountain. Sunset is the busiest time.', guide: GUIDES.itinerary },
       { name: 'Namdaemun Market', ko: '남대문시장', category: 'Local Market', what: 'Hunt for souvenirs and hot snacks in Korea’s biggest traditional market.', tip: 'Hoehyeon Station (Line 4), one stop from Myeongdong. Most shops close on Sundays.' },
-      { name: 'DDP & Cheonggyecheon', ko: 'DDP & 청계천', category: 'Art & Culture', what: 'See the curving Zaha Hadid landmark, then follow the city stream.', tip: 'Dongdaemun History & Culture Park Station (Lines 2, 4 and 5). The stream is a short walk north.' },
+      { name: 'DDP & Cheonggyecheon', ko: 'DDP & 청계천', category: 'Art & Culture', what: 'See the curving Zaha Hadid landmark, then follow the city stream.', tip: 'Dongdaemun History & Culture Park Station (Lines 2, 4 and 5). The stream is a short walk north.', guide: GUIDES.itinerary },
     ],
   },
   {
     id: 'hongdae', name: 'Hongdae & Yeonnam', short: 'Hongdae', ko: '홍대·마포', theme: 'Youth & Indie Culture', spots: [
-      { name: 'Hongdae Busking & Walk Street', ko: '홍대 걷고싶은거리', category: 'Art & Culture', what: 'Watch street performers and shop the youth fashion lanes.', tip: 'Hongik Univ. Station (Line 2), Exit 9. Evenings are the liveliest.' },
+      { name: 'Hongdae Busking & Walk Street', ko: '홍대 걷고싶은거리', category: 'Art & Culture', what: 'Watch street performers and shop the youth fashion lanes.', tip: 'Hongik Univ. Station (Line 2), Exit 9. Evenings are the liveliest.', guide: GUIDES.hongdaeFood },
       { name: 'Yeonnam-dong Forest Trail', ko: '연남동 경의선숲길', category: 'Trendy Cafe', what: 'Stroll the leafy old rail line lined with cafes and wine bars.', tip: 'Hongik Univ. Station, Exit 3 opens right onto the park.' },
       { name: 'Mangwon Market', ko: '망원시장', category: 'Local Market', what: 'Snack through a neighborhood market that locals still use.', tip: 'Near Mangwon Station (Line 6). A short taxi ride from the trail.' },
       { name: 'Hapjeong & Sangsu Cafe Lanes', ko: '합정·상수', category: 'Trendy Cafe', what: 'Slow down in the quieter cafe lanes south of Hongdae.', tip: 'Sangsu Station (Line 6) is one stop from Hapjeong Station (Lines 2 and 6).' },
@@ -41,25 +57,25 @@ const SEOUL_CLUSTERS: SeoulCluster[] = [
   },
   {
     id: 'seongsu', name: 'Seongsu & Seoul Forest', short: 'Seongsu', ko: '성수·뚝섬', theme: 'Pop-ups & Cafes', spots: [
-      { name: 'Yeonmujang-gil Pop-up Street', ko: '연무장길 팝업스토어', category: 'Shopping & Street', what: 'Browse brand pop-ups, concept stores and small studios.', tip: 'Near Seongsu Station (Line 2). Pop-ups change often, so see what’s on that week.' },
-      { name: 'Seoul Forest Park', ko: '서울숲', category: 'Nature & Park', what: 'Walk the wide lawns and tree-lined paths of the city’s big park.', tip: 'Next to Seoul Forest Station (Suin-Bundang Line). Free to enter.' },
-      { name: 'Daelim Changgo Gallery', ko: '대림창고', category: 'Art & Culture', what: 'See a former red-brick warehouse turned art space and cafe.', tip: 'In the Seongsu Station area. We could not confirm current hours, so check before you go.' },
-      { name: 'Ttukseom Cafe Street', ko: '뚝섬 카페거리', category: 'Trendy Cafe', what: 'Stop for coffee in the small lanes beside the park.', tip: 'Between Ttukseom Station (Line 2) and Seoul Forest, an easy walk from either.' },
+      { name: 'Yeonmujang-gil Pop-up Street', ko: '연무장길 팝업스토어', category: 'Shopping & Street', what: 'Browse brand pop-ups, concept stores and small studios.', tip: 'Near Seongsu Station (Line 2). Pop-ups change often, so see what’s on that week.', guide: GUIDES.seongsu },
+      { name: 'Seoul Forest Park', ko: '서울숲', category: 'Nature & Park', what: 'Walk the wide lawns and tree-lined paths of the city’s big park.', tip: 'Next to Seoul Forest Station (Suin-Bundang Line). Free to enter.', guide: GUIDES.seongsu },
+      { name: 'Daelim Changgo Gallery', ko: '대림창고', category: 'Art & Culture', what: 'See a former red-brick warehouse turned art space and cafe.', tip: 'In the Seongsu Station area. We could not confirm current hours, so check before you go.', guide: GUIDES.seongsu },
+      { name: 'Ttukseom Cafe Street', ko: '뚝섬 카페거리', category: 'Trendy Cafe', what: 'Stop for coffee in the small lanes beside the park.', tip: 'Between Ttukseom Station (Line 2) and Seoul Forest, an easy walk from either.', guide: GUIDES.seongsu },
     ],
   },
   {
     id: 'yeouido', name: 'Yeouido & Yongsan', short: 'Yeouido', ko: '여의도·용산', theme: 'Han River & Culture', spots: [
-      { name: 'Yeouido Hangang Park', ko: '여의도 한강공원', category: 'Nature & Park', what: 'Picnic by the river and try convenience-store Han River ramen.', tip: 'Yeouinaru Station (Line 5) opens onto the park. Sunset is the best time.' },
+      { name: 'Yeouido Hangang Park', ko: '여의도 한강공원', category: 'Nature & Park', what: 'Picnic by the river and try convenience-store Han River ramen.', tip: 'Yeouinaru Station (Line 5) opens onto the park. Sunset is the best time.', guide: GUIDES.hanRiver },
       { name: 'The Hyundai Seoul', ko: '더현대 서울', category: 'Shopping & Street', what: 'Shop a department store built around an indoor garden.', tip: 'A short walk from Yeouido Station (Lines 5 and 9), or one stop from Yeouinaru.' },
-      { name: 'Hannam-dong Designer Street', ko: '한남동 거리', category: 'Shopping & Street', what: 'Browse designer boutiques and stylish cafes.', tip: 'Near Hangangjin Station (Line 6). Best explored on foot.' },
+      { name: 'Hannam-dong Designer Street', ko: '한남동 거리', category: 'Shopping & Street', what: 'Browse designer boutiques and stylish cafes.', tip: 'Near Hangangjin Station (Line 6). Best explored on foot.', guide: GUIDES.itinerary },
       { name: 'National Museum of Korea', ko: '국립중앙박물관', category: 'Heritage', what: 'See Korea’s national treasures in one huge museum.', tip: 'Near Ichon Station. Open late on Wednesdays and Saturdays. Fees are reported to start in 2027.' },
     ],
   },
   {
     id: 'gangnam', name: 'Gangnam & Jamsil', short: 'Gangnam', ko: '강남·잠실', theme: 'Landmarks & Skyline', spots: [
-      { name: 'Starfield Library at COEX', ko: '코엑스 별마당도서관', category: 'Shopping & Street', what: 'Photograph the towering bookshelves, then shop the mall.', tip: 'Connected to Samseong Station (Line 2) and Bongeunsa Station (Line 9). Free entry.' },
+      { name: 'Starfield Library at COEX', ko: '코엑스 별마당도서관', category: 'Shopping & Street', what: 'Photograph the towering bookshelves, then shop the mall.', tip: 'Connected to Samseong Station (Line 2) and Bongeunsa Station (Line 9). Free entry.', guide: GUIDES.itinerary },
       { name: 'Lotte World Tower & Seoul Sky', ko: '롯데월드타워 & 서울스카이', category: 'Skyline & Modern', what: 'Go up Korea’s tallest building for the glass-floor view.', tip: 'Connected to Jamsil Station (Lines 2 and 8), a few stops along Line 2 from Samseong. Book a time slot online.' },
-      { name: 'Seokchon Lake Trail', ko: '석촌호수', category: 'Nature & Park', what: 'Walk the lakeside path with skyline views.', tip: 'Right beside Lotte World Mall, an easy finish on foot.' },
+      { name: 'Seokchon Lake Trail', ko: '석촌호수', category: 'Nature & Park', what: 'Walk the lakeside path with skyline views.', tip: 'Right beside Lotte World Mall, an easy finish on foot.', guide: GUIDES.blossom },
       { name: 'Apgujeong Rodeo Street', ko: '압구정 로데오', category: 'Shopping & Street', what: 'Browse flagship stores, K-beauty clinics and upscale cafes.', tip: 'Apgujeongrodeo Station (Suin-Bundang Line). Farther from the rest, so give it its own trip.' },
     ],
   },
@@ -109,7 +125,7 @@ export const HOTSPOT_CITIES: HotspotCity[] = [
       { name: 'Sokcho Tourist and Fishery Market', ko: '속초관광수산시장', category: 'Local Market', what: 'Snack on sweet fried chicken and local seafood.', tip: 'In the town center. Check a map app for the walk from your bus terminal.' },
       { name: 'Sokcho Eye', ko: '속초아이', category: 'Coastal & Sea', what: 'Ride the beachfront Ferris wheel for coastal views.', tip: 'At Sokcho Beach. It may stop on windy days, so check before you go.' },
       { name: 'Yeonggeumjeong', ko: '영금정', category: 'Coastal & Sea', what: 'Walk out to the seaside pavilion above the rocks.', tip: 'A short taxi ride from the market. Lovely around sunrise.' },
-      { name: 'Seoraksan Cable Car', ko: '설악산 케이블카', category: 'Nature & Park', what: 'Ride up to the granite ridges of Seoraksan.', tip: 'Bus 7 or 7-1 to Seorak-dong, the last stop. Round-trip tickets only, and autumn queues run long.' },
+      { name: 'Seoraksan Cable Car', ko: '설악산 케이블카', category: 'Nature & Park', what: 'Ride up to the granite ridges of Seoraksan.', tip: 'Bus 7 or 7-1 to Seorak-dong, the last stop. Round-trip tickets only, and autumn queues run long.', guide: GUIDES.blossom },
     ],
   },
   {
@@ -137,7 +153,7 @@ export const HOTSPOT_CITIES: HotspotCity[] = [
   },
   {
     id: 'chuncheon', name: 'Chuncheon', routeLink: true, spots: [
-      { name: 'Nami Island', ko: '남이섬', category: 'Nature & Park', what: 'Walk the tree-lined avenues of a small river island.', tip: 'Ferry from the Gapyeong wharf, a short taxi ride from Gapyeong Station. It is on the way to Chuncheon, not in town.' },
+      { name: 'Nami Island', ko: '남이섬', category: 'Nature & Park', what: 'Walk the tree-lined avenues of a small river island.', tip: 'Ferry from the Gapyeong wharf, a short taxi ride from Gapyeong Station. It is on the way to Chuncheon, not in town.', guide: GUIDES.nami },
       { name: 'LEGOLAND Korea', ko: '레고랜드 코리아', category: 'Art & Culture', what: 'Spend a day at the brick-built theme park on a lake island.', tip: 'Near Chuncheon Station. Winter days and rides are limited, so check the park calendar first.' },
       { name: 'Myeongdong Dakgalbi Street', ko: '춘천 명동 닭갈비골목', category: 'Local Market', what: 'Eat Chuncheon’s spicy stir-fried chicken at a street of specialists.', tip: 'In downtown Chuncheon. Most places need an order for two.' },
     ],

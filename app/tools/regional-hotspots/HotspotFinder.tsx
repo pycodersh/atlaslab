@@ -94,6 +94,12 @@ export function HotspotFinder() {
         .hs-link { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 6px 4px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; background: #fff; color: #334155; text-decoration: none; white-space: nowrap; font: 600 12px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
         @media (hover: hover) { .hs-link:hover { background: #F9FAFB; border-color: #9CA3AF; } }
         .hs-link:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        /* 우리 글 링크 — 한 줄짜리 글자 링크(사이트 레드). 버튼처럼 무겁게 만들지 않는다. 터치 높이 32px.
+           폰: 꽉 찬 버튼 줄 아래 줄. 넓은 화면(768px~): 버튼과 같은 줄 왼쪽(버튼은 오른쪽 그대로) — 카드 높이가 늘지 않는다 */
+        .hs-foot { display: flex; flex-direction: column; }
+        .hs-guide { align-self: flex-start; display: inline-flex; align-items: center; min-height: 32px; margin-top: 8px; color: #C8102E; text-decoration: none; font: 600 13px "DM Sans", Inter, system-ui, sans-serif; }
+        @media (hover: hover) { .hs-guide:hover { text-decoration: underline; text-underline-offset: 3px; } }
+        .hs-guide:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; border-radius: 4px; }
         .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
         .hs-tab:focus-visible, .hs-chip:focus-visible, .hs-route:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         /* 폰은 글 칸이 좁아 버튼 글자가 넘치므로 버튼 줄만 썸네일 아래까지 펼친다 */
@@ -109,6 +115,9 @@ export function HotspotFinder() {
         @media (min-width: 768px) {
           .hs-tabs { grid-template-columns: repeat(6, minmax(0, 1fr)); }
           .hs-links { display: flex; justify-content: flex-end; }
+          .hs-foot { flex-direction: row-reverse; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
+          .hs-foot .hs-links { margin-top: 0; }
+          .hs-foot .hs-guide { align-self: center; margin-top: 0; }
           .hs-link { min-height: 36px; padding: 4px 14px; font-size: 12px; }
           .hs-card { padding: 20px; }
           .hs-head { gap: 20px; }
@@ -182,9 +191,13 @@ export function HotspotFinder() {
                 </div>
               </div>
               <p className="hs-tip">{metaTip(spot.tip)}</p>
+              <div className="hs-foot">
               <div className="hs-links notranslate" translate="no">
                 <a className="hs-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot.ko} ${spot.name}`)}`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Google Maps`}><GoogleIcon />Google Maps</a>
                 <a className="hs-link" href={`https://www.instagram.com/explore/tags/${encodeURIComponent(instagramTag(spot.ko))}/`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Instagram`}><InstagramIcon />Live Vibes</a>
+              </div>
+              {/* 이 명소를 다룬 우리 글 — 같은 탭으로 연다. 라벨이 행선지(일정 글 · 지역 가이드)를 그대로 말한다 */}
+              {spot.guide && <a className="hs-guide" href={`/blog/en/k-patto/${spot.guide.slug}`}>{spot.guide.label} →</a>}
               </div>
             </article>
           ))}
