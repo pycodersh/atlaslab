@@ -171,7 +171,7 @@ export default async function AtlasLabHome() {
     {
       key: 'phrases', title: 'Real-Life Phrases',
       desc: 'Master useful Korean phrases for cafes, restaurants, and daily life.',
-      href: '/learn-korean/phrases', thumb: thumbOf('korean-restaurant-drop-yo-water'), thumbAlt: 'K-Patto webtoon scene at a Korean restaurant',
+      href: '/learn-korean/phrases', thumb: thumbOf('giving-seat-elderly-korea-bus'), thumbAlt: 'K-Patto webtoon scene of a student giving up his bus seat to an elderly woman in Seoul',
     },
     {
       key: 'basics', title: 'Korean Basics',
