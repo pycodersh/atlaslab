@@ -77,8 +77,10 @@ export type InstallTheme = {
 }
 
 export type InstallAppButtonProps = {
-  /** button = 꽉 찬 검은 버튼(앱 안), link = 글 줄 속 텍스트 링크(랜딩·푸터) */
-  variant?: 'button' | 'link'
+  /** button = 꽉 찬 검은 버튼(앱 안), link = 글 줄 속 텍스트 링크(푸터), bare = 기본 스타일 없음(className 으로 꾸민다) */
+  variant?: 'button' | 'link' | 'bare'
+  /** 버튼을 감싸는 틀(카드 등) — 설치된 창에서는 틀째 사라진다 */
+  frame?: (button: React.ReactNode) => React.ReactNode
   /** link 일 때 버튼 대신 쓸 문구 — 없으면 기기별 문구 */
   label?: string
   /** 버튼이 보일 때만 앞에 붙는 것(예: ' · ') — 설치된 창에서 구분점만 남지 않게 */
@@ -87,7 +89,7 @@ export type InstallAppButtonProps = {
   className?: string
 }
 
-export function InstallAppButton({ theme, variant = 'button', label, before, style, className }: InstallAppButtonProps & { theme: InstallTheme }) {
+export function InstallAppButton({ theme, variant = 'button', label, before, frame, style, className }: InstallAppButtonProps & { theme: InstallTheme }) {
   const [platform, setPlatform] = useState<Platform | null>(null)
   const [hidden, setHidden] = useState(true)
   const [canPrompt, setCanPrompt] = useState(false)
@@ -125,7 +127,7 @@ export function InstallAppButton({ theme, variant = 'button', label, before, sty
     setGuide(true)
   }
 
-  const base: React.CSSProperties = variant === 'link'
+  const base: React.CSSProperties = variant === 'bare' ? { cursor: 'pointer' } : variant === 'link'
     ? {
         display: 'inline', padding: 0, margin: 0, background: 'none', border: 'none',
         font: 'inherit', fontWeight: 600, color: 'inherit',
@@ -138,18 +140,22 @@ export function InstallAppButton({ theme, variant = 'button', label, before, sty
         fontFamily: 'inherit', fontSize: 15.5, fontWeight: 700,
       }
 
+  const button = (
+    <button
+      type="button"
+      onClick={onClick}
+      data-can-prompt={canPrompt || undefined}
+      className={className}
+      style={{ WebkitTapHighlightColor: 'transparent', ...base, ...style }}
+    >
+      {label ?? LABEL[platform]}
+    </button>
+  )
+
   return (
     <>
       {before}
-      <button
-        type="button"
-        onClick={onClick}
-        data-can-prompt={canPrompt || undefined}
-        className={className}
-        style={{ WebkitTapHighlightColor: 'transparent', ...base, ...style }}
-      >
-        {label ?? LABEL[platform]}
-      </button>
+      {frame ? frame(button) : button}
       {guide && <InstallGuide platform={platform} theme={theme} onClose={() => setGuide(false)} />}
     </>
   )

@@ -12,7 +12,7 @@ import {
 } from '@/lib/kpantry/purchase'
 import GumroadOverlayLink from '@/components/checkout/GumroadOverlayLink'
 import UnlockLink from './UnlockLink'
-import { InstallAppButton, KPantryInstallPromptCatcher } from '@/components/kpantry/InstallAppButton'
+import { InstallAppCard, KPantryInstallPromptCatcher } from '@/components/kpantry/InstallAppButton'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 const CANONICAL = `${SITE}/kpantry/landing`
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: { url: CANONICAL },
   // TEMP(AdSense review): /kpatto 랜딩과 같이 심사 기간에는 색인 제외 — 승인 후 이 줄을 지운다.
   robots: { index: false, follow: true },
-  // 앱과 같은 K-Pantry 매니페스트(범위 /kpantry/) — 가격 아래 'Install the app' 링크가 여기서도 네이티브 설치 창을 연다
+  // 앱과 같은 K-Pantry 매니페스트(범위 /kpantry/) — 가격 아래 설치 카드가 여기서도 네이티브 설치 창을 연다
   manifest: '/kpantry/manifest.webmanifest',
   appleWebApp: { capable: true, title: 'K-Pantry', statusBarStyle: 'default' },
   icons: { apple: '/icons/kpantry/icon-192.png' },
@@ -101,8 +101,6 @@ export default function KPantryLandingPage() {
         .lp-btn:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
         .lp-btn-primary { background: ${RED}; border-color: ${RED}; color: #fff; }
         .lp-btn-primary:hover { background: var(--brand-red-dark, #A30D25); border-color: var(--brand-red-dark, #A30D25); }
-        .lp-btn-ghost { background: transparent; border-color: rgba(255,255,255,.4); color: #fff; }
-        .lp-btn-ghost:hover { background: #fff; color: ${INK}; }
 
         /* 숫자 띠 — 실제 데이터 수 */
         .lp-stats { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid ${RULE}; background: #fff; }
@@ -180,7 +178,6 @@ export default function KPantryLandingPage() {
           .lp-section { padding: 48px 0; }
           .lp-h2 { font-size: 26px; }
           .lp-btn { width: 100%; min-width: 0; }
-          .lp-hero-btns { flex-direction: column; }
           .lp-plans { grid-template-columns: 1fr; gap: 28px; }
           .lp-phone { border-radius: 22px; padding: 6px; }
           .lp-phone img { border-radius: 17px; }
@@ -195,21 +192,18 @@ export default function KPantryLandingPage() {
 
       <SiteNav />
 
-      {/* ── Hero ── */}
+      {/* ── Hero — 핵심 가치 한 문장(버튼 없이). /kpatto 랜딩 히어로와 같은 구성 —
+           앱 진입은 하단 고정 'Launch App' 바와 가격 섹션 무료 카드 버튼이 맡는다 ── */}
       <section style={{ background: '#121212' }}>
         <div className="lp-wrap" style={{ paddingTop: 'clamp(48px, 8vw, 88px)', paddingBottom: 'clamp(52px, 8vw, 88px)' }}>
           <p className="lp-kicker" translate="no">K-PANTRY</p>
           <h1 style={{ fontFamily: SERIF, fontSize: 'clamp(30px, 4.4vw, 50px)', fontWeight: 700, lineHeight: 1.12, letterSpacing: '-.02em', color: '#fff', margin: '0 0 18px', maxWidth: 780 }}>
             Cook Real Korean Food with What&rsquo;s Already in Your Fridge
           </h1>
-          <p style={{ fontSize: 'clamp(15px, 1.6vw, 17px)', lineHeight: 1.7, color: 'rgba(255,255,255,.68)', margin: '0 0 30px', maxWidth: 640 }}>
+          <p style={{ fontSize: 'clamp(15px, 1.6vw, 17px)', lineHeight: 1.7, color: 'rgba(255,255,255,.68)', margin: 0, maxWidth: 640 }}>
             {`Tell K-Pantry what you have, and it matches you to ${RECIPES} beginner-friendly Korean recipes — no extra grocery run. `}
             Or pick the dish you&rsquo;re craving and get the exact ingredient list and step-by-step guide.
           </p>
-          <div className="lp-hero-btns" style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            <LaunchButton />
-            <a href="#features" className="lp-btn lp-btn-ghost">See how it works</a>
-          </div>
         </div>
       </section>
 
@@ -380,9 +374,10 @@ export default function KPantryLandingPage() {
           <p className="lp-plans-note">
             Secure checkout by Gumroad · {REFUND_DAYS}-day money-back guarantee ·{' '}
             <a href={`${APP}/refund`} style={{ color: MUTED, textUnderlineOffset: 3 }}>Refund policy</a>
-            {/* 웹페이지의 설치 진입점은 여기 한 곳 — 버튼이 아니라 안내 줄 속 링크로(이미 설치된 창이면 구분점째 사라진다) */}
-            <InstallAppButton variant="link" label="📲 Install the app" before=" · " style={{ color: INK }} />
           </p>
+          {/* 웹페이지의 설치 진입점은 여기 한 곳 — 가격 카드 그리드와 같은 너비의 슬림 카드(/kpatto 랜딩과 같은 자리·모양).
+              이미 설치된 창이면 카드째 보이지 않는다 */}
+          <InstallAppCard />
           <div className="lp-end-pad" />
         </div>
       </section>
