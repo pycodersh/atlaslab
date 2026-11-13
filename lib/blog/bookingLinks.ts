@@ -62,4 +62,12 @@ export const BOOKING_LINKS: Record<string, BookingLink> = {
     name: 'Grand InterContinental Seoul Parnas',
     trip: TRIP('1517243/intercontinental-grand-seoul-parnas-by-ihg'),
   },
+  // 강북 · 남산 · 여의도 · 이태원 · 마포 7곳 (2026-11-13 브라우저로 200 · 호텔 페이지 확인)
+  shilla: { name: 'The Shilla Seoul', trip: TRIP('988584/the-shilla-seoul') },
+  'banyan-tree-seoul': { name: 'Banyan Tree Club & Spa Seoul', trip: TRIP('988402/banyan-tree-club-and-spa-seoul') },
+  'fairmont-ambassador': { name: 'Fairmont Ambassador Seoul', trip: TRIP('68168684/fairmont-ambassador-seoul') },
+  conrad: { name: 'Conrad Seoul', trip: TRIP('1465780/conrad-seoul') },
+  mondrian: { name: 'Mondrian Seoul Itaewon', trip: TRIP('59478652/mondrian-seoul-itaewon') },
+  'westin-josun': { name: 'The Westin Josun Seoul', trip: TRIP('988507/the-westin-josun-seoul') },
+  'hotel-naru': { name: 'Hotel Naru Seoul - MGallery', trip: TRIP('100964631/hotel-naru-seoul-mgallery-collection') },
 }

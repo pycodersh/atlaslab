@@ -40,6 +40,14 @@ const P = {
   PH: [37.50863, 127.06417], GIC: [37.50913, 127.06069], AQUA: [37.51318, 127.05861], BONGEUNSA: [37.5155, 127.05619],
   JOSUN: [37.50338, 127.0416], YEOKSAM: [37.50105, 127.03717],
   JW: [37.50414, 127.00465], BANPO: [37.51234, 127.00011],
+  // 강북 · 남산 · 여의도 · 이태원 · 마포 (OSM 실측 2026-11-13, 반얀트리만 OSM 에 없어 Trip.com 좌표 — 다른 호텔은 둘이 일치)
+  SHILLA: [37.55589, 127.00515], DONGGUK: [37.55868, 127.00638], DDP: [37.56622, 127.00989],
+  BANYAN: [37.54997, 127.00073],
+  MONDRIAN: [37.52856, 126.99313], ITAEWON: [37.5345, 126.99366], LEEUM: [37.53833, 126.99902],
+  WESTIN: [37.56438, 126.98006],
+  FAIRMONT: [37.52518, 126.92905], HYUNDAI: [37.52596, 126.92842], CONRAD: [37.52537, 126.92663],
+  YEOUIDO: [37.52269, 126.92381], YEOUINARU: [37.52685, 126.93253], SQ63: [37.51985, 126.94025],
+  NARU: [37.5372, 126.94432], MAPO: [37.53926, 126.94578],
 }
 
 /* ── 지역 바탕 ─────────────────────────────────────────────── */
@@ -70,6 +78,16 @@ const REGIONS = {
       { t: 'SEOCHO', at: [37.492, 127.008], size: 18 },
       { t: 'GANGNAM', at: [37.494, 127.05], size: 18 },
       { t: 'SONGPA', at: [37.495, 127.103], size: 18 },
+    ],
+  },
+  yeouido: {
+    bbox: [37.500, 126.890, 37.560, 126.975], // 여의도 · 마포 · 공덕 · 영등포가 한 화면
+    labels: [
+      { t: 'Han River', at: [37.5345, 126.92], size: 24, italic: true },
+      { t: 'YEOUIDO', at: [37.5195, 126.926], size: 18 },
+      { t: 'Bamseom', at: [37.5395, 126.930], size: 16, italic: true },
+      { t: 'MAPO', at: [37.552, 126.94], size: 18 },
+      { t: 'YEONGDEUNGPO', at: [37.507, 126.91], size: 18 },
     ],
   },
 }
@@ -186,6 +204,90 @@ const MAPS = {
       { at: P.AQUA, title: 'COEX Aquarium', lines: ['1 km · about 13 min walk'], color: '#e37400' },
       { at: P.BONGEUNSA, title: 'Bongeunsa Temple', lines: ['about 8 min walk'], color: '#2e8b57' },
       { at: P.SIG, title: 'Lotte World Tower', lines: ['about 15 min by taxi'], color: '#1a73e8' },
+    ],
+  },
+  shilla: {
+    region: 'seoul', hotel: { at: P.SHILLA, title: 'The Shilla Seoul', lines: ['Hillside in Jangchung-dong'] },
+    routes: [
+      { from: 'SHILLA', to: 'DONGGUK', mode: 'walk', color: '#e37400' },
+      { from: 'SHILLA', to: 'MYEONGDONG', mode: 'drive', color: '#1a73e8' },
+      { from: 'SHILLA', to: 'DDP', mode: 'drive', color: '#7b3fe4' },
+    ],
+    cards: [
+      { at: P.DONGGUK, title: 'Dongguk Univ. Station', lines: ['Line 3 · walk or shuttle'], color: '#e37400' },
+      { at: P.MYEONGDONG, title: 'Myeongdong', lines: ['about 10 min by taxi'], color: '#1a73e8' },
+      { at: P.DDP, title: 'Dongdaemun (DDP)', lines: ['about 5 min by taxi'], color: '#7b3fe4' },
+    ],
+  },
+  'banyan-tree-seoul': {
+    region: 'seoul', hotel: { at: P.BANYAN, title: 'Banyan Tree Seoul', lines: ['On the slopes of Namsan'] },
+    routes: [
+      { from: 'BANYAN', to: 'TOWER', mode: 'walk', color: '#2e8b57' },
+      { from: 'BANYAN', to: 'MYEONGDONG', mode: 'drive', color: '#1a73e8' },
+    ],
+    cards: [
+      { at: P.TOWER, title: 'N Seoul Tower', lines: ['1.8 km uphill walk'], color: '#2e8b57' },
+      { at: P.MYEONGDONG, title: 'Myeongdong', lines: ['about 15 min by taxi'], color: '#1a73e8' },
+    ],
+  },
+  mondrian: {
+    region: 'seoul', hotel: { at: P.MONDRIAN, title: 'Mondrian Itaewon', lines: ['Rooftop pool and bar'] },
+    routes: [
+      { from: 'MONDRIAN', to: 'ITAEWON', mode: 'walk', color: '#e37400' },
+      { from: 'MONDRIAN', to: 'LEEUM', mode: 'walk', color: '#7b3fe4' },
+    ],
+    cards: [
+      { at: P.ITAEWON, title: 'Itaewon Station', lines: ['Line 6 · about 10 min walk'], color: '#e37400' },
+      { at: P.LEEUM, title: 'Leeum Museum of Art', lines: ['1.6 km · about 20 min walk'], color: '#7b3fe4' },
+      { at: P.TOWER, title: 'N Seoul Tower', lines: ['about 15 min by taxi'], color: '#2e8b57' },
+    ],
+  },
+  'westin-josun': {
+    region: 'seoul', hotel: { at: P.WESTIN, title: 'Westin Josun Seoul', lines: ['Sogong-dong, by City Hall'] },
+    routes: [
+      { from: 'SEOUL', to: 'WESTIN', mode: 'drive', color: '#1a73e8' },
+      { from: 'WESTIN', to: 'MYEONGDONG', mode: 'walk', color: '#e37400' },
+      { from: 'WESTIN', to: 'GATE', mode: 'walk', color: '#7b3fe4' },
+    ],
+    cards: [
+      { at: P.SEOUL, title: 'Seoul Station', lines: ['AREX Airport Express', 'about 10 min by taxi'], color: '#1a73e8' },
+      { at: P.MYEONGDONG, title: 'Myeongdong Street', lines: ['about 8 min walk'], color: '#e37400' },
+      { at: P.GATE, title: 'Gyeongbokgung Palace', lines: ['about 20 min walk'], color: '#7b3fe4' },
+    ],
+  },
+  'fairmont-ambassador': {
+    region: 'yeouido', hotel: { at: P.FAIRMONT, title: 'Fairmont Ambassador', lines: ['Parc.1 complex, Yeouido'] },
+    routes: [
+      { from: 'FAIRMONT', to: 'YEOUINARU', mode: 'walk', color: '#e37400' },
+      { from: 'FAIRMONT', to: 'SQ63', mode: 'drive', color: '#1a73e8' },
+    ],
+    cards: [
+      { at: P.HYUNDAI, title: 'The Hyundai Seoul', lines: ['Linked underground'], color: '#7b3fe4' },
+      { at: P.YEOUINARU, title: 'Yeouido Hangang Park', lines: ['Cruise pier · 12 min walk'], color: '#e37400' },
+      { at: P.SQ63, title: '63 Square', lines: ['about 5 min by taxi'], color: '#1a73e8' },
+    ],
+  },
+  conrad: {
+    region: 'yeouido', hotel: { at: P.CONRAD, title: 'Conrad Seoul', lines: ['Part of the IFC complex'] },
+    routes: [
+      { from: 'CONRAD', to: 'YEOUIDO', mode: 'walk', color: '#e37400' },
+      { from: 'CONRAD', to: 'YEOUINARU', mode: 'walk', color: '#2e8b57' },
+    ],
+    cards: [
+      { at: P.YEOUIDO, title: 'Yeouido Station', lines: ['Lines 5 & 9 · via IFC Mall'], color: '#e37400' },
+      { at: P.YEOUINARU, title: 'Yeouido Hangang Park', lines: ['Cruise pier · 10 min walk'], color: '#2e8b57' },
+      { at: P.SQ63, title: '63 Square', lines: ['about 5 min by taxi'], color: '#1a73e8' },
+    ],
+  },
+  'hotel-naru': {
+    region: 'yeouido', hotel: { at: P.NARU, title: 'Hotel Naru Seoul', lines: ['Riverside at Mapo Bridge'] },
+    routes: [
+      { from: 'NARU', to: 'MAPO', mode: 'walk', color: '#e37400' },
+      { from: 'NARU', to: 'YEOUINARU', mode: 'drive', color: '#1a73e8' },
+    ],
+    cards: [
+      { at: P.MAPO, title: 'Mapo Station', lines: ['Line 5 · short walk'], color: '#e37400' },
+      { at: P.YEOUINARU, title: 'Yeouido Hangang Park', lines: ['Across Mapo Bridge'], color: '#1a73e8' },
     ],
   },
 }

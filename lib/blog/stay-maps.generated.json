@@ -27,6 +27,15 @@
     "px": 105,
     "label": "1 km"
    }
+  },
+  "yeouido": {
+   "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-map-yeouido-v3.webp",
+   "w": 1200,
+   "h": 1068,
+   "scale": {
+    "px": 160,
+    "label": "1 km"
+   }
   }
  },
  "maps": {
@@ -1146,6 +1155,762 @@
       319.3,
       873.6,
       105.3
+     ]
+    }
+   ]
+  },
+  "shilla": {
+   "region": "seoul",
+   "hotel": {
+    "x": 874.4,
+    "y": 469.5,
+    "title": "The Shilla Seoul",
+    "lines": [
+     "Hillside in Jangchung-dong"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "877.7,465.6 874.5,464.3 875.3,460.7 877.3,461 882.8,454.5 885.4,454.2 884.9,448.1 881.4,446.4 884.1,440 885.1,429.3 886.6,429.5"
+    },
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "877.9,464.5 881.4,464.2 883.3,457.7 889.6,456.5 894.6,452.2 900.2,435 892.9,429.4 881.5,426 858.6,427.2 851.1,424.8 849.5,420.3 846.2,369 748,397.4 722.1,397.6 701.4,394.7 665.4,400 661.5,384.1 643.6,387.1 637.9,362.5 655.1,360.1"
+    },
+    {
+     "color": "#7b3fe4",
+     "dash": false,
+     "pts": "877.9,464.5 881.4,464.2 883.3,457.7 889.6,456.5 894.6,452.2 900.2,435 892.9,429.4 881.5,426 879.4,411.6 900.8,338 908.4,332.6 925.2,339.6 929.9,332.4"
+    }
+   ],
+   "pins": [
+    {
+     "x": 887.8,
+     "y": 431.1,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 655.1,
+     "y": 360.1,
+     "num": 2,
+     "color": "#1a73e8"
+    },
+    {
+     "x": 926.1,
+     "y": 327.3,
+     "num": 3,
+     "color": "#7b3fe4"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "The Shilla Seoul",
+     "lines": [
+      "Hillside in Jangchung-dong"
+     ],
+     "color": "#C8102E",
+     "x": 480.4,
+     "y": 423,
+     "leader": [
+      874.4,
+      469.5,
+      840.4,
+      469.5
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Dongguk Univ. Station",
+     "lines": [
+      "Line 3 · walk or shuttle"
+     ],
+     "color": "#e37400",
+     "x": 383.8,
+     "y": 194.1,
+     "leader": [
+      887.8,
+      431.1,
+      743.8,
+      287.1
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Myeongdong",
+     "lines": [
+      "about 10 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 261.1,
+     "y": 313.6,
+     "leader": [
+      655.1,
+      360.1,
+      621.1,
+      360.1
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "Dongdaemun (DDP)",
+     "lines": [
+      "about 5 min by taxi"
+     ],
+     "color": "#7b3fe4",
+     "x": 746.1,
+     "y": 90.3,
+     "leader": [
+      926.1,
+      327.3,
+      926.1,
+      183.3
+     ]
+    }
+   ]
+  },
+  "banyan-tree-seoul": {
+   "region": "seoul",
+   "hotel": {
+    "x": 826.1,
+    "y": 551,
+    "title": "Banyan Tree Seoul",
+    "lines": [
+     "On the slopes of Namsan"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#2e8b57",
+     "dash": true,
+     "pts": "827.7,547.7 831.7,547 832.9,543.9 838,544.3 838.9,542.7 825,535.3 820.5,529.4 821,527.2 811.8,528.8 800.7,527.6 794.5,530.3 791.6,528.7 785,537.4 779.8,539 776.4,546 773.6,546.8 772.6,542.9 766.4,547.9 757.8,560.3 754,561.5 749.1,559.8 727.9,545 720.6,535.4 711.8,530.5 703.8,529.9 694.2,526.4 686.8,529.7 688,534.4"
+    },
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "827.7,547.7 831.1,547.4 832.2,545.1 839.3,544.8 838.6,541.7 825.3,533.1 841.4,516.1 848.5,492.9 862.6,473.7 881.4,429.1 881.5,426 858.6,427.2 851.1,424.8 849.5,420.3 846.2,369 748,397.4 722.1,397.6 701.4,394.7 665.4,400 661.5,384.1 643.6,387.1 637.9,362.5 655.1,360.1"
+    }
+   ],
+   "pins": [
+    {
+     "x": 689.8,
+     "y": 534.4,
+     "num": 1,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 655.1,
+     "y": 360.1,
+     "num": 2,
+     "color": "#1a73e8"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Banyan Tree Seoul",
+     "lines": [
+      "On the slopes of Namsan"
+     ],
+     "color": "#C8102E",
+     "x": 646.1,
+     "y": 635,
+     "leader": [
+      826.1,
+      551,
+      826.1,
+      635
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "N Seoul Tower",
+     "lines": [
+      "1.8 km uphill walk"
+     ],
+     "color": "#2e8b57",
+     "x": 295.8,
+     "y": 487.9,
+     "leader": [
+      689.8,
+      534.4,
+      655.8,
+      534.4
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Myeongdong",
+     "lines": [
+      "about 15 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 261.1,
+     "y": 313.6,
+     "leader": [
+      655.1,
+      360.1,
+      621.1,
+      360.1
+     ]
+    }
+   ]
+  },
+  "mondrian": {
+   "region": "seoul",
+   "hotel": {
+    "x": 743.2,
+    "y": 845.5,
+    "title": "Mondrian Itaewon",
+    "lines": [
+     "Rooftop pool and bar"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "741.5,849.7 747.1,852 762.3,826.1 762.6,811.3 766.5,807.3 761.7,799.1 753.5,771.2 750.4,763.7 749,763.8"
+    },
+    {
+     "color": "#7b3fe4",
+     "dash": true,
+     "pts": "741.5,849.7 747.1,852 762.3,826.1 762.6,811.3 764.4,809.2 776.3,800.8 779.6,801.4 780.9,804.4 786,799.1 789.2,782.7 786.1,781.4 785.3,774.8 785.5,767.2 788.5,765.4 787.9,760.6 796.6,758.4 823.5,730.9 817.5,727.1 815,714.4 807.5,711.1"
+    }
+   ],
+   "pins": [
+    {
+     "x": 749,
+     "y": 763.8,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 807.5,
+     "y": 711.1,
+     "num": 2,
+     "color": "#7b3fe4"
+    },
+    {
+     "x": 689.8,
+     "y": 534.4,
+     "num": 3,
+     "color": "#2e8b57"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Mondrian Itaewon",
+     "lines": [
+      "Rooftop pool and bar"
+     ],
+     "color": "#C8102E",
+     "x": 349.2,
+     "y": 799,
+     "leader": [
+      743.2,
+      845.5,
+      709.2,
+      845.5
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Itaewon Station",
+     "lines": [
+      "Line 6 · about 10 min walk"
+     ],
+     "color": "#e37400",
+     "x": 355,
+     "y": 636.8,
+     "leader": [
+      749,
+      763.8,
+      715,
+      729.8
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Leeum Museum of Art",
+     "lines": [
+      "1.6 km · about 20 min walk"
+     ],
+     "color": "#7b3fe4",
+     "x": 303.5,
+     "y": 474.1,
+     "leader": [
+      807.5,
+      711.1,
+      663.5,
+      567.1
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "N Seoul Tower",
+     "lines": [
+      "about 15 min by taxi"
+     ],
+     "color": "#2e8b57",
+     "x": 723.8,
+     "y": 407.4,
+     "leader": [
+      689.8,
+      534.4,
+      723.8,
+      500.4
+     ]
+    }
+   ]
+  },
+  "westin-josun": {
+   "region": "seoul",
+   "hotel": {
+    "x": 600.7,
+    "y": 352.7,
+    "title": "Westin Josun Seoul",
+    "lines": [
+     "Sogong-dong, by City Hall"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "517.6,476 520.2,491.7 522.7,492.2 524.7,489.9 524.7,465.5 521.8,451 539.8,424.4 544.2,410.7 553.8,402.1 567,358.1 585.8,360.4 594.5,357.7 595.2,352.1"
+    },
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "595.2,352.1 593.6,358.1 606.2,358 622.3,362.3 623.9,360.9 624.2,362.8 655.1,360.1"
+    },
+    {
+     "color": "#7b3fe4",
+     "dash": true,
+     "pts": "595.2,352.1 594.7,347.4 591.7,344.8 584,342.5 580.5,345.3 574.2,345.2 571.9,341.3 572.9,330.2 570.6,327.7 571,292.1 573.8,283.2 571.1,277.4 571.1,269.7 566.7,269.5 568,255.6 566.2,209.7 564.6,208.1 565.5,193.1"
+    }
+   ],
+   "pins": [
+    {
+     "x": 519.2,
+     "y": 476,
+     "num": 1,
+     "color": "#1a73e8"
+    },
+    {
+     "x": 655.1,
+     "y": 360.1,
+     "num": 2,
+     "color": "#e37400"
+    },
+    {
+     "x": 565.3,
+     "y": 193.7,
+     "num": 3,
+     "color": "#7b3fe4"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Westin Josun Seoul",
+     "lines": [
+      "Sogong-dong, by City Hall"
+     ],
+     "color": "#C8102E",
+     "x": 206.7,
+     "y": 306.2,
+     "leader": [
+      600.7,
+      352.7,
+      566.7,
+      352.7
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Seoul Station",
+     "lines": [
+      "AREX Airport Express",
+      "about 10 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 553.2,
+     "y": 415.5,
+     "leader": [
+      519.2,
+      476,
+      553.2,
+      476
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Myeongdong Street",
+     "lines": [
+      "about 8 min walk"
+     ],
+     "color": "#e37400",
+     "x": 689.1,
+     "y": 313.6,
+     "leader": [
+      655.1,
+      360.1,
+      689.1,
+      360.1
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "Gyeongbokgung Palace",
+     "lines": [
+      "about 20 min walk"
+     ],
+     "color": "#7b3fe4",
+     "x": 171.3,
+     "y": 147.2,
+     "leader": [
+      565.3,
+      193.7,
+      531.3,
+      193.7
+     ]
+    }
+   ]
+  },
+  "fairmont-ambassador": {
+   "region": "yeouido",
+   "hotel": {
+    "x": 551.3,
+    "y": 620,
+    "title": "Fairmont Ambassador",
+    "lines": [
+     "Parc.1 complex, Yeouido"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "554.1,623.7 565.2,615.3 535,579.3 559.2,558.9 562.5,558.5 572.2,566.2 574.6,564.4 600.2,590.5"
+    },
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "555.8,625.6 600.1,590.4 710.9,696.1 715.7,702.9 705.9,710"
+    }
+   ],
+   "pins": [
+    {
+     "x": 542.4,
+     "y": 606.1,
+     "num": 1,
+     "color": "#7b3fe4"
+    },
+    {
+     "x": 600.4,
+     "y": 590.2,
+     "num": 2,
+     "color": "#e37400"
+    },
+    {
+     "x": 709.4,
+     "y": 714.8,
+     "num": 3,
+     "color": "#1a73e8"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Fairmont Ambassador",
+     "lines": [
+      "Parc.1 complex, Yeouido"
+     ],
+     "color": "#C8102E",
+     "x": 157.3,
+     "y": 573.5,
+     "leader": [
+      551.3,
+      620,
+      517.3,
+      620
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "The Hyundai Seoul",
+     "lines": [
+      "Linked underground"
+     ],
+     "color": "#7b3fe4",
+     "x": 148.4,
+     "y": 479.1,
+     "leader": [
+      542.4,
+      606.1,
+      508.4,
+      572.1
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Yeouido Hangang Park",
+     "lines": [
+      "Cruise pier · 12 min walk"
+     ],
+     "color": "#e37400",
+     "x": 634.4,
+     "y": 543.7,
+     "leader": [
+      600.4,
+      590.2,
+      634.4,
+      590.2
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "63 Square",
+     "lines": [
+      "about 5 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 743.4,
+     "y": 668.3,
+     "leader": [
+      709.4,
+      714.8,
+      743.4,
+      714.8
+     ]
+    }
+   ]
+  },
+  "conrad": {
+   "region": "yeouido",
+   "hotel": {
+    "x": 517.1,
+    "y": 616.6,
+    "title": "Conrad Seoul",
+    "lines": [
+     "Part of the IFC complex"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "521.4,613.3 526.5,620 474.9,660.4 477.3,664.3"
+    },
+    {
+     "color": "#2e8b57",
+     "dash": true,
+     "pts": "521.4,613.3 526.5,620 528.7,618.3 540.1,633 543.7,635.1 600.2,590.5"
+    }
+   ],
+   "pins": [
+    {
+     "x": 477.3,
+     "y": 664.3,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 600.4,
+     "y": 590.2,
+     "num": 2,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 709.4,
+     "y": 714.8,
+     "num": 3,
+     "color": "#1a73e8"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Conrad Seoul",
+     "lines": [
+      "Part of the IFC complex"
+     ],
+     "color": "#C8102E",
+     "x": 123.1,
+     "y": 489.6,
+     "leader": [
+      517.1,
+      616.6,
+      483.1,
+      582.6
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Yeouido Station",
+     "lines": [
+      "Lines 5 & 9 · via IFC Mall"
+     ],
+     "color": "#e37400",
+     "x": 83.3,
+     "y": 617.8,
+     "leader": [
+      477.3,
+      664.3,
+      443.3,
+      664.3
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Yeouido Hangang Park",
+     "lines": [
+      "Cruise pier · 10 min walk"
+     ],
+     "color": "#2e8b57",
+     "x": 634.4,
+     "y": 543.7,
+     "leader": [
+      600.4,
+      590.2,
+      634.4,
+      590.2
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "63 Square",
+     "lines": [
+      "about 5 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 743.4,
+     "y": 668.3,
+     "leader": [
+      709.4,
+      714.8,
+      743.4,
+      714.8
+     ]
+    }
+   ]
+  },
+  "hotel-naru": {
+   "region": "yeouido",
+   "hotel": {
+    "x": 766.9,
+    "y": 406,
+    "title": "Hotel Naru Seoul",
+    "lines": [
+     "Riverside at Mapo Bridge"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "770.6,402.2 767.4,399.1 774.8,391.1 770.2,386.7 788.1,369.9"
+    },
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "770.6,402.2 767.4,399.1 774.8,391.1 768.1,385 777.2,376.7 775.2,374.8 761.2,387.5 720.7,416.7 553.9,547.9 571,560.5 600.2,590.5"
+    }
+   ],
+   "pins": [
+    {
+     "x": 787.5,
+     "y": 369.3,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 600.4,
+     "y": 590.2,
+     "num": 2,
+     "color": "#1a73e8"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Hotel Naru Seoul",
+     "lines": [
+      "Riverside at Mapo Bridge"
+     ],
+     "color": "#C8102E",
+     "x": 586.9,
+     "y": 440,
+     "leader": [
+      766.9,
+      406,
+      766.9,
+      440
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Mapo Station",
+     "lines": [
+      "Line 5 · short walk"
+     ],
+     "color": "#e37400",
+     "x": 821.5,
+     "y": 322.8,
+     "leader": [
+      787.5,
+      369.3,
+      821.5,
+      369.3
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Yeouido Hangang Park",
+     "lines": [
+      "Across Mapo Bridge"
+     ],
+     "color": "#1a73e8",
+     "x": 634.4,
+     "y": 543.7,
+     "leader": [
+      600.4,
+      590.2,
+      634.4,
+      590.2
      ]
     }
    ]
