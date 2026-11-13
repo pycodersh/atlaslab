@@ -15,6 +15,10 @@ export type BookingLink = {
 const KLOOK = (adid: number, path: string) =>
   `https://affiliate.klook.com/redirect?aid=138930&aff_adid=${adid}&k_site=${encodeURIComponent(`https://www.klook.com/en-US/hotels/detail/${path}/`)}`
 
+/** Trip.com 호텔 상세 직접 링크 — 단축 링크가 리다이렉트하며 붙이는 것과 같은 제휴 파라미터 */
+const TRIP = (idSlug: string) =>
+  `https://www.trip.com/hotels/seoul-hotel-detail-${idSlug}/?Allianceid=10997841&SID=333357760`
+
 export const BOOKING_LINKS: Record<string, BookingLink> = {
   inspire: {
     name: 'Mohegan INSPIRE Entertainment Resort',
@@ -45,5 +49,17 @@ export const BOOKING_LINKS: Record<string, BookingLink> = {
     name: "L'Escape Hotel Seoul",
     trip: 'https://www.trip.com/t/QXbhMbUJ8X2',
     klook: KLOOK(1561859, '285832-lescape-a-luxury-collection-hotel-seoul-myeongdong'),
+  },
+  // 강남 · 잠실 5곳 — Trip.com 호텔 상세에 제휴 파라미터(TRIP)를 붙인 직접 링크(2026-11-13 브라우저로 200 · 호텔 페이지 확인)
+  signiel: { name: 'Signiel Seoul', trip: TRIP('19624480/signiel-seoul') },
+  'park-hyatt-seoul': { name: 'Park Hyatt Seoul', trip: TRIP('991995/park-hyatt-seoul') },
+  'josun-palace': {
+    name: 'Josun Palace, a Luxury Collection Hotel, Seoul Gangnam',
+    trip: TRIP('76113894/josun-palace-a-luxury-collection-hotel-seoul-gangnam'),
+  },
+  'jw-marriott-seoul': { name: 'JW Marriott Hotel Seoul', trip: TRIP('1465733/jw-marriott-hotel-seoul') },
+  'grand-intercontinental-parnas': {
+    name: 'Grand InterContinental Seoul Parnas',
+    trip: TRIP('1517243/intercontinental-grand-seoul-parnas-by-ihg'),
   },
 }

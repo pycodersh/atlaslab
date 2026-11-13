@@ -35,6 +35,11 @@ const P = {
   SEOUL: [37.55542, 126.97259], FS: [37.57065, 126.97537], LE: [37.55967, 126.97945],
   GATE: [37.57593, 126.97682], SQUARE: [37.5720, 126.97675], NAMDAEMUN: [37.55928, 126.97735],
   MYEONGDONG: [37.56384, 126.98505], TOWER: [37.55117, 126.98823],
+  // 강남 · 잠실 (OSM 실측 2026-11-13: 호텔 노드 · 지하철 출구 railway=subway_entrance · 공원 윤곽 중심)
+  SIG: [37.51257, 127.10282], LWA: [37.51108, 127.09819], LAKE: [37.5086, 127.09955],
+  PH: [37.50863, 127.06417], GIC: [37.50913, 127.06069], AQUA: [37.51318, 127.05861], BONGEUNSA: [37.5155, 127.05619],
+  JOSUN: [37.50338, 127.0416], YEOKSAM: [37.50105, 127.03717],
+  JW: [37.50414, 127.00465], BANPO: [37.51234, 127.00011],
 }
 
 /* ── 지역 바탕 ─────────────────────────────────────────────── */
@@ -56,6 +61,15 @@ const REGIONS = {
       { t: 'JONGNO', at: [37.5745, 127.003], size: 18 },
       { t: 'YONGSAN', at: [37.535, 126.962], size: 18 },
       { t: 'MAPO', at: [37.552, 126.938], size: 18 },
+    ],
+  },
+  gangnam: {
+    bbox: [37.488, 126.985, 37.532, 127.115], // 반포(고속터미널) · 역삼 · 삼성(코엑스) · 잠실이 한 화면
+    labels: [
+      { t: 'Han River', at: [37.5268, 127.08], size: 24, italic: true },
+      { t: 'SEOCHO', at: [37.492, 127.008], size: 18 },
+      { t: 'GANGNAM', at: [37.494, 127.05], size: 18 },
+      { t: 'SONGPA', at: [37.495, 127.103], size: 18 },
     ],
   },
 }
@@ -114,6 +128,64 @@ const MAPS = {
       { at: P.NAMDAEMUN, title: 'Namdaemun Market', lines: ['2 min walk'], color: '#7b3fe4' },
       { at: P.MYEONGDONG, title: 'Myeongdong Street', lines: ['0.8 km · 10 min walk'], color: '#e37400' },
       { at: P.TOWER, title: 'N Seoul Tower', lines: ['1.8 km uphill walk', 'or Namsan cable car'], color: '#2e8b57' },
+    ],
+  },
+  signiel: {
+    region: 'gangnam', hotel: { at: P.SIG, title: 'Signiel Seoul', lines: ['Floors 76–101, Lotte World Tower'] },
+    routes: [
+      { from: 'SIG', to: 'LWA', mode: 'walk', color: '#e37400' },
+      { from: 'SIG', to: 'AQUA', mode: 'drive', color: '#1a73e8' },
+    ],
+    cards: [
+      { at: P.LWA, title: 'Lotte World Adventure', lines: ['Indoor park + Magic Island', 'about 8 min walk'], color: '#e37400' },
+      { at: P.LAKE, title: 'Seokchon Lake', lines: ['Lakeside loop path'], color: '#2e8b57' },
+      { at: P.AQUA, title: 'COEX & Samseong', lines: ['about 15 min by taxi'], color: '#1a73e8' },
+    ],
+  },
+  'park-hyatt-seoul': {
+    region: 'gangnam', hotel: { at: P.PH, title: 'Park Hyatt Seoul', lines: ['Samseong Stn Exit 1 at the door'] },
+    routes: [
+      { from: 'PH', to: 'AQUA', mode: 'walk', color: '#e37400' },
+      { from: 'PH', to: 'SIG', mode: 'drive', color: '#1a73e8' },
+    ],
+    cards: [
+      { at: P.AQUA, title: 'COEX Mall & Aquarium', lines: ['1.2 km · about 15 min walk'], color: '#e37400' },
+      { at: P.BONGEUNSA, title: 'Bongeunsa Temple', lines: ['Across Bongeunsa-ro'], color: '#2e8b57' },
+      { at: P.SIG, title: 'Lotte World Tower', lines: ['about 15 min by taxi'], color: '#1a73e8' },
+    ],
+  },
+  'josun-palace': {
+    region: 'gangnam', hotel: { at: P.JOSUN, title: 'Josun Palace', lines: ['Top floors of Centerfield'] },
+    routes: [
+      { from: 'JOSUN', to: 'YEOKSAM', mode: 'walk', color: '#e37400' },
+      { from: 'JOSUN', to: 'AQUA', mode: 'drive', color: '#1a73e8' },
+    ],
+    cards: [
+      { at: P.YEOKSAM, title: 'Yeoksam Station', lines: ['Line 2 · about 7 min walk'], color: '#e37400' },
+      { at: P.AQUA, title: 'COEX & Starfield', lines: ['about 10 min by taxi'], color: '#1a73e8' },
+    ],
+  },
+  'jw-marriott-seoul': {
+    region: 'gangnam', hotel: { at: P.JW, title: 'JW Marriott Seoul', lines: ['Express Bus Terminal Stn, Lines 3·7·9'] },
+    routes: [
+      { from: 'JW', to: 'BANPO', mode: 'walk', color: '#2e8b57' },
+      { from: 'JW', to: 'JOSUN', mode: 'drive', color: '#1a73e8' },
+    ],
+    cards: [
+      { at: P.BANPO, title: 'Banpo Hangang Park', lines: ['Moonlight Rainbow Fountain', 'about 20 min walk'], color: '#2e8b57' },
+      { at: P.JOSUN, title: 'Gangnam · Yeoksam', lines: ['about 15 min by taxi'], color: '#1a73e8' },
+    ],
+  },
+  'grand-intercontinental-parnas': {
+    region: 'gangnam', hotel: { at: P.GIC, title: 'InterContinental Parnas', lines: ['Linked to COEX Mall & Samseong Stn'] },
+    routes: [
+      { from: 'GIC', to: 'AQUA', mode: 'walk', color: '#e37400' },
+      { from: 'GIC', to: 'SIG', mode: 'drive', color: '#1a73e8' },
+    ],
+    cards: [
+      { at: P.AQUA, title: 'COEX Aquarium', lines: ['1 km · about 13 min walk'], color: '#e37400' },
+      { at: P.BONGEUNSA, title: 'Bongeunsa Temple', lines: ['about 8 min walk'], color: '#2e8b57' },
+      { at: P.SIG, title: 'Lotte World Tower', lines: ['about 15 min by taxi'], color: '#1a73e8' },
     ],
   },
 }

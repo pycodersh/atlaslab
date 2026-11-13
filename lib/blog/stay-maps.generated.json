@@ -18,6 +18,15 @@
     "px": 124,
     "label": "1 km"
    }
+  },
+  "gangnam": {
+   "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-map-gangnam-v2.webp",
+   "w": 1200,
+   "h": 512,
+   "scale": {
+    "px": 105,
+    "label": "1 km"
+   }
   }
  },
  "maps": {
@@ -616,6 +625,527 @@
       534.4,
       773.8,
       618.4
+     ]
+    }
+   ]
+  },
+  "signiel": {
+   "region": "gangnam",
+   "hotel": {
+    "x": 1087.6,
+    "y": 226.1,
+    "title": "Signiel Seoul",
+    "lines": [
+     "Floors 76–101, Lotte World Tower"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "1091.3,224.1 1095.5,227.8 1094.7,231 1061.1,250.7 1052.9,253.7 1050.3,252.4"
+    },
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "1089.3,230.2 1079.2,233.1 1080.3,235.8 1085.8,233.9 1087.2,235.1 1079.3,241.3 1063.5,217.1 1026.4,228.8 958,237.3 860.9,233.4 751.7,256.5 711,274 686.5,281.1 661.3,222.1 665.3,218.3 678.2,216.3"
+    }
+   ],
+   "pins": [
+    {
+     "x": 1044.8,
+     "y": 243.5,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 1057.4,
+     "y": 272.3,
+     "num": 2,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 679.5,
+     "y": 219,
+     "num": 3,
+     "color": "#1a73e8"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Signiel Seoul",
+     "lines": [
+      "Floors 76–101, Lotte World Tower"
+     ],
+     "color": "#C8102E",
+     "x": 693.6,
+     "y": 99.1,
+     "leader": [
+      1087.6,
+      226.1,
+      1053.6,
+      192.1
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Lotte World Adventure",
+     "lines": [
+      "Indoor park + Magic Island",
+      "about 8 min walk"
+     ],
+     "color": "#e37400",
+     "x": 650.8,
+     "y": 277.5,
+     "leader": [
+      1044.8,
+      243.5,
+      1010.8,
+      277.5
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Seokchon Lake",
+     "lines": [
+      "Lakeside loop path"
+     ],
+     "color": "#2e8b57",
+     "x": 483.4,
+     "y": 225.8,
+     "leader": [
+      1057.4,
+      272.3,
+      843.4,
+      272.3
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "COEX & Samseong",
+     "lines": [
+      "about 15 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 285.5,
+     "y": 92,
+     "leader": [
+      679.5,
+      219,
+      645.5,
+      185
+     ]
+    }
+   ]
+  },
+  "park-hyatt-seoul": {
+   "region": "gangnam",
+   "hotel": {
+    "x": 730.8,
+    "y": 272,
+    "title": "Park Hyatt Seoul",
+    "lines": [
+     "Samseong Stn Exit 1 at the door"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "732,272.7 737.7,270.4 736.1,266.5 721.2,273.4 695.8,215 693.8,215.9 691.1,210.5 682.9,211.9 682.2,209.5 677,210.8 678.1,214.6 679.7,214.5 678.2,216.3"
+    },
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "732,272.7 737.7,270.4 735.3,265.6 752.1,258.1 859.2,235.7 957.6,239.4 1023.2,231.6 1062.1,220.1 1077.4,243.8 1093.9,234.3 1089.3,230.2"
+    }
+   ],
+   "pins": [
+    {
+     "x": 679.5,
+     "y": 219,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 657.1,
+     "y": 192,
+     "num": 2,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 1087.6,
+     "y": 226.1,
+     "num": 3,
+     "color": "#1a73e8"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Park Hyatt Seoul",
+     "lines": [
+      "Samseong Stn Exit 1 at the door"
+     ],
+     "color": "#C8102E",
+     "x": 550.8,
+     "y": 306,
+     "leader": [
+      730.8,
+      272,
+      730.8,
+      306
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "COEX Mall & Aquarium",
+     "lines": [
+      "1.2 km · about 15 min walk"
+     ],
+     "color": "#e37400",
+     "x": 713.5,
+     "y": 92,
+     "leader": [
+      679.5,
+      219,
+      713.5,
+      185
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Bongeunsa Temple",
+     "lines": [
+      "Across Bongeunsa-ro"
+     ],
+     "color": "#2e8b57",
+     "x": 263.1,
+     "y": 145.5,
+     "leader": [
+      657.1,
+      192,
+      623.1,
+      192
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "Lotte World Tower",
+     "lines": [
+      "about 15 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 693.6,
+     "y": 179.6,
+     "leader": [
+      1087.6,
+      226.1,
+      1053.6,
+      226.1
+     ]
+    }
+   ]
+  },
+  "josun-palace": {
+   "region": "gangnam",
+   "hotel": {
+    "x": 522.5,
+    "y": 333.1,
+    "title": "Josun Palace",
+    "lines": [
+     "Top floors of Centerfield"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "518,334.9 514.2,336.3 518,345.8 481.6,360.2"
+    },
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "527.4,331.4 532,343.9 687.6,283.7 661.3,222.1 665.3,218.3 678.2,216.3"
+    }
+   ],
+   "pins": [
+    {
+     "x": 481.6,
+     "y": 360.2,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 679.5,
+     "y": 219,
+     "num": 2,
+     "color": "#1a73e8"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "Josun Palace",
+     "lines": [
+      "Top floors of Centerfield"
+     ],
+     "color": "#C8102E",
+     "x": 556.5,
+     "y": 286.6,
+     "leader": [
+      522.5,
+      333.1,
+      556.5,
+      333.1
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Yeoksam Station",
+     "lines": [
+      "Line 2 · about 7 min walk"
+     ],
+     "color": "#e37400",
+     "x": 87.6,
+     "y": 313.7,
+     "leader": [
+      481.6,
+      360.2,
+      447.6,
+      360.2
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "COEX & Starfield",
+     "lines": [
+      "about 10 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 713.5,
+     "y": 172.5,
+     "leader": [
+      679.5,
+      219,
+      713.5,
+      219
+     ]
+    }
+   ]
+  },
+  "jw-marriott-seoul": {
+   "region": "gangnam",
+   "hotel": {
+    "x": 181.4,
+    "y": 324.2,
+    "title": "JW Marriott Seoul",
+    "lines": [
+     "Express Bus Terminal Stn, Lines 3·7·9"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#2e8b57",
+     "dash": true,
+     "pts": "184.9,322.9 176.7,300.8 178.3,300.3 157.7,247.1 161.6,244.6 147.1,221.3 135.3,221.9 129.3,225 125.8,228.6 126.5,229.7 136.1,231.4"
+    },
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "185.2,322.8 179.2,304.9 218.7,288.5 223.2,290.5 234.2,317.5 251.2,316 263.5,317.2 275.1,321.2 300.8,337.1 319,337.7 492.7,271.4 517.7,303.6 527.4,331.4"
+    }
+   ],
+   "pins": [
+    {
+     "x": 139.5,
+     "y": 228.8,
+     "num": 1,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 522.5,
+     "y": 333.1,
+     "num": 2,
+     "color": "#1a73e8"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "JW Marriott Seoul",
+     "lines": [
+      "Express Bus Terminal Stn, Lines 3·7·9"
+     ],
+     "color": "#C8102E",
+     "x": 215.4,
+     "y": 197.2,
+     "leader": [
+      181.4,
+      324.2,
+      215.4,
+      290.2
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "Banpo Hangang Park",
+     "lines": [
+      "Moonlight Rainbow Fountain",
+      "about 20 min walk"
+     ],
+     "color": "#2e8b57",
+     "x": 173.5,
+     "y": 73.8,
+     "leader": [
+      139.5,
+      228.8,
+      173.5,
+      194.8
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Gangnam · Yeoksam",
+     "lines": [
+      "about 15 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 606.5,
+     "y": 286.6,
+     "leader": [
+      522.5,
+      333.1,
+      606.5,
+      333.1
+     ]
+    }
+   ]
+  },
+  "grand-intercontinental-parnas": {
+   "region": "gangnam",
+   "hotel": {
+    "x": 698.7,
+    "y": 266.2,
+    "title": "InterContinental Parnas",
+    "lines": [
+     "Linked to COEX Mall & Samseong Stn"
+    ]
+   },
+   "routes": [
+    {
+     "color": "#e37400",
+     "dash": true,
+     "pts": "700.5,270.5 695.5,272.8 696.3,276.1 687.3,279.5 681.1,264.7 679,265.6 673.6,253.5 674.8,253.1 661.3,222.1 665.3,218.3 678.2,216.3"
+    },
+    {
+     "color": "#1a73e8",
+     "dash": false,
+     "pts": "700.5,270.5 695.5,272.8 696.8,277.3 674.6,286.1 675.9,288.6 724.4,270.6 752.1,258.1 859.2,235.7 957.6,239.4 1023.2,231.6 1062.1,220.1 1077.4,243.8 1093.9,234.3 1089.3,230.2"
+    }
+   ],
+   "pins": [
+    {
+     "x": 679.5,
+     "y": 219,
+     "num": 1,
+     "color": "#e37400"
+    },
+    {
+     "x": 657.1,
+     "y": 192,
+     "num": 2,
+     "color": "#2e8b57"
+    },
+    {
+     "x": 1087.6,
+     "y": 226.1,
+     "num": 3,
+     "color": "#1a73e8"
+    }
+   ],
+   "cards": [
+    {
+     "num": null,
+     "hotel": true,
+     "title": "InterContinental Parnas",
+     "lines": [
+      "Linked to COEX Mall & Samseong Stn"
+     ],
+     "color": "#C8102E",
+     "x": 518.7,
+     "y": 300.2,
+     "leader": [
+      698.7,
+      266.2,
+      698.7,
+      300.2
+     ]
+    },
+    {
+     "num": 1,
+     "hotel": false,
+     "title": "COEX Aquarium",
+     "lines": [
+      "1 km · about 13 min walk"
+     ],
+     "color": "#e37400",
+     "x": 713.5,
+     "y": 92,
+     "leader": [
+      679.5,
+      219,
+      713.5,
+      185
+     ]
+    },
+    {
+     "num": 2,
+     "hotel": false,
+     "title": "Bongeunsa Temple",
+     "lines": [
+      "about 8 min walk"
+     ],
+     "color": "#2e8b57",
+     "x": 263.1,
+     "y": 145.5,
+     "leader": [
+      657.1,
+      192,
+      623.1,
+      192
+     ]
+    },
+    {
+     "num": 3,
+     "hotel": false,
+     "title": "Lotte World Tower",
+     "lines": [
+      "about 15 min by taxi"
+     ],
+     "color": "#1a73e8",
+     "x": 693.6,
+     "y": 179.6,
+     "leader": [
+      1087.6,
+      226.1,
+      1053.6,
+      226.1
      ]
     }
    ]
