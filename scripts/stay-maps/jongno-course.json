@@ -1,0 +1,33 @@
+{
+  "output": "map-preview/jongno-course-map.png",
+  "width": 1600,
+  "height": 900,
+  "stops": [
+    {
+      "name": "Gyeongbokgung Palace",
+      "label": "Gyeongbokgung (Gwanghwamun)",
+      "query": "광화문, 서울",
+      "labelPos": "left"
+    },
+    {
+      "name": "Bukchon Hanok Village",
+      "lat": 37.5823,
+      "lon": 126.985,
+      "mode": "walk",
+      "labelPos": "right"
+    },
+    {
+      "name": "Changdeokgung Palace",
+      "label": "Changdeokgung",
+      "query": "돈화문, 서울",
+      "mode": "walk",
+      "labelPos": "right"
+    },
+    {
+      "name": "Ikseon-dong Hanok Alley",
+      "query": "익선동, 종로구",
+      "mode": "walk",
+      "labelPos": "right"
+    }
+  ]
+}

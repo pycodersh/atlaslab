@@ -1,0 +1,34 @@
+{
+  "output": "map-preview/gyeongju-course-map.png",
+  "width": 1600,
+  "height": 900,
+  "stops": [
+    {
+      "name": "Hwangnidan-gil",
+      "lat": 35.8383,
+      "lon": 129.2094,
+      "labelPos": "left"
+    },
+    {
+      "name": "Daereungwon Tomb Complex",
+      "lat": 35.83895,
+      "lon": 129.21193,
+      "mode": "walk",
+      "labelPos": "up"
+    },
+    {
+      "name": "Cheomseongdae Observatory",
+      "lat": 35.83472,
+      "lon": 129.21889,
+      "mode": "walk",
+      "labelPos": "down"
+    },
+    {
+      "name": "Donggung Palace & Wolji Pond",
+      "lat": 35.8347,
+      "lon": 129.22644,
+      "mode": "walk",
+      "labelPos": "up"
+    }
+  ]
+}

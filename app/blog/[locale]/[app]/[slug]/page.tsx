@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
+import { rehypeHeadingIds } from '@/lib/blog/rehypeHeadingIds'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { blogMdxComponents } from '@/components/blog/mdxComponents'
@@ -408,7 +409,7 @@ export default async function AppBlogPostPage({
             source={post.content}
             // 집 요리 글은 본문의 K-PATTO 카드를 감추고 글 끝 K-Pantry 카드 하나로 간다(lib/blog/appCta 의 COOK_AT_HOME_SLUGS)
             components={cookAtHome ? { ...blogMdxComponents, KpattoCta: () => null } : blogMdxComponents}
-            options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+            options={{ mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeHeadingIds] } }}
           />
         </article>
 

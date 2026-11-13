@@ -1,0 +1,10 @@
+{
+  "id": "jongno",
+  "title": "Jongno palaces & hanok walk (S1)",
+  "spots": [
+    { "key": "gyeongbokgung", "name": "Gyeongbokgung", "query": "경복궁", "radius": 600, "keywords": ["Gyeongbokgung", "Geunjeongjeon", "Gyeonghoeru"] },
+    { "key": "bukchon", "name": "Bukchon Hanok Village", "lat": 37.5823, "lon": 126.9850, "radius": 400, "keywords": ["Bukchon Hanok", "Bukchon"] },
+    { "key": "changdeokgung", "name": "Changdeokgung & Secret Garden", "query": "창덕궁", "radius": 600, "keywords": ["Changdeokgung", "Huwon Changdeokgung", "Buyongji"] },
+    { "key": "ikseondong", "name": "Ikseon-dong", "query": "익선동, 종로구", "radius": 300, "keywords": ["Ikseon-dong", "Ikseondong"] }
+  ]
+}

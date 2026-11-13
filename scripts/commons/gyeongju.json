@@ -1,0 +1,11 @@
+{
+  "id": "gyeongju",
+  "title": "Gyeongju one-day course (R3)",
+  "spots": [
+    { "key": "hwangnidan", "name": "Hwangnidan-gil", "lat": 35.8383, "lon": 129.2094, "radius": 350, "keywords": ["Hwangnidan", "Hwangnam-dong Gyeongju"] },
+    { "key": "daereungwon", "name": "Daereungwon", "query": "대릉원", "radius": 500, "keywords": ["Daereungwon", "Tumuli Park Gyeongju", "Hwangnamdaechong"] },
+    { "key": "cheomseongdae", "name": "Cheomseongdae", "lat": 35.83472, "lon": 129.21889, "radius": 300, "keywords": ["Cheomseongdae"] },
+    { "key": "donggung", "name": "Donggung & Wolji", "query": "동궁과 월지", "radius": 400, "keywords": ["Donggung", "Wolji pond", "Anapji"] },
+    { "key": "bulguksa", "name": "Bulguksa Temple", "query": "불국사", "radius": 500, "keywords": ["Bulguksa"] }
+  ]
+}

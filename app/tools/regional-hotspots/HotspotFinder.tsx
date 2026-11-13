@@ -197,7 +197,7 @@ export function HotspotFinder() {
                 <a className="hs-link" href={`https://www.instagram.com/explore/tags/${encodeURIComponent(instagramTag(spot.ko))}/`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Instagram`}><InstagramIcon />Live Vibes</a>
               </div>
               {/* 이 명소를 다룬 우리 글 — 같은 탭으로 연다. 라벨이 행선지(일정 글 · 지역 가이드)를 그대로 말한다 */}
-              {spot.guide && <a className="hs-guide" href={`/blog/en/k-patto/${spot.guide.slug}`}>{spot.guide.label} →</a>}
+              {spot.guide && <a className="hs-guide" href={`/blog/en/k-patto/${spot.guide.slug}${spot.guide.anchor ? `#${spot.guide.anchor}` : ''}`}>{spot.guide.label} →</a>}
               </div>
             </article>
           ))}

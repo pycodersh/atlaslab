@@ -41,6 +41,8 @@ export function proseCss(bodyFont: string): string {
         }
         /* 글이 곧바로 h2 로 시작하면 위 여백을 빼서 제목 영역과 벌어지지 않게 한다 */
         .blog-prose > h2:first-child { margin-top: 0; }
+        /* 제목 앵커(#bulguksa-temple 등, lib/blog/rehypeHeadingIds)로 들어왔을 때 고정 헤더에 가리지 않게 */
+        .blog-prose h2, .blog-prose h3 { scroll-margin-top: 88px; }
         .blog-prose h3 {
           font-family: ${BODY}; font-size: 19px; font-weight: 600;
           color: #222; margin: 28px 0 10px; line-height: 1.35;

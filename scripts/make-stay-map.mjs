@@ -53,8 +53,10 @@ const OUT = opt('out') ?? cfg.output ?? 'map-preview/stay-map.png'
 const W = cfg.width ?? 1600
 const H = cfg.height ?? 900
 const MAX_Z = cfg.maxZoom ?? 16
-if (!cfg.hotel || !Array.isArray(cfg.landmarks) || !cfg.landmarks.length) {
-  console.error('config 에 hotel 과 landmarks(1개 이상)가 필요하다.'); process.exit(1)
+// 코스 모드(명소 가이드): cfg.stops 가 있으면 숙소 대신 번호 핀 1→2→3… 을 걸어서 잇는 지도를 만든다(mainCourse)
+const COURSE = Array.isArray(cfg.stops) && cfg.stops.length >= 2
+if (!COURSE && (!cfg.hotel || !Array.isArray(cfg.landmarks) || !cfg.landmarks.length)) {
+  console.error('config 에 hotel 과 landmarks(1개 이상), 또는 코스용 stops(2개 이상)가 필요하다.'); process.exit(1)
 }
 
 /* ---------- 지오코딩(캐시) ---------- */
@@ -256,4 +258,108 @@ async function main() {
   }
 }
 
-main().catch(e => { console.error('\n[중단]', e.message ?? e); process.exit(1) })
+/**
+ * 코스 지도 — 명소 가이드용. config 예)
+ *   { "output": "map-preview/gyeongju-course.png", "title": "Gyeongju walking course",
+ *     "stops": [ { "name": "Hwangnidan-gil", "lat": 35.8383, "lon": 129.2094 },
+ *                { "name": "Daereungwon", "query": "대릉원", "mode": "walk" } ] }
+ * 핀은 1, 2, 3… 번호. 각 구간(앞 정류지 → 이 정류지)은 stop.mode(기본 walk)로 실제 경로를 받는다.
+ * 라벨 = "n  이름" + "from n-1: 0.5 km, about 6 min on foot". 시간은 시속 4.8km 계산값이다.
+ */
+async function mainCourse() {
+  console.log('장소 확인…')
+  const stops = []
+  for (const s of cfg.stops) stops.push(await resolvePlace(s))
+  console.log('경로 조회…')
+  const legs = [null]
+  for (let i = 1; i < stops.length; i++) {
+    legs.push(await getRoute(stops[i - 1], stops[i], stops[i].mode ?? 'walk'))
+    await sleep(400)
+  }
+  const pts = [...stops.map(s => [s.lat, s.lon]), ...legs.flatMap(l => (l ? l.coords.map(([lo, la]) => [la, lo]) : []))]
+  const need = { w: W - 2 * 70 - BOX_W, h: H - 2 * 70 }
+  let Z = MAX_Z
+  for (; Z > 8; Z--) {
+    const xs = pts.map(([, lo]) => lon2x(lo, Z)), ys = pts.map(([la]) => lat2y(la, Z))
+    if (Math.max(...xs) - Math.min(...xs) <= need.w && Math.max(...ys) - Math.min(...ys) <= need.h) break
+  }
+  const xs = pts.map(([, lo]) => lon2x(lo, Z)), ys = pts.map(([la]) => lat2y(la, Z))
+  const cx = (Math.min(...xs) + Math.max(...xs)) / 2, cy = (Math.min(...ys) + Math.max(...ys)) / 2
+  const left = cx - W / 2, top = cy - H / 2
+  const toPx = (lat, lon) => [lon2x(lon, Z) - left, lat2y(lat, Z) - top]
+  console.log(`줌 ${Z}, 캔버스 ${W}x${H}`)
+
+  const comps = []
+  for (let ty = Math.floor(top / 256); ty <= Math.floor((top + H) / 256); ty++) {
+    for (let tx = Math.floor(left / 256); tx <= Math.floor((left + W) / 256); tx++) {
+      comps.push({ input: await getTile(Z, tx, ty), left: Math.round(tx * 256 - left), top: Math.round(ty * 256 - top) })
+    }
+  }
+  const base = await sharp({ create: { width: W, height: H, channels: 3, background: '#e8e4dc' } }).composite(comps).png().toBuffer()
+
+  const RED = '#C8102E'
+  let svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}">`
+  // 구간 선 — 걷는 구간은 점선, 차로 가는 구간은 실선. 경로가 없으면 직선 점선
+  legs.forEach((l, i) => {
+    if (i === 0) return
+    const coords = l ? l.coords : [[stops[i - 1].lon, stops[i - 1].lat], [stops[i].lon, stops[i].lat]]
+    const p = coords.map(([lo, la]) => toPx(la, lo).map(v => v.toFixed(1)).join(',')).join(' ')
+    const dash = !l || l.mode === 'walk' ? 'stroke-dasharray="2 12"' : ''
+    svg += `<polyline points="${p}" fill="none" stroke="#fff" stroke-width="13" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>`
+    svg += `<polyline points="${p}" fill="none" stroke="${RED}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" ${dash}/>`
+  })
+  const placed = stops.map(s => { const [x, y] = toPx(s.lat, s.lon); return { x: x - 22, y: y - 22, w: 44, h: 44 } })   // 핀 자리는 라벨이 덮지 않게
+  let labels = ''
+  stops.forEach((s, i) => {
+    const [x, y] = toPx(s.lat, s.lon)
+    const lines = [`${i + 1}  ${s.label ?? s.name}`]
+    const l = legs[i]
+    if (i > 0) lines.push(l ? `from ${i}: ${l.km.toFixed(1)} km, about ${Math.max(1, Math.round(l.min))} min ${l.mode === 'walk' ? 'on foot' : 'by road'}` : `from ${i}: ${haversineKm(stops[i - 1], s).toFixed(1)} km straight line`)
+    const h = 16 + lines.length * 30
+    // 상자 폭은 글자 길이로(Arial 굵게 24px ≈ 글자당 14px, 21px ≈ 11px) — 고정 폭이면 긴 이름이 상자 밖으로 넘친다
+    const bw = Math.round(Math.min(Math.max(...lines.map((t, j) => t.length * (j === 0 ? 14 : 11))) + 36, W - 48))
+    // labelPos(right · left · up · down)로 자리를 정할 수 있다. 없으면 오른쪽 → 왼쪽, 겹치면 아래로 민다
+    const pos = s.labelPos
+    let bx = pos === 'left' ? x - 34 - bw : pos === 'up' || pos === 'down' ? x - bw / 2 : x + 34
+    if (!pos && bx + bw > W - 12) bx = x - 34 - bw
+    bx = Math.min(Math.max(bx, 12), W - bw - 12)
+    let by = pos === 'up' ? y - 34 - h : pos === 'down' ? y + 34 : y - h / 2
+    by = Math.min(Math.max(by, 12), H - h - 44)
+    for (let k = 0; k < 60 && !pos; k++) {
+      if (!placed.some(p => overlap({ x: bx, y: by, w: bw, h }, p))) break
+      by += 18
+      if (by > H - h - 44) { by = 12; bx = Math.min(Math.max(bx > x ? x - 34 - bw : x + 34, 12), W - bw - 12) }
+    }
+    placed.push({ x: bx, y: by, w: bw, h })
+    labels += pill(bx, by, bw, lines, RED).svg
+  })
+  stops.forEach((s, i) => {
+    const [x, y] = toPx(s.lat, s.lon)
+    svg += `<circle cx="${x}" cy="${y}" r="21" fill="${RED}" stroke="#fff" stroke-width="5"/>` +
+      `<text x="${x}" y="${y + 8}" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#fff">${i + 1}</text>`
+  })
+  svg += labels
+  const mPerPx = (156543.03392 * Math.cos((stops[0].lat * Math.PI) / 180)) / 2 ** Z
+  const scaleM = [100, 200, 500, 1000, 2000, 5000, 10000].find(m => m / mPerPx >= 70) ?? 10000
+  const scalePx = scaleM / mPerPx
+  svg += `<g><rect x="24" y="${H - 64}" width="${Math.max(scalePx + 24, 96)}" height="40" rx="8" fill="#fff" opacity="0.92"/><rect x="36" y="${H - 38}" width="${scalePx}" height="6" fill="#222"/><text x="36" y="${H - 44}" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#222">${scaleM >= 1000 ? `${scaleM / 1000} km` : `${scaleM} m`}</text></g>`
+  svg += `<g><rect x="${W - 292}" y="${H - 34}" width="292" height="34" fill="#fff" opacity="0.88"/><text x="${W - 282}" y="${H - 11}" font-family="Arial, Helvetica, sans-serif" font-size="17" fill="#333">© OpenStreetMap contributors</text></g>`
+  svg += '</svg>'
+
+  fs.mkdirSync(path.dirname(path.resolve(OUT)), { recursive: true })
+  await sharp(base).composite([{ input: Buffer.from(svg) }]).png().toFile(OUT)
+  console.log(`\n✅ 저장: ${OUT}`)
+  stops.forEach((s, i) => console.log(`  ${i + 1}. ${s.name} (${s.lat.toFixed(5)}, ${s.lon.toFixed(5)})` + (i && legs[i] ? ` ← ${legs[i].km.toFixed(2)} km, 약 ${legs[i].min.toFixed(1)}분` : '')))
+
+  const slug = opt('upload')
+  if (slug) {
+    const { createClient } = await import('@supabase/supabase-js')
+    const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SECRET_KEY, { auth: { persistSession: false } })
+    const name = `${slug}-course-map.png`
+    const { error } = await sb.storage.from('blog-covers').upload(name, fs.readFileSync(OUT), { contentType: 'image/png', upsert: true })
+    if (error) throw new Error(`업로드 실패: ${error.message}`)
+    console.log(`\n업로드: ${sb.storage.from('blog-covers').getPublicUrl(name).data.publicUrl}`)
+  }
+}
+
+;(COURSE ? mainCourse() : main()).catch(e => { console.error('\n[중단]', e.message ?? e); process.exit(1) })

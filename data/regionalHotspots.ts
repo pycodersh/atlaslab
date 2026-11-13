@@ -10,9 +10,12 @@ export type HotspotCategory = 'Heritage' | 'Trendy Cafe' | 'Local Market' | 'Sho
 /**
  * 명소 카드 아래 '이 명소를 다룬 우리 글' 링크. 같은 글을 여러 명소가 가리키므로 여기 한 번만 적고 이름으로 붙인다.
  * label 은 어디로 가는지 그대로 말한다 — 일정 글로 가는데 명소 단독 가이드처럼 보이면 안 된다.
- * 아직 글 제목 앵커(#section)는 쓰지 않는다: 본문 제목에 id 가 없고, 일정 글은 명소가 아니라 날짜로 묶여 있다(2026-11-13).
+ * 명소마다 절이 있는 가이드(도시 · 권역 가이드)는 at(GUIDES.x, '절-id') 로 그 절에 바로 닿게 한다.
+ * 일정 글처럼 명소가 아니라 날짜로 묶인 글은 앵커 없이 글 머리로 보낸다.
  */
-export type SpotGuide = { slug: string; label: string }
+export type SpotGuide = { slug: string; label: string; anchor?: string }
+// 명소 절로 바로 가는 링크 — 앵커는 그 글의 명소 절 제목에서 자동으로 만들어진 id(lib/blog/rehypeHeadingIds)
+const at = (guide: SpotGuide, anchor: string): SpotGuide => ({ ...guide, anchor })
 const GUIDES = {
   itinerary: { slug: 'seoul-itinerary-first-timers-3-4-5-days', label: 'In our Seoul itinerary' },
   seongsu: { slug: 'seongsu-dong-pop-up-cafe-guide', label: 'Seongsu-dong guide' },
@@ -21,6 +24,9 @@ const GUIDES = {
   hanRiver: { slug: 'han-river-parks-seoul-guide', label: 'Han River picnic guide' },
   blossom: { slug: 'korea-cherry-blossom-autumn-foliage-guide', label: 'Cherry blossom & foliage guide' },
   nami: { slug: 'nami-island-day-trip-seoul-guide', label: 'Nami Island day trip guide' },
+  // 명소마다 절이 있는 도시 · 권역 가이드(2026-11-13 파일럿) — at(GUIDES.x, '절-id') 로 그 절에 바로 닿는다
+  gyeongju: { slug: 'gyeongju-one-day-itinerary-bulguksa-daereungwon', label: 'Gyeongju one-day guide' },
+  jongno: { slug: 'seoul-palaces-bukchon-walk-gyeongbokgung-changdeokgung', label: 'Palace & hanok walk guide' },
 } satisfies Record<string, SpotGuide>
 
 export type Hotspot = { name: string; ko: string; category: HotspotCategory; what: string; tip: string; guide?: SpotGuide }
@@ -33,10 +39,10 @@ export type HotspotCity = { id: CityId; name: string; routeLink: boolean; spots:
 const SEOUL_CLUSTERS: SeoulCluster[] = [
   {
     id: 'jongno', name: 'Jongno & Bukchon', short: 'Jongno', ko: '종로·북촌', theme: 'Palaces & Hanok Heritage', spots: [
-      { name: 'Gyeongbokgung Palace', ko: '경복궁', category: 'Heritage', what: 'Walk the courtyards of Seoul’s main royal palace.', tip: 'Subway Line 3 (Gyeongbokgung Station). Closed on Tuesdays.', guide: GUIDES.itinerary },
-      { name: 'Bukchon Hanok Village', ko: '북촌 한옥마을', category: 'Heritage', what: 'Climb quiet lanes of tiled-roof houses where people still live.', tip: 'Near Anguk Station (Line 3). Red Zone sightseeing 10 a.m.–5 p.m.; ₩100,000 fine only after a warning.', guide: GUIDES.itinerary },
-      { name: 'Ikseon-dong Hanok Alley', ko: '익선동', category: 'Trendy Cafe', what: 'Browse cafes and small shops in narrow hanok alleys.', tip: 'Next to Jongno 3-ga Station (Lines 1, 3 and 5), one stop from Anguk on Line 3.' },
-      { name: 'Changdeokgung & Secret Garden', ko: '창덕궁 & 후원', category: 'Heritage', what: 'Tour the UNESCO palace and its wooded royal garden.', tip: 'Near Anguk Station. Closed on Mondays. The garden is by guided tour only, with a separate ticket, so book ahead.' },
+      { name: 'Gyeongbokgung Palace', ko: '경복궁', category: 'Heritage', what: 'Walk the courtyards of Seoul’s main royal palace.', tip: 'Subway Line 3 (Gyeongbokgung Station). Closed on Tuesdays.', guide: at(GUIDES.jongno, 'gyeongbokgung-palace') },
+      { name: 'Bukchon Hanok Village', ko: '북촌 한옥마을', category: 'Heritage', what: 'Climb quiet lanes of tiled-roof houses where people still live.', tip: 'Near Anguk Station (Line 3). Red Zone sightseeing 10 a.m.–5 p.m.; ₩100,000 fine only after a warning.', guide: at(GUIDES.jongno, 'bukchon-hanok-village') },
+      { name: 'Ikseon-dong Hanok Alley', ko: '익선동', category: 'Trendy Cafe', what: 'Browse cafes and small shops in narrow hanok alleys.', tip: 'Next to Jongno 3-ga Station (Lines 1, 3 and 5), one stop from Anguk on Line 3.', guide: at(GUIDES.jongno, 'ikseon-dong') },
+      { name: 'Changdeokgung & Secret Garden', ko: '창덕궁 & 후원', category: 'Heritage', what: 'Tour the UNESCO palace and its wooded royal garden.', tip: 'Near Anguk Station. Closed on Mondays. The garden is by guided tour only, with a separate ticket, so book ahead.', guide: at(GUIDES.jongno, 'changdeokgung-and-the-secret-garden') },
     ],
   },
   {
@@ -97,11 +103,11 @@ export const HOTSPOT_CITIES: HotspotCity[] = [
   },
   {
     id: 'gyeongju', name: 'Gyeongju', routeLink: true, spots: [
-      { name: 'Hwangnidan-gil', ko: '황리단길', category: 'Trendy Cafe', what: 'Cafe-hop along hanok-lined streets in the old town.', tip: 'About a 10-minute walk from Gyeongju Bus Terminal. Start here around lunchtime.' },
-      { name: 'Daereungwon Tomb Complex', ko: '대릉원', category: 'Heritage', what: 'Stroll among the grassy royal tombs of Silla.', tip: 'Right next to Hwangnidan-gil, just a few minutes on foot.' },
-      { name: 'Cheomseongdae Observatory', ko: '첨성대', category: 'Heritage', what: 'See one of Asia’s oldest surviving stone observatories.', tip: 'On the walk from Daereungwon toward Donggung Palace.' },
-      { name: 'Donggung Palace and Wolji Pond', ko: '동궁과 월지', category: 'Heritage', what: 'Watch the palace pavilions reflected in the pond after dark.', tip: 'About a 20-minute walk from Daereungwon, passing Cheomseongdae. Time it for dusk.' },
-      { name: 'Bulguksa Temple', ko: '불국사', category: 'Heritage', what: 'Climb the stone stairways of Silla’s UNESCO-listed temple.', tip: 'Outside downtown, so give it its own half day. Check a map app for the current bus.' },
+      { name: 'Hwangnidan-gil', ko: '황리단길', category: 'Trendy Cafe', what: 'Cafe-hop along hanok-lined streets in the old town.', tip: 'About a 10-minute walk from Gyeongju Bus Terminal. Start here around lunchtime.', guide: at(GUIDES.gyeongju, 'hwangnidan-gil') },
+      { name: 'Daereungwon Tomb Complex', ko: '대릉원', category: 'Heritage', what: 'Stroll among the grassy royal tombs of Silla.', tip: 'Right next to Hwangnidan-gil, just a few minutes on foot.', guide: at(GUIDES.gyeongju, 'daereungwon-tomb-complex') },
+      { name: 'Cheomseongdae Observatory', ko: '첨성대', category: 'Heritage', what: 'See one of Asia’s oldest surviving stone observatories.', tip: 'On the walk from Daereungwon toward Donggung Palace.', guide: at(GUIDES.gyeongju, 'cheomseongdae-observatory') },
+      { name: 'Donggung Palace and Wolji Pond', ko: '동궁과 월지', category: 'Heritage', what: 'Watch the palace pavilions reflected in the pond after dark.', tip: 'About a 20-minute walk from Daereungwon, passing Cheomseongdae. Time it for dusk.', guide: at(GUIDES.gyeongju, 'donggung-palace-and-wolji-pond') },
+      { name: 'Bulguksa Temple', ko: '불국사', category: 'Heritage', what: 'Climb the stone stairways of Silla’s UNESCO-listed temple.', tip: 'Outside downtown, so give it its own half day. Check a map app for the current bus.', guide: at(GUIDES.gyeongju, 'bulguksa-temple') },
     ],
   },
   {
