@@ -21,7 +21,7 @@ import * as os from 'os'
 import sharp from 'sharp'
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
 
-const VER = 'v2'
+const VER = 'v3'
 const W = 1200
 const UA = { headers: { 'User-Agent': 'AtlasLabStudios-MapBuilder/1.0 (+https://www.atlaslabstudios.com)' } }
 const sleep = ms => new Promise(r => setTimeout(r, ms))
@@ -64,7 +64,7 @@ const REGIONS = {
     ],
   },
   gangnam: {
-    bbox: [37.488, 126.985, 37.532, 127.115], // 반포(고속터미널) · 역삼 · 삼성(코엑스) · 잠실이 한 화면
+    bbox: [37.474, 126.985, 37.540, 127.115], // 반포(고속터미널) · 역삼 · 삼성(코엑스) · 잠실이 한 화면
     labels: [
       { t: 'Han River', at: [37.5268, 127.08], size: 24, italic: true },
       { t: 'SEOCHO', at: [37.492, 127.008], size: 18 },
@@ -131,7 +131,7 @@ const MAPS = {
     ],
   },
   signiel: {
-    region: 'gangnam', hotel: { at: P.SIG, title: 'Signiel Seoul', lines: ['Floors 76–101, Lotte World Tower'] },
+    region: 'gangnam', hotel: { at: P.SIG, title: 'Signiel Seoul', lines: ['Lotte World Tower, 76–101F'] },
     routes: [
       { from: 'SIG', to: 'LWA', mode: 'walk', color: '#e37400' },
       { from: 'SIG', to: 'AQUA', mode: 'drive', color: '#1a73e8' },
@@ -143,7 +143,7 @@ const MAPS = {
     ],
   },
   'park-hyatt-seoul': {
-    region: 'gangnam', hotel: { at: P.PH, title: 'Park Hyatt Seoul', lines: ['Samseong Stn Exit 1 at the door'] },
+    region: 'gangnam', hotel: { at: P.PH, title: 'Park Hyatt Seoul', lines: ['Samseong Stn Exit 1'] },
     routes: [
       { from: 'PH', to: 'AQUA', mode: 'walk', color: '#e37400' },
       { from: 'PH', to: 'SIG', mode: 'drive', color: '#1a73e8' },
@@ -166,7 +166,7 @@ const MAPS = {
     ],
   },
   'jw-marriott-seoul': {
-    region: 'gangnam', hotel: { at: P.JW, title: 'JW Marriott Seoul', lines: ['Express Bus Terminal Stn, Lines 3·7·9'] },
+    region: 'gangnam', hotel: { at: P.JW, title: 'JW Marriott Seoul', lines: ['Express Bus Terminal Stn'] },
     routes: [
       { from: 'JW', to: 'BANPO', mode: 'walk', color: '#2e8b57' },
       { from: 'JW', to: 'JOSUN', mode: 'drive', color: '#1a73e8' },
@@ -177,7 +177,7 @@ const MAPS = {
     ],
   },
   'grand-intercontinental-parnas': {
-    region: 'gangnam', hotel: { at: P.GIC, title: 'InterContinental Parnas', lines: ['Linked to COEX Mall & Samseong Stn'] },
+    region: 'gangnam', hotel: { at: P.GIC, title: 'InterContinental Parnas', lines: ['Indoor link to COEX Mall'] },
     routes: [
       { from: 'GIC', to: 'AQUA', mode: 'walk', color: '#e37400' },
       { from: 'GIC', to: 'SIG', mode: 'drive', color: '#1a73e8' },
