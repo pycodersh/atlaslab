@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import BuyProButton from '@/components/kpantry/paywall/BuyProButton'
 import LicenseKeyForm from '@/components/kpantry/paywall/LicenseKeyForm'
+import { InstallAppButton } from '@/components/kpantry/InstallAppButton'
 import { deactivateLicense, hasLicensePass } from '@/lib/kpantry/license'
 import { KPANTRY_CHECKOUT_URL, KPANTRY_PRICE, PRO_BENEFITS } from '@/lib/kpantry/purchase'
 
@@ -74,6 +75,11 @@ export default function SubscribePage() {
           >
             Deactivate on this browser
           </button>
+          {/* 잠금이 풀린 직후가 설치를 권하기 가장 좋은 때(K-PATTO /kpatto/redeem 과 같다) — 이미 설치된 창이면 보이지 않는다 */}
+          <InstallAppButton
+            before={<p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#333333', margin: '16px 0 10px', lineHeight: 1.5 }}>Keep K-Pantry one tap away — install it on this device.</p>}
+            style={{ fontFamily: 'Inter, sans-serif', borderRadius: 14 }}
+          />
         </div>
       ) : (
         <>

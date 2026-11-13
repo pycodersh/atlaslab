@@ -7,6 +7,7 @@ import {
   EBOOK_PAGES, PRICING_ANCHOR, PRODUCTS, SAMPLE_PATTERNS, SAMPLE_PDF_URL, TRY_APP_PATH,
 } from '@/lib/kpatto/purchase'
 import { BuyButton } from './_landing/BuyButton'
+import { InstallAppButton } from '@/components/kpatto/InstallAppButton'
 import { SampleAudio, type AudioSample } from './_landing/SampleAudio'
 import { DEFAULT_OPEN_GRAPH, DEFAULT_TWITTER } from '@/lib/seo/site'
 
@@ -173,6 +174,8 @@ export default function KPattoLandingPage() {
         .lp .lp-plan .lp-buy { width: 100%; min-width: 0; height: 50px; border-radius: 6px; font-size: 14.5px; font-weight: 600; box-shadow: none; background-image: none; }
         .lp .lp-plan .lp-buy:not(.lp-btn-primary) { background: transparent; border: 1px solid ${INK}; color: ${INK}; }
         .lp .lp-plan .lp-buy:not(.lp-btn-primary):hover { background: ${INK}; color: #fff; }
+
+        .lp-plans-note { font-size: 12.5px; color: ${MUTED}; text-align: center; margin: 18px 0 0; }
 
         /* 보장 2칸 */
         /* 상자 없이 배경 위에 아이콘 + 글만 둔다 */
@@ -399,6 +402,10 @@ export default function KPattoLandingPage() {
               </div>
             ))}
           </div>
+          {/* 웹페이지의 설치 진입점은 여기 한 곳 — K-Pantry 랜딩 가격 아래 안내 줄과 같은 자리·모양. 이미 설치된 창이면 보이지 않는다 */}
+          <p className="lp-plans-note">
+            <InstallAppButton variant="link" label="📲 Install the K-PATTO app on this device" style={{ color: INK }} />
+          </p>
         </div>
       </section>
 

@@ -4,7 +4,7 @@
   "short_name": "K-PATTO",
   "description": "Learn real Korean through a 100-episode webtoon with native audio on every line.",
   "start_url": "/kpatto/home",
-  "scope": "/kpatto/",
+  "scope": "/kpatto",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#FFFFFF",

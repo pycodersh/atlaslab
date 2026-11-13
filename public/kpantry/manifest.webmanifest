@@ -1,0 +1,20 @@
+{
+  "id": "/kpantry/",
+  "name": "K-Pantry — Cook Korean with What You Have",
+  "short_name": "K-Pantry",
+  "description": "Match the ingredients in your fridge to beginner-friendly Korean recipes.",
+  "start_url": "/kpantry/en",
+  "scope": "/kpantry/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FDFBF7",
+  "theme_color": "#FDFBF7",
+  "lang": "en",
+  "categories": ["food", "lifestyle"],
+  "icons": [
+    { "src": "/icons/kpantry/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/kpantry/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/kpantry/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/kpantry/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

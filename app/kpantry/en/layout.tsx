@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import LegalLinks from '@/components/kpantry/layout/LegalLinks'
 import { KP_THEME_CSS } from '@/components/kpantry/ui/theme'
+import { InstallAppButton, KPantryInstallPromptCatcher } from '@/components/kpantry/InstallAppButton'
 
 // 하위 화면(dishes·ingredients·recipes·saved·subscribe)은 서버 HTML 이 2~75단어인
 // 앱 내부 화면이라 기본값을 색인 제외로 둔다. 랜딩(page.tsx)만 index 로 되돌린다.
@@ -9,6 +10,11 @@ export const metadata: Metadata = {
   title: 'K-Pantry',
   description: 'Cook Korean with What You Have.',
   robots: { index: false, follow: true },
+  // K-Pantry 전용 PWA 매니페스트 — 이게 있어야 안드로이드·데스크톱 Chrome 이 설치(beforeinstallprompt)를 연다.
+  // 범위는 /kpantry/(랜딩 포함), 시작은 앱 홈 /kpantry/en. 랜딩(app/kpantry/landing/page.tsx)도 같은 매니페스트를 건다.
+  manifest: '/kpantry/manifest.webmanifest',
+  appleWebApp: { capable: true, title: 'K-Pantry', statusBarStyle: 'default' },
+  icons: { apple: '/icons/kpantry/icon-192.png' },
 }
 
 // 테마 변수(--kp-*)는 랜딩의 언락 모달도 같이 쓴다 — components/kpantry/ui/theme.ts
@@ -26,8 +32,14 @@ export default function KPantryLayout({
       {children}
       {/* 모든 K-Pantry 화면 맨 아래 — 레시피 상세 액션 바·재료 화면 CTA 바(하단 고정)에 가리지 않게 그만큼 띄운다 */}
       <footer style={{ padding: '8px 16px calc(96px + env(safe-area-inset-bottom))' }}>
+        {/* 앱 설치 — 기기별(iOS·iPadOS 안내 / Android·PC 설치 창). 이미 설치된 창에서는 보이지 않는다 */}
+        <InstallAppButton
+          variant="link"
+          style={{ display: 'block', margin: '0 auto 8px', fontFamily: 'Inter, sans-serif', fontSize: 13, color: 'var(--kp-accent)' }}
+        />
         <LegalLinks prefix="© Atlas Lab ·" />
       </footer>
+      <KPantryInstallPromptCatcher />
     </div>
   )
 }

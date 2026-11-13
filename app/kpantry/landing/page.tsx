@@ -12,6 +12,7 @@ import {
 } from '@/lib/kpantry/purchase'
 import GumroadOverlayLink from '@/components/checkout/GumroadOverlayLink'
 import UnlockLink from './UnlockLink'
+import { InstallAppButton, KPantryInstallPromptCatcher } from '@/components/kpantry/InstallAppButton'
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
 const CANONICAL = `${SITE}/kpantry/landing`
@@ -24,6 +25,10 @@ export const metadata: Metadata = {
   openGraph: { url: CANONICAL },
   // TEMP(AdSense review): /kpatto 랜딩과 같이 심사 기간에는 색인 제외 — 승인 후 이 줄을 지운다.
   robots: { index: false, follow: true },
+  // 앱과 같은 K-Pantry 매니페스트(범위 /kpantry/) — 가격 아래 'Install the app' 링크가 여기서도 네이티브 설치 창을 연다
+  manifest: '/kpantry/manifest.webmanifest',
+  appleWebApp: { capable: true, title: 'K-Pantry', statusBarStyle: 'default' },
+  icons: { apple: '/icons/kpantry/icon-192.png' },
 }
 
 /**
@@ -375,6 +380,8 @@ export default function KPantryLandingPage() {
           <p className="lp-plans-note">
             Secure checkout by Gumroad · {REFUND_DAYS}-day money-back guarantee ·{' '}
             <a href={`${APP}/refund`} style={{ color: MUTED, textUnderlineOffset: 3 }}>Refund policy</a>
+            {/* 웹페이지의 설치 진입점은 여기 한 곳 — 버튼이 아니라 안내 줄 속 링크로(이미 설치된 창이면 구분점째 사라진다) */}
+            <InstallAppButton variant="link" label="📲 Install the app" before=" · " style={{ color: INK }} />
           </p>
           <div className="lp-end-pad" />
         </div>
@@ -386,6 +393,7 @@ export default function KPantryLandingPage() {
       </div>
 
       <SiteFooter />
+      <KPantryInstallPromptCatcher />
     </div>
   )
 }
