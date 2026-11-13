@@ -241,10 +241,7 @@ export function WeatherForecast() {
             </div>
           </div>
 
-          <p className="tl-note">
-            Updated <span className="notranslate" translate="no">{seoulTime(data.fetchedAt)}</span> KST and refreshed hourly.{' '}
-            <a href="https://www.weatherapi.com/" rel="noopener noreferrer" target="_blank">Powered by WeatherAPI.com</a>. Forecasts can change, so check again before you head out.
-          </p>
+          {/* 갱신 주기 · WeatherAPI 출처 표기는 페이지의 About this tool 참고 문구로 옮겼다 */}
         </>
       )}
     </>

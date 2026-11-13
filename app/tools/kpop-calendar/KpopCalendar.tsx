@@ -154,7 +154,6 @@ export function KpopCalendar() {
           .kp-card .kp-btn:not(.is-primary):hover { background: #F8FAFC; }
         }
         .kp-empty { background: #fff; border: 1px dashed #D1D5DB; border-radius: 16px; padding: 24px; font-size: 14px; color: #4B5563; margin: 0; }
-        .kp-note { margin-top: 20px; }
 
         button.kp-btn { cursor: pointer; width: 100%; }
         .kp-quick-overlay { position: fixed; inset: 0; z-index: 300; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(17,24,39,.55); }
@@ -224,15 +223,7 @@ export function KpopCalendar() {
 
       {quickGuide && <QuickGuideModal venueKey={quickGuide} onClose={closeQuickGuide} />}
 
-      <p className="tl-note kp-note">
-        Dates and venues were checked on November 8, 2026 and can change, so confirm with the organizer before you book or travel. &quot;Upcoming&quot; means the date is listed;
-        it doesn&apos;t mean tickets are on sale. Ticket buttons open the show page where we&apos;ve confirmed one, and otherwise the NOL World K-pop listing. Not every show is sold there.
-        Sources:{' '}
-        <a href="https://www.soompi.com/article/1797016wpp/2026-k-pop-tour-masterlist-concerts-fan-meetings-and-more" rel="noopener noreferrer" target="_blank">Soompi</a>,{' '}
-        <a href="https://www.koreatimes.co.kr/entertainment/k-pop/20261014/mma2026-brings-26-k-pop-acts-to-gocheok-dome-for-2-night-spectacle" rel="noopener noreferrer" target="_blank">The Korea Times</a>,{' '}
-        <a href="https://sports.khan.co.kr/en/article/202610110728007" rel="noopener noreferrer" target="_blank">Sports Kyunghyang</a>,{' '}
-        <a href="https://www.slist.kr/news/articleView.html?idxno=777842" rel="noopener noreferrer" target="_blank">Singlelist</a>.
-      </p>
+      {/* 일정 기준일 · 티켓 버튼 안내 · 출처는 페이지의 About this tool 참고 문구로 옮겼다 */}
     </>
   )
 }

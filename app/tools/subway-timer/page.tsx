@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import { MoreTools } from '../MoreTools'
 import { WidgetActionChips } from '../WidgetActionChips'
-import { ToolFaq, type FaqItem } from '../ToolFaq'
+import { ToolAbout } from '../ToolAbout'
 import { SubwayTimer } from './SubwayTimer'
 import { SubwayRules } from './SubwayRules'
 
@@ -10,11 +10,11 @@ const URL = 'https://www.atlaslabstudios.com/tools/subway-timer'
 const TITLE = 'Seoul Subway 15-Min Free Re-Entry Timer | Wrong Gate Refund Guide'
 const DESCRIPTION = 'Tapped the wrong gate in Seoul Metro? Track your 15-minute free re-entry window and check subway transfer rules instantly.'
 
-const FAQ: FaqItem[] = [
-  { q: 'How does free re-entry work on the Seoul subway?', a: 'If you tap out by mistake, tap back in at the same station on the same line within 15 minutes and the ₩1,550 base fare is waived. It works with T-money and other transit cards, once per trip.' },
-  { q: 'Which tickets and lines are not covered?', a: 'Single-journey paper tickets and passes are not covered, and neither are AREX, the Shinbundang Line, the Incheon lines and some light rail lines. Line 7 between Kkachiul and Seoknam is also excluded.' },
-  { q: 'What should I do if re-entry does not work?', a: 'Press the Help bell button on the gate and ask the staff. The gate system\'s clock decides, so leave yourself a margin.' },
-]
+// About this tool — 예전 FAQ 의 핵심을 2~3문장으로. 참고 문구(기준일 · 확인 안내 · 출처)는 위젯 밑에서 옮겨 왔다
+const ABOUT = "Tapped out by mistake? Start the timer right after you tap out, then tap back in at the same station on the same line within 15 minutes and the ₩1,550 base fare is waived. It works with T-money and other transit cards, once per trip, but not with single-journey tickets or passes, AREX, the Shinbundang Line or the Incheon lines. If re-entry doesn’t work, press the Help bell on the gate."
+const NOTE = (
+  <>Note: This timer is a guide only; the gate system’s clock decides, so leave yourself a margin and use the same gate if you can. Official notices don’t say how any extra distance fare is handled, or what happens if you tapped in at the wrong gate without tapping out, so ask the staff. Korail lines joined on June 20, 2026; Seoul Metro lines moved to 15 minutes on October 7, 2023. Sources:{' '}<a href="https://www.korea.kr/news/policyNewsView.do?newsId=148966539" rel="noopener noreferrer" target="_blank">Korea.kr (June 15, 2026)</a>,{' '}<a href="https://www.koreajoongangdaily.com/korea/less-running-to-toilet-as-seoul-lengthens-free-subway-reentry-time/11290623" rel="noopener noreferrer" target="_blank">Korea JoongAng Daily (Sept. 25, 2023)</a>.</>
+)
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -34,9 +34,9 @@ export default function Page() {
 
       <SubwayRules />
 
-      <WidgetActionChips tool="subway-timer" />
+      <ToolAbout text={ABOUT} note={NOTE} />
 
-      <ToolFaq items={FAQ} />
+      <WidgetActionChips tool="subway-timer" />
       <MoreTools current="/tools/subway-timer" />
     </div>
   )

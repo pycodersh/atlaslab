@@ -94,7 +94,6 @@ export function HotspotFinder() {
         .hs-link { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 6px 4px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; background: #fff; color: #334155; text-decoration: none; white-space: nowrap; font: 600 12px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
         @media (hover: hover) { .hs-link:hover { background: #F9FAFB; border-color: #9CA3AF; } }
         .hs-link:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
-        .hs-disclaimer { margin: 0; padding: 16px 0; font-size: 11px; line-height: 1.5; color: #64748B; text-align: center; }
         .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
         .hs-tab:focus-visible, .hs-chip:focus-visible, .hs-route:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         /* 폰은 글 칸이 좁아 버튼 글자가 넘치므로 버튼 줄만 썸네일 아래까지 펼친다 */
@@ -193,9 +192,7 @@ export function HotspotFinder() {
         {city.routeLink && <a className="hs-route" href={`/tools/intercity-transit?to=${city.id}`}>Check Route from Seoul in Transit Guide →</a>}
       </div>
 
-      <p className="hs-disclaimer">* Spot visuals are AI-rendered previews for illustrative purposes. Always check Google Maps for real-time views.</p>
-
-      <p className="tl-note">Opening days and hours can change, so check a map app before you head out.</p>
+      {/* 그림 안내 · 영업시간 확인 안내는 한 문장으로 합쳐 페이지의 About this tool 참고 문구로 옮겼다 */}
     </>
   )
 }

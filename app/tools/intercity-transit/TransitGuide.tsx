@@ -157,7 +157,6 @@ export function TransitGuide() {
         }
         .tg-banner { font-size: 13px; line-height: 1.5; color: #374151; background: #F3F4F6; border-radius: 10px; padding: 10px 14px; margin: 0 0 12px; }
         .tg-tipbox { font-size: 14px; line-height: 1.6; color: #1F2937; background: rgba(255,251,235,.6); border: 1px solid #FDE68A; border-radius: 12px; padding: 12px 16px; margin: 0 0 12px; }
-        .tg-note { margin-top: 12px; }
 
         @media (min-width: 640px) {
           .tg-bar { grid-template-columns: minmax(0, 1fr) 52px minmax(0, 1fr); }
@@ -206,17 +205,7 @@ export function TransitGuide() {
         </div>
       )}
 
-      <p className="tl-note tg-note">
-        Fares are approximate one-way fares and durations are typical, checked November 8, 2026. Some ranges include higher seat classes. KTX and SRT merged in September 2026 and fares are
-        still settling, so confirm on{' '}
-        <a href="https://www.korail.com" rel="noopener noreferrer" target="_blank">Korail</a> or the bus operator before booking. The return trip may differ slightly.
-        Check a map app for current local bus numbers. The map is illustrative and not to scale. Sources:{' '}
-        <a href="https://www.rome2rio.com" rel="noopener noreferrer" target="_blank">Rome2Rio</a>,{' '}
-        <a href="https://welcome-busan.com/guide/transport/seoul-to-busan-ktx-guide/" rel="noopener noreferrer" target="_blank">Welcome Busan</a>,{' '}
-        <a href="https://mileasia.com/korea/ktx-train-guide/" rel="noopener noreferrer" target="_blank">MileAsia KTX</a>,{' '}
-        <a href="https://mileasia.com/korea/seoul-to-jeju/" rel="noopener noreferrer" target="_blank">MileAsia Jeju</a>,{' '}
-        <a href="https://www.asiaodysseytravel.com/south-korea/seoul-to-jeonju.html" rel="noopener noreferrer" target="_blank">Asia Odyssey</a>.
-      </p>
+      {/* 요금 기준일 · 출처 안내는 페이지의 About this tool 참고 문구로 옮겼다 */}
     </>
   )
 }

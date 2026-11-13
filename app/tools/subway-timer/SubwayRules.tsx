@@ -38,13 +38,7 @@ export function SubwayRules() {
       </section>
     </div>
 
-    <p className="tl-note">
-      This timer is a guide only. The gate system&apos;s clock decides, so leave yourself a margin. Use the same gate if you can.
-      Re-entry is processed as a transfer, which waives the ₩1,550 base fare (first 10 km); official notices don&apos;t say how
-      any extra distance fare is handled. Tapped in at the wrong gate but never tapped out? Official notices don&apos;t cover this, so ask the staff. Korail lines joined on June 20, 2026; Seoul Metro lines moved to 15 minutes on October 7, 2023.
-      Sources: <a href="https://www.korea.kr/news/policyNewsView.do?newsId=148966539" rel="noopener noreferrer" target="_blank">Korea.kr (June 15, 2026)</a>,{' '}
-      <a href="https://www.koreajoongangdaily.com/korea/less-running-to-toilet-as-seoul-lengthens-free-subway-reentry-time/11290623" rel="noopener noreferrer" target="_blank">Korea JoongAng Daily (Sept. 25, 2023)</a>.
-    </p>
+    {/* 타이머 한계 · 기준일 · 출처는 페이지의 About this tool 참고 문구로 옮겼다 */}
     </>
   )
 }

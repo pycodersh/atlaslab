@@ -165,12 +165,7 @@ export function KoreaHolidayModal() {
           </ul>
         </section>
 
-        <p className="tl-note">
-          Dates checked November 9, 2026. Store hours vary, so check a map app before you go. Sources:{' '}
-          <a href="https://www.klook.com/blog/south-korea-public-holidays/" rel="noopener noreferrer" target="_blank">Klook, citing the official almanac</a>,{' '}
-          <a href="https://www.koreatimes.co.kr/amp/southkorea/politics/20260331/labor-day-set-to-become-public-holiday-for-all-workers" rel="noopener noreferrer" target="_blank">The Korea Times</a>,{' '}
-          <a href="https://www.koreajoongangdaily.com/korea/constitution-day-to-be-reinstated-as-public-holiday-starting-this-year/12427789" rel="noopener noreferrer" target="_blank">Korea JoongAng Daily</a>.
-        </p>
+        {/* 날짜 기준일 · 출처 안내는 페이지의 About this tool 참고 문구로 옮겼다 */}
       </div>
     </>
   )

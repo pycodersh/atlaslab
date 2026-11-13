@@ -69,7 +69,7 @@ const withCommas = (raw: string) => {
   return `${Number(int || 0).toLocaleString('en-US')}${frac === undefined ? '' : `.${frac}`}`
 }
 
-export function KrwConverter({ rates, updated }: { rates: Rates; updated: string }) {
+export function KrwConverter({ rates }: { rates: Rates }) {
   const [raw, setRaw] = useState('10000')
   const [currency, setCurrency] = useState('USD')
   const [mode, setMode] = useState<Mode>('to-fx')
@@ -210,13 +210,7 @@ export function KrwConverter({ rates, updated }: { rates: Rates; updated: string
         ))}
       </section>
 
-      <p className="tl-note">
-        Reference rate from <span className="notranslate" translate="no">{updated}</span>.{' '}
-        <a href="https://www.exchangerate-api.com" rel="noopener noreferrer" target="_blank">Rates by Exchange Rate API</a>.
-        Your card or exchange booth will use its own rate and fees. Meal averages are from Korea Consumer Agency&apos;s Price Portal for September 2026,{' '}
-        <a href="https://www.fnnews.com/news/202610191207019169" rel="noopener noreferrer" target="_blank">as reported by Financial News</a>;
-        convenience store prices are <a href="https://blog.namanecard.com/korea-meal-prices-seoul-2026-ko/" rel="noopener noreferrer" target="_blank">typical ranges</a>. Prices vary by shop.
-      </p>
+      {/* 환율 기준일 · Exchange Rate API 출처 표기 · 가격 출처는 페이지의 About this tool 참고 문구로 옮겼다 */}
     </>
   )
 }
