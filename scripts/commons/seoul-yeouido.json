@@ -1,0 +1,81 @@
+{
+  "id": "seoul-yeouido",
+  "title": "Yeouido & Yongsan (S4)",
+  "spots": [
+    {
+      "key": "hangang",
+      "name": "Yeouido Hangang Park",
+      "lat": 37.52567,
+      "lon": 126.93606,
+      "radius": 600,
+      "keywords": [
+        "Yeouido Hangang Park",
+        "Yeouido Han River Park",
+        "Yeouinaru"
+      ]
+    },
+    {
+      "key": "hyundai",
+      "name": "The Hyundai Seoul",
+      "lat": 37.52596,
+      "lon": 126.92842,
+      "radius": 200,
+      "keywords": [
+        "The Hyundai Seoul",
+        "Hyundai Department Store Yeouido",
+        "Parc.1 Seoul"
+      ]
+    },
+    {
+      "key": "hannam",
+      "name": "Hannam-dong",
+      "lat": 37.5385,
+      "lon": 127.0005,
+      "radius": 200,
+      "keywords": [
+        "Hannam-dong",
+        "Itaewon-ro Hannam",
+        "Hannam-dong street"
+      ]
+    },
+    {
+      "key": "museum",
+      "name": "National Museum of Korea",
+      "lat": 37.52395,
+      "lon": 126.98032,
+      "radius": 450,
+      "keywords": [
+        "National Museum of Korea"
+      ]
+    }
+  ],
+  "exclude": [
+    "hangang-1",
+    "hangang-2",
+    "hangang-5",
+    "hangang-9",
+    "hangang-10",
+    "hyundai-2",
+    "hyundai-3",
+    "hyundai-4",
+    "hyundai-5",
+    "hyundai-6",
+    "hyundai-7",
+    "hyundai-8",
+    "hyundai-9",
+    "hyundai-10",
+    "hannam-1",
+    "hannam-2",
+    "hannam-4",
+    "hannam-5",
+    "hannam-6",
+    "hannam-7",
+    "hannam-9",
+    "hannam-10",
+    "museum-1",
+    "museum-2",
+    "museum-9",
+    "museum-10"
+  ],
+  "perSpot": 10
+}

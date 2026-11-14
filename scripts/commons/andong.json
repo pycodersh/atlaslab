@@ -1,0 +1,48 @@
+{
+  "id": "andong",
+  "title": "Andong (R9)",
+  "spots": [
+    {
+      "key": "hahoe",
+      "name": "Hahoe Folk Village",
+      "lat": 36.539,
+      "lon": 128.5181,
+      "radius": 900,
+      "keywords": [
+        "Hahoe Folk Village",
+        "Hahoe Village",
+        "Buyongdae"
+      ]
+    },
+    {
+      "key": "woryeonggyo",
+      "name": "Woryeonggyo Bridge",
+      "lat": 36.5766,
+      "lon": 128.76093,
+      "radius": 500,
+      "keywords": [
+        "Woryeonggyo",
+        "Wolyeonggyo"
+      ]
+    },
+    {
+      "key": "jjimdak",
+      "name": "Andong Jjimdak Alley",
+      "lat": 36.5656,
+      "lon": 128.7276,
+      "radius": 300,
+      "keywords": [
+        "Andong jjimdak",
+        "Andong Old Market",
+        "Andong market"
+      ]
+    }
+  ],
+  "exclude": [
+    "hahoe-6",
+    "hahoe-7",
+    "woryeonggyo-2",
+    "woryeonggyo-8",
+    "jjimdak-7"
+  ]
+}

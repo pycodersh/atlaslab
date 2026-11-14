@@ -1,0 +1,68 @@
+{
+  "id": "seoul-gangnam",
+  "title": "Gangnam & Jamsil (S5)",
+  "spots": [
+    {
+      "key": "starfield",
+      "name": "Starfield Library at COEX",
+      "lat": 37.51006,
+      "lon": 127.06016,
+      "radius": 250,
+      "keywords": [
+        "Starfield Library",
+        "Starfield COEX Mall",
+        "COEX"
+      ]
+    },
+    {
+      "key": "lotte",
+      "name": "Lotte World Tower & Seoul Sky",
+      "lat": 37.51255,
+      "lon": 127.10268,
+      "radius": 400,
+      "keywords": [
+        "Lotte World Tower",
+        "Seoul Sky"
+      ]
+    },
+    {
+      "key": "seokchon",
+      "name": "Seokchon Lake",
+      "lat": 37.5093,
+      "lon": 127.1018,
+      "radius": 500,
+      "keywords": [
+        "Seokchon Lake",
+        "Seokchonhosu"
+      ]
+    },
+    {
+      "key": "apgujeong",
+      "name": "Apgujeong Rodeo Street",
+      "lat": 37.5265,
+      "lon": 127.0395,
+      "radius": 450,
+      "keywords": [
+        "Apgujeong Rodeo",
+        "Apgujeong-dong",
+        "Cheongdam-dong"
+      ]
+    }
+  ],
+  "exclude": [
+    "starfield-6",
+    "starfield-7",
+    "lotte-2",
+    "lotte-3",
+    "lotte-4",
+    "seokchon-3",
+    "seokchon-6",
+    "seokchon-7",
+    "apgujeong-3",
+    "apgujeong-4",
+    "apgujeong-5",
+    "apgujeong-6",
+    "apgujeong-7",
+    "apgujeong-8"
+  ]
+}

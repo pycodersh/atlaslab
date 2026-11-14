@@ -1,0 +1,67 @@
+{
+  "id": "sokcho",
+  "title": "Sokcho (R6)",
+  "spots": [
+    {
+      "key": "market",
+      "name": "Sokcho Tourist and Fishery Market",
+      "lat": 38.20477,
+      "lon": 128.5898,
+      "radius": 350,
+      "keywords": [
+        "Sokcho Jungang Market",
+        "Sokcho market"
+      ]
+    },
+    {
+      "key": "eye",
+      "name": "Sokcho Eye",
+      "lat": 38.19094,
+      "lon": 128.60295,
+      "radius": 500,
+      "keywords": [
+        "Sokcho Eye",
+        "Sokcho Beach"
+      ]
+    },
+    {
+      "key": "yeonggeumjeong",
+      "name": "Yeonggeumjeong",
+      "lat": 38.21182,
+      "lon": 128.60148,
+      "radius": 400,
+      "keywords": [
+        "Yeonggeumjeong",
+        "Dongmyeong Port"
+      ]
+    },
+    {
+      "key": "seorak",
+      "name": "Seoraksan Cable Car",
+      "lat": 38.17,
+      "lon": 128.488,
+      "radius": 900,
+      "keywords": [
+        "Seoraksan cable car",
+        "Gwongeumseong",
+        "Seoraksan"
+      ]
+    }
+  ],
+  "exclude": [
+    "market-3",
+    "market-5",
+    "market-6",
+    "market-8",
+    "eye-3",
+    "eye-4",
+    "eye-5",
+    "yeonggeumjeong-2",
+    "yeonggeumjeong-3",
+    "yeonggeumjeong-7",
+    "seorak-1",
+    "seorak-4",
+    "seorak-5",
+    "seorak-8"
+  ]
+}

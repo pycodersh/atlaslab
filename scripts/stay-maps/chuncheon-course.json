@@ -1,0 +1,3 @@
+{ "output": "map-preview/chuncheon-course-map.png", "width": 1600, "height": 900, "stops": [
+  { "name": "LEGOLAND Korea", "lat": 37.88569, "lon": 127.69926, "labelPos": "left" },
+  { "name": "Myeongdong Dakgalbi Street", "lat": 37.87930, "lon": 127.72720, "mode": "drive", "labelPos": "right" } ] }

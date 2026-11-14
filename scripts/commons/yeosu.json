@@ -1,0 +1,67 @@
+{
+  "id": "yeosu",
+  "title": "Yeosu (R7)",
+  "spots": [
+    {
+      "key": "cablecar",
+      "name": "Yeosu Maritime Cable Car",
+      "lat": 34.739,
+      "lon": 127.751,
+      "radius": 800,
+      "keywords": [
+        "Yeosu Maritime Cable Car",
+        "Yeosu cable car",
+        "Dolsan Bridge"
+      ]
+    },
+    {
+      "key": "odongdo",
+      "name": "Odongdo Island",
+      "lat": 34.74504,
+      "lon": 127.76709,
+      "radius": 600,
+      "keywords": [
+        "Odongdo",
+        "Odong-do"
+      ]
+    },
+    {
+      "key": "nangman",
+      "name": "Nangman Pocha Street",
+      "lat": 34.7374,
+      "lon": 127.741,
+      "radius": 400,
+      "keywords": [
+        "Yeosu night sea",
+        "Jongpo",
+        "Yeosu harbor night"
+      ]
+    },
+    {
+      "key": "yisunsin",
+      "name": "Yi Sun-sin Square",
+      "lat": 34.7393,
+      "lon": 127.73594,
+      "radius": 300,
+      "keywords": [
+        "Yi Sun-sin Square Yeosu",
+        "Jinnamgwan",
+        "Yeosu turtle ship"
+      ]
+    }
+  ],
+  "exclude": [
+    "cablecar-5",
+    "cablecar-6",
+    "cablecar-7",
+    "odongdo-3",
+    "odongdo-6",
+    "odongdo-7",
+    "odongdo-8",
+    "nangman-1",
+    "nangman-2",
+    "yisunsin-1",
+    "yisunsin-6",
+    "yisunsin-7"
+  ]
+}

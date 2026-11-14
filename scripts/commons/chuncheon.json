@@ -1,0 +1,38 @@
+{
+  "id": "chuncheon",
+  "title": "Chuncheon (R10)",
+  "spots": [
+    {
+      "key": "legoland",
+      "name": "LEGOLAND Korea",
+      "lat": 37.88569,
+      "lon": 127.69926,
+      "radius": 700,
+      "keywords": [
+        "Legoland Korea",
+        "Legoland Korea Resort",
+        "Jungdo"
+      ]
+    },
+    {
+      "key": "dakgalbi",
+      "name": "Myeongdong Dakgalbi Street",
+      "lat": 37.8793,
+      "lon": 127.7272,
+      "radius": 300,
+      "keywords": [
+        "Chuncheon dakgalbi",
+        "Dakgalbi",
+        "Chuncheon Myeongdong"
+      ]
+    }
+  ],
+  "exclude": [
+    "legoland-1",
+    "legoland-3",
+    "legoland-4",
+    "legoland-7",
+    "dakgalbi-5",
+    "dakgalbi-6"
+  ]
+}

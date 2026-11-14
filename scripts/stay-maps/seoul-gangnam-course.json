@@ -1,0 +1,5 @@
+{ "output": "map-preview/seoul-gangnam-course-map.png", "width": 1600, "height": 900, "stops": [
+  { "name": "Apgujeong Rodeo Street", "lat": 37.5265, "lon": 127.0395, "labelPos": "up" },
+  { "name": "Starfield Library (COEX)", "lat": 37.51006, "lon": 127.06016, "mode": "drive", "labelPos": "down" },
+  { "name": "Lotte World Tower", "lat": 37.51255, "lon": 127.10268, "mode": "drive", "labelPos": "up" },
+  { "name": "Seokchon Lake", "lat": 37.50930, "lon": 127.10180, "mode": "walk", "labelPos": "down" } ] }

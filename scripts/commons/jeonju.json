@@ -1,0 +1,70 @@
+{
+  "id": "jeonju",
+  "title": "Jeonju (R4)",
+  "spots": [
+    {
+      "key": "hanok",
+      "name": "Jeonju Hanok Village",
+      "lat": 35.816,
+      "lon": 127.1527,
+      "radius": 500,
+      "keywords": [
+        "Jeonju Hanok Village",
+        "Jeonju Hanok"
+      ]
+    },
+    {
+      "key": "gyeonggijeon",
+      "name": "Gyeonggijeon Shrine",
+      "lat": 35.81566,
+      "lon": 127.1498,
+      "radius": 200,
+      "keywords": [
+        "Gyeonggijeon",
+        "Gyeonggi-jeon"
+      ]
+    },
+    {
+      "key": "nambu",
+      "name": "Nambu Market",
+      "lat": 35.81224,
+      "lon": 127.14746,
+      "radius": 250,
+      "keywords": [
+        "Nambu Market Jeonju",
+        "Jeonju Nambu Market",
+        "Pungnammun"
+      ]
+    },
+    {
+      "key": "jaman",
+      "name": "Jaman Mural Village",
+      "lat": 35.81414,
+      "lon": 127.15716,
+      "radius": 300,
+      "keywords": [
+        "Jaman Mural Village",
+        "Jaman Village"
+      ]
+    }
+  ],
+  "exclude": [
+    "hanok-5",
+    "hanok-6",
+    "hanok-7",
+    "gyeonggijeon-6",
+    "gyeonggijeon-7",
+    "gyeonggijeon-8",
+    "nambu-4",
+    "nambu-5",
+    "nambu-6",
+    "nambu-7",
+    "jaman-2",
+    "jaman-3",
+    "jaman-4",
+    "jaman-5",
+    "jaman-6",
+    "jaman-7",
+    "jaman-8"
+  ]
+}

@@ -1,0 +1,4 @@
+{ "output": "map-preview/andong-course-map.png", "width": 1600, "height": 900, "stops": [
+  { "name": "Hahoe Folk Village", "lat": 36.53900, "lon": 128.51810, "labelPos": "down" },
+  { "name": "Jjimdak Alley (Old Market)", "lat": 36.56560, "lon": 128.72760, "mode": "drive", "labelPos": "down" },
+  { "name": "Woryeonggyo Bridge", "lat": 36.57660, "lon": 128.76093, "mode": "drive", "labelPos": "up" } ] }

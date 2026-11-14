@@ -1,0 +1,5 @@
+{ "output": "map-preview/sokcho-course-map.png", "width": 1600, "height": 900, "stops": [
+  { "name": "Yeonggeumjeong", "lat": 38.21182, "lon": 128.60148, "labelPos": "right" },
+  { "name": "Seoraksan Cable Car", "lat": 38.17315, "lon": 128.48911, "mode": "drive", "labelPos": "left" },
+  { "name": "Sokcho Eye", "lat": 38.19094, "lon": 128.60295, "mode": "drive", "labelPos": "right" },
+  { "name": "Tourist & Fishery Market", "lat": 38.20477, "lon": 128.58980, "mode": "walk", "labelPos": "left" } ] }

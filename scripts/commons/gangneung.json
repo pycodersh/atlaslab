@@ -1,0 +1,67 @@
+{
+  "id": "gangneung",
+  "title": "Gangneung (R5)",
+  "spots": [
+    {
+      "key": "anmok",
+      "name": "Anmok Beach Coffee Street",
+      "lat": 37.77357,
+      "lon": 128.94539,
+      "radius": 500,
+      "keywords": [
+        "Anmok Beach",
+        "Anmok"
+      ]
+    },
+    {
+      "key": "jungang",
+      "name": "Jungang Market",
+      "lat": 37.75415,
+      "lon": 128.89868,
+      "radius": 300,
+      "keywords": [
+        "Gangneung Jungang Market",
+        "Gangneung market"
+      ]
+    },
+    {
+      "key": "arte",
+      "name": "ARTE Museum Gangneung",
+      "lat": 37.79161,
+      "lon": 128.90739,
+      "radius": 300,
+      "keywords": [
+        "ARTE Museum Gangneung",
+        "Gyeongpo"
+      ]
+    },
+    {
+      "key": "seafan",
+      "name": "Jeongdongjin Sea Fan Trail",
+      "lat": 37.676,
+      "lon": 129.05,
+      "radius": 1500,
+      "keywords": [
+        "Jeongdongjin",
+        "Badabuchae",
+        "Sea Fan Trail"
+      ]
+    }
+  ],
+  "exclude": [
+    "anmok-5",
+    "anmok-6",
+    "anmok-7",
+    "jungang-4",
+    "jungang-5",
+    "jungang-6",
+    "jungang-7",
+    "jungang-8",
+    "arte-6",
+    "arte-7",
+    "arte-8",
+    "seafan-4",
+    "seafan-6",
+    "seafan-8"
+  ]
+}

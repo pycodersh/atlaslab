@@ -1,0 +1,5 @@
+{ "output": "map-preview/seoul-central-course-map.png", "width": 1600, "height": 900, "stops": [
+  { "name": "Namdaemun Market", "lat": 37.55939, "lon": 126.97767, "labelPos": "left" },
+  { "name": "Myeongdong Street", "lat": 37.56384, "lon": 126.98505, "mode": "walk", "labelPos": "up" },
+  { "name": "N Seoul Tower", "lat": 37.55127, "lon": 126.98828, "mode": "walk", "labelPos": "down" },
+  { "name": "DDP & Cheonggyecheon", "lat": 37.56707, "lon": 127.00990, "mode": "drive", "labelPos": "right" } ] }

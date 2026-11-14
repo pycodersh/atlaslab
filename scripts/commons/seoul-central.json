@@ -1,0 +1,59 @@
+{
+  "id": "seoul-central",
+  "title": "Central Seoul: Myeongdong, Namsan, Namdaemun, DDP (S2)",
+  "spots": [
+    {
+      "key": "myeongdong",
+      "name": "Myeongdong Street",
+      "lat": 37.56384,
+      "lon": 126.98505,
+      "radius": 350,
+      "keywords": [
+        "Myeongdong",
+        "Myeong-dong"
+      ]
+    },
+    {
+      "key": "namsan",
+      "name": "N Seoul Tower",
+      "lat": 37.55127,
+      "lon": 126.98828,
+      "radius": 400,
+      "keywords": [
+        "N Seoul Tower",
+        "Namsan Tower",
+        "Namsan Seoul Tower"
+      ]
+    },
+    {
+      "key": "namdaemun",
+      "name": "Namdaemun Market",
+      "lat": 37.55939,
+      "lon": 126.97767,
+      "radius": 300,
+      "keywords": [
+        "Namdaemun Market"
+      ]
+    },
+    {
+      "key": "ddp",
+      "name": "DDP & Cheonggyecheon",
+      "lat": 37.56707,
+      "lon": 127.0099,
+      "radius": 350,
+      "keywords": [
+        "Dongdaemun Design Plaza",
+        "Cheonggyecheon"
+      ]
+    }
+  ],
+  "exclude": [
+    "myeongdong-4",
+    "myeongdong-5",
+    "myeongdong-6",
+    "namsan-1",
+    "namsan-2",
+    "namdaemun-1",
+    "namdaemun-2"
+  ]
+}

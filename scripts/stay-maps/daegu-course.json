@@ -1,0 +1,5 @@
+{ "output": "map-preview/daegu-course-map.png", "width": 1600, "height": 900, "stops": [
+  { "name": "Dongseongno & Spark Land", "lat": 35.86870, "lon": 128.59875, "labelPos": "up" },
+  { "name": "Kim Gwangseok Street", "lat": 35.86107, "lon": 128.60733, "mode": "walk", "labelPos": "right" },
+  { "name": "Apsan Observatory", "lat": 35.82227, "lon": 128.57919, "mode": "drive", "labelPos": "left" },
+  { "name": "Seomun Night Market", "lat": 35.86943, "lon": 128.58071, "mode": "drive", "labelPos": "left" } ] }

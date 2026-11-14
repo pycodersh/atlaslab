@@ -1,0 +1,72 @@
+{
+  "id": "daegu",
+  "title": "Daegu (R8)",
+  "spots": [
+    {
+      "key": "dongseongno",
+      "name": "Dongseongno and Spark Land",
+      "lat": 35.8687,
+      "lon": 128.59875,
+      "radius": 400,
+      "keywords": [
+        "Dongseongno",
+        "Spark Land Daegu"
+      ]
+    },
+    {
+      "key": "seomun",
+      "name": "Seomun Market",
+      "lat": 35.86943,
+      "lon": 128.58071,
+      "radius": 350,
+      "keywords": [
+        "Seomun Market",
+        "Seomun Night Market"
+      ]
+    },
+    {
+      "key": "kimgwangseok",
+      "name": "Kim Gwangseok Street",
+      "lat": 35.86107,
+      "lon": 128.60733,
+      "radius": 300,
+      "keywords": [
+        "Kim Gwang-seok Street",
+        "Kim Kwang-seok",
+        "Bangcheon Market"
+      ]
+    },
+    {
+      "key": "apsan",
+      "name": "Apsan Observatory",
+      "lat": 35.82227,
+      "lon": 128.57919,
+      "radius": 700,
+      "keywords": [
+        "Apsan",
+        "Apsan Park"
+      ]
+    }
+  ],
+  "exclude": [
+    "dongseongno-1",
+    "dongseongno-2",
+    "dongseongno-4",
+    "dongseongno-5",
+    "dongseongno-7",
+    "dongseongno-8",
+    "seomun-1",
+    "seomun-2",
+    "seomun-7",
+    "seomun-8",
+    "kimgwangseok-1",
+    "kimgwangseok-3",
+    "kimgwangseok-5",
+    "kimgwangseok-6",
+    "apsan-2",
+    "apsan-3",
+    "apsan-4",
+    "apsan-5",
+    "apsan-7"
+  ]
+}

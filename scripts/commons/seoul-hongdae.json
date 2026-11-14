@@ -1,0 +1,89 @@
+{
+  "id": "seoul-hongdae",
+  "title": "Hongdae & Yeonnam (S3)",
+  "spots": [
+    {
+      "key": "hongdae",
+      "name": "Hongdae Walk Street",
+      "lat": 37.5545,
+      "lon": 126.922,
+      "radius": 400,
+      "keywords": [
+        "Hongdae street",
+        "Hongik University area",
+        "Hongdae shopping street",
+        "홍대"
+      ]
+    },
+    {
+      "key": "yeonnam",
+      "name": "Yeonnam-dong Forest Trail",
+      "lat": 37.561,
+      "lon": 126.924,
+      "radius": 250,
+      "keywords": [
+        "Gyeongui Line Forest Park",
+        "Gyeongui Line Forest Trail",
+        "Yeontral Park",
+        "경의선숲길"
+      ]
+    },
+    {
+      "key": "mangwon",
+      "name": "Mangwon Market",
+      "lat": 37.55662,
+      "lon": 126.90605,
+      "radius": 250,
+      "keywords": [
+        "Mangwon Market",
+        "망원시장",
+        "Mangwon"
+      ]
+    },
+    {
+      "key": "sangsu",
+      "name": "Hapjeong & Sangsu",
+      "lat": 37.548,
+      "lon": 126.918,
+      "radius": 250,
+      "keywords": [
+        "Sangsu-dong",
+        "Hapjeong-dong",
+        "Dangin-ri power plant",
+        "Mapo cafe street"
+      ]
+    }
+  ],
+  "exclude": [
+    "hongdae-3",
+    "hongdae-4",
+    "hongdae-5",
+    "hongdae-6",
+    "yeonnam-3",
+    "yeonnam-4",
+    "yeonnam-5",
+    "yeonnam-6",
+    "yeonnam-7",
+    "yeonnam-8",
+    "yeonnam-9",
+    "mangwon-2",
+    "mangwon-3",
+    "mangwon-4",
+    "mangwon-5",
+    "mangwon-6",
+    "mangwon-7",
+    "mangwon-8",
+    "mangwon-9",
+    "mangwon-10",
+    "sangsu-1",
+    "sangsu-2",
+    "sangsu-3",
+    "sangsu-4",
+    "sangsu-6",
+    "sangsu-7",
+    "sangsu-8",
+    "sangsu-9",
+    "sangsu-10"
+  ],
+  "perSpot": 10
+}

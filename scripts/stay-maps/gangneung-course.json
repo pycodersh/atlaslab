@@ -1,0 +1,5 @@
+{ "output": "map-preview/gangneung-course-map.png", "width": 1600, "height": 900, "stops": [
+  { "name": "Jeongdongjin Sea Fan Trail", "lat": 37.68509, "lon": 129.04520, "labelPos": "left" },
+  { "name": "ARTE Museum Gangneung", "lat": 37.79161, "lon": 128.90739, "mode": "drive", "labelPos": "up" },
+  { "name": "Anmok Beach Coffee Street", "lat": 37.77357, "lon": 128.94539, "mode": "drive", "labelPos": "right" },
+  { "name": "Jungang Market", "lat": 37.75415, "lon": 128.89868, "mode": "drive", "labelPos": "left" } ] }

@@ -1,0 +1,5 @@
+{ "output": "map-preview/seoul-yeouido-course-map.png", "width": 1600, "height": 900, "stops": [
+  { "name": "The Hyundai Seoul", "lat": 37.52596, "lon": 126.92842, "labelPos": "up" },
+  { "name": "Yeouido Hangang Park", "lat": 37.52567, "lon": 126.93606, "mode": "walk", "labelPos": "down" },
+  { "name": "National Museum of Korea", "lat": 37.52395, "lon": 126.98032, "mode": "drive", "labelPos": "down" },
+  { "name": "Hannam-dong", "lat": 37.5385, "lon": 127.0005, "mode": "drive", "labelPos": "up" } ] }

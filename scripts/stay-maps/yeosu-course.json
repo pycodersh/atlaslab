@@ -1,0 +1,5 @@
+{ "output": "map-preview/yeosu-course-map.png", "width": 1600, "height": 900, "stops": [
+  { "name": "Odongdo Island", "lat": 34.74504, "lon": 127.76709, "labelPos": "right" },
+  { "name": "Maritime Cable Car (Jasan)", "lat": 34.74033, "lon": 127.75295, "mode": "walk", "labelPos": "down" },
+  { "name": "Yi Sun-sin Square", "lat": 34.73930, "lon": 127.73594, "mode": "walk", "labelPos": "up" },
+  { "name": "Nangman Pocha Street", "lat": 34.73740, "lon": 127.74100, "mode": "walk", "labelPos": "down" } ] }

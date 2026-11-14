@@ -9,7 +9,10 @@
  *   2026-11-05 seoul-itinerary-first-timers-3-4-5-days (Places), how-to-read-korean-restaurant-menu (Food),
  *     korea-currency-exchange-cards-wowpass-guide (Life) — 사용자 원고를 사이트 컴포넌트 규격으로 옮기고 사실을 고쳤다
  *
- * 실행: npx tsx scripts/insert-blog-posts-from-mdx.ts <slug> [<slug> …] [--dry-run]
+ * --paused: 감춘 채(is_paused true) 넣는다. 목록 · 사이트맵 · 글 페이지 모두 is_paused 로 거르므로 공개되지 않는다.
+ *   공개할 때는 is_paused 를 false 로, published_at 을 공개 시각으로 바꾼다.
+ *
+ * 실행: npx tsx scripts/insert-blog-posts-from-mdx.ts <slug> [<slug> …] [--paused] [--dry-run]
  */
 import * as dotenv from 'dotenv'
 import * as fs from 'fs'
@@ -20,6 +23,7 @@ import matter from 'gray-matter'
 import { createClient } from '@supabase/supabase-js'
 
 const DRY = process.argv.includes('--dry-run')
+const PAUSED = process.argv.includes('--paused')
 const SLUGS = process.argv.slice(2).filter(a => !a.startsWith('--'))
 
 async function main() {
@@ -46,10 +50,11 @@ async function main() {
     rows.push({
       app: fm.app, category: fm.category, locale: 'en', slug,
       title: fm.title, description: String(fm.description).trim(), tags: fm.tags,
-      content, is_paused: false, thumbnail: null,
+      content, is_paused: PAUSED, thumbnail: null,
       published_at: new Date(Date.now() - (SLUGS.length - i) * 60_000).toISOString(),
     })
   }
+  if (PAUSED) console.log('— 감춘 채(is_paused: true) 넣는다')
   for (const r of rows) console.log(r.slug, '|', r.category, '|', r.title, '|', `${r.content.split(/\s+/).length} words`)
   if (DRY) return
   const { data, error } = await sb.from('blog_posts').insert(rows).select('slug, published_at')

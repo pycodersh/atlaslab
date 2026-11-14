@@ -1,0 +1,5 @@
+{ "output": "map-preview/jeonju-course-map.png", "width": 1600, "height": 900, "stops": [
+  { "name": "Jaman Mural Village", "lat": 35.81414, "lon": 127.15716, "labelPos": "right" },
+  { "name": "Jeonju Hanok Village", "lat": 35.8160, "lon": 127.1527, "mode": "walk", "labelPos": "up" },
+  { "name": "Gyeonggijeon Shrine", "lat": 35.81566, "lon": 127.14980, "mode": "walk", "labelPos": "left" },
+  { "name": "Nambu Night Market", "lat": 35.81224, "lon": 127.14746, "mode": "walk", "labelPos": "down" } ] }

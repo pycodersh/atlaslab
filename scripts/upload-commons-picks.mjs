@@ -27,10 +27,13 @@ async function main() {
   const { createClient } = await import('@supabase/supabase-js')
   const sb = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SECRET_KEY, { auth: { persistSession: false } })
   const out = {}
+  const seen = new Map()   // 같은 명소에서 두 장 이상 고르면 파일 이름이 겹치지 않게 -2, -3 을 붙인다
   for (const id of ids) {
     const c = byId.get(id)
     if (!c) throw new Error(`없는 id: ${id}`)
-    const name = `${slug}-${c.spotKey}.webp`
+    const n = (seen.get(c.spotKey) ?? 0) + 1
+    seen.set(c.spotKey, n)
+    const name = `${slug}-${c.spotKey}${n > 1 ? `-${n}` : ''}.webp`
     const res = await fetch(c.original, { headers: UA })
     if (!res.ok) throw new Error(`원본 받기 실패 ${id}: HTTP ${res.status}`)
     const buf = await sharp(Buffer.from(await res.arrayBuffer())).rotate().resize({ width: 1600, height: 1600, fit: 'inside', withoutEnlargement: true }).webp({ quality: 82 }).toBuffer()
