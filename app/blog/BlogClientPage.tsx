@@ -3,6 +3,7 @@
 import { Fragment, type CSSProperties } from 'react'
 import { BASICS_ACCENTS, basicsSceneThumb } from '@/lib/blog/basicsScene'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { DEFAULT_TAB, familyOf, familyTabs, groupKeyOf, layoutForKey, tabDescription, tabLabel } from '@/lib/blog/sections'
 import { SectionHeader } from '@/components/SectionHeader'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
@@ -89,6 +90,9 @@ export function BlogClientPage({
   pageTitle: string
 }) {
   const lang: 'EN' | 'KO' = activeLang === 'ko' ? 'KO' : 'EN'
+  const router = useRouter()
+  const isExplore = activeTab === 'explore-korea'
+  const goRegion = (region: string | null) => router.push(buildUrl(activeTab, { sub: activeSub, region, view: activeView }), { scroll: false })
   // 격자로 그릴지 세로 리스트로 그릴지는 홈과 같은 기준(sections.ts)을 본다
   const isList = layoutForKey(activeTab) === 'list'
   // 탭 바는 지금 탭이 속한 가족(Learn Korean: Phrases · Basics / Travel & Life: Explore Korea · Food · Life)만 보여 준다.
@@ -248,35 +252,37 @@ export function BlogClientPage({
           .bl-chip-short { display: inline; }
         }
 
-        /* ── Explore Korea 지역 필터 + Grid/Map ──────────────────────── */
-        /* 위 All · Hotels · Places 와 같은 글자 필터 — 테두리 · 배경 없이 글자와 숫자만.
-           고른 지역은 진한 글자 + 딥 레드 밑줄. 0편인 지역은 indexView 가 아예 뺀다.
-           지역 줄만 가로로 스크롤되고(오른쪽 끝이 옅어져 더 있다는 걸 알린다) Grid/Map 은 오른쪽에 붙어 있다 */
-        .bl-xbar { display: flex; align-items: center; gap: 16px; margin: -18px 0 22px; }
-        .bl-regions { display: flex; gap: 18px; flex: 1; min-width: 0; overflow-x: auto; -webkit-overflow-scrolling: touch;
-          scrollbar-width: none; padding: 0 12px 0 0;
-          -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 24px), transparent); }
-        .bl-regions::-webkit-scrollbar { display: none; }
-        .bl-rchip { flex-shrink: 0; display: inline-flex; align-items: baseline; gap: 4px; padding: 8px 0 5px; white-space: nowrap;
-          border-bottom: 2px solid transparent;
-          font-family: ${BODY}; font-size: 13.5px; font-weight: 400; line-height: 1.2; color: #78716C; text-decoration: none;
-          transition: color .15s, border-color .15s; }
-        .bl-rchip:hover { color: #1C1917; }
-        .bl-rchip.active { color: #1C1917; font-weight: 600; border-bottom-color: #9E2B25; }
-        .bl-rchip-n { font-size: 11.5px; font-weight: 400; color: #A8A29E; font-variant-numeric: tabular-nums; }
-        .bl-rchip.active .bl-rchip-n { color: #57534E; font-weight: 500; }
-        .bl-rchip:focus-visible, .bl-vbtn:focus-visible { outline: 2px solid #9E2B25; outline-offset: 2px; border-radius: 2px; }
-        .bl-view { flex: none; display: inline-flex; border: 1px solid #D6D3D1; border-radius: 8px; overflow: hidden; background: #fff; }
-        .bl-vbtn { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px;
+        /* ── Explore Korea 한 줄 컨트롤 바 ─────────────────────────────── */
+        /* 왼쪽 타입 칩(위 .bl-chip 그대로) · 오른쪽 지역 드롭다운 + Grid/Map. 칩 줄만 줄어들 수 있고 오른쪽은 고정 폭 */
+        .bl-xrow { display: flex; align-items: center; gap: 16px; margin: -16px 0 24px; }
+        .bl-xrow .bl-subbar { margin: 0; flex: 1; min-width: 0; }
+        .bl-xctl { flex: none; display: flex; align-items: center; gap: 8px; }
+        .bl-region { position: relative; display: inline-flex; align-items: center; height: 34px; padding: 0 30px 0 12px;
+          border: 1px solid #D6D3D1; border-radius: 8px; background: #fff; color: #1C1917; cursor: pointer;
+          font-family: ${BODY}; font-size: 13px; font-weight: 500; white-space: nowrap; transition: border-color .15s; }
+        .bl-region:hover { border-color: #A8A29E; }
+        .bl-region:focus-within { outline: 2px solid #9E2B25; outline-offset: 2px; }
+        .bl-region-short { display: none; }
+        .bl-region-chev { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); color: #57534E; pointer-events: none; }
+        .bl-region select { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 16px; }
+        .bl-view { flex: none; display: inline-flex; height: 34px; box-sizing: border-box; border: 1px solid #D6D3D1; border-radius: 8px; overflow: hidden; background: #fff; }
+        .bl-vbtn { display: inline-flex; align-items: center; gap: 6px; padding: 0 12px;
           font-family: ${BODY}; font-size: 13px; font-weight: 600; color: #57534E; text-decoration: none; transition: background .15s, color .15s; }
         .bl-vbtn + .bl-vbtn { border-left: 1px solid #D6D3D1; }
         .bl-vbtn:hover { color: #111; background: #F5F5F4; }
         .bl-vbtn.active { background: #C8102E; color: #fff; }
-        @media (max-width: 767px) {
-          .bl-xbar { gap: 10px; margin-top: -20px; }
-          .bl-regions { gap: 16px; }
-          .bl-rchip { font-size: 13px; }
-          .bl-vbtn { padding: 0 9px; gap: 5px; }
+        .bl-vbtn:focus-visible { outline: 2px solid #9E2B25; outline-offset: 2px; }
+        /* 폰: 칩은 이름만(위 규칙), 드롭다운은 개수 없이, Grid/Map 은 아이콘만 — 한 줄에 다 들어온다 */
+        @media (max-width: 700px) {
+          .bl-xrow { gap: 10px; }
+          .bl-xrow .bl-subbar { gap: 16px; }
+          .bl-xctl { gap: 6px; }
+          .bl-region { padding: 0 26px 0 10px; font-size: 12.5px; }
+          .bl-region-chev { right: 9px; }
+          .bl-region-full { display: none; }
+          .bl-region-short { display: inline; }
+          .bl-vbtn { padding: 0 10px; }
+          .bl-vlabel { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
         }
 
         /* ── Post grid ─────────────────────────────────────────────── */
@@ -467,57 +473,78 @@ export function BlogClientPage({
             </div>
           </div>
 
-          {/* Sub-category chips — 2차 탭마다 따로(Basics · Phrases · Explore Korea · Food · Life). Korean 개요에는 없다 */}
-          {subChips.length > 0 && (
-            <nav className="bl-subbar notranslate" translate="no" aria-label="Sub-categories">
-              <Link
-                href={buildUrl(activeTab, { region: activeRegion, view: activeView })}
-                scroll={false}
-                className={`bl-chip${activeSub ? '' : ' active'}`}
-              >
-                All <span className="bl-chip-n">{totalCount}</span>
-              </Link>
-              {subChips.map(c => (
+          {/* 서브 칩 — 2차 탭마다 따로(Basics · Phrases · Explore Korea · Food · Life). Korean 개요에는 없다.
+              Explore Korea 는 한 줄 컨트롤 바: 왼쪽 All · Hotels · Places, 오른쪽 지역 드롭다운 + Grid / Map.
+              드롭다운에는 지금 타입에서 1편 이상인 지역만 나온다(indexView). 지도에서 도시 이름을 눌러도 같은 주소로 바뀐다 */}
+          {subChips.length > 0 && !isExplore && (
+              <nav className="bl-subbar notranslate" translate="no" aria-label="Sub-categories">
                 <Link
-                  key={c.key}
-                  href={buildUrl(activeTab, { sub: c.key, region: activeRegion, view: activeView })}
+                  href={buildUrl(activeTab, { region: activeRegion, view: activeView })}
                   scroll={false}
-                  className={`bl-chip${activeSub === c.key ? ' active' : ''}`}
+                  className={`bl-chip${activeSub ? '' : ' active'}`}
                 >
-                  <span className="bl-chip-full">{c.label}</span>
-                  <span className="bl-chip-short">{c.short ?? c.label}</span>
-                  <span className="bl-chip-n">{c.count}</span>
+                  All <span className="bl-chip-n">{totalCount}</span>
                 </Link>
-              ))}
-            </nav>
-          )}
-
-          {/* Explore Korea — 지역 빠른 필터(Hotspot Finder 와 같은 11곳) + 오른쪽 Grid / Map.
-              격자가 기본이라 정적 HTML 에는 격자가 그대로 실린다. 지역 · 보기는 쿼리(region · view)로만 바뀐다 */}
-          {regionChips.length > 0 && (
-            <div className="bl-xbar">
-              <nav className="bl-regions notranslate" translate="no" aria-label="Regions">
-                <Link href={buildUrl(activeTab, { sub: activeSub, view: activeView })} scroll={false}
-                  className={`bl-rchip${activeRegion ? '' : ' active'}`} aria-current={activeRegion ? undefined : 'true'}>
-                  All <span className="bl-rchip-n">{regionTotal}</span>
-                </Link>
-                {regionChips.map(r => (
-                  <Link key={r.key} href={buildUrl(activeTab, { sub: activeSub, region: r.key, view: activeView })} scroll={false}
-                    className={`bl-rchip${activeRegion === r.key ? ' active' : ''}`}
-                    aria-current={activeRegion === r.key ? 'true' : undefined}>
-                    {r.label} <span className="bl-rchip-n">{r.count}</span>
+                {subChips.map(c => (
+                  <Link
+                    key={c.key}
+                    href={buildUrl(activeTab, { sub: c.key, region: activeRegion, view: activeView })}
+                    scroll={false}
+                    className={`bl-chip${activeSub === c.key ? ' active' : ''}`}
+                  >
+                    <span className="bl-chip-full">{c.label}</span>
+                    <span className="bl-chip-short">{c.short ?? c.label}</span>
+                    <span className="bl-chip-n">{c.count}</span>
                   </Link>
                 ))}
               </nav>
-              <div className="bl-view notranslate" translate="no" role="group" aria-label="View">
-                <Link href={buildUrl(activeTab, { sub: activeSub, region: activeRegion, view: 'grid' })} scroll={false}
-                  className={`bl-vbtn${activeView === 'grid' ? ' active' : ''}`} aria-current={activeView === 'grid' ? 'true' : undefined}>
-                  <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path fill="currentColor" d="M1 1h5v5H1zM8 1h5v5H8zM1 8h5v5H1zM8 8h5v5H8z" /></svg>Grid
+          )}
+          {subChips.length > 0 && isExplore && (
+            <div className="bl-xrow">
+              <nav className="bl-subbar notranslate" translate="no" aria-label="Sub-categories">
+                <Link
+                  href={buildUrl(activeTab, { region: activeRegion, view: activeView })}
+                  scroll={false}
+                  className={`bl-chip${activeSub ? '' : ' active'}`}
+                >
+                  All <span className="bl-chip-n">{totalCount}</span>
                 </Link>
-                <Link href={buildUrl(activeTab, { sub: activeSub, region: activeRegion, view: 'map' })} scroll={false}
-                  className={`bl-vbtn${activeView === 'map' ? ' active' : ''}`} aria-current={activeView === 'map' ? 'true' : undefined}>
-                  <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" d="M1 3l4-1.5 4 1.5 4-1.5v10L9 13 5 11.5 1 13z M5 1.5v10 M9 3v10" /></svg>Map
-                </Link>
+                {subChips.map(c => (
+                  <Link
+                    key={c.key}
+                    href={buildUrl(activeTab, { sub: c.key, region: activeRegion, view: activeView })}
+                    scroll={false}
+                    className={`bl-chip${activeSub === c.key ? ' active' : ''}`}
+                  >
+                    <span className="bl-chip-full">{c.label}</span>
+                    <span className="bl-chip-short">{c.short ?? c.label}</span>
+                    <span className="bl-chip-n">{c.count}</span>
+                  </Link>
+                ))}
+              </nav>
+                <div className="bl-xctl">
+                <label className="bl-region notranslate" translate="no">
+                  {/* 보이는 글자는 이 span(넓은 화면은 개수까지), 실제 선택은 위에 겹친 투명 select — 폰은 기기 선택기가 뜬다 */}
+                  <span className="bl-region-txt" aria-hidden="true">
+                    <span className="bl-region-full">{activeRegion ? regionChips.find(r => r.key === activeRegion)?.label : 'All Regions'} ({activeRegion ? regionChips.find(r => r.key === activeRegion)?.count : regionTotal})</span>
+                    <span className="bl-region-short">{activeRegion ? regionChips.find(r => r.key === activeRegion)?.label : 'All Regions'}</span>
+                  </span>
+                  <svg className="bl-region-chev" width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                  <select aria-label="Region" value={activeRegion ?? ''} onChange={e => goRegion(e.target.value || null)}>
+                    <option value="">All Regions ({regionTotal})</option>
+                    {regionChips.map(r => <option key={r.key} value={r.key}>{r.label} ({r.count})</option>)}
+                  </select>
+                </label>
+            <div className="bl-view notranslate" translate="no" role="group" aria-label="View">
+              <Link href={buildUrl(activeTab, { sub: activeSub, region: activeRegion, view: 'grid' })} scroll={false}
+                className={`bl-vbtn${activeView === 'grid' ? ' active' : ''}`} aria-current={activeView === 'grid' ? 'true' : undefined}>
+                <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path fill="currentColor" d="M1 1h5v5H1zM8 1h5v5H8zM1 8h5v5H1zM8 8h5v5H8z" /></svg><span className="bl-vlabel">Grid</span>
+              </Link>
+              <Link href={buildUrl(activeTab, { sub: activeSub, region: activeRegion, view: 'map' })} scroll={false}
+                className={`bl-vbtn${activeView === 'map' ? ' active' : ''}`} aria-current={activeView === 'map' ? 'true' : undefined}>
+                <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" d="M1 3l4-1.5 4 1.5 4-1.5v10L9 13 5 11.5 1 13z M5 1.5v10 M9 3v10" /></svg><span className="bl-vlabel">Map</span>
+              </Link>
+            </div>
               </div>
             </div>
           )}
@@ -536,7 +563,7 @@ export function BlogClientPage({
               </section>
             ))
           ) : activeView === 'map' && posts.length > 0 ? (
-            <ExploreMap posts={posts as BlogCard[]} region={activeRegion} />
+            <ExploreMap posts={posts as BlogCard[]} region={activeRegion} regions={regionChips.map(r => r.key)} onRegion={goRegion} />
           ) : (!posts || posts.length === 0) ? (
             <div className="bl-empty">
               <h3 className="bl-empty-title">No articles yet for this filter</h3>

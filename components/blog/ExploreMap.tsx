@@ -84,7 +84,14 @@ const CSS = `
 }
 `
 
-export function ExploreMap({ posts, region }: { posts: BlogCard[]; region: string | null }) {
+export function ExploreMap({ posts, region, regions = [], onRegion }: {
+  posts: BlogCard[]
+  region: string | null
+  /** 지도에서 누를 수 있는 도시(지금 타입에서 글이 있는 지역 id) */
+  regions?: string[]
+  /** 도시 이름을 누르면 — 위 드롭다운과 같은 주소로 바꾼다 */
+  onRegion?: (id: string) => void
+}) {
   const listEl = useRef<HTMLDivElement>(null)
   const mapEl = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState<string | null>(null)
@@ -168,6 +175,8 @@ export function ExploreMap({ posts, region }: { posts: BlogCard[]; region: strin
           pins={pins}
           areas={region === 'seoul' ? SEOUL_AREAS : []}
           onPin={openPin}
+          cities={regions}
+          onCity={onRegion}
           popup={popup}
           focus={focus}
           ariaLabel="Illustrated map of Korea with Explore Korea hotels and guides"

@@ -62,6 +62,11 @@ const CSS = `
 .pm-lbl-peak { font-family: "Playfair Display", Georgia, serif; font-style: italic; font-size: 10px; letter-spacing: .12em; fill: #5A544C; }
 .pm-lbl-spot { font-size: 11px; font-weight: 600; letter-spacing: .01em; }
 .pm-dot-city { fill: ${INK}; }
+.pm-city { cursor: pointer; }
+.pm-city .pm-lbl { pointer-events: auto; }
+.pm-city:hover .pm-lbl-city { fill: #9E2B25; }
+.pm-city:focus { outline: none; }
+.pm-city:focus-visible .pm-lbl-city { fill: #9E2B25; text-decoration: underline; }
 .pm-area { cursor: pointer; }
 .pm-area.is-static { cursor: inherit; pointer-events: none; }
 .pm-area text { font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 11.5px; font-weight: 700; letter-spacing: .08em; fill: ${INK}; paint-order: stroke; stroke: ${PAPER}; stroke-width: 4px; }
@@ -90,8 +95,11 @@ const CSS = `
 `
 
 export function PenMap({
-  view, pins = [], areas = [], onPin, onArea, interactive = true, popup, topRight, className = '', ariaLabel, focus,
+  view, pins = [], areas = [], onPin, onArea, interactive = true, popup, topRight, className = '', ariaLabel, focus, cities = [], onCity,
 }: {
+  /** 전국 지도에서 누를 수 있는 도시 이름표(지역 id = 영문 이름 소문자) */
+  cities?: string[]
+  onCity?: (id: string) => void
   /** 보여 줄 범위(지도 단위). 바뀌면 부드럽게 옮겨 간다 */
   view: Box
   pins?: PenPin[]
@@ -280,8 +288,16 @@ export function PenMap({
             const [x, y] = at(l.ll)
             const a = l.anchor ?? 'start'
             const dx = a === 'start' ? 11 : a === 'end' ? -11 : 0
+            const id = l.name.toLowerCase()
+            const go = l.kind === 'city' && onCity && cities.includes(id) ? () => onCity(id) : null
             return (
-              <g key={l.name} transform={`translate(${x} ${y}) scale(${s})`}>
+              <g key={l.name} transform={`translate(${x} ${y}) scale(${s})`} className={go ? 'pm-city' : undefined}
+                {...(go ? {
+                  role: 'button', tabIndex: 0, 'aria-label': `Zoom to ${l.name.charAt(0) + l.name.slice(1).toLowerCase()}`,
+                  onClick: tap(go),
+                  onKeyDown: (e: React.KeyboardEvent) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go() } },
+                } : {})}>
+                {go && <rect x={a === 'end' ? -l.name.length * 7.6 - 16 : a === 'middle' ? -l.name.length * 3.8 - 6 : -6} y={-12} width={l.name.length * 7.6 + 22} height={22} fill="transparent" />}
                 {l.kind === 'city' && !detail && <circle className="pm-dot-city" r="2.4" />}
                 <text className={`pm-lbl pm-lbl-${l.kind}`} x={dx} y={l.kind === 'city' && a === 'middle' ? -9 : 3.5} textAnchor={a}>{l.name}</text>
               </g>
