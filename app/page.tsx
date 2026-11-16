@@ -15,7 +15,7 @@ import {
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
 import { KoreanBasicsArt } from '@/components/home/KoreanBasicsArt'
 import { KoreaLifeArt } from '@/components/home/KoreaLifeArt'
-import { HeroLineArt } from '@/components/home/HeroLineArt'
+import { HomePanorama } from '@/components/home/HomePanorama'
 import type { Metadata } from 'next'
 import { ORGANIZATION_JSON_LD, WEBSITE_JSON_LD, DEFAULT_OPEN_GRAPH, SITE_TITLE, SITE_DESC, SITE_URL } from '@/lib/seo/site'
 
@@ -234,16 +234,7 @@ export default async function AtlasLabHome() {
         .hero-text { max-width: 720px; }
         @media (max-width: 700px) {
           .hero-inner { padding-top: 36px; padding-bottom: 36px; }
-        }
-        /* 라인 아트 — lg(1024) 이상은 오른쪽 40% 칸에 세로 가운데, 그 아래는 검색창 밑 84px 띠 */
-        .hero-art { margin-top: 22px; }
-        .hero-art .hla svg { width: auto; height: 84px; max-width: 100%; }
-        @media (min-width: 1024px) {
-          .hero-inner { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); column-gap: 48px; align-items: center; }
-          .hero-art { margin-top: 0; }
-          .hero-art .hla svg { width: 100%; height: auto; }
-        }
-        .hero-eyebrow {
+        }        .hero-eyebrow {
           font-family: ${BODY};
           font-size: 10px; font-weight: 700;
           letter-spacing: 0.18em; text-transform: uppercase;
@@ -520,11 +511,11 @@ export default async function AtlasLabHome() {
             </p>
             <HomeSearch docs={searchDocs} />
           </div>
-          <div className="hero-art">
-            <HeroLineArt />
-          </div>
         </div>
       </section>
+
+      {/* ── 에디토리얼 펜화 파노라마 — 한국어 · 음식 · 여행 ── */}
+      <HomePanorama />
 
       {/* ── 카테고리 바로가기 — 히어로를 지나면 메뉴 아래에 붙는다 ── */}
       <HomeCategoryBar tabs={categoryTabs} />
