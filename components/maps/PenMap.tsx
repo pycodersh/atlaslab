@@ -24,7 +24,7 @@ export type PenPin = {
 }
 export type PenArea = { id: string; name: string; ll: LL; active?: boolean }
 
-const ART_URL = '/maps/penmap-v1.svg'
+const ART_URL = '/maps/penmap-v2.svg'
 let artPromise: Promise<string> | null = null
 const loadArt = () =>
   (artPromise ??= fetch(ART_URL).then(r => r.text()).then(t => t.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')))
@@ -40,28 +40,27 @@ const CSS = `
 .pm.is-drag svg.pm-svg { cursor: grabbing; }
 .pm.is-pan svg.pm-svg { cursor: grab; touch-action: none; }
 .pm-art path, .pm-art line { fill: none; stroke: ${INK}; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
-.pm-art .pm-coast { stroke-width: 1.3; }
-.pm-art .pm-coast-n { stroke-width: 1.15; }
-.pm-art .pm-nk { stroke-width: .8; opacity: .32; }
-.pm-art .pm-prov { stroke-width: .6; stroke-dasharray: 5 3 1 3; opacity: .55; }
-.pm-art .pm-river-n { stroke-width: 1; opacity: .75; }
+/* 바다 = 종이(#F7F5EE), 땅 = 웜 스톤 틴트 #EFECE2 + 먹선 하나 */
+.pm-art .pm-land { fill: #EFECE2; stroke-width: 1.1; }
+.pm-art .pm-land-c { fill: #EFECE2; stroke: none; }
+.pm-art .pm-coast { stroke-width: 1.2; }
+.pm-art .pm-nk { fill: #F3F1EA; stroke-width: .7; opacity: .7; }
+.pm-art .pm-river-n { stroke: #8A9BA6; stroke-width: 1.4; opacity: .9; }
 .pm-art .pm-river { stroke-width: .9; opacity: .7; }
-.pm-art .pm-water { fill: url(#pm-water-hatch); stroke-width: 1; }
-.pm-art .pm-dist { stroke-width: .6; stroke-dasharray: 1 3; opacity: .6; }
+.pm-art .pm-water { fill: ${PAPER}; stroke-width: .8; }
+.pm-art .pm-dist { stroke-width: .5; stroke-dasharray: 1 3; opacity: .4; }
 .pm-art .pm-ripple path { stroke-width: .8; }.pm-art .pm-mtn path { stroke-width: .85; }
 .pm-art .pm-mtn .pm-hatch { stroke-width: .5; opacity: .7; }
 .pm .pm-lod-c { display: none; }
 .pm.is-detail .pm-lod-c { display: inline; }
 .pm.is-detail .pm-lod-n { display: none; }
-.pm.is-detail .pm-coast-n { opacity: .18; }
-.pm.is-detail .pm-nk { display: none; }
 .pm-lbl { font-family: "DM Sans", Inter, system-ui, sans-serif; fill: ${INK}; paint-order: stroke; stroke: ${PAPER}; stroke-width: 3.5px; stroke-linejoin: round; pointer-events: none; }
-.pm-lbl-city { font-size: 10.5px; font-weight: 700; letter-spacing: .16em; }
+.pm-lbl-city { font-size: 11.5px; font-weight: 700; letter-spacing: .14em; stroke-width: 4px; }
 .pm-lbl-sea { font-family: "Playfair Display", Georgia, serif; font-style: italic; font-size: 12px; letter-spacing: .32em; fill: #8A847B; }
 .pm-lbl-island { font-size: 9px; font-weight: 600; letter-spacing: .14em; fill: #6B655D; }
 .pm-lbl-peak { font-family: "Playfair Display", Georgia, serif; font-style: italic; font-size: 10px; letter-spacing: .12em; fill: #5A544C; }
 .pm-lbl-spot { font-size: 11px; font-weight: 600; letter-spacing: .01em; }
-.pm-dot-city { fill: ${INK}; }
+.pm-dot-city { fill: ${PAPER}; stroke: ${INK}; stroke-width: 1.4; }
 .pm-city { cursor: pointer; }
 .pm-city .pm-lbl { pointer-events: auto; }
 .pm-city:hover .pm-lbl-city { fill: #9E2B25; }

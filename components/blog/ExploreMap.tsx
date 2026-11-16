@@ -62,7 +62,8 @@ const CSS = `
 .xm-toggle:hover { background: #EDE9DE; }
 .xm-toggle[aria-pressed="true"] { background: ${INK}; color: #F7F5EE; }
 .xm-toggle:focus-visible { outline: 2px solid ${RED}; outline-offset: 2px; }
-.xm-legend { position: absolute; left: 12px; bottom: 26px; z-index: 3; display: flex; flex-wrap: wrap; gap: 4px 12px; max-width: calc(100% - 24px);
+/* 범례는 오른쪽 아래 바다(대한해협 · 동해 쪽) — 제주를 가리지 않는다 */
+.xm-legend { position: absolute; right: 12px; bottom: 24px; z-index: 3; display: flex; flex-wrap: wrap; gap: 4px 12px; max-width: calc(100% - 24px);
   padding: 5px 10px; border: 1px solid rgba(38,36,34,.25); border-radius: 6px; background: rgba(247,245,238,.92); font: 500 11.5px ${BODY}; color: ${INK}; }
 .xm-legend span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
 .xm-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; box-sizing: border-box; }
@@ -77,7 +78,7 @@ const CSS = `
   .xm-list { height: auto; overflow: visible; border-right: 0; }
   .xm-count { position: static; }
   .xm-toggle { top: 10px; right: 10px; padding: 6px 12px; font-size: 12px; }
-  .xm-legend { left: 10px; bottom: 24px; font-size: 11px; }
+  .xm-legend { right: 8px; bottom: 20px; font-size: 11px; }
 }
 @media (max-width: 700px) {
   .xm { border-left: 0; border-right: 0; margin-left: -20px; margin-right: -20px; }

@@ -1,10 +1,12 @@
 /**
  * 펜화 지도 생성기 — public/maps/penmap-v1.svg + lib/maps/penmap-labels.generated.json
  *
- * 전국(확대 전):  Natural Earth 10m 해안선(남한 · 제주 · 울릉도, 북한은 흐리게) · 도 경계(geoBoundaries ADM1)
- *                · 한강 / 남한강 / 낙동강(NE 강 중심선) · 백두대간을 따라 그린 산 · 바다 쪽 물결 해칭.
- * 지역(확대 후):  geoBoundaries ADM2 시군구 — 바깥 경계 = 해안선, 맞닿은 경계 = 구 경계(점선)
- *                · OSM 강 · 물(한강 수면은 빗금) · 봉우리(고도 순) · 물결 해칭.
+ * 깔끔한 에디토리얼 지도(v2, 2026-11-16) — 도시와 핀이 먼저 보이게 배경을 덜어냈다:
+ * 전국(확대 전):  Natural Earth 10m 땅을 부드럽게(단순화 + Chaikin) 다듬어 웜 스톤 #EFECE2 로 채운다.
+ *                본토 외에는 큰 섬(65 km² 이상: 제주 · 울릉 · 강화 · 거제 · 진도 · 남해 …)만, 북한은 더 옅게.
+ *                강은 한강 / 남한강 / 낙동강만. 물결 해칭 · 산 기호 · 도 경계는 그리지 않는다.
+ * 지역(확대 후):  geoBoundaries ADM2 시군구로 땅을 채우고(같은 틴트) 바깥 경계 중 바다 쪽만 해안선으로,
+ *                맞닿은 경계 = 구 경계(옅은 점선) · OSM 강 · 물(종이색 수면).
  * 글자는 넣지 않는다 — 영문 지명은 화면(components/maps/PenMap)이 같은 투영으로 얹는다.
  *
  * 실행(patto/ 에서): npx tsx scripts/make-penmap.mts
@@ -15,7 +17,7 @@ import * as fs from 'fs'
 import * as path from 'path'
 import { CANVAS, REGION_BBOX, project, type LL } from '../lib/maps/penmap'
 
-const VER = 'v1'
+const VER = 'v2'
 const CACHE = 'node_modules/.cache/penmap'
 const UA = { 'User-Agent': 'AtlasLabStudios-MapBuilder/1.0 (+https://www.atlaslabstudios.com)' }
 const SRC = {
@@ -96,6 +98,22 @@ function dp(pts: Line, tol: number): Line {
   return pts.filter((_, i) => keep[i])
 }
 
+/** Chaikin 모서리 깎기 — 꺾인 선을 부드러운 곡선처럼(n 번) */
+function chaikin(pts: Line, n: number, closed: boolean): Line {
+  let p = closed && pts.length > 2 && pts[0][0] === pts[pts.length - 1][0] && pts[0][1] === pts[pts.length - 1][1] ? pts.slice(0, -1) : pts
+  for (let k = 0; k < n; k++) {
+    const o: Line = closed ? [] : [p[0]]
+    const m = closed ? p.length : p.length - 1
+    for (let i = 0; i < m; i++) {
+      const a = p[i], b = p[(i + 1) % p.length]
+      o.push([a[0] * 0.75 + b[0] * 0.25, a[1] * 0.75 + b[1] * 0.25], [a[0] * 0.25 + b[0] * 0.75, a[1] * 0.25 + b[1] * 0.75])
+    }
+    if (!closed) o.push(p[p.length - 1])
+    p = o
+  }
+  return closed ? [...p, p[0]] : p
+}
+
 /** 반올림한 절대좌표의 차로 상대 명령을 쓴다 — 오차가 쌓이지 않고 글자 수가 준다 */
 function d(lines: Line[], close = false) {
   let s = ''
@@ -143,48 +161,6 @@ const polyOf = (rings: Line[]): Poly => {
   return { rings, b: { x0: Math.min(...xs), y0: Math.min(...ys), x1: Math.max(...xs), y1: Math.max(...ys) } }
 }
 const onLand = (p: P, land: Poly[]) => land.some(pl => inB(p, pl.b) && inRing(p, pl.rings[0]) && !pl.rings.slice(1).some(h => inRing(p, h)))
-
-/** 해안선 바다 쪽에 짧은 물결 획을 여러 줄 — rows: [거리, 불투명도] */
-function ripples(coasts: Line[], land: Poly[], spacing: number, len: number, rows: [number, number][], seed: number) {
-  const rand = rng(seed)
-  const out = rows.map(() => '')
-  for (const l of coasts) {
-    let acc = spacing * rand()
-    for (let i = 1; i < l.length; i++) {
-      const [ax, ay] = l[i - 1], [bx, by] = l[i]
-      const L = Math.hypot(bx - ax, by - ay); if (!L) continue
-      const tx = (bx - ax) / L, ty = (by - ay) / L
-      for (; acc < L; acc += spacing * (0.8 + rand() * 0.4)) {
-        const x = ax + tx * acc, y = ay + ty * acc
-        // 바다 쪽 법선: 가까운 행 거리에서 땅이 아닌 쪽
-        let nx = -ty, ny = tx
-        if (onLand([x + nx * rows[0][0], y + ny * rows[0][0]], land)) { nx = ty; ny = -tx }
-        rows.forEach(([dist], k) => {
-          const cx = x + nx * dist, cy = y + ny * dist
-          if (onLand([cx, cy], land)) return
-          const h = len * (1 - k * 0.18)
-          out[k] += `M${r1(cx - tx * h / 2)} ${r1(cy - ty * h / 2)}l${r1(tx * h)} ${r1(ty * h)}`
-        })
-      }
-      acc -= L
-    }
-  }
-  return out.map(s => s.replace(/ -/g, '-'))
-}
-
-function rng(seed: number) { let s = seed >>> 0; return () => ((s = (s * 1664525 + 1013904223) >>> 0) / 4294967296) }
-
-/** 산 기호 — 두 봉우리 실루엣 + 오른쪽 사면 빗금 */
-function mountain(x: number, y: number, s: number, rand: () => number) {
-  const j = (v: number) => r1(v + (rand() - 0.5) * s * 0.08)
-  let o = `M${j(x - s)} ${j(y)}L${j(x - s * 0.28)} ${j(y - s * 0.95)}L${j(x + s * 0.08)} ${j(y - s * 0.45)}L${j(x + s * 0.38)} ${j(y - s * 0.72)}L${j(x + s)} ${j(y)}`
-  let h = ''
-  for (let k = 1; k <= 3; k++) {
-    const t = k / 4, sx = x - s * 0.28 + s * 0.36 * t, sy = y - s * 0.95 + s * 0.5 * t
-    h += `M${r1(sx)} ${r1(sy)}l${r1(s * 0.12)} ${r1(s * 0.32)}`
-  }
-  return { o: o.replace(/ -/g, '-'), h }
-}
 
 /* ── 토폴로지(world-atlas) ───────────────────────────────────── */
 function topoPolys(topo: any, id: string): Line[][] {
@@ -267,28 +243,6 @@ function joinRings(parts: Line[]): Line[] {
   return rings
 }
 
-/* ── 백두대간: 이 봉우리들을 잇는 등줄기를 따라 산을 놓는다 ─────── */
-const RIDGE: { name: string; ll: LL; label?: boolean }[] = [
-  { name: 'SEORAKSAN', ll: [38.1192, 128.4655], label: true },
-  { name: 'Odaesan', ll: [37.7942, 128.5433] },
-  { name: 'Gariwangsan', ll: [37.4622, 128.5636] },
-  { name: 'Taebaeksan', ll: [37.0956, 128.9156] },
-  { name: 'Sobaeksan', ll: [36.9572, 128.485] },
-  { name: 'Songnisan', ll: [36.5433, 127.8706] },
-  { name: 'Deogyusan', ll: [35.86, 127.7461] },
-  { name: 'JIRISAN', ll: [35.3369, 127.7306], label: true },
-]
-const LONE_PEAKS: { name: string; ll: LL; s: number; label?: boolean }[] = [
-  { name: 'HALLASAN', ll: [33.3617, 126.5292], s: 42, label: true },
-  { name: 'Bukhansan', ll: [37.6586, 126.9779], s: 22 },
-  { name: 'Chiaksan', ll: [37.365, 128.0556], s: 26 },
-  { name: 'Gayasan', ll: [35.8222, 128.1206], s: 26 },
-  { name: 'Palgongsan', ll: [36.0161, 128.695], s: 24 },
-  { name: 'Juwangsan', ll: [36.3936, 129.1597], s: 22 },
-  { name: 'Mudeungsan', ll: [35.1342, 126.9886], s: 22 },
-  { name: 'Woraksan', ll: [36.8886, 128.1047], s: 22 },
-]
-
 /* ── 굽기 ───────────────────────────────────────────────────── */
 async function main() {
   fs.mkdirSync(CACHE, { recursive: true })
@@ -299,53 +253,20 @@ async function main() {
 
   const canvas = boxU([32.6, 124.5, 38.9, 131.3])
   const g: string[] = []
-  const labels: { peaks: { name: string; ll: LL; lod: 'n' | 'c' }[] } = { peaks: [] }
+  const labels: { peaks: { name: string; ll: LL; lod: 'n' | 'c' }[] } = { peaks: [] } // v2: 산 이름은 싣지 않는다(빈 목록)
 
-  // 전국 땅
-  const kr = topoPolys(world, '410').map(p => p.map(r => simplify(r, 4)))
-  const kp = topoPolys(world, '408').map(p => p.map(r => simplify(r, 6)))
-  const krLand = kr.filter(p => p[0].length > 3).map(polyOf)
-  const allLand = [...krLand, ...kp.filter(p => p[0].length > 3).map(polyOf)]
-  const krRings = kr.map(p => p[0]).filter(r => r.length > 3)
-  const kpRings = kp.flatMap(p => clip(p[0], canvas))
+  // 전국 땅 — 큰 땅덩이만, 부드럽게
+  const area = (r: Line) => Math.abs(r.reduce((a, p, i) => { const q = r[(i + 1) % r.length]; return a + p[0] * q[1] - q[0] * p[1] }, 0) / 2)
+  const MIN_ISLAND = 6500 // 단위² — 1 km² = 100. 울릉도(약 73 km²)가 남는 선
+  const krRings = topoPolys(world, '410').map(p => p[0]).filter(r => r.length > 3 && area(r) >= MIN_ISLAND).map(r => chaikin(simplify(r, 11), 2, true))
+  const kpRings = topoPolys(world, '408').map(p => p[0]).filter(r => r.length > 3 && area(r) >= MIN_ISLAND * 4).map(r => chaikin(simplify(r, 14), 2, true))
+  g.push(`<g class="pm-lod-n"><path class="pm-nk" d="${d(kpRings, true)}"/><path class="pm-land" d="${d(krRings, true)}"/></g>`)
+  console.log(`  남한 땅 ${krRings.length}개(본토 + 큰 섬)`)
 
-  // 물결(전국): 본토 · 큰 섬은 세 줄, 작은 섬은 한 줄
-  const big = krRings.filter(r => r.length > 25)
-  const small = krRings.filter(r => r.length <= 25)
-  const rn = ripples(big, allLand, 95, 46, [[38, 0.55], [78, 0.35], [122, 0.2]], 3)
-  const rs = ripples(small, allLand, 80, 28, [[30, 0.45]], 4)
-  g.push(`<g class="pm-lod-n pm-ripple">${rn.map((s, k) => `<path d="${s}" opacity="${[0.8, 0.5, 0.28][k]}"/>`).join('')}<path d="${rs[0]}" opacity=".6"/></g>`)
-  g.push(`<path class="pm-nk" d="${d(kpRings)}"/>`)
-  g.push(`<path class="pm-coast pm-coast-n" d="${d(krRings, true)}"/>`)
-
-  // 도 경계(맞닿은 변만)
-  const prov = edges(adm1.features, () => true).inner.map(l => simplify(l, 5))
-  g.push(`<path class="pm-lod-n pm-prov" d="${d(prov)}"/>`)
-
-  // 강(전국)
+  // 강(전국) — 한강 · 남한강 · 낙동강만, 부드러운 곡선
   const ne = riversNE.features.filter((f: any) => ['Han', 'Namhan', 'Nakdong'].includes(f.properties.name))
-  const neLines = ne.flatMap((f: any) => (f.geometry.type === 'LineString' ? [f.geometry.coordinates] : f.geometry.coordinates)).map((l: number[][]) => simplify(l.map(pr), 3))
+  const neLines = ne.flatMap((f: any) => (f.geometry.type === 'LineString' ? [f.geometry.coordinates] : f.geometry.coordinates)).map((l: number[][]) => chaikin(simplify(l.map(pr), 6), 2, false))
   g.push(`<path class="pm-lod-n pm-river-n" d="${d(neLines)}"/>`)
-
-  // 산(전국) — 등줄기를 따라 간격마다, 유명 봉우리는 크게
-  {
-    const rand = rng(11)
-    let o = '', h = ''
-    const spine = RIDGE.map(p => project(...p.ll))
-    for (let i = 1; i < spine.length; i++) {
-      const [ax, ay] = spine[i - 1], [bx, by] = spine[i]
-      const L = Math.hypot(bx - ax, by - ay), n = Math.max(1, Math.round(L / 150))
-      for (let k = 0; k < n; k++) {
-        const t = (k + rand() * 0.5) / n
-        const off = (rand() - 0.5) * 190
-        const x = ax + (bx - ax) * t + off * ((by - ay) / L), y = ay + (by - ay) * t - off * ((bx - ax) / L)
-        const m = mountain(x, y, 70 + rand() * 40, rand); o += m.o; h += m.h
-      }
-    }
-    for (const p of RIDGE) { const [x, y] = project(...p.ll); const m = mountain(x, y, 135, rand); o += m.o; h += m.h; if (p.label) labels.peaks.push({ name: p.name, ll: p.ll, lod: 'n' }) }
-    for (const p of LONE_PEAKS) { const [x, y] = project(...p.ll); const m = mountain(x, y, p.s * 3.2, rand); o += m.o; h += m.h; if (p.label) labels.peaks.push({ name: p.name, ll: p.ll, lod: 'n' }) }
-    g.push(`<g class="pm-lod-n pm-mtn"><path d="${o}"/><path class="pm-hatch" d="${h}"/></g>`)
-  }
 
   // 지역 상세
   for (const [id, bbox] of Object.entries(REGION_BBOX)) {
@@ -375,13 +296,12 @@ async function main() {
       if (cur.length > 1) out.push(cur)
       return out
     })
-    const rc = ripples(realCoast, nearLand, 4.5, 2.6, [[1.6, 0.55], [3.4, 0.35], [5.6, 0.2]], 7)
 
     // OSM
     const osm = await overpass(id, bbox)
-    const rivers: Line[] = [], water: Line[] = [], peaks: { ll: LL; ele: number; name?: string }[] = []
+    const rivers: Line[] = [], water: Line[] = []
     for (const el of osm.elements) {
-      if (el.type === 'node') { peaks.push({ ll: [el.lat, el.lon], ele: parseFloat(el.tags.ele) || 0, name: el.tags['name:en'] }); continue }
+      if (el.type === 'node') continue // 봉우리 — v2 에서는 그리지 않는다
       if (el.type === 'way' && el.tags?.waterway === 'river') { rivers.push(...clip(simplify(el.geometry.map((p: any) => project(p.lat, p.lon)), 0.5), b)); continue }
       if (el.type === 'way' && el.geometry) { const r = el.geometry.map((p: any) => project(p.lat, p.lon)); if (r.length > 3) water.push(simplify(r, 0.4)); continue }
       if (el.type === 'relation') {
@@ -390,36 +310,16 @@ async function main() {
       }
     }
     // 작은 연못은 뺀다(넓이 순)
-    const area = (r: Line) => Math.abs(r.reduce((a, p, i) => { const q = r[(i + 1) % r.length]; return a + p[0] * q[1] - q[0] * p[1] }, 0) / 2)
     const bigWater = water.filter(r => area(r) > 6)
 
-    // 봉우리: 높은 순으로, 서로 25 단위 이상 떨어진 것만 6개
-    const pk: typeof peaks = []
-    for (const p of peaks.sort((a, z) => z.ele - a.ele)) {
-      const [x, y] = project(...p.ll)
-      if (!inB([x, y], boxU(bbox))) continue
-      if (pk.some(q => Math.hypot(project(...q.ll)[0] - x, project(...q.ll)[1] - y) < 25)) continue
-      pk.push(p); if (pk.length >= 6) break
-    }
-    const rand = rng(id.length * 97)
-    let mo = '', mh = ''
-    for (const p of pk) {
-      const [x, y] = project(...p.ll); const m = mountain(x, y, 5 + Math.min(4, p.ele / 400), rand); mo += m.o; mh += m.h
-      // 영문 이름만, 짧게 — 괄호 · 별칭을 떼고, 로마자가 아닌 글자가 섞였거나 긴 이름은 싣지 않는다
-      const nm = p.name?.replace(/\s*\(.*?\)\s*/g, '').split(/\s*[\/;]\s*/)[0].replace(/ Mountain$/, '').trim()
-      if (nm && /^[A-Za-z][A-Za-z' -]{2,13}$/.test(nm) && labels.peaks.filter(q => q.lod === 'c' && inB(project(...q.ll), boxU(bbox))).length < 3)
-        labels.peaks.push({ name: nm.toUpperCase(), ll: p.ll, lod: 'c' })
-    }
-
     g.push(`<g class="pm-lod-c" data-region="${id}">` +
-      `<g class="pm-ripple">${rc.map((s, k) => `<path d="${s}" opacity="${[0.55, 0.35, 0.2][k]}"/>`).join('')}</g>` +
+      `<path class="pm-land-c" d="${d(land.flatMap(p => [simplify(p.rings[0], 0.6)]), true)}"/>` +
       (bigWater.length ? `<path class="pm-water" d="${d(bigWater, true)}"/>` : '') +
       (rivers.length ? `<path class="pm-river" d="${d(rivers)}"/>` : '') +
       `<path class="pm-dist" d="${d(inner)}"/>` +
       `<path class="pm-coast" d="${d(realCoast)}"/>` +
-      (mo ? `<g class="pm-mtn"><path d="${mo}"/><path class="pm-hatch" d="${mh}"/></g>` : '') +
       `</g>`)
-    console.log(`  해안 ${realCoast.length} · 구경계 ${inner.length} · 강 ${rivers.length} · 물 ${bigWater.length} · 봉우리 ${pk.length}`)
+    console.log(`  해안 ${realCoast.length} · 구경계 ${inner.length} · 강 ${rivers.length} · 물 ${bigWater.length}`)
   }
 
   const c = CANVAS
