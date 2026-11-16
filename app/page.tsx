@@ -14,7 +14,6 @@ import {
 } from '@/lib/blog/sections'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
 import { KoreanBasicsArt } from '@/components/home/KoreanBasicsArt'
-import { KoreaLifeArt } from '@/components/home/KoreaLifeArt'
 import { HomePanorama } from '@/components/home/HomePanorama'
 import type { Metadata } from 'next'
 import { ORGANIZATION_JSON_LD, WEBSITE_JSON_LD, DEFAULT_OPEN_GRAPH, SITE_TITLE, SITE_DESC, SITE_URL } from '@/lib/seo/site'
@@ -195,7 +194,8 @@ export default async function AtlasLabHome() {
     {
       key: 'life', title: 'Korea Life',
       desc: 'Subway navigation, T-Money, and everyday survival tips.',
-      href: '/life', art: <KoreaLifeArt />,
+      href: '/life', thumb: { kind: 'image', src: '/images/home/korea-life.webp' },
+      thumbAlt: 'Illustration of a Korean palace gate with N Seoul Tower, cherry blossoms, bibimbap and a hanbok',
     },
   ]
   // 바로가기 바는 헤더 드로어와 같은 3대 축(Our Apps · Learn Korean · Travel & Life) — 각 게이트웨이 섹션으로 간다
