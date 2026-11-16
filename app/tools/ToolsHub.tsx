@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { HUB_ORDER, TOOLS, toolHref, type ToolId } from './toolList'
-import { TOOL_ART } from './toolArt'
+import { TOOL_IMAGE } from './toolImages'
 
 const isToolId = (id: string): id is ToolId => TOOLS.some(t => t.id === id)
 
@@ -29,9 +29,10 @@ export function ToolsHub() {
         .th-hero-sub { margin: 0; font-size: 16px; line-height: 1.6; color: #D1D5DB; }
         @media (hover: hover) { .th-back:hover { color: #fff; } }
         .th-list { display: flex; flex-direction: column; gap: 16px; max-width: 768px; margin: 0 auto; }
-        .th-card { display: flex; align-items: center; gap: 20px; padding: 14px 20px 14px 14px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.05); text-decoration: none; color: inherit; transition: transform .2s, box-shadow .2s, border-color .2s; }
-        .th-thumb { flex: none; display: block; width: 112px; height: 84px; border-radius: 12px; overflow: hidden; }
-        .th-thumb svg { display: block; width: 100%; height: 100%; }
+        .th-card { display: flex; align-items: center; gap: 20px; padding: 14px 20px 14px 14px; background: #fff; border: 1px solid rgba(231,229,228,.8); border-radius: 16px; box-shadow: 0 1px 2px rgba(0,0,0,.05); text-decoration: none; color: inherit; transition: transform .2s, box-shadow .2s, border-color .2s; }
+        .th-thumb { flex: none; display: block; width: 112px; height: 84px; border-radius: 12px; overflow: hidden; background: #F7F5EE; }
+        /* 작은 썸네일이라 미니어처가 가운데 45% 에 있는 그림을 조금 당겨 크게 보인다 */
+        .th-thumb img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.3); }
         .th-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
         .th-title { font-family: "Playfair Display", Georgia, serif; font-size: 18px; font-weight: 700; line-height: 1.25; color: #111827; margin-bottom: 4px; }
         .th-desc { font-size: 14px; line-height: 1.5; color: #374151; }
@@ -66,7 +67,7 @@ export function ToolsHub() {
         <div className="th-list">
           {HUB_ORDER.map(id => TOOLS.find(t => t.id === id)!).map(t => (
             <a key={t.id} href={toolHref(t.id)} className="th-card">
-              <span className="th-thumb" style={{ background: TOOL_ART[t.id].background }}>{TOOL_ART[t.id].art}</span>
+              <span className="th-thumb"><img src={TOOL_IMAGE[t.id].src} alt="" width={1200} height={800} loading="lazy" decoding="async" /></span>
               <span className="th-text">
                 <span className="th-title">{t.title}</span>
                 <span className="th-desc">{t.desc}</span>

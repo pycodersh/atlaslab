@@ -13,7 +13,6 @@ import {
   groupKeyOf,
 } from '@/lib/blog/sections'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
-import { KoreanBasicsArt } from '@/components/home/KoreanBasicsArt'
 import { HomePanorama } from '@/components/home/HomePanorama'
 import type { Metadata } from 'next'
 import { ORGANIZATION_JSON_LD, WEBSITE_JSON_LD, DEFAULT_OPEN_GRAPH, SITE_TITLE, SITE_DESC, SITE_URL } from '@/lib/seo/site'
@@ -176,7 +175,9 @@ export default async function AtlasLabHome() {
     {
       key: 'basics', title: 'Korean Basics',
       desc: 'Essential Hangul, pronunciation, and core grammar rules made easy.',
-      href: '/learn-korean/basics', art: <KoreanBasicsArt />,
+      // 글라스 3D 한글 타일(Figma AI, 2026-11-17). 예전 코드 일러스트는 components/home/KoreanBasicsArt 에 그대로 있다
+      href: '/learn-korean/basics', thumb: { kind: 'image', src: '/images/home/korean-basics-glass.webp' },
+      thumbAlt: 'Frosted acrylic tiles with 3D Hangul letters 가, 나 and 다',
     },
   ]
   // Travel & Life 는 목록 탭 순서(Explore Korea → Food → Life)와 같게 둔다

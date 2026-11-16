@@ -1,6 +1,6 @@
 import { SectionHeader } from '@/components/SectionHeader'
 import { TOOLS, toolHref, type ToolId } from '@/app/tools/toolList'
-import { TOOL_ART } from '@/app/tools/toolArt'
+import { TOOL_IMAGE } from '@/app/tools/toolImages'
 import { ToolIcon } from '@/app/tools/toolIcons'
 
 const FEATURED: { id: ToolId; title: string; desc: string }[] = [
@@ -40,11 +40,11 @@ export function ToolsHubBanner() {
     <section id="tools" className="gw-sec" aria-labelledby="gw-tools">
       <style>{`
         .thb-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-        .thb-card { display: flex; flex-direction: column; background: #fff; border: 1px solid #F3F4F6; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,.05); text-decoration: none; color: inherit; transition: transform .2s, box-shadow .2s, border-color .2s; }
+        .thb-card { display: flex; flex-direction: column; background: #fff; border: 1px solid rgba(231,229,228,.8); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0,0,0,.05); text-decoration: none; color: inherit; transition: transform .2s, box-shadow .2s, border-color .2s; }
         @media (hover: hover) { .thb-card:hover { transform: translateY(-4px); box-shadow: 0 8px 22px rgba(0,0,0,.1); border-color: #D1D5DB; } }
         @media (prefers-reduced-motion: reduce) { .thb-card { transition: none; } .thb-card:hover { transform: none; } }
-        .thb-art { display: block; aspect-ratio: 16 / 8; }
-        .thb-art svg { display: block; width: 100%; height: 100%; }
+        .thb-art { display: block; aspect-ratio: 16 / 8; overflow: hidden; background: #F7F5EE; }
+        .thb-art img { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); }
         .thb-body { display: flex; flex-direction: column; align-items: flex-start; flex: 1; padding: 20px; }
         .thb-name { font-family: "Playfair Display", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.25; color: #111827; margin-bottom: 8px; }
         .thb-desc { font-family: "DM Sans", Inter, system-ui, sans-serif; font-size: 14px; line-height: 1.55; color: #4B5563; }
@@ -69,6 +69,7 @@ export function ToolsHubBanner() {
           .thb-grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
           .thb-card { flex-direction: row; align-items: center; gap: 12px; padding: 10px 12px 10px 10px; border-radius: 14px; }
           .thb-art { flex: 0 0 80px; width: 80px; height: 80px; aspect-ratio: auto; border-radius: 12px; overflow: hidden; }
+          .thb-art img { transform: scale(1.45); }
           .thb-body { min-width: 0; padding: 0; }
           .thb-name { font-size: 18px; margin-bottom: 3px; }
           .thb-desc { font-size: 14px; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
@@ -81,7 +82,7 @@ export function ToolsHubBanner() {
       <div className="thb-grid">
         {FEATURED.map(tool => (
           <a key={tool.id} className="thb-card" href={toolHref(tool.id)}>
-            <span className="thb-art" style={{ background: TOOL_ART[tool.id].background }}>{TOOL_ART[tool.id].art}</span>
+            <span className="thb-art"><img src={TOOL_IMAGE[tool.id].src} alt="" width={1200} height={800} loading="lazy" decoding="async" /></span>
             <span className="thb-body">
               <span className="thb-name">{tool.title}</span>
               <span className="thb-desc">{tool.desc}</span>
