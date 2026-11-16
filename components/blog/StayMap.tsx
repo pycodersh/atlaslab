@@ -12,7 +12,8 @@
  */
 import data from '@/lib/blog/stay-maps.generated.json'
 import { STAY_MAP_BADGES } from '@/lib/blog/stayMapBadges'
-import { StayMapZoom } from './StayMapZoom'
+import ov from '@/lib/blog/stay-map-overviews.generated.json'
+import { StayMapZoom, type StayOverviews } from './StayMapZoom'
 
 type Card = { num: number | null; hotel: boolean; title: string; lines: string[]; color: string; x: number; y: number; leader: number[] }
 type MapData = {
@@ -54,8 +55,18 @@ html.dark .stay-map2 { border-color: #2E2E2E; background: #141414; }
 .stay-map2 .sm2-ctrl button { min-width: 30px; height: 30px; padding: 0; border: 1px solid #D6D3D1; border-radius: 8px;
   background: rgba(255,255,255,.92); color: #1C1917; font: 600 17px/1 "DM Sans", system-ui, sans-serif; cursor: pointer;
   box-shadow: 0 1px 2px rgba(0,0,0,.1); }
-.stay-map2 .sm2-ctrl .sm2-reset { padding: 0 10px; font-size: 12px; letter-spacing: .02em; }
-.stay-map2 .sm2-ctrl button:hover:not(:disabled) { background: #fff; border-color: #A8A29E; }
+.stay-map2 .sm2-ctrl .sm2-txt { padding: 0 9px; font-size: 12px; letter-spacing: .02em; }
+.stay-map2 .sm2-ctrl button[aria-pressed="true"] { background: #1C1917; border-color: #1C1917; color: #fff; }
+.stay-map2 .sm2-ctrl button:hover:not(:disabled):not([aria-pressed="true"]) { background: #fff; border-color: #A8A29E; }
+/* 줌 아웃 단계(도시 · 한국) — 상세 레이어(말풍선 · 경로 · 핀)는 숨기고, 미리 구운 넓은 지도에 호텔 ★ · 이름표만 */
+.stay-map2 .sm2-lv-city .sm2-layer, .stay-map2 .sm2-lv-korea .sm2-layer { opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s !important; }
+.stay-map2 .sm2-ov { position: absolute; inset: 0; z-index: 2; opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; pointer-events: none; }
+.stay-map2 .sm2-ov.is-on { opacity: 1; visibility: visible; transition: opacity .35s ease; }
+.stay-map2 .sm2-ov img { display: block; width: 100%; height: 100%; margin: 0; border-radius: 0; box-shadow: none; -webkit-user-drag: none; user-select: none; }
+.stay-map2 .sm2-ov-name { position: absolute; transform: translate(18px, -50%); padding: 3px 8px; border-radius: 6px; background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.22); border-left: 3px solid #C8102E; white-space: nowrap;
+  font: 700 12px/1.3 "DM Sans", system-ui, sans-serif; color: #111; }
+.stay-map2 .sm2-ov-name.is-left { transform: translate(calc(-100% - 18px), -50%); }
 .stay-map2 .sm2-ctrl button:disabled { opacity: .45; cursor: default; }
 .stay-map2 .sm2-ctrl button:focus-visible { outline: 2px solid #C8102E; outline-offset: 1px; }
 .stay-map2 .sm2-legend { display: none; list-style: none; margin: 0; padding: 14px 14px 4px; }
@@ -77,7 +88,10 @@ html.dark .stay-map2 .sm2-legend span { color: #A3A09C; }
     display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
   .stay-map2 .sm2-scale { font-size: 10px; padding: 2px 6px 4px; }
   .stay-map2 .sm2-ctrl { right: 8px; bottom: 8px; }
+  .stay-map2 .sm2-ctrl { gap: 3px; }
   .stay-map2 .sm2-ctrl button { min-width: 32px; height: 32px; }
+  .stay-map2 .sm2-ctrl .sm2-txt { padding: 0 7px; font-size: 11px; }
+  .stay-map2 .sm2-ov-name { font-size: 11px; padding: 2px 6px; }
 }
 `
 
@@ -88,12 +102,21 @@ export function StayMap({ id }: { id: string }) {
   if (!m) return null
   const r = (data.regions as Record<string, Region>)[m.region]
   const aria = `Map of ${m.hotel.title}: ` + m.cards.filter(c => !c.hotel).map(c => `${c.title}, ${c.lines.join(', ')}`).join('; ')
+  // 줌 아웃 단계 — scripts/make-stay-overviews.mjs 가 만든 도시 · 전국 지도(상세 지도와 같은 비율)
+  const ovR = (ov.regions as Record<string, { city: { img: string; scale: { px: number; label: string }; name: string }; korea: { img: string; scale: { px: number; label: string } } }>)[m.region]
+  const ovM = (ov.maps as Record<string, { city: number[]; korea: number[] }>)[id]
+  const at = (p: number[]): [number, number] => [(p[0] / r.w) * 100, (p[1] / r.h) * 100]
+  const overviews: StayOverviews | undefined = ovR && ovM ? {
+    hotel: m.hotel.title,
+    city: { img: ovR.city.img, name: ovR.city.name, scale: { label: ovR.city.scale.label, frac: ovR.city.scale.px / r.w }, at: at(ovM.city) },
+    korea: { img: ovR.korea.img, scale: { label: ovR.korea.scale.label, frac: ovR.korea.scale.px / r.w }, at: at(ovM.korea) },
+  } : undefined
 
   return (
     <figure className="stay-map2 not-prose">
       <style>{CSS}</style>
       <div className="sm2-canvas" role="group" aria-label={aria}>
-        <StayMapZoom badge={STAY_MAP_BADGES[id]} scale={{ label: r.scale.label, frac: r.scale.px / r.w }}>
+        <StayMapZoom badge={STAY_MAP_BADGES[id]} scale={{ label: r.scale.label, frac: r.scale.px / r.w }} overviews={overviews}>
         <img src={r.img} width={r.w} height={r.h} alt="" loading="lazy" draggable={false} />
         <svg viewBox={`0 0 ${r.w} ${r.h}`} aria-hidden>
           {m.routes.map((rt, i) => (

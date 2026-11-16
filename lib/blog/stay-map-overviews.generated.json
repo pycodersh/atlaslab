@@ -1,0 +1,356 @@
+{
+ "version": "v2",
+ "regions": {
+  "songdo": {
+   "city": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-songdo-city-v2.webp",
+    "scale": {
+     "px": 174,
+     "label": "10 km"
+    },
+    "name": "Incheon & Seoul"
+   },
+   "korea": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-songdo-korea-v2.webp",
+    "scale": {
+     "px": 172,
+     "label": "200 km"
+    }
+   }
+  },
+  "seoul": {
+   "city": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-seoul-city-v2.webp",
+    "scale": {
+     "px": 148,
+     "label": "5 km"
+    },
+    "name": "Seoul"
+   },
+   "korea": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-seoul-korea-v2.webp",
+    "scale": {
+     "px": 121,
+     "label": "100 km"
+    }
+   }
+  },
+  "gangnam": {
+   "city": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-gangnam-city-v2.webp",
+    "scale": {
+     "px": 148,
+     "label": "5 km"
+    },
+    "name": "Seoul"
+   },
+   "korea": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-gangnam-korea-v2.webp",
+    "scale": {
+     "px": 177,
+     "label": "200 km"
+    }
+   }
+  },
+  "yeouido": {
+   "city": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-yeouido-city-v2.webp",
+    "scale": {
+     "px": 148,
+     "label": "5 km"
+    },
+    "name": "Seoul"
+   },
+   "korea": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-yeouido-korea-v2.webp",
+    "scale": {
+     "px": 123,
+     "label": "100 km"
+    }
+   }
+  },
+  "hongdae": {
+   "city": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-hongdae-city-v2.webp",
+    "scale": {
+     "px": 148,
+     "label": "5 km"
+    },
+    "name": "Seoul"
+   },
+   "korea": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-hongdae-korea-v2.webp",
+    "scale": {
+     "px": 127,
+     "label": "100 km"
+    }
+   }
+  },
+  "haeundae": {
+   "city": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-haeundae-city-v2.webp",
+    "scale": {
+     "px": 137,
+     "label": "5 km"
+    },
+    "name": "Busan"
+   },
+   "korea": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-haeundae-korea-v2.webp",
+    "scale": {
+     "px": 97,
+     "label": "100 km"
+    }
+   }
+  },
+  "jungmun": {
+   "city": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-jungmun-city-v2.webp",
+    "scale": {
+     "px": 129,
+     "label": "10 km"
+    },
+    "name": "Jeju Island"
+   },
+   "korea": {
+    "img": "https://eecvvgkihtcgfikaimao.supabase.co/storage/v1/object/public/blog-covers/stay-ov-jungmun-korea-v2.webp",
+    "scale": {
+     "px": 110,
+     "label": "100 km"
+    }
+   }
+  }
+ },
+ "maps": {
+  "gyeongwonjae": {
+   "city": [
+    549.9,
+    523.6
+   ],
+   "korea": [
+    513.1,
+    159.6
+   ]
+  },
+  "oakwood": {
+   "city": [
+    560.1,
+    528.2
+   ],
+   "korea": [
+    513.6,
+    159.9
+   ]
+  },
+  "sheraton": {
+   "city": [
+    562.2,
+    526.8
+   ],
+   "korea": [
+    513.8,
+    159.8
+   ]
+  },
+  "four-seasons-seoul": {
+   "city": [
+    574.9,
+    438.6
+   ],
+   "korea": [
+    515,
+    199.7
+   ]
+  },
+  "lescape": {
+   "city": [
+    585.5,
+    474.7
+   ],
+   "korea": [
+    515.4,
+    201.2
+   ]
+  },
+  "signiel": {
+   "city": [
+    907.4,
+    490.7
+   ],
+   "korea": [
+    547.8,
+    152.5
+   ]
+  },
+  "park-hyatt-seoul": {
+   "city": [
+    806.5,
+    503.6
+   ],
+   "korea": [
+    544.7,
+    152.9
+   ]
+  },
+  "josun-palace": {
+   "city": [
+    747.7,
+    520.9
+   ],
+   "korea": [
+    542.9,
+    153.5
+   ]
+  },
+  "jw-marriott-seoul": {
+   "city": [
+    651.3,
+    518.4
+   ],
+   "korea": [
+    539.9,
+    153.4
+   ]
+  },
+  "grand-intercontinental-parnas": {
+   "city": [
+    797.5,
+    502
+   ],
+   "korea": [
+    544.4,
+    152.9
+   ]
+  },
+  "shilla": {
+   "city": [
+    652.6,
+    487.2
+   ],
+   "korea": [
+    518.2,
+    201.7
+   ]
+  },
+  "banyan-tree-seoul": {
+   "city": [
+    641,
+    506.7
+   ],
+   "korea": [
+    517.7,
+    202.6
+   ]
+  },
+  "mondrian": {
+   "city": [
+    621.2,
+    577.1
+   ],
+   "korea": [
+    516.9,
+    205.5
+   ]
+  },
+  "westin-josun": {
+   "city": [
+    587.1,
+    459.2
+   ],
+   "korea": [
+    515.5,
+    200.6
+   ]
+  },
+  "fairmont-ambassador": {
+   "city": [
+    454,
+    599.2
+   ],
+   "korea": [
+    508,
+    210.3
+   ]
+  },
+  "conrad": {
+   "city": [
+    447.7,
+    598.6
+   ],
+   "korea": [
+    507.7,
+    210.3
+   ]
+  },
+  "hotel-naru": {
+   "city": [
+    493.9,
+    559.7
+   ],
+   "korea": [
+    509.7,
+    208.6
+   ]
+  },
+  "ryse": {
+   "city": [
+    433.8,
+    519.7
+   ],
+   "korea": [
+    504.2,
+    212.6
+   ]
+  },
+  "l7-hongdae": {
+   "city": [
+    434.6,
+    515.6
+   ],
+   "korea": [
+    504.3,
+    212.4
+   ]
+  },
+  "andaz-seoul": {
+   "city": [
+    714.6,
+    448.2
+   ],
+   "korea": [
+    541.9,
+    151.2
+   ]
+  },
+  "paradise-busan": {
+   "city": [
+    836.7,
+    403.8
+   ],
+   "korea": [
+    724.6,
+    423.8
+   ]
+  },
+  "signiel-busan": {
+   "city": [
+    849.5,
+    404.4
+   ],
+   "korea": [
+    725,
+    423.8
+   ]
+  },
+  "parnas-jeju": {
+   "city": [
+    415.2,
+    658.6
+   ],
+   "korea": [
+    465,
+    716
+   ]
+  }
+ }
+}
