@@ -10,7 +10,7 @@ import { legacyTabTarget } from '@/lib/blog/sections'
 export function BlogIndexFromQuery({ cards }: { cards: BlogCard[] }) {
   const sp = useSearchParams()
   const router = useRouter()
-  const q = { page: sp.get('page'), tab: sp.get('tab'), lang: sp.get('lang'), sub: sp.get('sub') }
+  const q = { page: sp.get('page'), tab: sp.get('tab'), lang: sp.get('lang'), sub: sp.get('sub'), region: sp.get('region'), view: sp.get('view') }
 
   // 예전 탭 주소(stay-in-korea, 통합 Korean 보기)는 현재 구조로 옮긴다
   const legacy = q.tab ? legacyTabTarget(q.tab, q.sub ?? undefined) : null

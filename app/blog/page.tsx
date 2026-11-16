@@ -7,6 +7,7 @@ import { DEFAULT_TAB, tabLabel } from '@/lib/blog/sections'
 import { blogIndexView, type BlogCard } from '@/lib/blog/indexView'
 import { readMinutes } from '@/lib/blog/readTime'
 import { cardThumbnailForPost } from '@/lib/blog/thumbnail'
+import { exploreGeoOf, stayMapIdOf } from '@/lib/blog/exploreRegions'
 import { DEFAULT_OPEN_GRAPH, DEFAULT_TWITTER } from '@/lib/seo/site'
 
 // 정적 페이지 — 한 시간에 한 번만 다시 굽는다(요청마다 서버 함수가 돌지 않게).
@@ -44,11 +45,16 @@ export default async function BlogIndexPage() {
     .eq('is_paused', false)
     .order('published_at', { ascending: false })
 
-  const cards: BlogCard[] = (rows ?? []).map(({ content, thumbnail, ...p }) => ({
-    ...p,
-    thumb: cardThumbnailForPost(p.slug, content, thumbnail),
-    readMin: readMinutes(content),
-  }))
+  const cards: BlogCard[] = (rows ?? []).map(({ content, thumbnail, ...p }) => {
+    // Explore Korea 지역 · 좌표 — 호텔 지도 id 는 본문에서만 알 수 있어 여기서 붙인다. 아무것도 없는 글은 싣지 않는다
+    const geo = exploreGeoOf({ ...p, stayMapId: stayMapIdOf(content) })
+    return {
+      ...p,
+      thumb: cardThumbnailForPost(p.slug, content, thumbnail),
+      readMin: readMinutes(content),
+      ...(geo.regions.length || geo.ll ? { geo } : {}),
+    }
+  })
 
   // 쿼리를 읽기 전(정적 HTML · 크롤러)에는 기본 탭 화면을 그대로 보여 준다
   return (

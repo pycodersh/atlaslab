@@ -6,8 +6,16 @@ import Link from 'next/link'
 import { DEFAULT_TAB, familyOf, familyTabs, groupKeyOf, layoutForKey, tabDescription, tabLabel } from '@/lib/blog/sections'
 import { SectionHeader } from '@/components/SectionHeader'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
+import type { BlogCard } from '@/lib/blog/indexView'
 import { BlogThumb } from '@/components/blog/BlogThumb'
 import { PostListRow } from '@/components/blog/PostListRow'
+import dynamic from 'next/dynamic'
+
+// 지도 보기(Explore Korea) — Leaflet 은 브라우저에서만, 지도를 고른 사람만 받는다
+const ExploreMap = dynamic(() => import('@/components/blog/ExploreMap').then(m => m.ExploreMap), {
+  ssr: false,
+  loading: () => <div className="bl-map-loading">Loading map…</div>,
+})
 
 const SERIF = '"Playfair Display", Georgia, serif'
 const BODY  = '"DM Sans","Inter",system-ui,sans-serif'
@@ -29,16 +37,19 @@ type Post = {
   published_at: string
   thumb: BlogThumbnail | null
   readMin: number
+  geo?: BlogCard['geo']
 }
 
 /** Korean 탭의 섹션 하나(Basics · Phrases) — 앞쪽 몇 편과 전체 개수 */
 type Section = { key: string; title: string; desc: string; total: number; posts: Post[] }
 
 /** 탭은 화면상의 필터라 쿼리 파라미터로만 표현한다(새 라우트 없음). 기본 탭(Korean)은 /blog 그대로다. */
-function buildUrl(tab: string, opts: { lang?: 'en' | 'ko'; page?: number; sub?: string | null } = {}) {
+function buildUrl(tab: string, opts: { lang?: 'en' | 'ko'; page?: number; sub?: string | null; region?: string | null; view?: 'grid' | 'map' } = {}) {
   const params = new URLSearchParams()
   if (tab !== DEFAULT_TAB) params.set('tab', tab)
   if (opts.sub) params.set('sub', opts.sub)
+  if (opts.region) params.set('region', opts.region)
+  if (opts.view === 'map') params.set('view', 'map')
   if (opts.lang === 'ko') params.set('lang', 'ko')
   if (opts.page && opts.page > 1) params.set('page', String(opts.page))
   const q = params.toString()
@@ -52,6 +63,10 @@ export function BlogClientPage({
   activeLang,
   subChips,
   activeSub,
+  regionChips = [],
+  activeRegion = null,
+  activeView = 'grid',
+  regionTotal = 0,
   totalCount,
   totalPages,
   currentPage,
@@ -68,6 +83,11 @@ export function BlogClientPage({
   activeLang: 'en' | 'ko'
   subChips: { key: string; label: string; short?: string; count: number }[]
   activeSub: string | null
+  /** Explore Korea 만 — 지역 칩(11곳) · 지금 지역 · Grid/Map · 칩 'All' 개수 */
+  regionChips?: { key: string; label: string; count: number }[]
+  activeRegion?: string | null
+  activeView?: 'grid' | 'map'
+  regionTotal?: number
   totalCount: number
   totalPages: number
   currentPage: number
@@ -231,6 +251,38 @@ export function BlogClientPage({
           .bl-subbar { gap: 20px; }
           .bl-chip-full, .bl-chip-n { display: none; }
           .bl-chip-short { display: inline; }
+        }
+
+        /* ── Explore Korea 지역 칩 + Grid/Map ─────────────────────────── */
+        /* 서브 칩(밑줄 글자) 아래 두 번째 줄 — 작은 알약 칩으로 층을 구분한다. 칩 줄만 가로로 스크롤되고
+           Grid/Map 은 오른쪽에 붙어 있다(페이지 자체는 가로로 넘치지 않는다) */
+        .bl-xbar { display: flex; align-items: center; gap: 16px; margin: -12px 0 24px; }
+        .bl-regions { display: flex; gap: 6px; flex: 1; min-width: 0; overflow-x: auto; -webkit-overflow-scrolling: touch;
+          scrollbar-width: none; padding: 2px 0; }
+        .bl-regions::-webkit-scrollbar { display: none; }
+        .bl-rchip { flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 0 12px;
+          border: 1px solid #E5E1DC; border-radius: 999px; background: #fff; white-space: nowrap;
+          font-family: ${BODY}; font-size: 13px; font-weight: 500; color: #404040; text-decoration: none;
+          transition: border-color .15s, background .15s, color .15s; }
+        .bl-rchip:hover { border-color: #A3A3A3; color: #111; }
+        .bl-rchip.active { background: #171717; border-color: #171717; color: #fff; font-weight: 600; }
+        .bl-rchip.is-empty:not(.active) { color: #B5B0AA; }
+        .bl-rchip-n { font-size: 11px; color: #A3A3A3; font-variant-numeric: tabular-nums; }
+        .bl-rchip.active .bl-rchip-n { color: rgba(255,255,255,.7); }
+        .bl-rchip:focus-visible, .bl-vbtn:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        .bl-view { flex: none; display: inline-flex; border: 1px solid #D6D3D1; border-radius: 8px; overflow: hidden; background: #fff; }
+        .bl-vbtn { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px;
+          font-family: ${BODY}; font-size: 13px; font-weight: 600; color: #57534E; text-decoration: none; transition: background .15s, color .15s; }
+        .bl-vbtn + .bl-vbtn { border-left: 1px solid #D6D3D1; }
+        .bl-vbtn:hover { color: #111; background: #F5F5F4; }
+        .bl-vbtn.active { background: #C8102E; color: #fff; }
+        .bl-map-loading { height: 640px; margin-bottom: 64px; display: flex; align-items: center; justify-content: center;
+          border: 1px solid #E5E1DC; background: #fff; font-family: ${BODY}; font-size: 13px; color: #8A8580; }
+        @media (max-width: 767px) {
+          .bl-xbar { gap: 10px; margin-top: -16px; }
+          .bl-rchip-n { display: none; }
+          .bl-vbtn { padding: 0 10px; }
+          .bl-map-loading { height: 360px; }
         }
 
         /* ── Post grid ─────────────────────────────────────────────── */
@@ -425,7 +477,7 @@ export function BlogClientPage({
           {subChips.length > 0 && (
             <nav className="bl-subbar notranslate" translate="no" aria-label="Sub-categories">
               <Link
-                href={buildUrl(activeTab)}
+                href={buildUrl(activeTab, { region: activeRegion, view: activeView })}
                 scroll={false}
                 className={`bl-chip${activeSub ? '' : ' active'}`}
               >
@@ -434,7 +486,7 @@ export function BlogClientPage({
               {subChips.map(c => (
                 <Link
                   key={c.key}
-                  href={buildUrl(activeTab, { sub: c.key })}
+                  href={buildUrl(activeTab, { sub: c.key, region: activeRegion, view: activeView })}
                   scroll={false}
                   className={`bl-chip${activeSub === c.key ? ' active' : ''}`}
                 >
@@ -444,6 +496,36 @@ export function BlogClientPage({
                 </Link>
               ))}
             </nav>
+          )}
+
+          {/* Explore Korea — 지역 빠른 필터(Hotspot Finder 와 같은 11곳) + 오른쪽 Grid / Map.
+              격자가 기본이라 정적 HTML 에는 격자가 그대로 실린다. 지역 · 보기는 쿼리(region · view)로만 바뀐다 */}
+          {regionChips.length > 0 && (
+            <div className="bl-xbar">
+              <nav className="bl-regions notranslate" translate="no" aria-label="Regions">
+                <Link href={buildUrl(activeTab, { sub: activeSub, view: activeView })} scroll={false}
+                  className={`bl-rchip${activeRegion ? '' : ' active'}`} aria-current={activeRegion ? undefined : 'true'}>
+                  All <span className="bl-rchip-n">{regionTotal}</span>
+                </Link>
+                {regionChips.map(r => (
+                  <Link key={r.key} href={buildUrl(activeTab, { sub: activeSub, region: r.key, view: activeView })} scroll={false}
+                    className={`bl-rchip${activeRegion === r.key ? ' active' : ''}${r.count ? '' : ' is-empty'}`}
+                    aria-current={activeRegion === r.key ? 'true' : undefined}>
+                    {r.label} <span className="bl-rchip-n">{r.count}</span>
+                  </Link>
+                ))}
+              </nav>
+              <div className="bl-view notranslate" translate="no" role="group" aria-label="View">
+                <Link href={buildUrl(activeTab, { sub: activeSub, region: activeRegion })} scroll={false}
+                  className={`bl-vbtn${activeView === 'grid' ? ' active' : ''}`} aria-current={activeView === 'grid' ? 'true' : undefined}>
+                  <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path fill="currentColor" d="M1 1h5v5H1zM8 1h5v5H8zM1 8h5v5H1zM8 8h5v5H8z" /></svg>Grid
+                </Link>
+                <Link href={buildUrl(activeTab, { sub: activeSub, region: activeRegion, view: 'map' })} scroll={false}
+                  className={`bl-vbtn${activeView === 'map' ? ' active' : ''}`} aria-current={activeView === 'map' ? 'true' : undefined}>
+                  <svg width="13" height="13" viewBox="0 0 14 14" aria-hidden="true"><path fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" d="M1 3l4-1.5 4 1.5 4-1.5v10L9 13 5 11.5 1 13z M5 1.5v10 M9 3v10" /></svg>Map
+                </Link>
+              </div>
+            </div>
           )}
 
           {/* Korean 탭 — Basics 구역 위, Phrases 구역 아래. 카드는 다른 탭과 같은 .bl-card 그대로 */}
@@ -459,6 +541,8 @@ export function BlogClientPage({
                 <div className="bl-grid">{sec.posts.map(card)}</div>
               </section>
             ))
+          ) : activeView === 'map' && posts.length > 0 ? (
+            <ExploreMap posts={posts as BlogCard[]} region={activeRegion} />
           ) : (!posts || posts.length === 0) ? (
             <div className="bl-empty">
               <h3 className="bl-empty-title">No articles yet for this filter</h3>
@@ -485,7 +569,7 @@ export function BlogClientPage({
           {totalPages > 1 && (
             <div className="bl-pag">
               {currentPage > 1 && (
-                <Link href={buildUrl(activeTab, { lang: activeLang, page: currentPage - 1, sub: activeSub })} className="bl-pag-btn">
+                <Link href={buildUrl(activeTab, { lang: activeLang, page: currentPage - 1, sub: activeSub, region: activeRegion })} className="bl-pag-btn">
                   ← Prev
                 </Link>
               )}
@@ -497,7 +581,7 @@ export function BlogClientPage({
                       <span className="bl-pag-ellipsis">…</span>
                     )}
                     <Link
-                      href={buildUrl(activeTab, { lang: activeLang, page: p, sub: activeSub })}
+                      href={buildUrl(activeTab, { lang: activeLang, page: p, sub: activeSub, region: activeRegion })}
                       className={`bl-pag-btn${p === currentPage ? ' active' : ''}`}
                     >
                       {p}
@@ -505,7 +589,7 @@ export function BlogClientPage({
                   </Fragment>
                 ))}
               {currentPage < totalPages && (
-                <Link href={buildUrl(activeTab, { lang: activeLang, page: currentPage + 1, sub: activeSub })} className="bl-pag-btn">
+                <Link href={buildUrl(activeTab, { lang: activeLang, page: currentPage + 1, sub: activeSub, region: activeRegion })} className="bl-pag-btn">
                   Next →
                 </Link>
               )}

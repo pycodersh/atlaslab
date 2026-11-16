@@ -1,6 +1,10 @@
 import { DEFAULT_TAB, KOREAN_TAB, groupKeyOf, isValidTab, postMatchesTab, tabLabel } from '@/lib/blog/sections'
 import { KEEP_EMPTY_SUB_CHIPS, isCrossListed, isValidSubcategory, subcategoriesFor, subcategoriesOf } from '@/lib/blog/subcategories'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
+import { EXPLORE_REGIONS, type ExploreGeo } from '@/lib/blog/exploreRegions'
+
+/** 지역 필터 · 지도 보기는 Explore Korea 탭에서만 쓴다 */
+export const EXPLORE_TAB = 'explore-korea'
 
 /**
  * /blog 목록 화면 계산 — 빌드 때 받은 전체 글(cards)에 쿼리(tab · sub · lang · page)를 적용한다.
@@ -18,9 +22,11 @@ export type BlogCard = {
   published_at: string
   thumb: BlogThumbnail | null
   readMin: number
+  /** Explore Korea 지역 · 좌표(lib/blog/exploreRegions) — 지역도 좌표도 없는 글은 비워 둔다 */
+  geo?: ExploreGeo
 }
 
-export type BlogQuery = { page?: string | null; tab?: string | null; lang?: string | null; sub?: string | null }
+export type BlogQuery = { page?: string | null; tab?: string | null; lang?: string | null; sub?: string | null; region?: string | null; view?: string | null }
 
 const POSTS_PER_PAGE = 20
 
@@ -44,7 +50,17 @@ export function blogIndexView(cards: BlogCard[], q: BlogQuery) {
   const activeSub = q.sub && isValidSubcategory(activeTab, q.sub) ? q.sub : null
   const subChips = subDefs.map(s => ({ ...s, count: inTab.filter(p => subsOf(p).includes(s.key)).length }))
     .filter(s => s.count > 0 || KEEP_EMPTY_SUB_CHIPS.has(activeTab))   // Explore Korea 는 빈 칩도 보인다
-  const matched = activeSub ? inTab.filter(p => subsOf(p).includes(activeSub)) : inTab
+  const bySub = activeSub ? inTab.filter(p => subsOf(p).includes(activeSub)) : inTab
+
+  // 지역 필터 · Grid/Map — Explore Korea 만. 지역 칩 개수는 지금 서브 칩(Hotels · Places) 기준이다.
+  // 기본은 Grid(정적 HTML 에 격자가 그대로 실린다). Map 은 페이지 번호 없이 걸린 글 전부를 지도에 올린다
+  const isExplore = activeTab === EXPLORE_TAB
+  const activeRegion = isExplore && q.region && EXPLORE_REGIONS.some(r => r.id === q.region) ? q.region : null
+  const activeView: 'grid' | 'map' = isExplore && q.view === 'map' ? 'map' : 'grid'
+  const regionChips = isExplore
+    ? EXPLORE_REGIONS.map(r => ({ key: r.id as string, label: r.name, count: bySub.filter(p => p.geo?.regions.includes(r.id)).length }))
+    : []
+  const matched = activeRegion ? bySub.filter(p => p.geo?.regions.includes(activeRegion as never)) : bySub
 
   // Korean 탭은 한 목록이 아니라 Basics · Phrases 섹션 두 개다(최신순으로 섞지 않는다).
   // 섹션마다 앞쪽 몇 편만 그리고, 페이지 번호는 쓰지 않는다 — 나머지는 섹션의 'View all' 이 맡는다.
@@ -56,16 +72,20 @@ export function blogIndexView(cards: BlogCard[], q: BlogQuery) {
       })
     : []
 
-  const totalPages = isKorean ? 0 : Math.ceil(matched.length / POSTS_PER_PAGE)
+  const totalPages = isKorean || activeView === 'map' ? 0 : Math.ceil(matched.length / POSTS_PER_PAGE)
   const from = (currentPage - 1) * POSTS_PER_PAGE
 
   return {
-    posts: isKorean ? [] : matched.slice(from, from + POSTS_PER_PAGE),
+    posts: isKorean ? [] : activeView === 'map' ? matched : matched.slice(from, from + POSTS_PER_PAGE),
     sections,
     activeTab,
     activeLang,
     subChips,
     activeSub,
+    regionChips,
+    activeRegion,
+    activeView,
+    regionTotal: bySub.length,
     totalCount: inTab.length,
     totalPages,
     currentPage,

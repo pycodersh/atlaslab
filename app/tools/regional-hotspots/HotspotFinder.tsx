@@ -7,6 +7,37 @@ import { HOTSPOT_PHOTOS } from '@/data/hotspotPhotos'
 import { CITIES, type CityId } from '@/data/transitRoutes'
 import { KoreaRouteMap } from '../KoreaRouteMap'
 import { SeoulHotspotMap } from './SeoulHotspotMap'
+import { PLACED_SPOTS, km, type LL } from '@/lib/blog/exploreRegions'
+import type { ExplorePost } from '@/lib/blog/explorePosts'
+import type { BlogThumbnail } from '@/lib/blog/thumbnail'
+
+const thumbSrc = (t: BlogThumbnail | null) => (!t ? null : t.kind === 'youtube' ? `https://img.youtube.com/vi/${t.videoId}/hqdefault.jpg` : t.src)
+const fmtKm = (d: number) => (d < 1 ? `${Math.round(d * 10) * 100} m` : `${d.toFixed(1)} km`)
+
+/**
+ * 고른 도시 · 권역에 맞는 Explore Korea 글 — 지역 · 좌표는 lib/blog/exploreRegions 가 자동으로 잡는다.
+ * 호텔: 같은 권역(서울) · 같은 도시 호텔을 명소에서 가까운 순으로. 서울 권역에 호텔이 없으면 가장 가까운 두 곳.
+ * 가이드: 서울은 그 권역 가이드만, 다른 도시는 그 도시 글 전부(핀 있는 코스 가이드 먼저).
+ */
+function pickExplore(posts: ExplorePost[], city: string, area: string | null, deck: string[]) {
+  const deckLL = PLACED_SPOTS.filter(s => deck.includes(s.name) && s.ll)
+  const nearest = (ll: LL | null) => {
+    if (!ll) return null
+    let best: { name: string; d: number } | null = null
+    for (const s of deckLL) { const d = km(ll, s.ll!); if (!best || d < best.d) best = { name: s.name, d } }
+    return best
+  }
+  const inCity = posts.filter(p => p.geo.regions.includes(city as never))
+  const hotelsAll = inCity.filter(p => p.hotel && p.geo.ll).map(p => ({ p, near: nearest(p.geo.ll) }))
+    .sort((a, b) => (a.near?.d ?? 99) - (b.near?.d ?? 99))
+  const inArea = area ? hotelsAll.filter(h => h.p.geo.area === area) : hotelsAll
+  const hotels = (inArea.length ? inArea : hotelsAll.slice(0, 2)).slice(0, 4)
+  // 서울 권역에는 그 권역 가이드만 — 서울 전체 글(공연장 · 일정 글)은 권역마다 되풀이하면 엉뚱하다. 지도 링크가 나머지를 맡는다
+  const guides = inCity.filter(p => !p.hotel && (!area || p.geo.area === area))
+    .sort((a, b) => Number(!!b.geo.ll) - Number(!!a.geo.ll))
+    .slice(0, 4)
+  return { hotels, guides, hotelsNearby: !!area && !inArea.length }
+}
 
 // 해시태그에는 공백 · & · 가운뎃점을 못 쓴다 — '명동거리 & 야시장' 은 앞쪽 이름 하나만 태그로 쓴다
 const instagramTag = (ko: string) => ko.split(/[&·]/)[0].replace(/\s+/g, '')
@@ -35,12 +66,14 @@ function InstagramIcon() {
   )
 }
 
-export function HotspotFinder() {
+export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
   const [cityId, setCityId] = useState<CityId>('seoul')
   const [clusterId, setClusterId] = useState<SeoulClusterId>('jongno')
   const city = HOTSPOT_CITIES.find(c => c.id === cityId) ?? HOTSPOT_CITIES[0]
   const cluster = city.clusters?.find(c => c.id === clusterId)
   const spots = cluster?.spots ?? city.spots
+  const ek = pickExplore(posts, city.id, cluster?.id ?? null, spots.map(s => s.name))
+  const placeName = cluster ? `${city.name} · ${cluster.name}` : city.name
 
   return (
     <>
@@ -102,6 +135,26 @@ export function HotspotFinder() {
         .hs-guide:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; border-radius: 4px; }
         .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
         .hs-tab:focus-visible, .hs-chip:focus-visible, .hs-route:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        /* Explore Korea 카드 — 명소 덱과 같은 폭, 흰 카드 · 세리프 제목. 폰 1열, 640px~ 2열 */
+        .hs-ek { max-width: 768px; margin: 8px auto 22px; padding-top: 22px; border-top: 1px solid #E5E7EB; }
+        .hs-ek-h { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 20px; font-weight: 700; line-height: 1.25; color: #111827; }
+        .hs-ek-sub { margin: 2px 0 12px; font-size: 13px; color: #6B7280; }
+        .hs-ek-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin-bottom: 20px; }
+        .hs-ek-card { display: flex; gap: 12px; align-items: center; min-width: 0; padding: 10px; background: #fff; border: 1px solid #E5E7EB;
+          border-left: 3px solid #2B2B2B; border-radius: 12px; color: inherit; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+        .hs-ek-card.is-hotel { border-left-color: #C8102E; }
+        @media (hover: hover) { .hs-ek-card:hover { border-color: #D1D5DB; box-shadow: 0 2px 8px rgba(0,0,0,.06); } .hs-ek-card.is-hotel:hover { border-left-color: #C8102E; } .hs-ek-card:not(.is-hotel):hover { border-left-color: #2B2B2B; } }
+        .hs-ek-card:focus-visible, .hs-ek-more:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        .hs-ek-card img, .hs-ek-ph { flex: 0 0 84px; width: 84px; height: 63px; border-radius: 8px; object-fit: cover; background: #F3F4F6; }
+        .hs-ek-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .hs-ek-k { font: 700 10px "DM Sans", Inter, system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: #525252;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .hs-ek-card.is-hotel .hs-ek-k { color: #C8102E; }
+        .hs-ek-t { font-family: "Playfair Display", Georgia, serif; font-size: 15px; font-weight: 700; line-height: 1.3; color: #111827;
+          display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .hs-ek-more { display: inline-flex; align-items: center; min-height: 32px; color: #C8102E; text-decoration: none; font: 600 13px "DM Sans", Inter, system-ui, sans-serif; }
+        @media (hover: hover) { .hs-ek-more:hover { text-decoration: underline; text-underline-offset: 3px; } }
+        @media (min-width: 640px) { .hs-ek-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
         /* 폰은 글 칸이 좁아 버튼 글자가 넘치므로 버튼 줄만 썸네일 아래까지 펼친다 */
         @media (max-width: 639px) {
           .hs-name { font-size: 18px; line-height: 1.35; }
@@ -202,6 +255,47 @@ export function HotspotFinder() {
             </article>
           ))}
         </div>
+
+        {/* Explore Korea — 이 지역 호텔 리뷰 · 하루 코스 가이드(우리 글, 같은 탭으로 연다) */}
+        {(ek.hotels.length > 0 || ek.guides.length > 0) && (
+          <section className="hs-ek" aria-label={`Explore Korea articles for ${placeName}`}>
+            {ek.hotels.length > 0 && (
+              <>
+                <h2 className="hs-ek-h">Where to stay {ek.hotelsNearby ? 'nearby' : `in ${cluster ? cluster.short : city.name}`}</h2>
+                <p className="hs-ek-sub">Explore Korea hotel reviews{ek.hotelsNearby ? ' — no reviewed hotel in this area yet, so these are the closest' : ''}</p>
+                <div className="hs-ek-grid">
+                  {ek.hotels.map(({ p, near }) => (
+                    <a key={p.slug} className="hs-ek-card is-hotel" href={`/blog/en/k-patto/${p.slug}`}>
+                      {thumbSrc(p.thumb) ? <img src={thumbSrc(p.thumb)!} alt="" loading="lazy" /> : <span className="hs-ek-ph" aria-hidden="true" />}
+                      <span className="hs-ek-body">
+                        <span className="hs-ek-k">Hotel{near ? <> · <span className="notranslate" translate="no">{fmtKm(near.d)} to {near.name}</span></> : null}</span>
+                        <span className="hs-ek-t">{p.title}</span>
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </>
+            )}
+            {ek.guides.length > 0 && (
+              <>
+                <h2 className="hs-ek-h">Full course guides</h2>
+                <p className="hs-ek-sub">Step-by-step days and deep dives from Explore Korea</p>
+                <div className="hs-ek-grid">
+                  {ek.guides.map(p => (
+                    <a key={p.slug} className="hs-ek-card" href={`/blog/en/k-patto/${p.slug}`}>
+                      {thumbSrc(p.thumb) ? <img src={thumbSrc(p.thumb)!} alt="" loading="lazy" /> : <span className="hs-ek-ph" aria-hidden="true" />}
+                      <span className="hs-ek-body">
+                        <span className="hs-ek-k">Guide · {p.readMin} min read</span>
+                        <span className="hs-ek-t">{p.title}</span>
+                      </span>
+                    </a>
+                  ))}
+                </div>
+              </>
+            )}
+            <a className="hs-ek-more" href={`/blog?tab=explore-korea&region=${city.id}&view=map`}>See {city.name} hotels and guides on the map →</a>
+          </section>
+        )}
         {city.routeLink && <a className="hs-route" href={`/tools/intercity-transit?to=${city.id}`}>Check Route from Seoul in Transit Guide →</a>}
       </div>
 

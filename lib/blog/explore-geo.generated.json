@@ -1,0 +1,379 @@
+{
+ "hotels": {
+  "gyeongwonjae": [
+   37.39174,
+   126.63745
+  ],
+  "oakwood": [
+   37.38939,
+   126.64407
+  ],
+  "sheraton": [
+   37.39011,
+   126.64544
+  ],
+  "four-seasons-seoul": [
+   37.57065,
+   126.97537
+  ],
+  "lescape": [
+   37.55967,
+   126.97945
+  ],
+  "signiel": [
+   37.51257,
+   127.10282
+  ],
+  "park-hyatt-seoul": [
+   37.50863,
+   127.06417
+  ],
+  "josun-palace": [
+   37.50338,
+   127.0416
+  ],
+  "jw-marriott-seoul": [
+   37.50414,
+   127.00465
+  ],
+  "grand-intercontinental-parnas": [
+   37.50913,
+   127.06069
+  ],
+  "shilla": [
+   37.55589,
+   127.00515
+  ],
+  "banyan-tree-seoul": [
+   37.54997,
+   127.00073
+  ],
+  "mondrian": [
+   37.52856,
+   126.99313
+  ],
+  "westin-josun": [
+   37.56438,
+   126.98006
+  ],
+  "fairmont-ambassador": [
+   37.52518,
+   126.92905
+  ],
+  "conrad": [
+   37.52537,
+   126.92663
+  ],
+  "hotel-naru": [
+   37.5372,
+   126.94432
+  ],
+  "ryse": [
+   37.55437,
+   126.92128
+  ],
+  "l7-hongdae": [
+   37.55562,
+   126.9216
+  ],
+  "andaz-seoul": [
+   37.52549,
+   127.02892
+  ],
+  "paradise-busan": [
+   35.16013,
+   129.16469
+  ],
+  "signiel-busan": [
+   35.15994,
+   129.16981
+  ],
+  "parnas-jeju": [
+   33.2446,
+   126.40596
+  ]
+ },
+ "hotelMaps": {
+  "gyeongwonjae": "songdo",
+  "oakwood": "songdo",
+  "sheraton": "songdo",
+  "four-seasons-seoul": "seoul",
+  "lescape": "seoul",
+  "signiel": "gangnam",
+  "park-hyatt-seoul": "gangnam",
+  "josun-palace": "gangnam",
+  "jw-marriott-seoul": "gangnam",
+  "grand-intercontinental-parnas": "gangnam",
+  "shilla": "seoul",
+  "banyan-tree-seoul": "seoul",
+  "mondrian": "seoul",
+  "westin-josun": "seoul",
+  "fairmont-ambassador": "yeouido",
+  "conrad": "yeouido",
+  "hotel-naru": "yeouido",
+  "ryse": "hongdae",
+  "l7-hongdae": "hongdae",
+  "andaz-seoul": "gangnam",
+  "paradise-busan": "haeundae",
+  "signiel-busan": "haeundae",
+  "parnas-jeju": "jungmun"
+ },
+ "spots": {
+  "Gyeongbokgung Palace": [
+   37.57975,
+   126.97668
+  ],
+  "Bukchon Hanok Village": [
+   37.58239,
+   126.98586
+  ],
+  "Ikseon-dong Hanok Alley": [
+   37.57436,
+   126.98978
+  ],
+  "Changdeokgung & Secret Garden": [
+   37.58239,
+   126.9917
+  ],
+  "Myeongdong Street & Night Market": [
+   37.56271,
+   126.98471
+  ],
+  "N Seoul Tower": [
+   37.55127,
+   126.98828
+  ],
+  "Namdaemun Market": [
+   37.55939,
+   126.97767
+  ],
+  "DDP & Cheonggyecheon": [
+   37.56428,
+   127.00714
+  ],
+  "Hongdae Busking & Walk Street": [
+   37.55671,
+   126.92456
+  ],
+  "Yeonnam-dong Forest Trail": [
+   37.55221,
+   126.93532
+  ],
+  "Mangwon Market": [
+   37.55662,
+   126.90605
+  ],
+  "Hapjeong & Sangsu Cafe Lanes": [
+   37.54936,
+   126.91366
+  ],
+  "Yeonmujang-gil Pop-up Street": [
+   37.54318,
+   127.05292
+  ],
+  "Seoul Forest Park": [
+   37.54359,
+   127.04474
+  ],
+  "Daelim Changgo Gallery": [
+   37.54182,
+   127.05646
+  ],
+  "Ttukseom Cafe Street": [
+   37.54795,
+   127.04091
+  ],
+  "Yeouido Hangang Park": [
+   37.52567,
+   126.93606
+  ],
+  "The Hyundai Seoul": [
+   37.52596,
+   126.92842
+  ],
+  "Hannam-dong Designer Street": [
+   37.53822,
+   127.0074
+  ],
+  "National Museum of Korea": [
+   37.52395,
+   126.98032
+  ],
+  "Starfield Library at COEX": [
+   37.51006,
+   127.06016
+  ],
+  "Lotte World Tower & Seoul Sky": [
+   37.51255,
+   127.10268
+  ],
+  "Seokchon Lake Trail": [
+   37.51009,
+   127.10408
+  ],
+  "Apgujeong Rodeo Street": [
+   37.52745,
+   127.04043
+  ],
+  "Haeundae Beach": [
+   35.1616,
+   129.15632
+  ],
+  "Gwangalli Beach": [
+   35.15089,
+   129.11678
+  ],
+  "Gamcheon Culture Village": [
+   35.09634,
+   129.00879
+  ],
+  "Huinnyeoul Culture Village": [
+   35.0774,
+   129.04565
+  ],
+  "Jagalchi Market": [
+   35.09709,
+   129.02887
+  ],
+  "Haedong Yonggungsa Temple": [
+   35.18843,
+   129.22298
+  ],
+  "Hwangnidan-gil": [
+   35.8389,
+   129.2098
+  ],
+  "Daereungwon Tomb Complex": [
+   35.83895,
+   129.21193
+  ],
+  "Cheomseongdae Observatory": [
+   35.83579,
+   129.21873
+  ],
+  "Donggung Palace and Wolji Pond": [
+   35.8347,
+   129.22644
+  ],
+  "Bulguksa Temple": [
+   35.78899,
+   129.33089
+  ],
+  "Jeonju Hanok Village": [
+   35.81551,
+   127.15455
+  ],
+  "Gyeonggijeon Shrine": [
+   35.81566,
+   127.1498
+  ],
+  "Nambu Night Market": [
+   35.93341,
+   126.95094
+  ],
+  "Jaman Mural Village": [
+   35.81414,
+   127.15716
+  ],
+  "Anmok Beach Coffee Street": [
+   37.77387,
+   128.94527
+  ],
+  "Jungang Market": [
+   37.75415,
+   128.89868
+  ],
+  "ARTE Museum Gangneung": [
+   37.79161,
+   128.90739
+  ],
+  "Jeongdongjin Sea Fan Trail": [
+   37.67601,
+   129.05518
+  ],
+  "Sokcho Tourist and Fishery Market": [
+   38.20477,
+   128.5898
+  ],
+  "Sokcho Eye": [
+   38.19094,
+   128.60295
+  ],
+  "Yeonggeumjeong": [
+   38.21182,
+   128.60148
+  ],
+  "Seoraksan Cable Car": [
+   38.17315,
+   128.48911
+  ],
+  "Yeosu Maritime Cable Car": [
+   34.7355,
+   127.74726
+  ],
+  "Odongdo Island": [
+   34.77895,
+   127.74145
+  ],
+  "Nangman Pocha Street": [
+   34.73632,
+   127.74928
+  ],
+  "Yi Sun-sin Square Food Street": [
+   34.7393,
+   127.73594
+  ],
+  "Dongseongno and Spark Land": [
+   35.86837,
+   128.59478
+  ],
+  "Seomun Night Market": [
+   35.86943,
+   128.58071
+  ],
+  "Apsan Observatory": [
+   35.83124,
+   128.58898
+  ],
+  "Hahoe Folk Village": [
+   36.54024,
+   128.52082
+  ],
+  "Woryeonggyo Bridge": [
+   36.57663,
+   128.76089
+  ],
+  "Nami Island": [
+   37.79173,
+   127.52514
+  ],
+  "LEGOLAND Korea": [
+   37.88569,
+   127.69926
+  ],
+  "Myeongdong Dakgalbi Street": [
+   37.87718,
+   127.72454
+  ],
+  "Seongsan Ilchulbong": [
+   33.45889,
+   126.94082
+  ],
+  "Hamdeok Beach": [
+   33.54319,
+   126.66988
+  ],
+  "Dongmun Night Market": [
+   33.51224,
+   126.52759
+  ],
+  "Soesokkak": [
+   33.25259,
+   126.62347
+  ],
+  "Osulloc Tea Museum": [
+   33.30595,
+   126.28949
+  ]
+ }
+}

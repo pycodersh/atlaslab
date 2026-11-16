@@ -4,6 +4,10 @@ import { MoreTools } from '../MoreTools'
 import { WidgetActionChips } from '../WidgetActionChips'
 import { ToolAbout } from '../ToolAbout'
 import { HotspotFinder } from './HotspotFinder'
+import { fetchExplorePosts } from '@/lib/blog/explorePosts'
+
+// 지역별 Explore Korea 호텔 · 코스 가이드 카드를 빌드 때 받아 둔다 — 새 글은 한 시간 안에 붙는다
+export const revalidate = 3600
 
 const URL = 'https://www.atlaslabstudios.com/tools/regional-hotspots'
 const TITLE = 'Korea Travel Hotspot Finder | Curated Neighborhood Walking Clusters'
@@ -22,13 +26,14 @@ export const metadata: Metadata = {
   openGraph: { ...DEFAULT_OPEN_GRAPH, title: TITLE, description: DESCRIPTION, url: URL },
 }
 
-export default function Page() {
+export default async function Page() {
+  const posts = await fetchExplorePosts()
   return (
     <div className="tl-wrap hs-wrap">
       <p className="tl-eyebrow">Smart Travel Tools</p>
       <h1 className="tl-h1">Korea Regional Hotspots &amp; Walking Clusters</h1>
       <p className="tl-lead">24 spots across 6 Seoul areas, plus the places worth the trip in 10 regional cities.</p>
-      <HotspotFinder />
+      <HotspotFinder posts={posts} />
       <ToolAbout text={ABOUT} note={NOTE} />
       <WidgetActionChips tool="hotspot-finder" />
       <MoreTools current="/tools/regional-hotspots" />
