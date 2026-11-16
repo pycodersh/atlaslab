@@ -164,6 +164,9 @@ export function proseCss(bodyFont: string): string {
         .blog-prose .post-gallery .post-figure { margin: 0; }
         .blog-prose .post-gallery .post-figure img { aspect-ratio: 4 / 3; }
         .blog-prose .post-gallery .post-figure figcaption { font-size: 12.5px; line-height: 1.4; margin-top: 6px; }
+        /* 원본 비율 묶음(className="post-gallery post-gallery-auto") — 세로 콜라주처럼 4:3 으로 자르면 내용이 잘리는 사진.
+           같은 비율끼리 묶어야 칸 높이가 맞는다. */
+        .blog-prose .post-gallery-auto .post-figure img { aspect-ratio: auto; object-fit: fill; height: auto; }
         @media (max-width: 560px) {
           .blog-prose .post-gallery { gap: 8px; }
           .blog-prose .post-gallery .post-figure figcaption { font-size: 11.5px; }
