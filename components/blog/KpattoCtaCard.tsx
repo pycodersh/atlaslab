@@ -1,4 +1,4 @@
-import { SAMPLE_PDF_URL, SAMPLE_PATTERNS, TRY_APP_PATH } from '@/lib/kpatto/purchase'
+import { sampleDownloadUrl, SAMPLE_PATTERNS, TRY_APP_PATH } from '@/lib/kpatto/purchase'
 
 const BODY = '"DM Sans", "Inter", system-ui, sans-serif'
 const RED = '#C8102E'
@@ -72,7 +72,7 @@ export function KpattoCtaCard({
         </div>
         <div className="kcta__btns">
           <a href={TRY_APP_PATH} className="kcta__btn is-primary">Read Webtoon Ep.1 Free →</a>
-          <a href={SAMPLE_PDF_URL} className="kcta__btn is-secondary" download>
+          <a href={sampleDownloadUrl('blog')} className="kcta__btn is-secondary" download>
             Free {SAMPLE_PATTERNS}-Pattern PDF ↓
           </a>
         </div>

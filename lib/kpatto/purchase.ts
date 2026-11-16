@@ -18,8 +18,11 @@ export const PRICING_ANCHOR = 'pricing'
 /** 무료 체험 — 첫 에피소드(EP01~10 무료) */
 export const TRY_APP_PATH = '/kpatto/story/kp-ep-001'
 
-/** 무료 샘플 PDF — 표지·사용법 + 패턴 001~010 (exports/kpatto/pdf-build/make_free_sample.py) */
-export const SAMPLE_PDF_URL = process.env.NEXT_PUBLIC_KPATTO_FREE_SAMPLE_URL || '/assets/K_Patto_Free_Sample_10.pdf'
+/** 무료 샘플 PDF — 표지·사용법 + 패턴 001~010 (exports/kpatto/pdf-build/make_free_sample.py)
+ *  내려받기 횟수를 세는 라우트(app/downloads/k-patto-free-sample.pdf)를 거쳐 public/assets 의 실제 파일로 간다.
+ *  버튼마다 sampleDownloadUrl('home' | 'kpatto' | 'blog') 로 어디서 눌렀는지 붙인다. */
+export const SAMPLE_PDF_URL = process.env.NEXT_PUBLIC_KPATTO_FREE_SAMPLE_URL || '/downloads/k-patto-free-sample.pdf'
+export const sampleDownloadUrl = (src: 'home' | 'kpatto' | 'blog') => `${SAMPLE_PDF_URL}?src=${src}`
 export const SAMPLE_PATTERNS = 10
 
 /** 전체 PDF 쪽수 — exports/kpatto/pdf-build/out/K_Patto_Final_Edition.pdf 실측 */

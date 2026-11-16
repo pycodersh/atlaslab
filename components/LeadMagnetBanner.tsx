@@ -1,4 +1,4 @@
-import { SAMPLE_PDF_URL, SAMPLE_PATTERNS, TRY_APP_PATH } from '@/lib/kpatto/purchase'
+import { sampleDownloadUrl, SAMPLE_PATTERNS, TRY_APP_PATH } from '@/lib/kpatto/purchase'
 
 /**
  * 홈 리드 마그넷 — Why Atlas Lab 아래, 푸터 바로 위의 넓은 다크 카드.
@@ -62,7 +62,7 @@ export function LeadMagnetBanner() {
             </p>
           </div>
           <div className="lmag-btns">
-            <a href={SAMPLE_PDF_URL} download className="lmag-btn lmag-btn-primary">Download Free PDF Guide</a>
+            <a href={sampleDownloadUrl('home')} download className="lmag-btn lmag-btn-primary">Download Free PDF Guide</a>
             <a href={TRY_APP_PATH} className="lmag-btn lmag-btn-ghost">Read Webtoon Ep. 1</a>
           </div>
         </div>

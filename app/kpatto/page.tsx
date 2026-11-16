@@ -4,7 +4,7 @@ import { SiteFooter } from '@/components/SiteFooter'
 import { FileDown, Play, RefreshCw, ShieldCheck } from 'lucide-react'
 import { FREE_EPISODES } from '@/lib/kpatto/config'
 import {
-  EBOOK_PAGES, PRICING_ANCHOR, PRODUCTS, SAMPLE_PATTERNS, SAMPLE_PDF_URL, TRY_APP_PATH,
+  EBOOK_PAGES, PRICING_ANCHOR, PRODUCTS, SAMPLE_PATTERNS, sampleDownloadUrl, TRY_APP_PATH,
 } from '@/lib/kpatto/purchase'
 import { BuyButton } from './_landing/BuyButton'
 import { InstallAppCard } from '@/components/kpatto/InstallAppButton'
@@ -279,7 +279,7 @@ export default function KPattoLandingPage() {
               <p className="lp-label">eBook sample</p>
               <h3>Download {SAMPLE_PATTERNS} patterns as a PDF</h3>
               <p>Download a {SAMPLE_PAGES}-page printable PDF containing the top {SAMPLE_PATTERNS} core patterns and grammar points.</p>
-              <a href={SAMPLE_PDF_URL} download className="lp-btn lp-btn-outline"><FileDown size={16} strokeWidth={2} aria-hidden="true" />Download Free Sample PDF</a>
+              <a href={sampleDownloadUrl('kpatto')} download className="lp-btn lp-btn-outline"><FileDown size={16} strokeWidth={2} aria-hidden="true" />Download Free Sample PDF</a>
             </div>
           </div>
         </div>
