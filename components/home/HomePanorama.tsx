@@ -4,9 +4,9 @@ import type { CSSProperties, ReactNode } from 'react'
  * 홈 히어로 바로 아래의 에디토리얼 펜화 파노라마 — 01 한국어 · 02 한국 음식 · 03 여행.
  *
  * 선은 세 종류다.
- *   m  주 윤곽선 1.4px (웜 크림 #FAF9F6)
+ *   m  주 윤곽선 1.4px (먹색 #1C1917) — 흰 바탕 위 펜화
  *   h  한글 획 1.1px — 붓글씨 획순처럼 한 획씩
- *   d  건축 · 질감 보조선 0.7px, 투명도 45%
+ *   d  건축 · 질감 보조선 0.7px, 회색(#78716C)
  * 크림슨(#C81E32)은 낙관 · 수증기 · 여정 핀과 마지막 여정 점선에만 쓴다.
  *
  * 세 파트는 같은 높이의 지평선(y=200)과 여정 점선(y≈216)으로 이어져 한 폭처럼 보인다.
@@ -19,7 +19,9 @@ type Kind = 'm' | 'h' | 'd'
 // [종류, d, 이전 선 시작에서 몇 초 뒤에 시작할지(기본 0.07), 그리는 시간(기본 0.9), 채움(가림용)]
 type Line = [Kind, string, number?, number?, string?]
 
-const BG = '#141414'
+const BG = '#FFFFFF'      // 가림용 채움 = 바탕색
+const INK = '#1C1917'
+const GRAY = '#78716C'
 const RED = '#C81E32'
 const HORIZON = 'M0 200 H400'
 
@@ -169,32 +171,32 @@ export function HomePanorama() {
   return (
     <section className="lp" aria-label="Korean language, cuisine and travel">
       <style>{`
-        .lp { background: ${BG}; border-top: 1px solid rgba(250,249,246,0.08); }
+        .lp { background: ${BG}; border-bottom: 1px solid #E7E5E4; }
         .lp-inner { max-width: 1152px; margin: 0 auto; padding: 26px 24px 22px; }
         .lp-track { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
         .lp-part { position: relative; margin: 0; padding: 0 0 4px; }
         .lp-part::before {
           content: ''; position: absolute; inset: 0 6px; pointer-events: none;
-          background: radial-gradient(60% 55% at 50% 48%, rgba(250,249,246,0.06), transparent 70%);
+          background: radial-gradient(60% 55% at 50% 48%, rgba(28,25,23,0.045), transparent 70%);
           opacity: 0; transition: opacity .4s ease;
         }
         .lp-part svg { display: block; width: 100%; height: auto; overflow: visible; }
         .lp-part svg path { stroke-linecap: round; stroke-linejoin: round; }
-        .lp-m { stroke: #FAF9F6; stroke-width: 1.4; stroke-opacity: 0.8; transition: stroke-opacity .4s ease; }
-        .lp-h { stroke: #FAF9F6; stroke-width: 1.1; stroke-opacity: 0.85; transition: stroke-opacity .4s ease; }
-        .lp-d { stroke: #FAF9F6; stroke-width: 0.7; stroke-opacity: 0.45; transition: stroke-opacity .4s ease; }
+        .lp-m { stroke: ${INK}; stroke-width: 1.4; stroke-opacity: 0.82; transition: stroke-opacity .4s ease; }
+        .lp-h { stroke: ${INK}; stroke-width: 1.1; stroke-opacity: 0.85; transition: stroke-opacity .4s ease; }
+        .lp-d { stroke: ${GRAY}; stroke-width: 0.7; stroke-opacity: 0.6; transition: stroke-opacity .4s ease; }
         .lp-part:hover::before { opacity: 1; }
         .lp-part:hover .lp-m, .lp-part:hover .lp-h { stroke-opacity: 1; }
-        .lp-part:hover .lp-d { stroke-opacity: 0.7; }
-        .lp-trail { fill: none; stroke: #FAF9F6; stroke-width: 1; stroke-opacity: 0.4; stroke-dasharray: 1.5 6; }
+        .lp-part:hover .lp-d { stroke-opacity: 0.9; }
+        .lp-trail { fill: none; stroke: ${GRAY}; stroke-width: 1; stroke-opacity: 0.6; stroke-dasharray: 1.5 6; }
         .lp-trail.is-red { stroke: ${RED}; stroke-opacity: 0.9; }
         .lp-cap {
           margin: 8px 0 0; text-align: center;
           font-size: 10.5px; font-weight: 600; line-height: 1.4; letter-spacing: 0.2em; text-transform: uppercase;
-          color: rgba(250,249,246,0.5); transition: color .4s ease;
+          color: #A8A29E; transition: color .4s ease;
         }
-        .lp-cap b { font-weight: 700; color: rgba(250,249,246,0.7); transition: color .4s ease; }
-        .lp-part:hover .lp-cap { color: rgba(250,249,246,0.95); }
+        .lp-cap b { font-weight: 700; color: ${GRAY}; transition: color .4s ease; }
+        .lp-part:hover .lp-cap { color: ${INK}; }
         .lp-part:hover .lp-cap b { color: ${RED}; }
 
         /* 그리기 → 그 뒤 은은한 루프 */
