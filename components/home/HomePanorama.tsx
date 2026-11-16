@@ -1,115 +1,28 @@
 import type { CSSProperties, ReactNode } from 'react'
+import { W, H, PAPER, INK, RED, INDIGO, OCHRE, GROUND, r1, rng, createInk, InkParts, delay, RIDGE, RIDGE_HATCH, TOWER, TOWER_D, CLOUD_A, CLOUD_B } from './panorama/ink'
+import { CultureScene } from './panorama/CultureScene'
+import { PanoramaStage } from './panorama/PanoramaStage'
 
 /**
- * 홈 히어로 아래 — 한 폭의 거리 펜화: 한국어(한옥 서점 · 북카페) → 여행(골목 · 돌담 · 남산) → 음식(한옥 식당 · 평상).
- * 아래로 돌 축대와 개울(청계천 느낌)이 화면을 가로지른다. 글자 · 라벨은 없다.
+ * 홈 히어로 아래 — 두 폭의 펜화가 크로스페이드로 번갈아 나온다.
+ *  1) Heritage: 한국어(한옥 서점 · 북카페) → 여행(골목 · 돌담 · 남산) → 음식(한옥 식당 · 평상), 아래로 축대와 개울.
+ *  2) Culture:  궁궐 앞 드라마 촬영 → 남산 아래 콘서트 → 영화관 레드카펫 (panorama/CultureScene.tsx).
+ * 글자 · 라벨은 없다.
  *
  * 선:  m 외곽 1.2px 먹색 #262422  ·  d 기와골 · 창살 · 돌 · 물결 0.6px
  * 채색: 붉은 파라솔 · 청사초롱 · 인물 옷 · 나무 평상과 그릇에만 딥 레드 / 인디고 / 황토를 옅게.
  * 움직임: 처음에 외곽선이 왼쪽부터 그려지고(세밀선 · 채색은 뒤따라 스며듦),
  *        그 뒤 구름 · 물결이 천천히 흐르고, 뚝배기 · 굴뚝 김이 피어오르고, 여행자가 골목을 걷는다.
- * JS 없이 CSS 만 쓴다(서버 컴포넌트). 움직임 줄이기 설정이면 완성된 그림이 멈춰 보인다.
+ * 그림은 서버에서 그리고, 전환 · 토글만 작은 클라이언트 컴포넌트(PanoramaStage)가 맡는다.
  */
 
-const W = 1600, H = 400
-const PAPER = '#F7F5EE'
-const INK = '#262422'
-const RED = '#9E2B25'
-const INDIGO = '#2F3B5C'
-const OCHRE = '#B5874A'
-const GROUND = 300            // 길 높이
-
-/* ── 작은 도구 ─────────────────────────────────────────────────── */
-const r1 = (n: number) => Math.round(n * 10) / 10
-function rng(seed: number) {   // 결정적 난수 — 서버 · 클라이언트가 같은 그림을 그린다
-  let s = seed >>> 0
-  return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ (t >>> 15), t | 1); t ^= t + Math.imul(t ^ (t >>> 7), t | 61); return ((t ^ (t >>> 14)) >>> 0) / 4294967296 }
-}
-type Part = { k: 'm' | 'd' | 'f'; d: string; x: number; fill?: string; op?: number; sw?: number }
-const parts: Part[] = []
-const m = (d: string, x: number, fill?: string) => parts.push({ k: 'm', d, x, fill })
-const dl = (d: string, x: number) => parts.push({ k: 'd', d, x })
-const fl = (d: string, x: number, fill: string, op = 0.85) => parts.push({ k: 'f', d, x, fill, op })
-
-/** 팔작지붕: 용마루 · 처마 끝이 들린 곡선 · 아래 처마선 · 기와골 · 서까래 끝 */
-function roof(x0: number, x1: number, yR: number, yE: number, over: number, lift: number, step = 6) {
-  const inset = (x1 - x0) * 0.2
-  const rl = x0 + inset, rr = x1 - inset
-  const tl = x0 - over, tr = x1 + over, ty = yE - lift
-  const out = `M${rl} ${yR} L${rr} ${yR} C${rr + (tr - rr) * 0.35} ${yR + (yE - yR) * 0.75} ${tr - over * 0.5} ${yE} ${tr} ${ty} ` +
-    `C${tr - over * 0.4} ${yE + 6} ${x1 - 6} ${yE + 5} ${x1 - 20} ${yE + 4} L${x0 + 20} ${yE + 4} ` +
-    `C${x0 + 6} ${yE + 5} ${tl + over * 0.4} ${yE + 6} ${tl} ${ty} C${tl + over * 0.5} ${yE} ${rl - (rl - tl) * 0.35} ${yR + (yE - yR) * 0.75} ${rl} ${yR} Z`
-  m(out, (x0 + x1) / 2, PAPER)
-  // 용마루 덮개(두 줄) + 양끝 치미
-  m(`M${rl - 4} ${yR - 4} L${rr + 4} ${yR - 4} M${rl - 4} ${yR - 4} C${rl - 10} ${yR - 8} ${rl - 12} ${yR - 14} ${rl - 8} ${yR - 18} M${rr + 4} ${yR - 4} C${rr + 10} ${yR - 8} ${rr + 12} ${yR - 14} ${rr + 8} ${yR - 18}`, (x0 + x1) / 2)
-  dl(`M${rl - 2} ${yR - 2} L${rr + 2} ${yR - 2}`, (x0 + x1) / 2)
-  // 기와골 — 용마루에서 처마로, 양끝은 바깥으로 펼쳐진다
-  let ribs = ''
-  for (let x = rl + step / 2; x < rr; x += step) {
-    const t = (x - rl) / (rr - rl)
-    const ex = x0 + 18 + t * (x1 - x0 - 36)
-    ribs += `M${r1(x)} ${yR + 1} C${r1(x)} ${r1(yR + (yE - yR) * 0.5)} ${r1(ex)} ${r1(yE - 6)} ${r1(ex)} ${yE + 2} `
-  }
-  // 합각 쪽 기와골(처마 끝으로 휘어 나간다)
-  for (let i = 1; i <= 5; i++) {
-    const t = i / 6
-    ribs += `M${r1(rl - (rl - x0 - 10) * t)} ${r1(yR + (yE - yR) * t * 0.9)} L${r1(x0 + 16 - t * 8)} ${yE + 2} `
-    ribs += `M${r1(rr + (x1 - 10 - rr) * t)} ${r1(yR + (yE - yR) * t * 0.9)} L${r1(x1 - 16 + t * 8)} ${yE + 2} `
-  }
-  dl(ribs, (x0 + x1) / 2)
-  // 서까래 끝(처마 밑 작은 원)
-  let raft = ''
-  for (let x = x0 + 24; x < x1 - 20; x += 9) raft += `M${x - 1.6} ${yE + 8} a1.6 1.6 0 1 0 3.2 0 a1.6 1.6 0 1 0 -3.2 0 `
-  dl(raft + ` M${x0 + 20} ${yE + 11} L${x1 - 20} ${yE + 11}`, (x0 + x1) / 2)
-}
-
-/** 띠살 · 격자 창호 */
-function lattice(x: number, y: number, w: number, h: number, cols: number, rows: number) {
-  m(`M${x} ${y} H${x + w} V${y + h} H${x} Z`, x)
-  let d = `M${x + 2} ${y + 2} H${x + w - 2} V${y + h - 2} H${x + 2} Z `
-  for (let i = 1; i < cols; i++) d += `M${r1(x + (w * i) / cols)} ${y + 2} V${y + h - 2} `
-  for (let j = 1; j < rows; j++) d += `M${x + 2} ${r1(y + (h * j) / rows)} H${x + w - 2} `
-  dl(d, x)
-}
-
-/** 돌담 · 축대 — 결정적 난수로 고르지 않은 돌 */
-function stones(x0: number, x1: number, y0: number, y1: number, rowH: number, seed: number, mainTop = true) {
-  const rand = rng(seed)
-  let d = ''
-  for (let y = y0; y < y1 - 2; y += rowH) {
-    let x = x0 + (Math.floor((y - y0) / rowH) % 2 ? rand() * 10 : 0)
-    while (x < x1 - 6) {
-      const w = 14 + rand() * 18, h = Math.min(rowH - 2, y1 - y - 2)
-      const xe = Math.min(x + w, x1 - 2)
-      d += `M${r1(x + 3)} ${r1(y + 1.5)} L${r1(xe - 3)} ${r1(y + 1 + rand())} Q${r1(xe)} ${r1(y + 2)} ${r1(xe - 0.5)} ${r1(y + h / 2)} Q${r1(xe)} ${r1(y + h - 1)} ${r1(xe - 3)} ${r1(y + h)} L${r1(x + 3)} ${r1(y + h - rand())} Q${r1(x)} ${r1(y + h - 1)} ${r1(x + 0.5)} ${r1(y + h / 2)} Q${r1(x)} ${r1(y + 2)} ${r1(x + 3)} ${r1(y + 1.5)} `
-      x = xe + 1.5
-    }
-  }
-  dl(d, (x0 + x1) / 2)
-  if (mainTop) m(`M${x0} ${y0} H${x1}`, (x0 + x1) / 2)
-}
-
-/** 앉은 사람(옆모습) — dir 1 오른쪽을 본다 */
-function seated(x: number, y: number, dir: 1 | -1, cloth: string, hair = INK) {
-  const s = (v: number) => x + v * dir
-  fl(`M${s(-7)} ${y - 26} C${s(-9)} ${y - 14} ${s(-9)} ${y - 4} ${s(-6)} ${y} L${s(12)} ${y} C${s(14)} ${y - 4} ${s(10)} ${y - 8} ${s(6)} ${y - 10} C${s(4)} ${y - 18} ${s(4)} ${y - 24} ${s(2)} ${y - 28} Z`, x, cloth)
-  m(`M${s(-7)} ${y - 26} C${s(-9)} ${y - 14} ${s(-9)} ${y - 4} ${s(-6)} ${y} L${s(12)} ${y} C${s(14)} ${y - 4} ${s(10)} ${y - 8} ${s(6)} ${y - 10} C${s(4)} ${y - 18} ${s(4)} ${y - 24} ${s(2)} ${y - 28}`, x)
-  // 머리 · 팔
-  m(`M${s(-2.5)} ${y - 31} a5.5 5.5 0 1 0 0.1 0`, x, PAPER)
-  fl(`M${s(-6)} ${y - 34} C${s(-6)} ${y - 41} ${s(4)} ${y - 42} ${s(4)} ${y - 35} C${s(1)} ${y - 37} ${s(-3)} ${y - 36} ${s(-6)} ${y - 32} Z`, x, hair, 0.9)
-  m(`M${s(0)} ${y - 22} C${s(5)} ${y - 16} ${s(10)} ${y - 14} ${s(16)} ${y - 15}`, x)
-}
+const { parts, m, dl, fl, roof, lattice, stones, seated } = createInk()
 
 /* ════ 그림 ════════════════════════════════════════════════════ */
 
 // 하늘 — 먼 능선과 남산서울타워, 소용돌이 구름
-dl('M470 214 C540 176 610 160 680 146 C740 132 800 106 852 106 C910 108 980 136 1050 156 C1100 170 1150 178 1200 184', 800)
-dl('M600 166 C660 150 720 140 760 128 M940 124 C1000 140 1060 156 1120 168 ' +
-  Array.from({ length: 22 }, (_, i) => { const x = 620 + i * 24; const y = x < 852 ? 214 - (x - 470) * 0.28 : 106 + (x - 852) * 0.22; return `M${x} ${r1(y + 6)} l-5 9` }).join(' '), 800)
-m('M842 108 L846 62 M856 108 L852 62 M836 62 H862 L858 54 H840 Z M842 54 V44 H856 V54 M849 44 V14', 849)
-dl('M846 70 H852 M845 80 H853 M844 90 H854 M845 100 H853', 849)
-const CLOUD_A = 'M560 70 C566 56 588 52 596 62 C602 70 594 78 586 74 C580 70 584 64 590 66 M596 62 C606 50 628 52 632 64 C636 74 624 80 618 72 M560 70 H520 M632 64 C650 64 668 66 700 66 M548 78 H640'
-const CLOUD_B = 'M1010 52 C1016 38 1040 34 1048 46 C1054 56 1044 62 1036 58 C1030 54 1036 48 1042 50 M1048 46 C1060 36 1080 40 1082 52 C1084 62 1072 66 1068 58 M1010 52 H970 M1082 52 H1150 M1000 60 H1090'
+dl(RIDGE, 800); dl(RIDGE_HATCH, 800)
+m(TOWER, 849); dl(TOWER_D, 849)
 
 // 왼쪽 — 버드나무
 m('M58 300 C62 270 60 240 70 214 C78 192 74 170 92 150 M70 214 C88 200 104 196 118 186 M66 240 C52 228 42 214 40 196', 70)
@@ -249,14 +162,35 @@ function Traveler(): ReactNode {
 }
 
 /* ── 렌더 ──────────────────────────────────────────────────────── */
-const delay = (x: number, base: number) => `${(base + (x / W) * 2.4).toFixed(2)}s`
+
+const HERITAGE_LABEL = 'A pen drawing of a Korean street: a hanok bookshop café, an alley with a stone wall under N Seoul Tower, and a hanok restaurant with diners on a wooden platform beside a stream'
+const CULTURE_LABEL = 'A pen drawing of K-culture: a drama crew filming actors in hanbok before a palace gate, a crowd waving light sticks at an outdoor concert under N Seoul Tower, and a red-carpet premiere outside a cinema with photographers'
+
+function HeritageScene() {
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={HERITAGE_LABEL} focusable="false">
+      <g className="hp-cloud">
+        <path className="hp-d hp-draw" d={CLOUD_A} pathLength={1} vectorEffect="non-scaling-stroke" style={{ '--s': delay(600, 0.2) } as CSSProperties} />
+        <path className="hp-d hp-draw" d={CLOUD_B} pathLength={1} vectorEffect="non-scaling-stroke" style={{ '--s': delay(1040, 0.2) } as CSSProperties} />
+      </g>
+      <InkParts parts={parts} drawIn />
+      <g className="hp-fade" style={{ '--s': '1.6s' } as CSSProperties}>
+        <g className="hp-water"><path className="hp-d" d={waves} vectorEffect="non-scaling-stroke" /></g>
+      </g>
+      {STEAM.map((d, i) => <path key={d} className="hp-steam" d={d} vectorEffect="non-scaling-stroke" style={{ '--s': `${3 + i * 1.2}s` } as CSSProperties} />)}
+      {SMOKE.map((d, i) => <path key={d} className="hp-steam" d={d} vectorEffect="non-scaling-stroke" style={{ '--s': `${3.4 + i * 1.5}s` } as CSSProperties} />)}
+      <Traveler />
+    </svg>
+  )
+}
 
 export function HomePanorama() {
   return (
-    <section className="hp" aria-label="A pen drawing of a Korean street: a hanok bookshop café, an alley with a stone wall under N Seoul Tower, and a hanok restaurant with diners on a wooden platform beside a stream">
+    <section className="hp" aria-label="Pen-drawn panorama of Korea, alternating between heritage and K-culture scenes">
       <style>{`
         .hp { background: ${PAPER}; border-bottom: 1px solid #E6E1D6; }
         .hp-inner { max-width: 1240px; margin: 0 auto; padding: 18px 12px 10px; }
+        .hp-stagewrap { position: relative; }
         .hp-scroll { overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
         .hp-scroll::-webkit-scrollbar { display: none; }
         .hp svg { display: block; width: 100%; height: auto; min-width: 860px; }
@@ -264,6 +198,12 @@ export function HomePanorama() {
         .hp-m { fill: none; stroke: ${INK}; stroke-width: 1.2; }
         .hp-d { fill: none; stroke: ${INK}; stroke-width: .6; stroke-opacity: .75; }
         .hp-f { stroke: none; }
+
+        /* 두 장면을 한 칸에 겹친다 */
+        .hp-stage { display: grid; min-width: 860px; }
+        .hp-scene { grid-area: 1 / 1; opacity: 0; transition: opacity 1.6s cubic-bezier(.4,0,.2,1); pointer-events: none; }
+        .hp-scene[data-on="true"] { opacity: 1; }
+        .hp-scene[data-on="false"] * { animation-play-state: paused !important; }
 
         .hp-draw { stroke-dasharray: 1; stroke-dashoffset: 1; animation: hp-draw 1.1s cubic-bezier(.45,.05,.3,1) var(--s) forwards; }
         @keyframes hp-draw { to { stroke-dashoffset: 0; } }
@@ -288,38 +228,67 @@ export function HomePanorama() {
         .hp-leg-b { animation-delay: -.45s; }
         @keyframes hp-step { 0%, 100% { rotate: 14deg; } 50% { rotate: -14deg; } }
 
-        @media (max-width: 767px) { .hp-inner { padding: 12px 0 6px; } }
+        /* K-컬처 장면의 루프 */
+        .hc-beam { transform-box: view-box; animation: hc-beam 5.5s ease-in-out infinite alternate; }
+        .hc-beam-l { transform-origin: 704px 150px; }
+        .hc-beam-r { transform-origin: 916px 150px; animation-delay: -2.7s; animation-direction: alternate-reverse; }
+        .hc-beam-line { fill: none; stroke: ${INK}; stroke-width: .6; stroke-opacity: .45; }
+        @keyframes hc-beam { 0% { rotate: -5deg; opacity: .55; } 50% { opacity: 1; } 100% { rotate: 6deg; opacity: .7; } }
+        .hc-spot { fill-opacity: .14; animation: hc-spot 2.6s ease-in-out infinite alternate; }
+        @keyframes hc-spot { from { fill-opacity: .06; } to { fill-opacity: .2; } }
+        .hc-singer { animation: hp-bob 1.1s ease-in-out infinite; }
+        .hc-stick { fill: none; stroke: ${RED}; stroke-width: 2.2; transform-box: fill-box; transform-origin: center bottom;
+          animation: hc-stick 1.6s ease-in-out infinite; }
+        @keyframes hc-stick { 0%, 100% { rotate: -16deg; } 50% { rotate: 16deg; } }
+        .hc-crane { transform-box: view-box; transform-origin: 156px 300px; animation: hc-crane 9s ease-in-out infinite alternate; }
+        @keyframes hc-crane { from { rotate: -2.5deg; } to { rotate: 3deg; } }
+        .hc-flash { opacity: 0; animation: hc-flash 4.1s linear infinite; }
+        @keyframes hc-flash { 0%, 100% { opacity: 0; } 2% { opacity: 1; } 9% { opacity: 0; } }
+        .hc-bulb { fill-opacity: .25; animation: hc-bulb 1.2s steps(1) infinite; }
+        .hc-bulb-b { animation-delay: -.6s; }
+        @keyframes hc-bulb { 0% { fill-opacity: .9; } 50% { fill-opacity: .2; } }
+        .hc-neon { fill: none; stroke: ${INK}; stroke-width: .8; animation: hc-neon 6s linear infinite; }
+        @keyframes hc-neon { 0%, 61%, 64%, 67%, 100% { stroke-opacity: .85; } 62%, 66% { stroke-opacity: .15; } }
+
+        /* 장면 토글 */
+        .hp-controls { display: flex; justify-content: flex-end; padding: 8px 4px 2px; }
+        .hp-toggle { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 3px;
+          border: 1px solid rgba(38,36,34,.22); border-radius: 999px; background: rgba(247,245,238,.82);
+          -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 4px 14px -6px rgba(38,36,34,.35); isolation: isolate; }
+        .hp-thumb { position: absolute; z-index: -1; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 999px; background: ${INK};
+          transition: transform .5s cubic-bezier(.65,0,.25,1); }
+        .hp-toggle[data-pos="1"] .hp-thumb { transform: translateX(100%); }
+        .hp-tbtn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 14px;
+          border: 0; border-radius: 999px; background: transparent; cursor: pointer; overflow: hidden;
+          font-family: inherit; font-size: 13px; font-weight: 600; line-height: 1; letter-spacing: .01em; color: ${INK};
+          transition: color .4s ease, background-color .25s ease; }
+        .hp-tbtn[aria-pressed="true"] { color: ${PAPER}; }
+        .hp-tbtn[aria-pressed="false"]:hover { background: rgba(38,36,34,.08); }
+        .hp-tbtn:focus-visible { outline: 2px solid ${RED}; outline-offset: 2px; }
+        .hp-ticon { font-size: 13px; transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
+        .hp-tbtn:hover .hp-ticon { transform: scale(1.18) rotate(-6deg); }
+        .hp-tprog { position: absolute; left: 14px; right: 14px; bottom: 3px; height: 1.5px; border-radius: 1px; background: rgba(247,245,238,.85);
+          transform-origin: left; transform: scaleX(0); animation: hp-tprog var(--dwell) linear forwards; }
+        @keyframes hp-tprog { to { transform: scaleX(1); } }
+
+        @media (max-width: 767px) {
+          .hp-inner { padding: 12px 0 6px; }
+          .hp-controls { padding: 6px 12px 2px; }
+          .hp-tbtn { padding: 6px 10px; font-size: 12px; gap: 4px; }
+        }
         @media (prefers-reduced-motion: reduce) {
           .hp-draw { animation: none; stroke-dashoffset: 0; }
           .hp-fade { animation: none; opacity: 1; }
           .hp-cloud, .hp-water, .hp-bob, .hp-leg-a, .hp-leg-b { animation: none; }
           .hp-steam { animation: none; opacity: .6; }
           .hp-walker { animation: none; opacity: 1; translate: 820px ${GROUND}px; }
+          .hc-beam, .hc-spot, .hc-singer, .hc-stick, .hc-crane, .hc-bulb, .hc-neon { animation: none; }
+          .hc-flash { animation: none; opacity: 0; }
+          .hp-scene, .hp-thumb { transition-duration: .01s; }
         }
       `}</style>
       <div className="hp-inner">
-        <div className="hp-scroll">
-          <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-hidden="false" focusable="false">
-            <g className="hp-cloud">
-              <path className="hp-d hp-draw" d={CLOUD_A} pathLength={1} vectorEffect="non-scaling-stroke" style={{ '--s': delay(600, 0.2) } as CSSProperties} />
-              <path className="hp-d hp-draw" d={CLOUD_B} pathLength={1} vectorEffect="non-scaling-stroke" style={{ '--s': delay(1040, 0.2) } as CSSProperties} />
-            </g>
-            {parts.map((p, i) => p.k === 'm' ? (
-              <path key={i} className="hp-m hp-draw" d={p.d} pathLength={1} vectorEffect="non-scaling-stroke"
-                style={{ '--s': delay(p.x, 0), fill: p.fill ?? 'none' } as CSSProperties} />
-            ) : p.k === 'd' ? (
-              <path key={i} className="hp-d hp-fade" d={p.d} vectorEffect="non-scaling-stroke" style={{ '--s': delay(p.x, 0.7) } as CSSProperties} />
-            ) : (
-              <path key={i} className="hp-f hp-fade" d={p.d} style={{ '--s': delay(p.x, 1.1), fill: p.fill, fillOpacity: p.op } as CSSProperties} />
-            ))}
-            <g className="hp-fade" style={{ '--s': '1.6s' } as CSSProperties}>
-              <g className="hp-water"><path className="hp-d" d={waves} vectorEffect="non-scaling-stroke" /></g>
-            </g>
-            {STEAM.map((d, i) => <path key={d} className="hp-steam" d={d} vectorEffect="non-scaling-stroke" style={{ '--s': `${3 + i * 1.2}s` } as CSSProperties} />)}
-            {SMOKE.map((d, i) => <path key={d} className="hp-steam" d={d} vectorEffect="non-scaling-stroke" style={{ '--s': `${3.4 + i * 1.5}s` } as CSSProperties} />)}
-            <Traveler />
-          </svg>
-        </div>
+        <PanoramaStage heritage={<HeritageScene />} culture={<CultureScene label={CULTURE_LABEL} />} />
       </div>
     </section>
   )
