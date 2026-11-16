@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { BookOpen } from 'lucide-react'
 import { HOTSPOT_CITIES, type SeoulClusterId } from '@/data/regionalHotspots'
 import { CategoryArt } from './CategoryBadge'
 import { HOTSPOT_PHOTOS } from '@/data/hotspotPhotos'
@@ -129,11 +130,18 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
         .hs-link:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         /* 우리 글 링크 — 한 줄짜리 글자 링크(사이트 레드). 버튼처럼 무겁게 만들지 않는다. 터치 높이 32px.
            폰: 꽉 찬 버튼 줄 아래 줄. 넓은 화면(768px~): 버튼과 같은 줄 왼쪽(버튼은 오른쪽 그대로) — 카드 높이가 늘지 않는다 */
+        /* 우리 글 링크 — 옅은 크림슨 알약(#9E2B25 6% 바탕 · 20% 테두리) + 책 아이콘.
+           폰: 알약이 한 줄을 다 쓰는 맨 윗줄, 그 아래 Google Maps · Live Vibes 두 버튼.
+           넓은 화면(768px~): 한 줄에 알약 왼쪽 · 버튼 오른쪽(가운데 정렬) */
         .hs-foot { display: flex; flex-direction: column; }
-        .hs-guide { align-self: flex-start; display: inline-flex; align-items: center; min-height: 32px; margin-top: 8px; color: #C8102E; text-decoration: none; font: 600 13px "DM Sans", Inter, system-ui, sans-serif; }
-        @media (hover: hover) { .hs-guide:hover { text-decoration: underline; text-underline-offset: 3px; } }
-        .hs-guide:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; border-radius: 4px; }
-        .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
+        .hs-guide { order: -1; display: flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 12px; padding: 6px 12px;
+          box-sizing: border-box; border: 1px solid rgba(158,43,37,.2); border-radius: 8px; background: rgba(158,43,37,.06); color: #9E2B25;
+          text-decoration: none; text-align: center; font: 500 13px/1.3 "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
+        /* 아이콘은 글자와 같은 줄 흐름에 — 두 줄로 접혀도 첫 글자 바로 앞에 붙어 있다 */
+        .hs-guide > span { text-wrap: balance; }
+        .hs-guide svg { display: inline-block; vertical-align: -3px; margin-right: 6px; }
+        @media (hover: hover) { .hs-guide:hover { background: rgba(158,43,37,.12); border-color: rgba(158,43,37,.28); } }
+        .hs-guide:focus-visible { outline: 2px solid #9E2B25; outline-offset: 2px; }        .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
         .hs-tab:focus-visible, .hs-chip:focus-visible, .hs-route:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         /* Explore Korea 카드 — 명소 덱과 같은 폭, 흰 카드 · 세리프 제목. 폰 1열, 640px~ 2열 */
         .hs-ek { max-width: 768px; margin: 8px auto 22px; padding-top: 22px; border-top: 1px solid #E5E7EB; }
@@ -170,7 +178,7 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
           .hs-links { display: flex; justify-content: flex-end; }
           .hs-foot { flex-direction: row-reverse; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
           .hs-foot .hs-links { margin-top: 0; }
-          .hs-foot .hs-guide { align-self: center; margin-top: 0; }
+          .hs-foot .hs-guide { order: 0; align-self: center; justify-content: flex-start; min-height: 36px; margin-top: 0; padding: 4px 12px; min-width: 0; text-align: left; }
           .hs-link { min-height: 36px; padding: 4px 14px; font-size: 12px; }
           .hs-card { padding: 20px; }
           .hs-head { gap: 20px; }
@@ -250,7 +258,7 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
                 <a className="hs-link" href={`https://www.instagram.com/explore/tags/${encodeURIComponent(instagramTag(spot.ko))}/`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Instagram`}><InstagramIcon />Live Vibes</a>
               </div>
               {/* 이 명소를 다룬 우리 글 — 같은 탭으로 연다. 라벨이 행선지(일정 글 · 지역 가이드)를 그대로 말한다 */}
-              {spot.guide && <a className="hs-guide" href={`/blog/en/k-patto/${spot.guide.slug}${spot.guide.anchor ? `#${spot.guide.anchor}` : ''}`}>{spot.guide.label} →</a>}
+              {spot.guide && <a className="hs-guide" href={`/blog/en/k-patto/${spot.guide.slug}${spot.guide.anchor ? `#${spot.guide.anchor}` : ''}`}><span><BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />{spot.guide.label} →</span></a>}
               </div>
             </article>
           ))}

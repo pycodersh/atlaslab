@@ -15,8 +15,8 @@ export type HotspotCategory = 'Heritage' | 'Trendy Cafe' | 'Local Market' | 'Sho
  */
 export type SpotGuide = { slug: string; label: string; anchor?: string }
 // 명소 절로 바로 가는 링크 — 앵커는 그 글의 명소 절 제목에서 자동으로 만들어진 id(lib/blog/rehypeHeadingIds)
-// 같은 가이드의 명소들이 같은 라벨을 되풀이하지 않게, 절로 가는 링크는 '짧은 명소명 section · 가이드명' 으로 적는다(2026-11-14)
-const at = (guide: SpotGuide, anchor: string, short: string): SpotGuide => ({ ...guide, anchor, label: `${short} section · ${guide.label}` })
+// 절로 가는 링크는 '가이드명 · 짧은 명소명' 으로 적는다 — 어느 글로 가는지가 먼저, 그 글의 어느 절인지가 뒤(2026-11-16)
+const at = (guide: SpotGuide, anchor: string, short: string): SpotGuide => ({ ...guide, anchor, label: `${guide.label} · ${short}` })
 const GUIDES = {
   seongsu: { slug: 'seongsu-dong-pop-up-cafe-guide', label: 'Seongsu-dong guide' },
   myeongdongFood: { slug: 'myeongdong-street-food-guide', label: 'Myeongdong street food guide' },
