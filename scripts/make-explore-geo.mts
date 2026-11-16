@@ -86,6 +86,12 @@ const km = ([a, b]: LL, [c, d]: LL) => {
   return Math.sqrt(x * x + y * y) * R
 }
 
+// 지도 없는 숙소 글의 검색어(Nominatim) — 슬러그 → 시도할 이름들
+const PLACE_QUERY: Record<string, string[]> = {
+  'paradise-city-incheon-ultimate-guide': ['파라다이스시티', 'Paradise City'],
+  'mohegan-inspire-resort-guide': ['인스파이어 엔터테인먼트 리조트', '인스파이어 리조트', 'Inspire Entertainment Resort'],
+}
+
 async function main() {
   const prev = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {}
   const spots: Record<string, LL> = REFRESH ? {} : { ...(prev.spots ?? {}) }
@@ -112,8 +118,20 @@ async function main() {
     }
   }
 
+  // 호텔 지도(<StayMap>)가 없는 숙소 글 — 이름으로 한 번 찾는다(좌표를 손으로 적지 않는다). 인천 상자 안 결과만
+  const places: Record<string, LL> = REFRESH ? {} : { ...(prev.places ?? {}) }
+  const INCHEON_BOX: Box = [37.2, 126.3, 37.75, 126.8]
+  for (const [slug, qs] of Object.entries(PLACE_QUERY)) {
+    if (places[slug]) continue
+    for (const q of qs) {
+      const r = (await search(q, INCHEON_BOX)).find(x => inBox(x.ll, INCHEON_BOX))
+      if (r) { places[slug] = r.ll; console.log(`  ✓ ${slug} ← "${q}" ${r.ll}`); break }
+    }
+    if (!places[slug]) missing.push(`post / ${slug}`)
+  }
+
   const { hotels, hotelMaps } = hotelCoords()
-  fs.writeFileSync(OUT, JSON.stringify({ hotels, hotelMaps, spots }, null, 1) + '\n')
+  fs.writeFileSync(OUT, JSON.stringify({ hotels, hotelMaps, places, spots }, null, 1) + '\n')
   console.log(`\n✅ ${OUT} — hotels ${Object.keys(hotels).length}, spots ${Object.keys(spots).length}`)
   if (missing.length) console.log(`좌표를 못 찾은 명소:\n  ${missing.join('\n  ')}`)
 }

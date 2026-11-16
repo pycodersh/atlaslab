@@ -1,9 +1,10 @@
 /**
- * Explore Korea 글 → Regional Hotspot Finder 의 11개 지역(서울은 6개 권역까지) 자동 배치.
+ * Explore Korea 글 → Regional Hotspot Finder 의 11개 지역(서울은 6개 권역까지) + 인천(숙소만) 자동 배치.
  *
  * 손으로 쓴 글 목록 없이 이미 있는 데이터만 본다. 앞에서부터 처음 맞는 규칙을 쓴다:
  *  1) 호텔 글 — 본문의 <StayMap id> → explore-geo.generated.json 의 호텔 좌표(make-stay-maps 의 OSM 실측).
- *     좌표에서 가장 가까운 명소의 도시 · 권역으로 넣는다(멀면 지역 없음: 송도 · 인천 호텔).
+ *     좌표에서 가장 가까운 명소의 도시 · 권역으로 넣는다. 명소가 멀고 인천 상자 안이면 Incheon(송도 · 영종도).
+ *     호텔 지도가 없는 숙소 글(파라다이스시티 · 인스파이어)은 make-explore-geo 가 이름으로 찾은 좌표(places)를 쓴다.
  *     서울 권역은 호텔 지도의 바탕 지역(stay-maps region)이 권역 이름과 같으면 그쪽이 먼저다.
  *  2) 명소 카드가 링크하는 가이드(regionalHotspots 의 spot.guide.slug) — 그 명소들의 도시 · 권역, 핀은 그 명소들 중 가운데.
  *  3) 제목 · 슬러그에 도시 이름이 나오는 글('near/from Seoul' 은 서울 글이 아니다) — 그 도시. 제목 · 요약에
@@ -15,13 +16,21 @@ import { HOTSPOT_CITIES, type Hotspot, type SeoulClusterId } from '@/data/region
 import type { CityId } from '@/data/transitRoutes'
 
 export type LL = [number, number]
-export type ExploreGeo = { regions: CityId[]; area: SeoulClusterId | null; ll: LL | null }
+/** Hotspot Finder 의 11개 도시 + 인천(Hotspot Finder 에는 없고 숙소 글만 있다) */
+export type ExploreRegionId = CityId | 'incheon'
+export type ExploreGeo = { regions: ExploreRegionId[]; area: SeoulClusterId | null; ll: LL | null }
 
 const HOTELS = geo.hotels as unknown as Record<string, LL>
 const SPOT_LL = geo.spots as unknown as Record<string, LL>
+const PLACES = (geo as { places?: Record<string, number[]> }).places as unknown as Record<string, LL> | undefined
+
+// 인천광역시(영종도 · 송도 포함) — [남, 서, 북, 동]
+const INCHEON_BBOX = [37.2, 126.3, 37.75, 126.8]
+const inIncheon = ([lat, lon]: LL) => lat >= INCHEON_BBOX[0] && lat <= INCHEON_BBOX[2] && lon >= INCHEON_BBOX[1] && lon <= INCHEON_BBOX[3]
 
 /** 지도 · 필터가 쓰는 지역 목록 — Hotspot Finder 와 같은 순서 · 이름(Chuncheon 은 짧게) */
-export const EXPLORE_REGIONS: { id: CityId; name: string }[] = HOTSPOT_CITIES.map(c => ({ id: c.id, name: c.name }))
+export const EXPLORE_REGIONS: { id: ExploreRegionId; name: string }[] = HOTSPOT_CITIES.flatMap((c): { id: ExploreRegionId; name: string }[] =>
+  c.id === 'seoul' ? [{ id: c.id, name: c.name }, { id: 'incheon' as const, name: 'Incheon' }] : [{ id: c.id, name: c.name }])
 
 /** 명소 하나하나 — 도시 · 권역 · 좌표가 붙은 평평한 목록(지도 겹쳐 보기에도 쓴다) */
 export type PlacedSpot = Hotspot & { city: CityId; area: SeoulClusterId | null; ll: LL | null }
@@ -81,13 +90,14 @@ export const stayMapIdOf = (content: string | null | undefined) => content?.matc
 
 export function exploreGeoOf(p: { slug: string; title: string; description: string | null; stayMapId: string | null }): ExploreGeo {
   // 1) 호텔 좌표
-  const hotel = p.stayMapId ? HOTELS[p.stayMapId] : undefined
+  const hotel = (p.stayMapId ? HOTELS[p.stayMapId] : undefined) ?? PLACES?.[p.slug]
   if (hotel) {
     const s = nearestSpot(hotel)
     // 호텔 지도의 바탕 지역(gangnam · hongdae · yeouido)이 서울 권역 이름과 같으면 그걸 따른다 —
     // 반포 JW 메리어트는 가장 가까운 명소가 국립중앙박물관이지만 글도 지도도 강남 숙소로 다룬다
-    const mapRegion = HOTEL_MAPS[p.stayMapId!]
-    const area = s?.city === 'seoul' && SEOUL_AREAS.has(mapRegion) ? (mapRegion as SeoulClusterId) : s?.area ?? null
+    if (!s && inIncheon(hotel)) return { regions: ['incheon'], area: null, ll: hotel }
+    const mapRegion = p.stayMapId ? HOTEL_MAPS[p.stayMapId] : undefined
+    const area = s?.city === 'seoul' && !!mapRegion && SEOUL_AREAS.has(mapRegion) ? (mapRegion as SeoulClusterId) : s?.area ?? null
     return { regions: s ? [s.city] : [], area, ll: hotel }
   }
   // 2) 명소가 링크하는 가이드

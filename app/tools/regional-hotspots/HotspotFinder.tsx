@@ -5,9 +5,9 @@ import { BookOpen } from 'lucide-react'
 import { HOTSPOT_CITIES, type SeoulClusterId } from '@/data/regionalHotspots'
 import { CategoryArt } from './CategoryBadge'
 import { HOTSPOT_PHOTOS } from '@/data/hotspotPhotos'
-import { CITIES, type CityId } from '@/data/transitRoutes'
-import { KoreaRouteMap } from '../KoreaRouteMap'
-import { SeoulHotspotMap } from './SeoulHotspotMap'
+import type { CityId } from '@/data/transitRoutes'
+import { PenMap, type PenArea } from '@/components/maps/PenMap'
+import { REGION_VIEW } from '@/lib/maps/penmap'
 import { PLACED_SPOTS, km, type LL } from '@/lib/blog/exploreRegions'
 import type { ExplorePost } from '@/lib/blog/explorePosts'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
@@ -67,6 +67,14 @@ function InstagramIcon() {
   )
 }
 
+const spotId = (name: string) => `spot-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
+
+// 서울 권역 이름표 자리 — 권역 명소들의 가운데
+const seoulAreas: PenArea[] = (HOTSPOT_CITIES.find(c => c.id === 'seoul')?.clusters ?? []).map(cl => {
+  const pts = PLACED_SPOTS.filter(s => s.area === cl.id && s.ll).map(s => s.ll!)
+  return { id: cl.id, name: cl.short, ll: [pts.reduce((a, p) => a + p[0], 0) / pts.length, pts.reduce((a, p) => a + p[1], 0) / pts.length] as LL }
+})
+
 export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
   const [cityId, setCityId] = useState<CityId>('seoul')
   const [clusterId, setClusterId] = useState<SeoulClusterId>('jongno')
@@ -85,22 +93,11 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
         .hs-tab[aria-selected="true"] { background: #111827; border-color: #111827; color: #fff; }
 
         .hs-seoul { display: flex; flex-direction: column; gap: 14px; padding: 16px; margin-bottom: 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; }
-        .hs-map { display: block; width: 100%; max-width: 340px; height: auto; margin: 0 auto; }
-        .hs-mapbox { width: 100%; animation: hs-in .2s ease-out; }
-        .hs-mapbox .km-map { margin: 0 auto; }
-        @media (prefers-reduced-motion: reduce) { .hs-mapbox { animation: none; } }
+        .hs-mapbox { width: 100%; }
+        .hs-penmap { width: 100%; height: 300px; border: 1px solid #262422; border-radius: 12px; }
+        .hs-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; margin: 0 8px 0 0; border-radius: 50%;
+          background: #262422; color: #F7F5EE; font: 700 11px/1 "DM Sans", Inter, system-ui, sans-serif; vertical-align: 3px; }
         .hs-city-hint { margin: 0; font-size: 13px; color: #6B7280; }
-        .hs-river { font: 500 9px "DM Sans", Inter, system-ui, sans-serif; fill: #7D9BB0; }
-        .hs-side-label { font: 700 9px "DM Sans", Inter, system-ui, sans-serif; letter-spacing: .06em; text-transform: uppercase; fill: #9CA3AF; }
-        .hs-outline { fill: #FAF8F4; stroke: #E5E1D8; stroke-width: 1.5; }
-        .hs-han { stroke: #CFE2EF; stroke-width: 11; }
-        .hs-zone { cursor: pointer; outline: none; }
-        .hs-zone path { fill: #E9E4DA; stroke: #fff; stroke-width: 2; transition: fill .15s; }
-        .hs-zone text { font: 600 12px "DM Sans", Inter, system-ui, sans-serif; fill: #4B5563; pointer-events: none; transition: fill .15s; }
-        .hs-zone.is-active path { fill: #9F1239; }
-        .hs-zone.is-active text { fill: #fff; font-weight: 700; }
-        .hs-zone:focus-visible path { stroke: #111827; }
-        @media (hover: hover) { .hs-zone:not(.is-active):hover path { fill: #D9D2C4; } }
         .hs-side { flex: 1; min-width: 0; }
         .hs-cluster-name { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 22px; font-weight: 700; line-height: 1.2; color: #111827; }
         .hs-cluster-theme { margin: 2px 0 12px; font-size: 13px; color: #4B5563; }
@@ -183,7 +180,8 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
           .hs-card { padding: 20px; }
           .hs-head { gap: 20px; }
           .hs-seoul { flex-direction: row; align-items: center; gap: 32px; padding: 20px 28px; }
-          .hs-mapbox { flex: 0 0 340px; width: 340px; }
+          .hs-mapbox { flex: 0 0 420px; width: 420px; }
+          .hs-penmap { height: 340px; }
           .hs-cluster-name { font-size: 26px; }
           .hs-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); }
           .hs-chip-short { display: none; }
@@ -201,30 +199,28 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
         ))}
       </div>
 
-      {!city.clusters && (
-        <section className="hs-seoul" aria-label="Choose a city on the map">
-          {/* 서울 ↔ 전국 지도가 바뀔 때만 다시 그려 페이드한다 — 지방 도시끼리는 강조 핀만 옮겨 간다 */}
-          <div key="korea" className="hs-mapbox">
-            <KoreaRouteMap to={city.id} onPick={setCityId} />
-          </div>
-          <div className="hs-side">
-            <h2 key={city.id} className="hs-cluster-name notranslate" translate="no">{city.name}</h2>
-            <p key={`${city.id}-theme`} className="hs-cluster-theme">
-              <span className="notranslate" translate="no" lang="ko">{CITIES.find(c => c.id === city.id)?.ko}</span> · {spots.length} spots
-            </p>
-            <p className="hs-city-hint">Tap a city on the map to see its spots.</p>
-          </div>
-        </section>
-      )}
-
-      {city.clusters && cluster && (
-        <section className="hs-seoul" aria-label="Choose a Seoul area">
-          <div key="seoul" className="hs-mapbox">
-            <SeoulHotspotMap selected={cluster.id} onSelect={setClusterId} />
-          </div>
-          <div className="hs-side">
-            <h2 key={cluster.id} className="hs-cluster-name notranslate" translate="no">{cluster.name}</h2>
-            <p key={`${cluster.id}-theme`} className="hs-cluster-theme"><span className="notranslate" translate="no" lang="ko">{cluster.ko}</span> · {cluster.theme}</p>
+      {/* 펜화 지도(Explore Korea 지도와 같은 그림) — 서울은 한강과 여섯 권역 이름표(눌러서 권역 고르기),
+          다른 도시는 해안 · 강 · 산이 든 도시 지도. 숫자 핀 = 아래 카드 순서, 누르면 그 카드로 */}
+      <section className="hs-seoul" aria-label={cluster ? 'Choose a Seoul area' : `${city.name} map`}>
+        <div className="hs-mapbox">
+          <PenMap
+            className="hs-penmap"
+            view={REGION_VIEW[city.id]}
+            interactive={false}
+            areas={cluster ? seoulAreas.map(a => ({ ...a, active: a.id === cluster.id })) : []}
+            onArea={id => setClusterId(id as SeoulClusterId)}
+            pins={spots.flatMap((sp, i) => {
+              const ll = PLACED_SPOTS.find(p => p.name === sp.name)?.ll
+              return ll ? [{ id: sp.name, ll, kind: 'spot' as const, num: i + 1, label: cluster ? undefined : sp.name }] : []
+            })}
+            onPin={name => document.getElementById(spotId(name))?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
+            ariaLabel={cluster ? `Illustrated map of Seoul with the ${cluster.name} spots numbered` : `Illustrated map of ${city.name} with its spots numbered`}
+          />
+        </div>
+        <div className="hs-side">
+          <h2 key={cluster?.id ?? city.id} className="hs-cluster-name notranslate" translate="no">{cluster?.name ?? city.name}</h2>
+          <p key={`${cluster?.id ?? city.id}-theme`} className="hs-cluster-theme">{cluster ? cluster.theme : `${spots.length} walking spots`}</p>
+          {city.clusters && cluster ? (
             <div className="hs-chips notranslate" translate="no" role="group" aria-label="Seoul areas">
               {city.clusters.map(c => (
                 <button key={c.id} type="button" className="hs-chip" aria-pressed={c.id === cluster.id} onClick={() => setClusterId(c.id)}>
@@ -233,20 +229,22 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
                 </button>
               ))}
             </div>
-          </div>
-        </section>
-      )}
+          ) : (
+            <p className="hs-city-hint">Numbers on the map match the spot cards below.</p>
+          )}
+        </div>
+      </section>
 
       {/* key: 자동 번역이 글자 노드를 바꿔 끼우고, 바뀔 때마다 카드가 부드럽게 나타나게 새로 그린다 */}
       <div key={`${city.id}-${cluster?.id ?? ''}`} role="tabpanel" aria-label={cluster?.name ?? city.name}>
         <div className="hs-deck">
-          {spots.map(spot => (
-            <article key={spot.name} className="hs-card">
+          {spots.map((spot, i) => (
+            <article key={spot.name} id={spotId(spot.name)} className="hs-card">
               {/* 위: 사진 + 제목 묶음 / 아래: 팁과 버튼은 카드 전체 폭을 쓴다 */}
               <div className="hs-head">
                 <CategoryArt category={spot.category} photo={HOTSPOT_PHOTOS[spot.name]} alt={spot.name} />
                 <div className="hs-titles">
-                  <h2 className="hs-name notranslate" translate="no">{spot.name}</h2>
+                  <h2 className="hs-name notranslate" translate="no"><span className="hs-num" aria-hidden="true">{i + 1}</span>{spot.name}</h2>
                   <p className="hs-ko notranslate" translate="no" lang="ko">{spot.ko}</p>
                   <p className="hs-what">{spot.what}</p>
                 </div>

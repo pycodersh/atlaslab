@@ -53,13 +53,15 @@ export function blogIndexView(cards: BlogCard[], q: BlogQuery) {
   const bySub = activeSub ? inTab.filter(p => subsOf(p).includes(activeSub)) : inTab
 
   // 지역 필터 · Grid/Map — Explore Korea 만. 지역 칩 개수는 지금 서브 칩(Hotels · Places) 기준이다.
-  // 기본은 Grid(정적 HTML 에 격자가 그대로 실린다). Map 은 페이지 번호 없이 걸린 글 전부를 지도에 올린다
+  // 기본은 Map(글 전부가 왼쪽 목록에 링크로 그려진다). Grid 는 ?view=grid, 페이지 번호는 Grid 에만
   const isExplore = activeTab === EXPLORE_TAB
-  const activeRegion = isExplore && q.region && EXPLORE_REGIONS.some(r => r.id === q.region) ? q.region : null
-  const activeView: 'grid' | 'map' = isExplore && q.view === 'map' ? 'map' : 'grid'
+  // 지금 서브 칩(All · Hotels · Places) 기준으로 글이 0편인 지역은 칩을 아예 숨긴다.
+  // 고른 지역이 이 서브 칩에서 0편이 되면 All 로 돌아간다(주소 정리는 BlogIndexFromQuery)
+  const activeView: 'grid' | 'map' = isExplore && q.view !== 'grid' ? 'map' : 'grid'
   const regionChips = isExplore
-    ? EXPLORE_REGIONS.map(r => ({ key: r.id as string, label: r.name, count: bySub.filter(p => p.geo?.regions.includes(r.id)).length }))
+    ? EXPLORE_REGIONS.map(r => ({ key: r.id as string, label: r.name, count: bySub.filter(p => p.geo?.regions.includes(r.id)).length })).filter(r => r.count > 0)
     : []
+  const activeRegion = isExplore && q.region && regionChips.some(r => r.key === q.region) ? q.region : null
   const matched = activeRegion ? bySub.filter(p => p.geo?.regions.includes(activeRegion as never)) : bySub
 
   // Korean 탭은 한 목록이 아니라 Basics · Phrases 섹션 두 개다(최신순으로 섞지 않는다).

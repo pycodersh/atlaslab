@@ -27,6 +27,15 @@ export function BlogIndexFromQuery({ cards }: { cards: BlogCard[] }) {
 
   const view = blogIndexView(cards, q)
 
+  // Explore Korea: 고른 지역이 지금 서브 칩(Hotels · Places)에서 0편이면 화면은 All 로 그렸다 — 주소에서도 region 을 뗀다
+  const staleRegion = !legacyTab && !!q.region && view.activeTab === 'explore-korea' && !view.activeRegion
+  useEffect(() => {
+    if (!staleRegion) return
+    const next = new URLSearchParams(window.location.search)
+    next.delete('region')
+    router.replace(`/blog?${next.toString()}`, { scroll: false })
+  }, [staleRegion, router])
+
   useEffect(() => {
     document.title = `${view.pageTitle} — Atlas Lab`
   }, [view.pageTitle])
