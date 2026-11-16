@@ -11,6 +11,8 @@
  * 지도 이미지는 밝은 톤 그대로 두고(지도는 다크 모드에서도 밝은 게 읽기 쉽다) 테두리 · 목록만 html.dark 를 따른다.
  */
 import data from '@/lib/blog/stay-maps.generated.json'
+import { STAY_MAP_BADGES } from '@/lib/blog/stayMapBadges'
+import { StayMapZoom } from './StayMapZoom'
 
 type Card = { num: number | null; hotel: boolean; title: string; lines: string[]; color: string; x: number; y: number; leader: number[] }
 type MapData = {
@@ -36,8 +38,26 @@ html.dark .stay-map2 { border-color: #2E2E2E; background: #141414; }
 .stay-map2 .sm2-card b { display: block; font: 700 2cqw/1.3 "DM Sans", system-ui, sans-serif; color: #111; }
 .stay-map2 .sm2-card span { display: block; font: 500 1.75cqw/1.3 "DM Sans", system-ui, sans-serif; color: #444; }
 .stay-map2 .sm2-scale { position: absolute; right: 1.5%; top: 2.5%; background: rgba(255,255,255,.9); border-radius: 6px;
-  padding: 3px 8px 5px; font: 600 11px/1.2 "DM Sans", system-ui, sans-serif; color: #222; z-index: 3; white-space: nowrap; }
-.stay-map2 .sm2-scale i { display: block; height: 4px; background: #222; margin-top: 3px; }
+  padding: 3px 8px 5px; font: 600 11px/1.2 "DM Sans", system-ui, sans-serif; color: #222; z-index: 4; white-space: nowrap; }
+.stay-map2 .sm2-scale i { display: block; height: 4px; background: #222; margin-top: 3px; max-width: 45cqw; }
+/* 확대 · 이동(StayMapZoom) — 확대 전엔 세로 스크롤을 페이지에 넘긴다 */
+.stay-map2 .sm2-zoom { position: relative; overflow: hidden; touch-action: pan-y; }
+.stay-map2 .sm2-zoom.is-zoomed { touch-action: none; cursor: grab; }
+.stay-map2 .sm2-zoom.is-zoomed:active { cursor: grabbing; }
+.stay-map2 .sm2-layer { position: relative; transform-origin: 0 0; will-change: transform; }
+.stay-map2 .sm2-layer img { -webkit-user-drag: none; user-select: none; pointer-events: none; }
+.stay-map2 .sm2-badge { position: absolute; left: 1.5%; top: 2.5%; max-width: 58%; z-index: 4; padding: 4px 9px;
+  background: rgba(255,255,255,.82); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.08); font: 600 11px/1.35 "DM Sans", system-ui, sans-serif; color: #3F3A36;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stay-map2 .sm2-ctrl { position: absolute; right: 10px; bottom: 10px; z-index: 4; display: flex; gap: 4px; line-height: 1; }
+.stay-map2 .sm2-ctrl button { min-width: 30px; height: 30px; padding: 0; border: 1px solid #D6D3D1; border-radius: 8px;
+  background: rgba(255,255,255,.92); color: #1C1917; font: 600 17px/1 "DM Sans", system-ui, sans-serif; cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0,0,0,.1); }
+.stay-map2 .sm2-ctrl .sm2-reset { padding: 0 10px; font-size: 12px; letter-spacing: .02em; }
+.stay-map2 .sm2-ctrl button:hover:not(:disabled) { background: #fff; border-color: #A8A29E; }
+.stay-map2 .sm2-ctrl button:disabled { opacity: .45; cursor: default; }
+.stay-map2 .sm2-ctrl button:focus-visible { outline: 2px solid #C8102E; outline-offset: 1px; }
 .stay-map2 .sm2-legend { display: none; list-style: none; margin: 0; padding: 14px 14px 4px; }
 .stay-map2 .sm2-legend li { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 10px; padding: 0; font-size: 14px; line-height: 1.35; }
 .stay-map2 .sm2-legend li::before { content: none; }
@@ -53,6 +73,11 @@ html.dark .stay-map2 .sm2-legend span { color: #A3A09C; }
   .stay-map2 .sm2-legend { display: block; }
   .stay-map2 .sm2-pin { width: 20px; height: 20px; font-size: 11px; line-height: 15px; }
   .stay-map2 .sm2-hotel { width: 22px; height: 22px; line-height: 17px; }
+  .stay-map2 .sm2-badge { max-width: 62%; font-size: 10px; padding: 3px 7px; white-space: normal;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .stay-map2 .sm2-scale { font-size: 10px; padding: 2px 6px 4px; }
+  .stay-map2 .sm2-ctrl { right: 8px; bottom: 8px; }
+  .stay-map2 .sm2-ctrl button { min-width: 32px; height: 32px; }
 }
 `
 
@@ -67,8 +92,9 @@ export function StayMap({ id }: { id: string }) {
   return (
     <figure className="stay-map2 not-prose">
       <style>{CSS}</style>
-      <div className="sm2-canvas" role="img" aria-label={aria}>
-        <img src={r.img} width={r.w} height={r.h} alt="" loading="lazy" />
+      <div className="sm2-canvas" role="group" aria-label={aria}>
+        <StayMapZoom badge={STAY_MAP_BADGES[id]} scale={{ label: r.scale.label, frac: r.scale.px / r.w }}>
+        <img src={r.img} width={r.w} height={r.h} alt="" loading="lazy" draggable={false} />
         <svg viewBox={`0 0 ${r.w} ${r.h}`} aria-hidden>
           {m.routes.map((rt, i) => (
             <g key={i}>
@@ -92,8 +118,8 @@ export function StayMap({ id }: { id: string }) {
             {c.lines.map(l => <span key={l}>{l}</span>)}
           </div>
         ))}
-        {/* 막대 길이는 지도 폭 기준(cqw) — 지도와 같이 줄어든다 */}
-        <div className="sm2-scale">{r.scale.label}<i style={{ width: `${(r.scale.px / r.w) * 100}cqw` }} /></div>
+        </StayMapZoom>
+        {/* 축척 막대 · 위치 뱃지 · 확대 버튼은 StayMapZoom 이 확대 레이어 밖에 그린다(막대는 배율만큼 길어진다) */}
       </div>
 
       <figcaption>
