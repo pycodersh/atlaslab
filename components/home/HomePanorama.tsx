@@ -13,7 +13,7 @@ import { PanoramaStage } from './panorama/PanoramaStage'
  * 채색: 붉은 파라솔 · 청사초롱 · 인물 옷 · 나무 평상과 그릇에만 딥 레드 / 인디고 / 황토를 옅게.
  * 움직임: 처음에 외곽선이 왼쪽부터 그려지고(세밀선 · 채색은 뒤따라 스며듦),
  *        그 뒤 구름 · 물결이 천천히 흐르고, 뚝배기 · 굴뚝 김이 피어오르고, 여행자가 골목을 걷는다.
- * 그림은 서버에서 그리고, 전환 · 토글만 작은 클라이언트 컴포넌트(PanoramaStage)가 맡는다.
+ * 그림은 서버에서 그리고, 자동 전환만 작은 클라이언트 컴포넌트(PanoramaStage)가 맡는다.
  */
 
 const { parts, m, dl, fl, roof, lattice, stones, seated } = createInk()
@@ -189,7 +189,7 @@ export function HomePanorama() {
     <section className="hp" aria-label="Pen-drawn panorama of Korea, alternating between heritage and K-culture scenes">
       <style>{`
         .hp { background: ${PAPER}; border-bottom: 1px solid #E6E1D6; }
-        .hp-inner { max-width: 1240px; margin: 0 auto; padding: 18px 12px 10px; }
+        .hp-inner { max-width: 1240px; margin: 0 auto; padding: 18px 12px; }
         .hp-stagewrap { position: relative; }
         .hp-scroll { overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
         .hp-scroll::-webkit-scrollbar { display: none; }
@@ -250,31 +250,8 @@ export function HomePanorama() {
         .hc-neon { fill: none; stroke: ${INK}; stroke-width: .8; animation: hc-neon 6s linear infinite; }
         @keyframes hc-neon { 0%, 61%, 64%, 67%, 100% { stroke-opacity: .85; } 62%, 66% { stroke-opacity: .15; } }
 
-        /* 장면 토글 */
-        .hp-controls { display: flex; justify-content: flex-end; padding: 8px 4px 2px; }
-        .hp-toggle { position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 3px;
-          border: 1px solid rgba(38,36,34,.22); border-radius: 999px; background: rgba(247,245,238,.82);
-          -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); box-shadow: 0 4px 14px -6px rgba(38,36,34,.35); isolation: isolate; }
-        .hp-thumb { position: absolute; z-index: -1; top: 3px; bottom: 3px; left: 3px; width: calc(50% - 3px); border-radius: 999px; background: ${INK};
-          transition: transform .5s cubic-bezier(.65,0,.25,1); }
-        .hp-toggle[data-pos="1"] .hp-thumb { transform: translateX(100%); }
-        .hp-tbtn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 7px 14px;
-          border: 0; border-radius: 999px; background: transparent; cursor: pointer; overflow: hidden;
-          font-family: inherit; font-size: 13px; font-weight: 600; line-height: 1; letter-spacing: .01em; color: ${INK};
-          transition: color .4s ease, background-color .25s ease; }
-        .hp-tbtn[aria-pressed="true"] { color: ${PAPER}; }
-        .hp-tbtn[aria-pressed="false"]:hover { background: rgba(38,36,34,.08); }
-        .hp-tbtn:focus-visible { outline: 2px solid ${RED}; outline-offset: 2px; }
-        .hp-ticon { font-size: 13px; transition: transform .35s cubic-bezier(.34,1.56,.64,1); }
-        .hp-tbtn:hover .hp-ticon { transform: scale(1.18) rotate(-6deg); }
-        .hp-tprog { position: absolute; left: 14px; right: 14px; bottom: 3px; height: 1.5px; border-radius: 1px; background: rgba(247,245,238,.85);
-          transform-origin: left; transform: scaleX(0); animation: hp-tprog var(--dwell) linear forwards; }
-        @keyframes hp-tprog { to { transform: scaleX(1); } }
-
         @media (max-width: 767px) {
-          .hp-inner { padding: 12px 0 6px; }
-          .hp-controls { padding: 6px 12px 2px; }
-          .hp-tbtn { padding: 6px 10px; font-size: 12px; gap: 4px; }
+          .hp-inner { padding: 12px 0; }
         }
         @media (prefers-reduced-motion: reduce) {
           .hp-draw { animation: none; stroke-dashoffset: 0; }
@@ -284,7 +261,7 @@ export function HomePanorama() {
           .hp-walker { animation: none; opacity: 1; translate: 820px ${GROUND}px; }
           .hc-beam, .hc-spot, .hc-singer, .hc-stick, .hc-crane, .hc-bulb, .hc-neon { animation: none; }
           .hc-flash { animation: none; opacity: 0; }
-          .hp-scene, .hp-thumb { transition-duration: .01s; }
+          .hp-scene { transition-duration: .01s; }
         }
       `}</style>
       <div className="hp-inner">
