@@ -1,6 +1,7 @@
 import { AbsoluteFill } from 'remotion'
 import type { BasicsVideoData } from './TemplateVideo'
 import { C2, useBasicsFonts } from './TemplateVideoV2'
+import { Character, type CharTheme } from './scene/Characters'
 
 /**
  * Basics 목록 카드 전용 정지 화면 — 영상에는 없는 구도 2종(scripts/render-basics-thumbnails.mjs 가 뽑는다).
@@ -42,24 +43,79 @@ export function BasicsThumb({ data, variant }: { data: BasicsVideoData; variant:
 }
 
 /**
- * v2 목록 썸네일 — 큰 글자형 하나로 통일. 배경 #111111, 한국어 핵심 표현 크림 큰 글씨, 아래 로마자 회색, 맨 아래 레드 배지에 영문 뜻.
- * 두 문법 비교 글은 표현 두 개를 위아래로 두고 두 번째만 레드. 문구는 videos.json 의 thumb.
+ * v2 목록 썸네일 — 사이트 색 3종 × 구도 3종. 문구 · 배경은 videos.json 의 thumb({ lines, en, bg }).
+ *
+ *   배경  black #111111(흰 글씨) · red #C8102E(흰 글씨, 강조는 검정) · cream #F7F5F2(검정 글씨, 강조만 빨강)
+ *         기본은 Hangul & Pronunciation = cream, Core Grammar = black, 핵심 글 일부(15~20%)만 red.
+ *         목록(3열)에서 같은 배경이 가로 · 세로 3개 이어지지 않게 정했다(scripts/basics-thumb-colors.mjs).
+ *   구도  word    표현 하나를 크게
+ *         compare 표현 두 개를 좌우로, 가운데 vs — 두 번째가 강조색
+ *         scene   상황극이 있는 글: 왼쪽에 두 캐릭터 라인아트, 오른쪽에 표현
  */
+type ThumbBg = 'black' | 'red' | 'cream'
+const PAL: Record<ThumbBg, { bg: string; text: string; accent: string; rom: string; badgeBg: string; char: CharTheme }> = {
+  black: { bg: C2.ink, text: C2.bg, accent: C2.red, rom: '#B5B1AC', badgeBg: C2.red, char: { ink: C2.bg, paper: C2.ink, accent: C2.red, hair: '#6B6B6B' } },
+  red: { bg: C2.red, text: '#FFFFFF', accent: C2.ink, rom: 'rgba(255,255,255,0.82)', badgeBg: C2.ink, char: { ink: '#FFFFFF', paper: C2.red, accent: C2.ink, hair: C2.ink } },
+  cream: { bg: C2.bg, text: C2.ink, accent: C2.red, rom: C2.muted, badgeBg: C2.red, char: { ink: C2.ink, paper: '#FFFFFF', accent: C2.red } },
+}
+const EN_FONT = "'DM Sans', sans-serif"
+
 function ThumbV2({ data }: { data: BasicsVideoData }) {
   useBasicsFonts()
   const t = data.thumb ?? { lines: [{ ko: data.contrast.cards[0].ko, rom: data.contrast.cards[0].rom }], en: data.hook.cue.word }
-  const two = t.lines.length > 1
-  const longest = Math.max(...t.lines.map(l => [...l.ko].length))
-  const size = Math.min(two ? 250 : 320, Math.floor((two ? 1500 : 1600) / longest))
-  return (
-    <AbsoluteFill style={{ background: C2.ink, fontFamily: FONT, alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
-      {t.lines.map((l, i) => (
-        <div key={i} style={{ marginTop: i ? 34 : 0 }}>
-          <div style={{ fontSize: size, fontWeight: 800, lineHeight: 1.05, letterSpacing: -2, whiteSpace: 'nowrap', color: two && i === 1 ? C2.red : C2.bg }}>{l.ko}</div>
-          <div style={{ marginTop: 14, fontFamily: "'DM Sans', sans-serif", fontSize: two ? 48 : 60, fontWeight: 500, color: '#9A9A9A' }}>{l.rom}</div>
+  const pal = PAL[(t.bg as ThumbBg) ?? 'black']
+  const layout = data.scene ? 'scene' : t.lines.length > 1 ? 'compare' : 'word'
+  const badge = (
+    <div style={{ padding: '16px 46px', borderRadius: 999, background: pal.badgeBg, color: '#fff', fontFamily: EN_FONT, fontSize: 50, fontWeight: 700, whiteSpace: 'nowrap' }}>{t.en}</div>
+  )
+  const Expr = ({ ko, rom, size, color, romSize }: { ko: string; rom: string; size: number; color: string; romSize: number }) => (
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ fontSize: size, fontWeight: 800, lineHeight: 1.05, letterSpacing: -2, whiteSpace: 'nowrap', color }}>{ko}</div>
+      <div style={{ marginTop: 16, fontFamily: EN_FONT, fontSize: romSize, fontWeight: 500, color: pal.rom, whiteSpace: 'nowrap' }}>{rom}</div>
+    </div>
+  )
+  const len = (s: string) => [...s].length
+
+  if (layout === 'scene') {
+    // 캐릭터는 왼쪽 아래에서 잘리고, 오른쪽에 표현 1~2개를 위아래로
+    const longest = Math.max(...t.lines.map(l => len(l.ko)))
+    const size = Math.min(t.lines.length > 1 ? 190 : 250, Math.floor(1000 / longest))
+    return (
+      <AbsoluteFill style={{ background: pal.bg, fontFamily: FONT }}>
+        <div style={{ position: 'absolute', left: 30, bottom: -60, display: 'flex', alignItems: 'flex-end' }}>
+          <Character who="A" expression="smile" height={720} theme={pal.char} />
+          <div style={{ marginLeft: -70 }}><Character who="B" expression="smile" height={720} theme={pal.char} /></div>
         </div>
-      ))}
-      <div style={{ marginTop: two ? 48 : 64, padding: '16px 46px', borderRadius: 999, background: C2.red, color: '#fff', fontFamily: "'DM Sans', sans-serif", fontSize: 50, fontWeight: 700 }}>{t.en}</div>
+        <div style={{ position: 'absolute', left: 860, right: 60, top: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 30 }}>
+          {t.lines.map((l, i) => (
+            <Expr key={i} ko={l.ko} rom={l.rom} size={size} romSize={t.lines.length > 1 ? 56 : 66} color={i === 1 ? pal.accent : pal.text} />
+          ))}
+          <div style={{ marginTop: 14 }}>{badge}</div>
+        </div>
+      </AbsoluteFill>
+    )
+  }
+
+  if (layout === 'compare') {
+    const longest = Math.max(...t.lines.map(l => len(l.ko)))
+    const size = Math.min(240, Math.floor(760 / longest))
+    return (
+      <AbsoluteFill style={{ background: pal.bg, fontFamily: FONT, alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 70 }}>
+          <Expr ko={t.lines[0].ko} rom={t.lines[0].rom} size={size} romSize={62} color={pal.text} />
+          <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: 'italic', fontSize: 84, fontWeight: 700, color: pal.rom }}>vs</div>
+          <Expr ko={t.lines[1].ko} rom={t.lines[1].rom} size={size} romSize={62} color={pal.accent} />
+        </div>
+        <div style={{ marginTop: 70 }}>{badge}</div>
+      </AbsoluteFill>
+    )
+  }
+
+  const size = Math.min(320, Math.floor(1600 / len(t.lines[0].ko)))
+  return (
+    <AbsoluteFill style={{ background: pal.bg, fontFamily: FONT, alignItems: 'center', justifyContent: 'center' }}>
+      <Expr ko={t.lines[0].ko} rom={t.lines[0].rom} size={size} romSize={72} color={pal.text} />
+      <div style={{ marginTop: 64 }}>{badge}</div>
     </AbsoluteFill>
   )
 }

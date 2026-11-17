@@ -64,7 +64,7 @@ export type BasicsVideoData = {
   /** v2 상황극 오프닝(선택). 있으면 메인 보이스오버와 뒤 장면이 7.5초 밀린다 */
   scene?: SceneData
   /** v2 목록 썸네일 문구 — 한국어 핵심 표현 1~2개(두 번째는 레드) + 아래 영문 뜻 배지 */
-  thumb?: { lines: { ko: string; rom: string }[]; en: string }
+  thumb?: { lines: { ko: string; rom: string }[]; en: string; bg?: 'black' | 'red' | 'cream' }
 }
 type Lang = 'en' | 'ko'
 type KoCard = { ko: string; rom: string }

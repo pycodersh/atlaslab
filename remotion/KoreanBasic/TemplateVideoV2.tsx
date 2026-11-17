@@ -352,16 +352,20 @@ function ContrastScene({ contrast, dur }: { contrast: BasicsVideoData['contrast'
   const b = usePop(14)
   const banner = usePop(42)
   const pulse = f > 60 ? 1 + Math.sin((f - 60) / 6) * 0.012 : 1
+  // 카드 한 장의 설명이 길면(줄바꿈이 생길 만큼) 글씨 · 여백을 줄여 배너 자리를 남긴다
+  const dense = Math.max(...contrast.cards.map(c => c.lines.join(' ').replace(/\*\*/g, '').length)) > 62
   return (
     <SceneShell dur={dur}>
       <div style={{ position: 'absolute', top: 110, width: '100%', textAlign: 'center', fontFamily: SERIF, fontSize: 66, fontWeight: 700, color: C2.ink, opacity: a }}>
         {noEmoji(contrast.heading)}
       </div>
-      <div style={{ position: 'absolute', top: 250, width: '100%', display: 'flex', justifyContent: 'center', gap: 56 }}>
-        <ContrastCardView {...contrast.cards[0]} pop={a} />
-        <ContrastCardView {...contrast.cards[1]} pop={b} />
+      {/* 카드 → 배너를 한 세로 흐름으로 — 카드 글이 길어도 배너가 카드 위에 겹치지 않는다(하단 안전 영역 918 안) */}
+      <div style={{ position: 'absolute', top: 236, bottom: 1080 - SAFE_BOTTOM, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 40 }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 56 }}>
+        <ContrastCardView {...contrast.cards[0]} pop={a} dense={dense} />
+        <ContrastCardView {...contrast.cards[1]} pop={b} dense={dense} />
       </div>
-      <div style={{ position: 'absolute', top: 790, width: '100%', display: 'flex', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
         <div
           style={{
             padding: '22px 60px',
@@ -379,19 +383,20 @@ function ContrastScene({ contrast, dur }: { contrast: BasicsVideoData['contrast'
           {noEmoji(contrast.banner.text)}
         </div>
       </div>
+      </div>
     </SceneShell>
   )
 }
 
-function ContrastCardView({ ko, rom, tone, lines, pop }: { ko: string; rom: string; tone: Tone; lines: string[]; pop: number }) {
+function ContrastCardView({ ko, rom, tone, lines, pop, dense }: { ko: string; rom: string; tone: Tone; lines: string[]; pop: number; dense?: boolean }) {
   const color = TONE2[tone]
   return (
-    <div style={{ width: 780, minHeight: 430, padding: '48px 56px', borderRadius: 28, background: C2.card, border: BORDER, boxShadow: SHADOW, opacity: Math.min(1, pop * 1.4), transform: `translateY(${(1 - pop) * 10}px)` }}>
+    <div style={{ width: 780, minHeight: dense ? 0 : 430, padding: dense ? '40px 52px' : '48px 56px', borderRadius: 28, background: C2.card, border: BORDER, boxShadow: SHADOW, opacity: Math.min(1, pop * 1.4), transform: `translateY(${(1 - pop) * 10}px)` }}>
       <div style={{ fontSize: koSize(ko, [112, 88, 70, 58]), fontWeight: 800, color, lineHeight: 1.05, whiteSpace: 'nowrap' }}>{ko}</div>
       <div style={{ fontFamily: EN, fontSize: 36, color: C2.muted, marginTop: 14 }}>{rom}</div>
-      <div style={{ marginTop: 30, paddingTop: 26, borderTop: BORDER, display: 'flex', flexDirection: 'column', gap: 14, wordBreak: 'keep-all' }}>
+      <div style={{ marginTop: dense ? 24 : 30, paddingTop: dense ? 22 : 26, borderTop: BORDER, display: 'flex', flexDirection: 'column', gap: dense ? 10 : 14, wordBreak: 'keep-all' }}>
         {lines.map((l, i) => (
-          <div key={i} style={{ fontFamily: EN, fontSize: 42, lineHeight: 1.3, color: C2.ink }}>
+          <div key={i} style={{ fontFamily: EN, fontSize: dense ? 37 : 42, lineHeight: 1.3, color: C2.ink }}>
             <Rich text={noEmoji(l)} color={color} />
           </div>
         ))}

@@ -1031,5 +1031,17 @@
    "src": "audio/korean-basic/lines/why-korean-has-two-number-systems/ex-4.mp3",
    "dur": 0.75
   }
+ },
+ "korean-never-say-dangsin-neo": {
+  "scene-wrong": {
+   "ko": "당신 이름이 뭐예요?",
+   "src": "audio/korean-basic/lines/korean-never-say-dangsin-neo/scene-wrong.mp3",
+   "dur": 1.25
+  },
+  "scene-correct": {
+   "ko": "이름이 뭐예요?",
+   "src": "audio/korean-basic/lines/korean-never-say-dangsin-neo/scene-correct.mp3",
+   "dur": 0.88
+  }
  }
 }
