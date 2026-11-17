@@ -298,6 +298,36 @@ export function proseCss(bodyFont: string): string {
         .blog-prose .gcc.is-flat > .gcc__badge { justify-self: start; }
         .blog-prose .gcc__tag + .gcc__example { margin-top: 0 !important; }
         .blog-prose .is-instead > .gcc__text + .gcc__example { margin-top: 12px !important; }
+        /* RuleCard 색 역할(2026-11-17) — 레드 = 정답 · 핵심, 회색 = 피할 것. 영상 v2 와 같은 규칙. '너 vs 당신' 전용 카드(.gcc 단독)는 그대로 둔다 */
+        .blog-prose .gcc.is-flat .gcc__box.is-avoid { background: #FFFFFF; border-color: #E5E1DC; }
+        .blog-prose .gcc.is-flat .is-avoid .gcc__tag { color: #6B6B6B !important; }
+        .blog-prose .gcc.is-flat .is-avoid .gcc__word { margin-bottom: 2px !important; }
+        .blog-prose .gcc.is-flat .is-avoid .gcc__word s { color: #6B6B6B; text-decoration: line-through; text-decoration-color: #C8102E; text-decoration-thickness: 1.5px; }
+        .blog-prose .gcc.is-flat .gcc__rom { display: block; font-family: 'DM Sans', system-ui, sans-serif; font-size: 13px; font-weight: 400; line-height: 1.45; color: #6B6B6B !important; }
+        .blog-prose .gcc.is-flat .is-avoid > .gcc__rom { margin-bottom: 8px !important; }
+        .blog-prose .gcc.is-flat .is-avoid .gcc__text { color: #6B6B6B !important; }
+        .blog-prose .gcc.is-flat .gcc__warn { color: #111111 !important; font-weight: 400; }
+        .blog-prose .gcc.is-flat .gcc__text, .blog-prose .gcc.is-flat .gcc__warn, .blog-prose .gcc.is-flat .gcc__word, .blog-prose .gcc.is-flat .gcc__en { word-break: keep-all; overflow-wrap: anywhere; }
+        .blog-prose .gcc.is-flat .gcc__fix { color: #C8102E; font-weight: 700; }
+        .blog-prose .gcc.is-flat .gcc__box.is-instead { background: #F7F5F2; border-color: #E5E1DC; }
+        .blog-prose .gcc.is-flat .is-instead .gcc__tag { color: #6B6B6B !important; }
+        .blog-prose .gcc.is-flat .gcc__examples { margin-top: 12px; background: #FFFFFF; border: 1px solid #E5E1DC; border-radius: 4px; }
+        .blog-prose .gcc.is-flat .gcc__example { display: flex; align-items: center; gap: 12px; margin: 0 !important; padding: 13px 14px; background: none; border: 0; border-radius: 0; font-size: inherit; font-weight: 400; }
+        .blog-prose .gcc.is-flat .gcc__example + .gcc__example { border-top: 1px solid #E5E1DC; }
+        .blog-prose .gcc.is-flat .gcc__exText { flex: 1; min-width: 0; margin: 0 !important; }
+        .blog-prose .gcc.is-flat .gcc__exKo { display: block; font-size: 17px; font-weight: 700; line-height: 1.4; color: #111111; word-break: keep-all; overflow-wrap: anywhere; }
+        .blog-prose .gcc.is-flat .gcc__example .gcc__rom { margin-top: 1px; }
+        .blog-prose .gcc.is-flat .gcc__example .gcc__en { margin-top: 2px; color: #6B6B6B; }
+        .blog-prose .gcc__play { flex: none; width: 28px; height: 28px; padding: 0; display: inline-flex; align-items: center; justify-content: center; border: 1px solid #E5E1DC; border-radius: 999px; background: #FFFFFF; cursor: pointer; transition: border-color 150ms ease; }
+        .blog-prose .gcc__play:hover { border-color: #111111; }
+        .blog-prose .gcc__play:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
+        .blog-prose .gcc__play.is-playing { border-color: #C8102E; }
+        .blog-prose .gcc__eq { display: inline-flex; align-items: flex-end; gap: 2px; height: 10px; }
+        .blog-prose .gcc__eq i { display: block; width: 2px; height: 4px; border-radius: 1px; background: #C8102E; animation: gcc-eq 0.9s ease-in-out infinite; }
+        .blog-prose .gcc__eq i:nth-child(2) { animation-delay: -0.3s; }
+        .blog-prose .gcc__eq i:nth-child(3) { animation-delay: -0.6s; }
+        @keyframes gcc-eq { 0%, 100% { height: 3px; } 50% { height: 10px; } }
+        @media (prefers-reduced-motion: reduce) { .blog-prose .gcc__eq i { animation: none; height: 8px; } }
         @media (max-width: 560px) {
           .blog-prose .gcc { padding: 18px 16px 14px; }
           .blog-prose .gcc__title { font-size: 19px; }

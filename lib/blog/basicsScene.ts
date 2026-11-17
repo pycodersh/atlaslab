@@ -14,6 +14,7 @@ export const BASICS_ACCENTS = ['#4F46E5', '#E11D48', '#059669', '#D97706']
  */
 export function basicsSceneThumb(thumb: BlogThumbnail | null, index: number): BlogThumbnail | null {
   if (thumb?.kind !== 'image' || !thumb.src.startsWith(BASE)) return null
+  if (thumb.src.endsWith('--thumb.webp')) return null // v2 큰 글자형은 한 장뿐이고 윗선 색도 두지 않는다
   const scene = (index + Math.floor(index / 3)) % 3
   return { ...thumb, src: thumb.src.replace(/\.webp$/, `${SUFFIX[scene]}.webp`) }
 }

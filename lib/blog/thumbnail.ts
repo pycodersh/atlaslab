@@ -209,7 +209,8 @@ export function cardThumbnailForPost(
   content: string | null | undefined,
   dbThumbnail?: string | null,
 ): BlogThumbnail | null {
-  if (slug in BASICS_VIDEOS) return { kind: 'image', src: `/images/blog/basics/${slug}.webp`, wide: true }
+  // v2(시범 스위치) 글은 큰 글자형 한 장(<slug>--thumb.webp) — basicsSceneThumb 가 돌리지 않는다
+  if (slug in BASICS_VIDEOS) return { kind: 'image', src: `/images/blog/basics/${slug}${BASICS_VIDEOS[slug].v2 ? '--thumb' : ''}.webp`, wide: true }
   return thumbnailForPost(slug, content, dbThumbnail)
 }
 

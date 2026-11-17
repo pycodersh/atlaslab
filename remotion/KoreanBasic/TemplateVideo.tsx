@@ -24,6 +24,7 @@ import {
   useCurrentFrame,
   useVideoConfig,
 } from 'remotion'
+import { TemplateVideoV2, SCENE_FRAMES, type SceneData } from './TemplateVideoV2'
 
 export const BASICS_VIDEO = {
   width: 1920,
@@ -58,6 +59,12 @@ export type BasicsVideoData = {
   voice?: [Lang, string][][]
   /** 이중 보이스 생성기가 써 넣는다 — 장면별 [시작, 끝] 초와 전체 길이 */
   timing?: { scenes: [number, number][]; total: number }
+  /** 시범 스위치 — true 면 TemplateVideoV2(사이트 톤 리디자인)로 그린다 */
+  v2?: boolean
+  /** v2 상황극 오프닝(선택). 있으면 메인 보이스오버와 뒤 장면이 7.5초 밀린다 */
+  scene?: SceneData
+  /** v2 목록 썸네일 문구 — 한국어 핵심 표현 1~2개(두 번째는 레드) + 아래 영문 뜻 배지 */
+  thumb?: { lines: { ko: string; rom: string }[]; en: string }
 }
 type Lang = 'en' | 'ko'
 type KoCard = { ko: string; rom: string }
@@ -125,7 +132,13 @@ function usePop(delay: number, damping = 12) {
  * 장면별 [시작 프레임, 길이]와 전체 프레임 수. timing 이 없으면 4초 × 3.
  * 장면 안 연출(2초 도장 · 슬로건 등)이 4초 기준이라 한 장면을 4초보다 짧게 두지 않는다.
  */
-export function videoLayout(data: BasicsVideoData): { scenes: { from: number; dur: number }[]; total: number } {
+export function videoLayout(data: BasicsVideoData): { scenes: { from: number; dur: number }[]; total: number; offset: number } {
+  const base = baseLayout(data)
+  const offset = data.v2 && data.scene ? SCENE_FRAMES : 0
+  return { scenes: base.scenes.map(s => ({ from: s.from + offset, dur: s.dur })), total: base.total + offset, offset }
+}
+
+function baseLayout(data: BasicsVideoData): { scenes: { from: number; dur: number }[]; total: number } {
   const fps = BASICS_VIDEO.fps
   if (!data.timing) {
     return { scenes: [0, 1, 2].map(i => ({ from: i * SCENE, dur: SCENE })), total: SCENE * 3 }
@@ -140,6 +153,12 @@ export function videoLayout(data: BasicsVideoData): { scenes: { from: number; du
 }
 
 export function TemplateVideo({ data }: { data: BasicsVideoData }) {
+  if (data.v2) return <TemplateVideoV2 data={data} layout={videoLayout(data)} />
+  return <LegacyTemplateVideo data={data} />
+}
+
+/** v2 로 옮기기 전 모습 — 2단계에서 39편이 모두 v2 가 되면 지운다 */
+function LegacyTemplateVideo({ data }: { data: BasicsVideoData }) {
   const { scenes } = videoLayout(data)
   return (
     <AbsoluteFill style={{ backgroundColor: C.bg, fontFamily: FONT, color: C.ink }}>

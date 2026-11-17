@@ -36,11 +36,20 @@ const VARIANTS = [
   { variant: 'example', file: s => `${s}--example.webp` },
   { variant: 'keyword', file: s => `${s}--keyword.webp` },
 ]
+/** v2(시범 스위치) 글은 큰 글자형 한 장만 — 목록에서 위치에 따라 돌리지 않는다(lib/blog/basicsScene) */
+const V2_VARIANTS = [{ variant: 'v2', file: s => `${s}--thumb.webp` }]
 const jobs = (wanted.length ? wanted : Object.keys(videos))
-  .flatMap(slug => VARIANTS.map(v => ({ slug, ...v, name: v.file(slug) })))
+  .flatMap(slug => (videos[slug].v2 ? V2_VARIANTS : VARIANTS).map(v => ({ slug, ...v, name: v.file(slug) })))
   .filter(j => force || wanted.length || !fs.existsSync(path.join(outDir, j.name)))
 
 fs.mkdirSync(outDir, { recursive: true })
+/** 진행 기록 — render-progress.json 의 thumbs 칸(pending / done / failed) */
+const PROGRESS = path.join(root, 'render-progress.json')
+const progress = fs.existsSync(PROGRESS) ? JSON.parse(fs.readFileSync(PROGRESS, 'utf8')) : {}
+progress.thumbs ??= {}
+const saveProgress = () => fs.writeFileSync(PROGRESS, JSON.stringify(progress, null, 1) + '\n')
+for (const j of jobs) progress.thumbs[j.name] = 'pending'
+saveProgress()
 fs.mkdirSync(tmpDir, { recursive: true })
 /** Scene 2 시작 + 2초의 프레임 번호 */
 const frameOf = slug => Math.round(((videos[slug].timing?.scenes?.[1]?.[0] ?? 4) + AFTER_SCENE2) * FPS)
@@ -50,6 +59,7 @@ if (!jobs.length) process.exit(0)
 
 const serveUrl = await bundle({ entryPoint: path.join(root, 'remotion', 'index.ts') })
 for (const { slug, variant, name } of jobs) {
+  try {
   const isVideo = variant === 'contrast'
   const inputProps = isVideo ? {} : { data: videos[slug], variant }
   const composition = await selectComposition({ serveUrl, id: isVideo ? slug : 'BasicsThumb', inputProps })
@@ -58,4 +68,10 @@ for (const { slug, variant, name } of jobs) {
   const out = path.join(outDir, name)
   await sharp(png).webp({ quality: 82 }).toFile(out)
   console.log(`✓ ${name} (${Math.round(fs.statSync(out).size / 1024)} KB)`)
+  progress.thumbs[name] = 'done'
+  } catch (e) {
+    progress.thumbs[name] = 'failed'
+    console.log(`✗ ${name}: ${e.message}`)
+  }
+  saveProgress()
 }

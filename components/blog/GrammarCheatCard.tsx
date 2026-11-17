@@ -9,6 +9,7 @@
  * 한국어 · 로마자는 자동 번역에서 빼야 뜻이 남는다(translate="no").
  */
 import type { ReactNode } from 'react'
+import { ExamplePlay } from './ExamplePlay'
 
 const AVOID = [
   {
@@ -115,16 +116,35 @@ export function RuleCard({ badge = 'Critical rule', title, foot = 'K-Patto Webto
   )
 }
 
+/**
+ * 고친 문장 줄(warn) — 설명은 #111111, 한국어 정답 문장만 레드 굵게.
+ * 정답은 'Say ' · 'Ask ' 뒤, 또는 마지막 ':' 뒤에 오는 한글이다(그 앞의 어미 이름 -(으)니까 등은 설명이라 칠하지 않는다).
+ * 낱자 하나(ㄱ · ㅂ)는 정답 문장이 아니라 칠하지 않는다.
+ */
+function warnLine(text: string): ReactNode {
+  const say = text.search(/\b(Say|say|Ask|ask)\b/)
+  const colon = text.lastIndexOf(':')
+  const from = say >= 0 ? say : colon >= 0 ? colon : text.length
+  return text.split(HANGUL_RUN).map((part, i) => {
+    if (!(i % 2)) return part
+    const at = text.split(HANGUL_RUN).slice(0, i).join('').length
+    const answer = at > from && !/^[ㄱ-ㆎ]$/.test(part)
+    return answer
+      ? <b key={i} className="gcc__fix" lang="ko" translate="no">{part}</b>
+      : <span key={i} lang="ko" translate="no">{part}</span>
+  })
+}
+
 export function RuleAvoid({ ko, rom, note, warn }: { ko: string; rom: string; note: string; warn: string }) {
   return (
     <div className="gcc__box is-avoid">
       <p className="gcc__tag">Avoid</p>
       <p className="gcc__word">
-        <span lang="ko" translate="no">{ko}</span>{' '}
-        <span className="gcc__rom" translate="no">{rom}</span>
+        <s lang="ko" translate="no">{ko}</s>
       </p>
+      <p className="gcc__rom" translate="no">{rom}</p>
       <p className="gcc__text">{keepKo(note)}</p>
-      <p className="gcc__warn">{keepKo(warn)}</p>
+      <p className="gcc__warn">{warnLine(warn)}</p>
     </div>
   )
 }
@@ -134,17 +154,22 @@ export function RuleInstead({ title = 'Say this instead', lead, children }: { ti
     <div className="gcc__box is-instead">
       <p className="gcc__tag">{title}</p>
       {lead && <p className="gcc__text">{keepKo(lead)}</p>}
-      {children}
+      {/* 예문은 흰 박스 하나 안에서 구분선으로 나눈 목록 */}
+      <div className="gcc__examples">{children}</div>
     </div>
   )
 }
 
+/** 예문 한 줄 — 한국어(굵게) → 로마자 → 영어 뜻, 오른쪽에 재생 버튼(기존 음성 파일이 있을 때만) */
 export function RuleExample({ ko, rom, en }: { ko: string; rom: string; en: string }) {
   return (
-    <p className="gcc__example">
-      <span lang="ko" translate="no">{ko}</span>{' '}
-      <span className="gcc__rom" translate="no">{rom}</span>
-      <span className="gcc__en">{keepKo(en)}</span>
-    </p>
+    <div className="gcc__example">
+      <p className="gcc__exText">
+        <span className="gcc__exKo" lang="ko" translate="no">{ko}</span>
+        <span className="gcc__rom" translate="no">{rom}</span>
+        <span className="gcc__en">{keepKo(en)}</span>
+      </p>
+      <ExamplePlay ko={ko} />
+    </div>
   )
 }
