@@ -73,7 +73,10 @@ export const PLACE_LABELS: { name: string; ll: LL; kind: 'city' | 'sea' | 'islan
   { name: 'KOREA STRAIT', ll: [34.3, 128.85], kind: 'sea', anchor: 'middle' },
 ]
 
-/** 펜화 색 — 홈 파노라마(components/home/panorama/ink)와 같다 */
-export const PAPER = '#F7F5EE'
+/** 지도 색(2026-11-17) — 바다 · 바탕 흰색, 땅 #F3F4F6, 해안 · 경계 #374151, 강 #CBD5E1. 핀 · 글자는 먹색 */
+export const PAPER = '#FFFFFF'
+export const LAND = '#F3F4F6'
+export const LINE = '#374151'
+export const RIVER = '#CBD5E1'
 export const INK = '#262422'
 export const HOTEL_RED = '#9E2B25'

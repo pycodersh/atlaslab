@@ -58,13 +58,13 @@ const CSS = `
 .xm-mapwrap { position: relative; height: 640px; min-width: 0; }
 .xm-map.pm { position: absolute; inset: 0; }
 .xm-toggle { position: absolute; top: 12px; right: 12px; z-index: 3; min-height: 36px; padding: 7px 14px; border: 1px solid ${INK};
-  border-radius: 999px; background: #F7F5EE; color: ${INK}; cursor: pointer; font: 600 12.5px ${BODY}; transition: background .15s, color .15s; }
-.xm-toggle:hover { background: #EDE9DE; }
-.xm-toggle[aria-pressed="true"] { background: ${INK}; color: #F7F5EE; }
+  border-radius: 999px; background: #fff; color: ${INK}; cursor: pointer; font: 600 12.5px ${BODY}; transition: background .15s, color .15s; }
+.xm-toggle:hover { background: #F3F4F6; }
+.xm-toggle[aria-pressed="true"] { background: ${INK}; color: #fff; }
 .xm-toggle:focus-visible { outline: 2px solid ${RED}; outline-offset: 2px; }
 /* 범례는 오른쪽 아래 바다(대한해협 · 동해 쪽) — 제주를 가리지 않는다 */
 .xm-legend { position: absolute; right: 12px; bottom: 24px; z-index: 3; display: flex; flex-wrap: wrap; gap: 4px 12px; max-width: calc(100% - 24px);
-  padding: 5px 10px; border: 1px solid rgba(38,36,34,.25); border-radius: 6px; background: rgba(247,245,238,.92); font: 500 11.5px ${BODY}; color: ${INK}; }
+  padding: 5px 10px; border: 1px solid #E5E7EB; border-radius: 6px; background: rgba(255,255,255,.94); font: 500 11.5px ${BODY}; color: ${INK}; }
 .xm-legend span { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
 .xm-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; box-sizing: border-box; }
 .xm-pk { display: block; margin-bottom: 2px; font: 700 9.5px ${BODY}; letter-spacing: .12em; text-transform: uppercase; color: #7A746B; padding-right: 18px; }
@@ -190,7 +190,7 @@ export function ExploreMap({ posts, region, regions = [], onRegion }: {
         <div className="xm-legend" aria-hidden="true">
           <span><i style={{ background: RED }} />Hotels</span>
           <span><i style={{ background: INK }} />Places</span>
-          {showSpots && <span><i style={{ background: '#F7F5EE', border: `2px solid ${INK}` }} />Walking hotspots</span>}
+          {showSpots && <span><i style={{ background: '#fff', border: `2px solid ${INK}` }} />Walking hotspots</span>}
         </div>
       </div>
     </div>

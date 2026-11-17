@@ -1,13 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { BookOpen } from 'lucide-react'
 import { HOTSPOT_CITIES, type SeoulClusterId } from '@/data/regionalHotspots'
 import { CategoryArt } from './CategoryBadge'
 import { HOTSPOT_PHOTOS } from '@/data/hotspotPhotos'
 import type { CityId } from '@/data/transitRoutes'
-import { PenMap, type PenArea } from '@/components/maps/PenMap'
-import { REGION_VIEW } from '@/lib/maps/penmap'
+import { PenMap } from '@/components/maps/PenMap'
+import { NATIONAL, PLACE_LABELS } from '@/lib/maps/penmap'
+import { SeoulAreaMap } from './SeoulAreaMap'
 import { PLACED_SPOTS, km, type LL } from '@/lib/blog/exploreRegions'
 import type { ExplorePost } from '@/lib/blog/explorePosts'
 import type { BlogThumbnail } from '@/lib/blog/thumbnail'
@@ -18,7 +18,7 @@ const fmtKm = (d: number) => (d < 1 ? `${Math.round(d * 10) * 100} m` : `${d.toF
 /**
  * 고른 도시 · 권역에 맞는 Explore Korea 글 — 지역 · 좌표는 lib/blog/exploreRegions 가 자동으로 잡는다.
  * 호텔: 같은 권역(서울) · 같은 도시 호텔을 명소에서 가까운 순으로. 서울 권역에 호텔이 없으면 가장 가까운 두 곳.
- * 가이드: 서울은 그 권역 가이드만, 다른 도시는 그 도시 글 전부(핀 있는 코스 가이드 먼저).
+ * 코스 가이드는 여기서 고르지 않는다 — 명소들이 링크하는 가이드 하나를 목록 맨 위 카드로 보여 준다(courseOf).
  */
 function pickExplore(posts: ExplorePost[], city: string, area: string | null, deck: string[]) {
   const deckLL = PLACED_SPOTS.filter(s => deck.includes(s.name) && s.ll)
@@ -33,11 +33,7 @@ function pickExplore(posts: ExplorePost[], city: string, area: string | null, de
     .sort((a, b) => (a.near?.d ?? 99) - (b.near?.d ?? 99))
   const inArea = area ? hotelsAll.filter(h => h.p.geo.area === area) : hotelsAll
   const hotels = (inArea.length ? inArea : hotelsAll.slice(0, 2)).slice(0, 4)
-  // 서울 권역에는 그 권역 가이드만 — 서울 전체 글(공연장 · 일정 글)은 권역마다 되풀이하면 엉뚱하다. 지도 링크가 나머지를 맡는다
-  const guides = inCity.filter(p => !p.hotel && (!area || p.geo.area === area))
-    .sort((a, b) => Number(!!b.geo.ll) - Number(!!a.geo.ll))
-    .slice(0, 4)
-  return { hotels, guides, hotelsNearby: !!area && !inArea.length }
+  return { hotels, hotelsNearby: !!area && !inArea.length }
 }
 
 // 해시태그에는 공백 · & · 가운뎃점을 못 쓴다 — '명동거리 & 야시장' 은 앞쪽 이름 하나만 태그로 쓴다
@@ -69,11 +65,16 @@ function InstagramIcon() {
 
 const spotId = (name: string) => `spot-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`
 
-// 서울 권역 이름표 자리 — 권역 명소들의 가운데
-const seoulAreas: PenArea[] = (HOTSPOT_CITIES.find(c => c.id === 'seoul')?.clusters ?? []).map(cl => {
-  const pts = PLACED_SPOTS.filter(s => s.area === cl.id && s.ll).map(s => s.ll!)
-  return { id: cl.id, name: cl.short, ll: [pts.reduce((a, p) => a + p[0], 0) / pts.length, pts.reduce((a, p) => a + p[1], 0) / pts.length] as LL }
-})
+// 이 권역 · 도시의 코스 가이드 — 명소들이 가장 많이 링크하는 글 하나
+function courseOf(spots: { guide?: { slug: string; label: string } }[]) {
+  const n = new Map<string, number>()
+  for (const s of spots) if (s.guide) n.set(s.guide.slug, (n.get(s.guide.slug) ?? 0) + 1)
+  const slug = [...n].sort((a, b) => b[1] - a[1])[0]?.[0]
+  return slug ? spots.find(s => s.guide?.slug === slug)!.guide! : null
+}
+
+// 지도 위 도시 자리(전국 지도) — 영문 지명 표의 좌표
+const cityLL = (id: string) => PLACE_LABELS.find(l => l.name.toLowerCase() === id)?.ll
 
 export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
   const [cityId, setCityId] = useState<CityId>('seoul')
@@ -94,9 +95,20 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
 
         .hs-seoul { display: flex; flex-direction: column; gap: 14px; padding: 16px; margin-bottom: 16px; background: #fff; border: 1px solid #E5E7EB; border-radius: 16px; }
         .hs-mapbox { width: 100%; }
-        .hs-penmap { width: 100%; height: 300px; border: 1px solid #262422; border-radius: 12px; }
-        .hs-num { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; margin: 0 8px 0 0; border-radius: 50%;
-          background: #262422; color: #F7F5EE; font: 700 11px/1 "DM Sans", Inter, system-ui, sans-serif; vertical-align: 3px; }
+        .hs-penmap { width: 100%; height: 320px; border: 1px solid #E5E7EB; border-radius: 12px; }
+        .hs-mapbox .sa-map { border: 1px solid #E5E7EB; border-radius: 12px; }
+        .hs-name-link { color: inherit; text-decoration: none; background-image: linear-gradient(#9E2B25, #9E2B25); background-size: 0 1.5px; background-position: 0 100%; background-repeat: no-repeat; transition: background-size .2s, color .15s; }
+        @media (hover: hover) { .hs-name-link:hover { color: #9E2B25; background-size: 100% 1.5px; } }
+        .hs-name-link:focus-visible { outline: 2px solid #9E2B25; outline-offset: 2px; border-radius: 2px; }
+        .hs-course { display: flex; align-items: center; gap: 14px; max-width: 768px; margin: 0 auto 14px; padding: 12px; box-sizing: border-box;
+          background: #fff; border: 1px solid #E5E7EB; border-left: 3px solid #9E2B25; border-radius: 14px; color: inherit; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+        @media (hover: hover) { .hs-course:hover { box-shadow: 0 2px 10px rgba(0,0,0,.06); border-color: #D1D5DB; border-left-color: #9E2B25; } }
+        .hs-course:focus-visible { outline: 2px solid #9E2B25; outline-offset: 2px; }
+        .hs-course img { flex: 0 0 88px; width: 88px; height: 66px; border-radius: 8px; object-fit: cover; }
+        .hs-course-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+        .hs-course-k { font: 700 10.5px "DM Sans", Inter, system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; color: #9E2B25; }
+        .hs-course-t { font-family: "Playfair Display", Georgia, serif; font-size: 16px; font-weight: 700; line-height: 1.3; color: #111827;
+          display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
         .hs-city-hint { margin: 0; font-size: 13px; color: #6B7280; }
         .hs-side { flex: 1; min-width: 0; }
         .hs-cluster-name { margin: 0; font-family: "Playfair Display", Georgia, serif; font-size: 22px; font-weight: 700; line-height: 1.2; color: #111827; }
@@ -125,20 +137,9 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
         .hs-link { display: flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 6px 4px; box-sizing: border-box; border: 1px solid #E2E8F0; border-radius: 12px; background: #fff; color: #334155; text-decoration: none; white-space: nowrap; font: 600 12px "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
         @media (hover: hover) { .hs-link:hover { background: #F9FAFB; border-color: #9CA3AF; } }
         .hs-link:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
-        /* 우리 글 링크 — 한 줄짜리 글자 링크(사이트 레드). 버튼처럼 무겁게 만들지 않는다. 터치 높이 32px.
-           폰: 꽉 찬 버튼 줄 아래 줄. 넓은 화면(768px~): 버튼과 같은 줄 왼쪽(버튼은 오른쪽 그대로) — 카드 높이가 늘지 않는다 */
-        /* 우리 글 링크 — 옅은 크림슨 알약(#9E2B25 6% 바탕 · 20% 테두리) + 책 아이콘.
-           폰: 알약이 한 줄을 다 쓰는 맨 윗줄, 그 아래 Google Maps · Live Vibes 두 버튼.
-           넓은 화면(768px~): 한 줄에 알약 왼쪽 · 버튼 오른쪽(가운데 정렬) */
+        /* 카드 아래 버튼 줄 — Google Maps · Live Vibes 두 개(가이드 링크는 명소 제목이 맡는다) */
         .hs-foot { display: flex; flex-direction: column; }
-        .hs-guide { order: -1; display: flex; align-items: center; justify-content: center; min-height: 44px; margin-top: 12px; padding: 6px 12px;
-          box-sizing: border-box; border: 1px solid rgba(158,43,37,.2); border-radius: 8px; background: rgba(158,43,37,.06); color: #9E2B25;
-          text-decoration: none; text-align: center; font: 500 13px/1.3 "DM Sans", Inter, system-ui, sans-serif; transition: background .15s, border-color .15s; }
-        /* 아이콘은 글자와 같은 줄 흐름에 — 두 줄로 접혀도 첫 글자 바로 앞에 붙어 있다 */
-        .hs-guide > span { text-wrap: balance; }
-        .hs-guide svg { display: inline-block; vertical-align: -3px; margin-right: 6px; }
-        @media (hover: hover) { .hs-guide:hover { background: rgba(158,43,37,.12); border-color: rgba(158,43,37,.28); } }
-        .hs-guide:focus-visible { outline: 2px solid #9E2B25; outline-offset: 2px; }        .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
+        .hs-route { display: flex; align-items: center; justify-content: center; min-height: 48px; max-width: 768px; padding: 10px 16px; margin: 0 auto 14px; box-sizing: border-box; border-radius: 12px; background: #111827; color: #fff; text-align: center; text-decoration: none; font: 700 14px "DM Sans", Inter, system-ui, sans-serif; }
         .hs-tab:focus-visible, .hs-chip:focus-visible, .hs-route:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
         /* Explore Korea 카드 — 명소 덱과 같은 폭, 흰 카드 · 세리프 제목. 폰 1열, 640px~ 2열 */
         .hs-ek { max-width: 768px; margin: 8px auto 22px; padding-top: 22px; border-top: 1px solid #E5E7EB; }
@@ -175,7 +176,6 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
           .hs-links { display: flex; justify-content: flex-end; }
           .hs-foot { flex-direction: row-reverse; align-items: center; justify-content: space-between; gap: 12px; margin-top: 12px; }
           .hs-foot .hs-links { margin-top: 0; }
-          .hs-foot .hs-guide { order: 0; align-self: center; justify-content: flex-start; min-height: 36px; margin-top: 0; padding: 4px 12px; min-width: 0; text-align: left; }
           .hs-link { min-height: 36px; padding: 4px 14px; font-size: 12px; }
           .hs-card { padding: 20px; }
           .hs-head { gap: 20px; }
@@ -199,23 +199,21 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
         ))}
       </div>
 
-      {/* 펜화 지도(Explore Korea 지도와 같은 그림) — 서울은 한강과 여섯 권역 이름표(눌러서 권역 고르기),
-          다른 도시는 해안 · 강 · 산이 든 도시 지도. 숫자 핀 = 아래 카드 순서, 누르면 그 카드로 */}
-      <section className="hs-seoul" aria-label={cluster ? 'Choose a Seoul area' : `${city.name} map`}>
+      {/* 지도 — 서울은 실제 구 경계로 그린 여섯 권역(고른 권역만 딥 레드), 다른 도시는 전국 지도에 그 도시 핀 · 이름만 강조 */}
+      <section className="hs-seoul" aria-label={cluster ? 'Choose a Seoul area' : `${city.name} on the map of Korea`}>
         <div className="hs-mapbox">
-          <PenMap
-            className="hs-penmap"
-            view={REGION_VIEW[city.id]}
-            interactive={false}
-            areas={cluster ? seoulAreas.map(a => ({ ...a, active: a.id === cluster.id })) : []}
-            onArea={id => setClusterId(id as SeoulClusterId)}
-            pins={spots.flatMap((sp, i) => {
-              const ll = PLACED_SPOTS.find(p => p.name === sp.name)?.ll
-              return ll ? [{ id: sp.name, ll, kind: 'spot' as const, num: i + 1, label: cluster ? undefined : sp.name }] : []
-            })}
-            onPin={name => document.getElementById(spotId(name))?.scrollIntoView({ behavior: 'smooth', block: 'center' })}
-            ariaLabel={cluster ? `Illustrated map of Seoul with the ${cluster.name} spots numbered` : `Illustrated map of ${city.name} with its spots numbered`}
-          />
+          {cluster ? (
+            <SeoulAreaMap selected={cluster.id} onSelect={setClusterId} names={Object.fromEntries((city.clusters ?? []).map(c => [c.id, c.short]))} />
+          ) : (
+            <PenMap
+              className="hs-penmap"
+              view={NATIONAL}
+              interactive={false}
+              highlight={city.id}
+              pins={cityLL(city.id) ? [{ id: city.id, ll: cityLL(city.id)!, kind: 'hotel' as const, label: city.name }] : []}
+              ariaLabel={`Map of South Korea with ${city.name} marked`}
+            />
+          )}
         </div>
         <div className="hs-side">
           <h2 key={cluster?.id ?? city.id} className="hs-cluster-name notranslate" translate="no">{cluster?.name ?? city.name}</h2>
@@ -229,22 +227,38 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
                 </button>
               ))}
             </div>
-          ) : (
-            <p className="hs-city-hint">Numbers on the map match the spot cards below.</p>
-          )}
+          ) : null}
         </div>
       </section>
 
       {/* key: 자동 번역이 글자 노드를 바꿔 끼우고, 바뀔 때마다 카드가 부드럽게 나타나게 새로 그린다 */}
       <div key={`${city.id}-${cluster?.id ?? ''}`} role="tabpanel" aria-label={cluster?.name ?? city.name}>
+        {/* 이 권역 · 도시의 걷기 코스 가이드 — 명소 목록 맨 위 카드 하나 */}
+        {(() => {
+          const g = courseOf(spots); if (!g) return null
+          const post = posts.find(p => p.slug === g.slug)
+          const title = post?.title ?? g.label.split(' · ')[0]
+          return (
+            <a className="hs-course" href={`/blog/en/k-patto/${g.slug}`}>
+              {post && thumbSrc(post.thumb) ? <img src={thumbSrc(post.thumb)!} alt="" loading="lazy" /> : null}
+              <span className="hs-course-body">
+                <span className="hs-course-k">Walking Course Guide</span>
+                <span className="hs-course-t">{title} →</span>
+              </span>
+            </a>
+          )
+        })()}
         <div className="hs-deck">
-          {spots.map((spot, i) => (
+          {spots.map(spot => (
             <article key={spot.name} id={spotId(spot.name)} className="hs-card">
               {/* 위: 사진 + 제목 묶음 / 아래: 팁과 버튼은 카드 전체 폭을 쓴다 */}
               <div className="hs-head">
                 <CategoryArt category={spot.category} photo={HOTSPOT_PHOTOS[spot.name]} alt={spot.name} />
                 <div className="hs-titles">
-                  <h2 className="hs-name notranslate" translate="no"><span className="hs-num" aria-hidden="true">{i + 1}</span>{spot.name}</h2>
+                  {/* 제목이 그 명소를 다룬 가이드 절로 가는 링크 */}
+                  <h2 className="hs-name notranslate" translate="no">{spot.guide
+                    ? <a className="hs-name-link" href={`/blog/en/k-patto/${spot.guide.slug}${spot.guide.anchor ? `#${spot.guide.anchor}` : ''}`}>{spot.name}</a>
+                    : spot.name}</h2>
                   <p className="hs-ko notranslate" translate="no" lang="ko">{spot.ko}</p>
                   <p className="hs-what">{spot.what}</p>
                 </div>
@@ -255,15 +269,13 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
                 <a className="hs-link" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${spot.ko} ${spot.name}`)}`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Google Maps`}><GoogleIcon />Google Maps</a>
                 <a className="hs-link" href={`https://www.instagram.com/explore/tags/${encodeURIComponent(instagramTag(spot.ko))}/`} target="_blank" rel="noopener noreferrer" aria-label={`${spot.name} on Instagram`}><InstagramIcon />Live Vibes</a>
               </div>
-              {/* 이 명소를 다룬 우리 글 — 같은 탭으로 연다. 라벨이 행선지(일정 글 · 지역 가이드)를 그대로 말한다 */}
-              {spot.guide && <a className="hs-guide" href={`/blog/en/k-patto/${spot.guide.slug}${spot.guide.anchor ? `#${spot.guide.anchor}` : ''}`}><span><BookOpen size={15} strokeWidth={1.75} aria-hidden="true" />{spot.guide.label} →</span></a>}
               </div>
             </article>
           ))}
         </div>
 
         {/* Explore Korea — 이 지역 호텔 리뷰 · 하루 코스 가이드(우리 글, 같은 탭으로 연다) */}
-        {(ek.hotels.length > 0 || ek.guides.length > 0) && (
+        {ek.hotels.length > 0 && (
           <section className="hs-ek" aria-label={`Explore Korea articles for ${placeName}`}>
             {ek.hotels.length > 0 && (
               <>
@@ -282,24 +294,7 @@ export function HotspotFinder({ posts = [] }: { posts?: ExplorePost[] }) {
                 </div>
               </>
             )}
-            {ek.guides.length > 0 && (
-              <>
-                <h2 className="hs-ek-h">Full course guides</h2>
-                <p className="hs-ek-sub">Step-by-step days and deep dives from Explore Korea</p>
-                <div className="hs-ek-grid">
-                  {ek.guides.map(p => (
-                    <a key={p.slug} className="hs-ek-card" href={`/blog/en/k-patto/${p.slug}`}>
-                      {thumbSrc(p.thumb) ? <img src={thumbSrc(p.thumb)!} alt="" loading="lazy" /> : <span className="hs-ek-ph" aria-hidden="true" />}
-                      <span className="hs-ek-body">
-                        <span className="hs-ek-k">Guide · {p.readMin} min read</span>
-                        <span className="hs-ek-t">{p.title}</span>
-                      </span>
-                    </a>
-                  ))}
-                </div>
-              </>
-            )}
-            <a className="hs-ek-more" href={`/blog?tab=explore-korea&region=${city.id}&view=map`}>See {city.name} hotels and guides on the map →</a>
+            <a className="hs-ek-more" href={`/blog?tab=explore-korea&region=${city.id}&view=map`}>See {city.name} hotels and guides on the Explore Korea map →</a>
           </section>
         )}
         {city.routeLink && <a className="hs-route" href={`/tools/intercity-transit?to=${city.id}`}>Check Route from Seoul in Transit Guide →</a>}

@@ -9,7 +9,7 @@
  * 조작: + / − , 끌어서 이동, 두 손가락 확대. view 가 바뀌면 그 범위로 부드럽게 옮겨 간다.
  */
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react'
-import { DETAIL_BELOW, INK, NATIONAL, PAPER, PLACE_LABELS, project, type Box, type LL } from '@/lib/maps/penmap'
+import { DETAIL_BELOW, INK, LAND, LINE, NATIONAL, PAPER, PLACE_LABELS, RIVER, project, type Box, type LL } from '@/lib/maps/penmap'
 import peakLabels from '@/lib/maps/penmap-labels.generated.json'
 
 export type PenPin = {
@@ -39,16 +39,16 @@ const CSS = `
 .pm svg.pm-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .pm.is-drag svg.pm-svg { cursor: grabbing; }
 .pm.is-pan svg.pm-svg { cursor: grab; touch-action: none; }
-.pm-art path, .pm-art line { fill: none; stroke: ${INK}; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
-/* 바다 = 종이(#F7F5EE), 땅 = 웜 스톤 틴트 #EFECE2 + 먹선 하나 */
-.pm-art .pm-land { fill: #EFECE2; stroke-width: 1.1; }
-.pm-art .pm-land-c { fill: #EFECE2; stroke: none; }
+.pm-art path, .pm-art line { fill: none; stroke: ${LINE}; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+/* 바다 = 흰색, 땅 = #F3F4F6 + 가는 선 #374151 하나 */
+.pm-art .pm-land { fill: ${LAND}; stroke-width: 1; }
+.pm-art .pm-land-c { fill: ${LAND}; stroke: none; }
 .pm-art .pm-coast { stroke-width: 1.2; }
-.pm-art .pm-nk { fill: #F3F1EA; stroke-width: .7; opacity: .7; }
-.pm-art .pm-river-n { stroke: #8A9BA6; stroke-width: 1.4; opacity: .9; }
-.pm-art .pm-river { stroke-width: .9; opacity: .7; }
-.pm-art .pm-water { fill: ${PAPER}; stroke-width: .8; }
-.pm-art .pm-dist { stroke-width: .5; stroke-dasharray: 1 3; opacity: .4; }
+.pm-art .pm-nk { fill: #F9FAFB; stroke: #D1D5DB; stroke-width: .7; }
+.pm-art .pm-river-n { stroke: ${RIVER}; stroke-width: 1.6; }
+.pm-art .pm-river { stroke: ${RIVER}; stroke-width: 1.1; }
+.pm-art .pm-water { fill: ${RIVER}; stroke: none; }
+.pm-art .pm-dist { stroke: #D1D5DB; stroke-width: .6; }
 .pm-art .pm-ripple path { stroke-width: .8; }.pm-art .pm-mtn path { stroke-width: .85; }
 .pm-art .pm-mtn .pm-hatch { stroke-width: .5; opacity: .7; }
 .pm .pm-lod-c { display: none; }
@@ -61,6 +61,9 @@ const CSS = `
 .pm-lbl-peak { font-family: "Playfair Display", Georgia, serif; font-style: italic; font-size: 10px; letter-spacing: .12em; fill: #5A544C; }
 .pm-lbl-spot { font-size: 11px; font-weight: 600; letter-spacing: .01em; }
 .pm-dot-city { fill: ${PAPER}; stroke: ${INK}; stroke-width: 1.4; }
+.pm.has-hl .pm-lbl-city { fill: #9CA3AF; font-weight: 600; }
+.pm.has-hl .pm-dot-city { stroke: #9CA3AF; }
+.pm.has-hl .pm-lbl-city.is-hl { fill: #9E2B25; font-weight: 800; font-size: 13px; }
 .pm-city { cursor: pointer; }
 .pm-city .pm-lbl { pointer-events: auto; }
 .pm-city:hover .pm-lbl-city { fill: #9E2B25; }
@@ -82,20 +85,22 @@ const CSS = `
 .pm-ctrl { position: absolute; left: 12px; top: 12px; z-index: 3; display: flex; flex-direction: column; border: 1px solid ${INK}; border-radius: 8px; overflow: hidden; background: ${PAPER}; }
 .pm-ctrl button { width: 34px; height: 34px; padding: 0; border: 0; background: transparent; color: ${INK}; font: 500 19px/1 "DM Sans", system-ui, sans-serif; cursor: pointer; }
 .pm-ctrl button + button { border-top: 1px solid ${INK}; }
-.pm-ctrl button:hover:not(:disabled) { background: #EDE9DE; }
+.pm-ctrl button:hover:not(:disabled) { background: ${LAND}; }
 .pm-ctrl button:disabled { opacity: .35; cursor: default; }
 .pm-ctrl button:focus-visible { outline: 2px solid #9E2B25; outline-offset: -2px; }
-.pm-credit { position: absolute; right: 6px; bottom: 4px; z-index: 3; max-width: calc(100% - 12px); font: 400 9px/1.3 "DM Sans", system-ui, sans-serif; color: #7A746B; background: rgba(247,245,238,.85); padding: 1px 5px; border-radius: 3px; }
+.pm-credit { position: absolute; right: 6px; bottom: 4px; z-index: 3; max-width: calc(100% - 12px); font: 400 9px/1.3 "DM Sans", system-ui, sans-serif; color: #6B7280; background: rgba(255,255,255,.85); padding: 1px 5px; border-radius: 3px; }
 .pm-credit a { color: inherit; }
 .pm-pop { position: absolute; z-index: 4; transform: translate(-50%, calc(-100% - 16px)); width: max-content; max-width: min(260px, calc(100% - 24px));
-  padding: 10px 12px 11px; background: #FFFDF8; border: 1px solid ${INK}; border-radius: 10px; box-shadow: 0 6px 18px rgba(38,36,34,.18); font: 400 12.5px/1.45 "DM Sans", system-ui, sans-serif; color: #3F3A36; }
-.pm-pop::after { content: ''; position: absolute; left: 50%; bottom: -7px; width: 12px; height: 12px; background: #FFFDF8; border-right: 1px solid ${INK}; border-bottom: 1px solid ${INK}; transform: translateX(-50%) rotate(45deg); }
+  padding: 10px 12px 11px; background: #fff; border: 1px solid ${INK}; border-radius: 10px; box-shadow: 0 6px 18px rgba(38,36,34,.18); font: 400 12.5px/1.45 "DM Sans", system-ui, sans-serif; color: #3F3A36; }
+.pm-pop::after { content: ''; position: absolute; left: 50%; bottom: -7px; width: 12px; height: 12px; background: #fff; border-right: 1px solid ${INK}; border-bottom: 1px solid ${INK}; transform: translateX(-50%) rotate(45deg); }
 .pm-pop-x { position: absolute; top: 2px; right: 4px; width: 26px; height: 26px; border: 0; background: none; color: #7A746B; font-size: 17px; line-height: 1; cursor: pointer; }
 `
 
 export function PenMap({
-  view, pins = [], areas = [], onPin, onArea, interactive = true, popup, topRight, className = '', ariaLabel, focus, cities = [], onCity,
+  view, pins = [], areas = [], onPin, onArea, interactive = true, popup, topRight, className = '', ariaLabel, focus, cities = [], onCity, highlight,
 }: {
+  /** 이 도시 이름표만 딥 레드로 강조(영문 이름 소문자) — 나머지 도시 이름은 옅게 */
+  highlight?: string
   /** 전국 지도에서 누를 수 있는 도시 이름표(지역 id = 영문 이름 소문자) */
   cities?: string[]
   onCity?: (id: string) => void
@@ -217,7 +222,7 @@ export function PenMap({
   const popPos = popPin ? toScreen(popPin.ll) : null
 
   return (
-    <div ref={wrap} translate="no" className={`pm notranslate ${detail ? 'is-detail' : ''} ${interactive ? 'is-pan' : ''} ${dragging ? 'is-drag' : ''} ${className}`}>
+    <div ref={wrap} translate="no" className={`pm notranslate ${highlight ? 'has-hl ' : ''}${detail ? 'is-detail' : ''} ${interactive ? 'is-pan' : ''} ${dragging ? 'is-drag' : ''} ${className}`}>
       <style>{CSS}</style>
       {vb && (
         <svg className="pm-svg notranslate" viewBox={`${vb.x} ${vb.y} ${vb.w} ${vb.h}`} role="group" aria-label={ariaLabel}
@@ -298,7 +303,7 @@ export function PenMap({
                 } : {})}>
                 {go && <rect x={a === 'end' ? -l.name.length * 7.6 - 16 : a === 'middle' ? -l.name.length * 3.8 - 6 : -6} y={-12} width={l.name.length * 7.6 + 22} height={22} fill="transparent" />}
                 {l.kind === 'city' && !detail && <circle className="pm-dot-city" r="2.4" />}
-                <text className={`pm-lbl pm-lbl-${l.kind}`} x={dx} y={l.kind === 'city' && a === 'middle' ? -9 : 3.5} textAnchor={a}>{l.name}</text>
+                <text className={`pm-lbl pm-lbl-${l.kind}${highlight && id === highlight ? ' is-hl' : ''}`} x={dx} y={l.kind === 'city' && a === 'middle' ? -9 : 3.5} textAnchor={a}>{l.name}</text>
               </g>
             )
           })}

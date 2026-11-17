@@ -222,9 +222,9 @@ function edges(features: any[], keep: (f: any) => boolean) {
 }
 
 /** OSM 멀티폴리곤 바깥 고리 — 조각 난 way 들을 끝점끼리 이어 닫는다 */
-function joinRings(parts: Line[]): Line[] {
+function joinRings(parts: Line[], eps = 0.01): Line[] {
   const rings: Line[] = []; const left = parts.map(p => p.slice())
-  const eq = (a: P, b: P) => Math.abs(a[0] - b[0]) < 0.01 && Math.abs(a[1] - b[1]) < 0.01
+  const eq = (a: P, b: P) => Math.abs(a[0] - b[0]) < eps && Math.abs(a[1] - b[1]) < eps
   while (left.length) {
     let cur = left.shift()!
     let grew = true
@@ -322,8 +322,92 @@ async function main() {
     console.log(`  해안 ${realCoast.length} · 구경계 ${inner.length} · 강 ${rivers.length} · 물 ${bigWater.length}`)
   }
 
+  // 서울 권역 지도(Hotspot Finder) — 서울 25개 구의 바깥 테두리 + 여섯 권역 = 그 권역 명소가 든 구들의 합.
+  // 손으로 그린 권역이 아니라 행정 경계를 그대로 쓴다(종로 · 북촌 = 종로구, 여의도 · 용산 = 영등포구 + 용산구 …)
+  {
+    const cen = (f: any) => {
+      const cs = (JSON.stringify(f.geometry.coordinates).match(/-?\d+\.\d+,-?\d+\.\d+/g) ?? []).map(t => t.split(',').map(Number))
+      return [cs.reduce((a, p) => a + p[1], 0) / cs.length, cs.reduce((a, p) => a + p[0], 0) / cs.length]
+    }
+    // 구 경계는 OSM(행정구역 relation, admin_level 6) — geoBoundaries 는 거칠어 명소가 옆 구로 잡힌다.
+    // 받아 둔 게 없으면 geoBoundaries 로 그린다
+    const guFile = path.join(CACHE, 'osm-seoul-gu.json')
+    if (!fs.existsSync(guFile) && !process.env.PENMAP_OFFLINE) {
+      const q = '[out:json][timeout:120];area["name:en"="Seoul"]["admin_level"="4"]->.s;relation(area.s)["boundary"="administrative"]["admin_level"="6"];out geom qt;'
+      for (let i = 0; i < 9 && !fs.existsSync(guFile); i++) {
+        try {
+          const res = await fetch(OVERPASS[i % OVERPASS.length], { method: 'POST', headers: { ...UA, 'Content-Type': 'application/x-www-form-urlencoded' }, body: 'data=' + encodeURIComponent(q) })
+          const t = await res.text()
+          if (res.ok && t.startsWith('{') && JSON.parse(t).elements.length >= 25) fs.writeFileSync(guFile, t)
+        } catch { /* 다음 미러 */ }
+        if (!fs.existsSync(guFile)) await sleep(6000)
+      }
+    }
+    const osmGu = fs.existsSync(guFile) ? JSON.parse(fs.readFileSync(guFile, 'utf8')).elements : []
+    const seoulGu = osmGu.length >= 25
+      ? osmGu.map((el: any) => {
+          const outers = el.members.filter((m: any) => m.role === 'outer' && m.geometry).map((m: any) => m.geometry.map((p: any) => [p.lon, p.lat]))
+          const rings = joinRings(outers as any, 1e-7) as unknown as number[][][] // 위경도라 아주 작게
+          return { properties: { shapeName: el.tags['name:en'] }, geometry: { type: 'MultiPolygon', coordinates: rings.map(r => [r]) } }
+        })
+      : adm2.features.filter((f: any) => {
+          const [la, lo] = cen(f)
+          return /-gu(\s|$)/.test(f.properties.shapeName) && la > 37.42 && la < 37.72 && lo > 126.77 && lo < 127.19
+        })
+    console.log(`  서울 구 경계: ${osmGu.length >= 25 ? 'OSM' : 'geoBoundaries'}`)
+    if (seoulGu.length !== 25) throw new Error(`서울 구가 ${seoulGu.length}개 — 25개여야 한다`)
+    const ringsOf = (f: any): Line[] => (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates).map((p: number[][][]) => simplify(p[0].map(pr), 0.8))
+    const guPolys = seoulGu.map((f: any) => ({ name: f.properties.shapeName as string, rings: ringsOf(f) }))
+    const ed = edges(seoulGu, () => true)
+    const outline = ed.outer.map(l => simplify(l, 0.8))
+    const inner = ed.inner.map(l => simplify(l, 0.8))
+    const xs = outline.flat().map(p => p[0]), ys = outline.flat().map(p => p[1])
+    const box = { x: Math.min(...xs), y: Math.min(...ys), w: Math.max(...xs) - Math.min(...xs), h: Math.max(...ys) - Math.min(...ys) }
+
+    const spotLL = (JSON.parse(fs.readFileSync('lib/blog/explore-geo.generated.json', 'utf8')).spots ?? {}) as Record<string, LL>
+    const { HOTSPOT_CITIES } = await import('../data/regionalHotspots')
+    const clusters = HOTSPOT_CITIES.find(c => c.id === 'seoul')?.clusters ?? []
+    const areas: Record<string, { d: string; gu: string[]; label: [number, number] }> = {}
+    for (const cl of clusters) {
+      // 구 경계가 거칠어 경계 가까운 명소가 옆 구로 잡힌다(창덕궁 → 성북구, 압구정 → 성동구) —
+      // 명소 둘 이상이 든 구만 권역으로 친다(없으면 가장 많은 구 하나)
+      const cnt = new Map<number, number>()
+      for (const sp of cl.spots) {
+        const ll = spotLL[sp.name]; if (!ll) continue
+        const p = project(...ll)
+        const i = guPolys.findIndex((g: any) => g.rings.some((r: Line) => inRing(p, r)))
+        if (i >= 0) cnt.set(i, (cnt.get(i) ?? 0) + 1)
+      }
+      const max = Math.max(...cnt.values())
+      const picked = [...cnt].filter(([, n]) => n >= 2 || n === max).map(([i]) => guPolys[i])
+      const pts = cl.spots.flatMap(sp => (spotLL[sp.name] ? [project(...spotLL[sp.name])] : []))
+      areas[cl.id] = {
+        d: d(picked.flatMap((g: any) => g.rings), true),
+        gu: picked.map((g: any) => g.name.replace(/\s*\[.*\]/, '')),
+        label: [r1(pts.reduce((a, p) => a + p[0], 0) / pts.length), r1(pts.reduce((a, p) => a + p[1], 0) / pts.length)],
+      }
+      console.log(`  ${cl.id}: ${areas[cl.id].gu.join(' + ')}`)
+    }
+    // 한강 수면 — 서울 OSM 물 중 넓은 것(서울 밖은 화면이 테두리로 잘라 낸다)
+    const osmSeoul = await overpass('seoul', REGION_BBOX.seoul)
+    const water: Line[] = []
+    for (const el of osmSeoul.elements) {
+      if (el.type === 'relation' && /river/.test(el.tags?.water ?? '')) {
+        const outers = el.members.filter((m: any) => m.role === 'outer' && m.geometry).map((m: any) => m.geometry.map((p: any) => project(p.lat, p.lon)))
+        water.push(...joinRings(outers).map(r => simplify(r, 0.6)))
+      }
+    }
+    const areaOf = (r: Line) => Math.abs(r.reduce((a, p, i) => { const q = r[(i + 1) % r.length]; return a + p[0] * q[1] - q[0] * p[1] }, 0) / 2)
+    const river = water.filter(r => areaOf(r) > 40)
+    fs.writeFileSync('lib/maps/seoul-areas.generated.json', JSON.stringify({
+      box: { x: r1(box.x), y: r1(box.y), w: r1(box.w), h: r1(box.h) },
+      outline: d(outline), gu: d(inner), river: d(river, true), areas,
+    }) + '\n')
+    console.log(`✅ lib/maps/seoul-areas.generated.json — 권역 ${Object.keys(areas).length} · 한강 조각 ${river.length}`)
+  }
+
   const c = CANVAS
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${r1(c.x)} ${r1(c.y)} ${r1(c.w)} ${r1(c.h)}">${g.join('')}</svg>\n`
+  const svg =`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${r1(c.x)} ${r1(c.y)} ${r1(c.w)} ${r1(c.h)}">${g.join('')}</svg>\n`
   fs.mkdirSync('public/maps', { recursive: true })
   fs.writeFileSync(`public/maps/penmap-${VER}.svg`, svg)
   fs.writeFileSync('lib/maps/penmap-labels.generated.json', JSON.stringify(labels, null, 1) + '\n')
