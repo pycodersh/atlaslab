@@ -6,11 +6,14 @@ import type { CSSProperties } from 'react'
  */
 
 export const W = 1600, H = 400
-export const PAPER = '#F7F5EE'
-export const INK = '#262422'
-export const RED = '#9E2B25'
-export const INDIGO = '#2F3B5C'
-export const OCHRE = '#B5874A'
+// 색은 CSS 변수로만 정한다 — 실제 값은 홈 히어로(.hero)의 --line · --line-muted · --fill-bg · --accent … 한 곳에서 바꾼다.
+// (검은 배너 위 크림 선: 선 = 크림, 벽 · 지붕 안쪽 채움 = 배경색으로 뒤 선을 가린다)
+export const PAPER = 'var(--fill-bg, #111111)'      // 면 채움(가림용)
+export const INK = 'var(--line, #F7F5F2)'           // 주 선
+export const DARK_FILL = 'var(--fill-dark, #6B6B6B)' // 원래 먹색으로 칠한 머리 · 옷 · 작은 소품 — 검정에 묻히지 않는 회색
+export const RED = 'var(--accent, #C8102E)'
+export const INDIGO = 'var(--fill-dark, #6B6B6B)'   // 남색 한복 · 옷은 검정 위에서 보이도록 회색 채움
+export const OCHRE = 'var(--warm, #B5874A)'
 export const GROUND = 300            // 길 높이
 
 export const r1 = (n: number) => Math.round(n * 10) / 10
@@ -123,7 +126,7 @@ export function InkParts({ parts, drawIn = false }: { parts: Part[]; drawIn?: bo
           style={drawIn ? ({ '--s': delay(p.x, 0.7) } as CSSProperties) : undefined} />
       ) : (
         <path key={i} className={drawIn ? 'hp-f hp-fade' : 'hp-f'} d={p.d}
-          style={{ '--s': drawIn ? delay(p.x, 1.1) : undefined, fill: p.fill, fillOpacity: p.op } as CSSProperties} />
+          style={{ '--s': drawIn ? delay(p.x, 1.1) : undefined, fill: p.fill === INK ? DARK_FILL : p.fill, fillOpacity: p.op } as CSSProperties} />
       ))}
     </>
   )

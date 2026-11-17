@@ -208,10 +208,18 @@ bg.m(TOWER, 849); bg.dl(TOWER_D, 849)
 }
 
 /* ════ 콘서트 군중 — 뒤에서 앞으로, 원근을 따라 커진다 ═════════════ */
+// 줄 간격은 예전(9.2·s)의 두 배 — 줄 수가 절반이다. 무대 앞 부채꼴 윤곽(L · R)은 그대로.
+// 뒤쪽 줄(FAR_T 미만)은 사람 대신 반원(어깨) + 점(머리)으로 흐리게, 앞쪽 줄만 사람 모양을 남긴다.
+// 응원봉(붉은 포인트)은 앞쪽 줄에서만, 전체 관객의 5~10% 정도.
+const ROW_GAP = 18.4
+const FAR_T = 0.5
+const STICK_SHARE = 0.07
 const crowdRows: { d: string; sw: number }[] = []
+const farRows: string[] = []
 const sticks: { x: number; y: number; len: number; dl: number }[] = []
 {
   const rand = rng(303)
+  const people: { hands: [number, number][]; s: number }[] = []
   let y = 288
   while (y < 414) {
     const t = Math.min(1, (y - 288) / 112)
@@ -220,15 +228,27 @@ const sticks: { x: number; y: number; len: number; dl: number }[] = []
     let d = ''
     let x = L + 4 + rand() * 6 * s
     while (x < R - 4) {
-      const p = crowdPerson(Math.round(x), Math.round(y + (rand() - 0.5) * 2 * s), s, rand)
-      d += p.d
-      for (const [hx, hy] of p.hands) {
-        if (t > 0.08 && rand() < 0.42 && sticks.length < 70) sticks.push({ x: r1(hx), y: r1(hy), len: r1(7.5 * s), dl: r1(rand() * 1.6) })
+      const px = Math.round(x), py = Math.round(y + (rand() - 0.5) * 2 * s)
+      if (t < FAR_T) {
+        d += `M${r1(px - 4 * s)} ${r1(py + 6 * s)}a${r1(4 * s)} ${r1(4 * s)} 0 0 1 ${r1(8 * s)} 0` + circ(px, py - 1 * s, 1.3 * s)
+        people.push({ hands: [], s })
+      } else {
+        const p = crowdPerson(px, py, s, rand)
+        d += p.d
+        people.push({ hands: p.hands, s })
       }
       x += (14.5 + rand() * 3) * s
     }
-    crowdRows.push({ d, sw: r1(0.55 + t * 0.5) })
-    y += 9.2 * s
+    if (t < FAR_T) farRows.push(d)
+    else crowdRows.push({ d, sw: r1(0.55 + t * 0.5) })
+    y += ROW_GAP * s
+  }
+  const cap = Math.round(people.length * STICK_SHARE)
+  const raised = people.flatMap(p => p.hands.map(h => ({ h, s: p.s })))
+  const pick = Math.min(1, (cap * 1.15) / Math.max(1, raised.length))   // 앞뒤 줄에 고루 흩어지게
+  for (const { h: [hx, hy], s } of raised) {
+    if (sticks.length >= cap) break
+    if (rand() < pick) sticks.push({ x: r1(hx), y: r1(hy), len: r1(7.5 * s), dl: r1(rand() * 1.6) })
   }
 }
 
@@ -357,7 +377,7 @@ const CART_STEAM = ['M1072 268 C1068 262 1076 258 1072 254', 'M1088 268 C1084 26
 
 export function CultureScene({ label }: { label: string }) {
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={label} focusable="false">
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMax slice" role="img" aria-label={label} focusable="false">
       <g className="hp-cloud">
         <path className="hp-d" d={CLOUD_A} vectorEffect="non-scaling-stroke" />
         <path className="hp-d" d={CLOUD_B} vectorEffect="non-scaling-stroke" />
@@ -376,6 +396,9 @@ export function CultureScene({ label }: { label: string }) {
       <path className="hc-neon" d={NEON} vectorEffect="non-scaling-stroke" />
       <path className="hp-f hc-bulb" d={BULBS_A} style={{ fill: OCHRE }} />
       <path className="hp-f hc-bulb hc-bulb-b" d={BULBS_B} style={{ fill: OCHRE }} />
+      {farRows.map((d, i) => (
+        <path key={`far${i}`} className="hp-d" d={d} vectorEffect="non-scaling-stroke" style={{ strokeOpacity: 0.35 }} />
+      ))}
       {crowdRows.map((r, i) => (
         <path key={i} className="hp-m" d={r.d} vectorEffect="non-scaling-stroke" style={{ fill: PAPER, strokeWidth: r.sw }} />
       ))}

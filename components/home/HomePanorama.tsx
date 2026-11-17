@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react'
-import { W, H, PAPER, INK, RED, INDIGO, OCHRE, GROUND, r1, rng, createInk, InkParts, delay, RIDGE, RIDGE_HATCH, TOWER, TOWER_D, CLOUD_A, CLOUD_B } from './panorama/ink'
+import { W, H, PAPER, INK, DARK_FILL, RED, INDIGO, OCHRE, GROUND, r1, rng, createInk, InkParts, delay, RIDGE, RIDGE_HATCH, TOWER, TOWER_D, CLOUD_A, CLOUD_B } from './panorama/ink'
 import { CultureScene } from './panorama/CultureScene'
 import { PanoramaStage } from './panorama/PanoramaStage'
 
@@ -9,8 +9,10 @@ import { PanoramaStage } from './panorama/PanoramaStage'
  *  2) Culture:  궁궐 앞 드라마 촬영 → 남산 아래 콘서트 → 영화관 레드카펫 (panorama/CultureScene.tsx).
  * 글자 · 라벨은 없다.
  *
- * 선:  m 외곽 1.2px 먹색 #262422  ·  d 기와골 · 창살 · 돌 · 물결 0.6px
- * 채색: 붉은 파라솔 · 청사초롱 · 인물 옷 · 나무 평상과 그릇에만 딥 레드 / 인디고 / 황토를 옅게.
+ * 히어로 검은 배너(.hero) 안쪽 하단에 놓인다. 색은 .hero 의 CSS 변수(--line · --line-muted-opacity · --fill-bg · --accent · --fill-dark · --warm)로만 정한다.
+ * 선:  m 외곽 1.2px 크림(--line)  ·  d 기와골 · 창살 · 돌 · 물결 0.6px, 투명도 --line-muted-opacity
+ * 채색: 벽 · 지붕 안쪽 = 배경색(뒤 선 가림), 붉은 포인트 = --accent, 짙은 옷 · 머리 = --fill-dark, 평상 · 그릇 = --warm.
+ * 데스크톱은 4:1 비율 그대로 높이 260px 상한(폭 1040px), 폰은 156px 높이로 가운데 · 아래쪽만 잘라 보인다.
  * 움직임: 처음에 외곽선이 왼쪽부터 그려지고(세밀선 · 채색은 뒤따라 스며듦),
  *        그 뒤 구름 · 물결이 천천히 흐르고, 뚝배기 · 굴뚝 김이 피어오르고, 여행자가 골목을 걷는다.
  * 그림은 서버에서 그리고, 자동 전환만 작은 클라이언트 컴포넌트(PanoramaStage)가 맡는다.
@@ -105,11 +107,11 @@ dl('M1316 154 L1262 197 M1316 154 L1289 197 M1316 154 L1343 197 M1316 154 L1370 
 // 소반 · 뚝배기 · 반찬 그릇 · 식사하는 사람들
 fl('M1282 258 A34 6 0 1 0 1350 258 A34 6 0 1 0 1282 258 Z', 1316, OCHRE, 0.5)
 m('M1282 258 A34 6 0 1 0 1350 258 A34 6 0 1 0 1282 258 M1290 262 V268 M1342 262 V268', 1316)
-fl('M1302 256 C1302 248 1306 244 1310 244 H1322 C1326 244 1330 248 1330 256 Z', 1316, '#5A4636', 0.75)
+fl('M1302 256 C1302 248 1306 244 1310 244 H1322 C1326 244 1330 248 1330 256 Z', 1316, DARK_FILL, 0.75)
 m('M1302 256 C1302 248 1306 244 1310 244 H1322 C1326 244 1330 248 1330 256 M1304 244 H1328', 1316)
 fl('M1288 256 C1288 252 1296 252 1296 256 Z M1336 256 C1336 252 1344 252 1344 256 Z M1318 260 C1318 257 1326 257 1326 260 Z', 1316, OCHRE, 0.9)
 m('M1287 256 H1297 M1335 256 H1345 M1317 260 H1327', 1316)
-seated(1262, 268, 1, INDIGO); seated(1372, 268, -1, OCHRE, '#3B2F28')
+seated(1262, 268, 1, INDIGO); seated(1372, 268, -1, OCHRE, DARK_FILL)
 // 낮잠 자는 고양이 — 평상 오른쪽 끝
 m('M1416 268 C1414 260 1420 254 1430 254 C1438 254 1442 258 1442 262 L1446 256 L1446 263 C1446 266 1444 268 1440 268 M1416 268 C1410 268 1406 266 1408 262 C1410 260 1414 262 1416 264', 1430, PAPER)
 dl('M1436 262 c1 1 3 1 4 0 M1424 258 c2 -2 6 -2 8 0 M1428 262 c2 -1 4 -1 6 0', 1430)
@@ -152,7 +154,7 @@ function Traveler(): ReactNode {
         <path className="hp-f" d="M-4 -44 C-2 -40 4 -40 6 -44 L8 -22 L-6 -22 Z" style={{ fill: OCHRE, fillOpacity: 0.55 }} />
         <path className="hp-m" d="M-6 -44 C-14 -42 -16 -30 -14 -22 L-4 -22 M-4 -44 C-2 -40 4 -40 6 -44 L8 -22 L-6 -22 Z" />
         <circle className="hp-m" cx="1" cy="-50" r="5" style={{ fill: PAPER }} />
-        <path className="hp-f" d="M-4 -52 C-4 -57 5 -58 6 -52 C3 -54 -1 -54 -4 -51 Z" style={{ fill: INK }} />
+        <path className="hp-f" d="M-4 -52 C-4 -57 5 -58 6 -52 C3 -54 -1 -54 -4 -51 Z" style={{ fill: DARK_FILL }} />
         <path className="hp-m" d="M-2 -43 L8 -30 M6 -32 h5 v4 h-5 Z M8 -36 L14 -28" />
       </g>
       <path className="hp-m hp-leg-a" d="M0 -22 L-4 -10 L-6 0" />
@@ -168,7 +170,7 @@ const CULTURE_LABEL = 'A pen drawing of K-culture: a drama crew filming actors i
 
 function HeritageScene() {
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={HERITAGE_LABEL} focusable="false">
+    <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMax slice" role="img" aria-label={HERITAGE_LABEL} focusable="false">
       <g className="hp-cloud">
         <path className="hp-d hp-draw" d={CLOUD_A} pathLength={1} vectorEffect="non-scaling-stroke" style={{ '--s': delay(600, 0.2) } as CSSProperties} />
         <path className="hp-d hp-draw" d={CLOUD_B} pathLength={1} vectorEffect="non-scaling-stroke" style={{ '--s': delay(1040, 0.2) } as CSSProperties} />
@@ -186,21 +188,28 @@ function HeritageScene() {
 
 export function HomePanorama() {
   return (
-    <section className="hp" aria-label="Pen-drawn panorama of Korea, alternating between heritage and K-culture scenes">
+    <div className="hp" role="group" aria-label="Pen-drawn panorama of Korea, alternating between heritage and K-culture scenes">
       <style>{`
-        .hp { background: ${PAPER}; border-bottom: 1px solid #E6E1D6; }
-        .hp-inner { max-width: 1240px; margin: 0 auto; padding: 18px 12px; }
+        /* 검은 히어로 배너 안쪽 하단. 색 변수(--line …)는 .hero 에서 받는다 */
+        .hp { position: relative; }
+        .hp-inner { max-width: 1240px; margin: 0 auto; padding: 4px 12px 0; }
         .hp-stagewrap { position: relative; }
-        .hp-scroll { overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
-        .hp-scroll::-webkit-scrollbar { display: none; }
-        .hp svg { display: block; width: 100%; height: auto; min-width: 860px; }
+        /* 좌우 끝은 검정으로 스며들게 — 잘린 경계선이 보이지 않는다 */
+        .hp-scroll { overflow: hidden; }
+        /* 데스크톱: 원래 비율(4:1) 그대로, 높이 상한 260px → 폭 최대 1040px 가운데. 좌우 끝은 마스크로 검정에 녹인다 */
+        .hp-stage {
+          width: min(100%, var(--hp-w, 1040px)); margin: 0 auto;
+          -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+                  mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+        }
+        .hp svg { display: block; width: 100%; height: auto; }
         .hp path, .hp circle { stroke-linecap: round; stroke-linejoin: round; }
         .hp-m { fill: none; stroke: ${INK}; stroke-width: 1.2; }
-        .hp-d { fill: none; stroke: ${INK}; stroke-width: .6; stroke-opacity: .75; }
+        .hp-d { fill: none; stroke: ${INK}; stroke-width: .6; stroke-opacity: var(--line-muted-opacity, .42); }
         .hp-f { stroke: none; }
 
         /* 두 장면을 한 칸에 겹친다 */
-        .hp-stage { display: grid; min-width: 860px; }
+        .hp-stage { display: grid; }
         .hp-scene { grid-area: 1 / 1; opacity: 0; transition: opacity 1.6s cubic-bezier(.4,0,.2,1); pointer-events: none; }
         .hp-scene[data-on="true"] { opacity: 1; }
         .hp-scene[data-on="false"] * { animation-play-state: paused !important; }
@@ -250,8 +259,15 @@ export function HomePanorama() {
         .hc-neon { fill: none; stroke: ${INK}; stroke-width: .8; animation: hc-neon 6s linear infinite; }
         @keyframes hc-neon { 0%, 61%, 64%, 67%, 100% { stroke-opacity: .85; } 62%, 66% { stroke-opacity: .15; } }
 
+        /* 폰: 그대로 줄이면 선이 뭉개져서 높이를 정하고 가운데 · 아래쪽만 보이게 자른다(xMidYMax slice) */
         @media (max-width: 767px) {
-          .hp-inner { padding: 12px 0; }
+          .hp-inner { padding: 6px 0 0; }
+          .hp svg { height: 156px; }
+          .hp-stage {
+            width: 100%;
+            -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+                    mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 94%, transparent 100%);
+          }
         }
         @media (prefers-reduced-motion: reduce) {
           .hp-draw { animation: none; stroke-dashoffset: 0; }
@@ -267,6 +283,6 @@ export function HomePanorama() {
       <div className="hp-inner">
         <PanoramaStage heritage={<HeritageScene />} culture={<CultureScene label={CULTURE_LABEL} />} />
       </div>
-    </section>
+    </div>
   )
 }

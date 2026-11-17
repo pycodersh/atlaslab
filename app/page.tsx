@@ -226,15 +226,22 @@ export default async function AtlasLabHome() {
 
         /* ── Hero (dark charcoal) ──────────────────────────────────── */
         /* overflow 는 보이게 둔다 — 검색 결과 드롭다운이 히어로 아래로 내려온다 */
+        /* 검은 배너 하나에 텍스트 · 검색 · 펜화가 함께 든다. 펜화 색은 아래 변수로만 정한다(components/home/panorama/ink.tsx) */
         .hero {
-          background: #121212;
+          background: var(--ink, #111111);
+          --line: #F7F5F2;            /* 주 선 */
+          --line-muted-opacity: .42;  /* 보조선 · 먼 배경(0.35~0.5) */
+          --fill-bg: var(--ink, #111111); /* 벽 · 지붕 안쪽 채움 = 배경색(뒤 선을 가린다) */
+          --accent: #C8102E;          /* 파라솔 · 레드카펫 · 등 · 응원봉 */
+          --fill-dark: #6B6B6B;       /* 원래 짙게 칠한 옷 · 머리 */
+          --warm: #B5874A;            /* 평상 · 그릇 · 조명 */
         }
         /* 좌우 여백·최대 폭은 아래 본문 섹션(.wrap)과 같은 컨테이너를 쓴다 — 텍스트 폭만 따로 제한 */
-        /* 버튼 없이 서브 카피로 끝나므로 위아래 여백을 같게 둬서 텍스트 블록이 가운데 앉게 한다 */
-        .hero-inner { padding-top: 56px; padding-bottom: 56px; }
+        /* 아래에 펜화가 이어지므로 텍스트 블록 아래 여백은 짧게 둔다 */
+        .hero-inner { padding-top: 44px; padding-bottom: 8px; }
         .hero-text { max-width: 720px; }
         @media (max-width: 700px) {
-          .hero-inner { padding-top: 36px; padding-bottom: 36px; }
+          .hero-inner { padding-top: 30px; padding-bottom: 4px; }
         }        .hero-eyebrow {
           font-family: ${BODY};
           font-size: 10px; font-weight: 700;
@@ -513,10 +520,9 @@ export default async function AtlasLabHome() {
             <HomeSearch docs={searchDocs} />
           </div>
         </div>
+        {/* 펜화 파노라마 — 텍스트 · 검색창 아래, 배너 안쪽 하단(배경으로 깔지 않는다) */}
+        <HomePanorama />
       </section>
-
-      {/* ── 에디토리얼 펜화 파노라마 — 한국어 · 음식 · 여행 ── */}
-      <HomePanorama />
 
       {/* ── 카테고리 바로가기 — 히어로를 지나면 메뉴 아래에 붙는다 ── */}
       <HomeCategoryBar tabs={categoryTabs} />
