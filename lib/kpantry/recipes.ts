@@ -75,7 +75,7 @@ export async function getRecipeDetail(slug: string) {
       calories, protein_g, carbs_g, fat_g,
       pantry_recipe_ingredients(
         id, amount, type, sort_order,
-        pantry_ingredients(id, name, name_ko, image_url)
+        pantry_ingredients(id, name, name_ko, image_url, slug, store_level, price_tier, shopping_tip, substitute, buy_query, weee_query)
       ),
       pantry_recipe_steps(
         id, step_order, title, description, image_url

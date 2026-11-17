@@ -6,6 +6,7 @@ import HeroSection from '@/components/kpantry/recipe-detail/HeroSection'
 import NutritionBar from '@/components/kpantry/recipe-detail/NutritionBar'
 import IngredientsSection from '@/components/kpantry/recipe-detail/IngredientsSection'
 import StepsSection from '@/components/kpantry/recipe-detail/StepsSection'
+import RecipeBuySection from '@/components/kpantry/buy/RecipeBuySection'
 import {
   getRecipeDetail,
   isRecipeSaved,
@@ -190,6 +191,12 @@ export default function RecipeDetailClient({ slug }: Props) {
               recipeIngredients={recipe.pantry_recipe_ingredients ?? []}
               userPantryIds={userPantryIds}
               onAddToShoppingList={handleAddToShoppingList}
+              recipeSlug={recipe.slug}
+            />
+
+            <RecipeBuySection
+              recipeSlug={recipe.slug}
+              ingredients={(recipe.pantry_recipe_ingredients ?? []).map((ri: any) => ri.pantry_ingredients).filter(Boolean)}
             />
 
             <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: 'var(--kp-rule)' }} />

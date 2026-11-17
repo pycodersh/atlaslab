@@ -1,5 +1,11 @@
 'use client'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import { ShoppingBag } from 'lucide-react'
+import IngredientPopover, { type PopoverIngredient } from '@/components/kpantry/buy/IngredientPopover'
+import { WHERE_TO_BUY_ID } from '@/components/kpantry/buy/RecipeBuySection'
+import { BuyStyles } from '@/components/kpantry/buy/BuyStyles'
+import { trackIngredientPopoverOpen } from '@/lib/kpantry/analytics'
+import type { PriceTier, StoreLevel } from '@/lib/kpantry/buyInfo'
 
 interface Ingredient {
   id: string
@@ -10,6 +16,14 @@ interface Ingredient {
     name: string
     name_ko: string
     image_url?: string
+    // 구매 정보(Where to Buy) — 없으면 이름은 그냥 글자로 남는다
+    slug?: string | null
+    store_level?: StoreLevel | null
+    price_tier?: PriceTier | null
+    shopping_tip?: string | null
+    substitute?: string | null
+    buy_query?: string | null
+    weee_query?: string | null
   }
 }
 
@@ -17,6 +31,8 @@ interface IngredientsSectionProps {
   recipeIngredients: Ingredient[]
   userPantryIds?: string[]
   onAddToShoppingList?: (ingredientId: string, name: string) => void
+  /** 구매 팝오버·측정에 쓰는 레시피 슬러그. 주면 위에 "Where to buy" 링크와 재료 이름 팝오버가 켜진다 */
+  recipeSlug?: string
 }
 
 const TYPE_TABS = [
@@ -41,8 +57,34 @@ export default function IngredientsSection({
   recipeIngredients,
   userPantryIds = [],
   onAddToShoppingList,
+  recipeSlug,
 }: IngredientsSectionProps) {
   const [activeTab, setActiveTab] = useState<'essential' | 'recommended' | 'optional'>('essential')
+  const [popover, setPopover] = useState<{ ing: PopoverIngredient; anchor: DOMRect } | null>(null)
+  const closePopover = useCallback(() => setPopover(null), [])
+
+  const openPopover = (ing: Ingredient['pantry_ingredients'], el: HTMLElement) => {
+    if (!ing.slug) return
+    setPopover({
+      ing: {
+        name: ing.name,
+        name_ko: ing.name_ko,
+        slug: ing.slug,
+        store_level: ing.store_level ?? null,
+        price_tier: ing.price_tier ?? null,
+        shopping_tip: ing.shopping_tip ?? null,
+        substitute: ing.substitute ?? null,
+        buy_query: ing.buy_query ?? null,
+        weee_query: ing.weee_query ?? null,
+      },
+      anchor: el.getBoundingClientRect(),
+    })
+    trackIngredientPopoverOpen({ ingredient_slug: ing.slug, recipe_slug: recipeSlug })
+  }
+
+  const scrollToBuy = () => {
+    document.getElementById(WHERE_TO_BUY_ID)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
 
   const byType = {
     essential: recipeIngredients.filter(ri => ri.type === 'essential'),
@@ -54,6 +96,15 @@ export default function IngredientsSection({
 
   return (
     <section style={{ padding: '0 16px 20px' }}>
+      {recipeSlug && (
+        <>
+          <BuyStyles />
+          <button type="button" className="kpb-link" onClick={scrollToBuy} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginBottom: 10, fontSize: 12 }}>
+            <ShoppingBag size={13} strokeWidth={2} aria-hidden="true" />
+            Where to buy these ingredients
+          </button>
+        </>
+      )}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
         <h2 style={{
           fontFamily: 'Inter, sans-serif',
@@ -208,7 +259,17 @@ export default function IngredientsSection({
                 textAlign: 'center',
                 lineHeight: 1.3,
               }}>
-                {ing.name}
+                {recipeSlug && ing.slug ? (
+                  <button
+                    type="button"
+                    className="kpb-name-btn"
+                    aria-haspopup="dialog"
+                    aria-label={`${ing.name}: where to buy`}
+                    onClick={e => openPopover(ing, e.currentTarget)}
+                  >
+                    {ing.name}
+                  </button>
+                ) : ing.name}
               </p>
               <p style={{
                 fontFamily: 'Inter, sans-serif',
@@ -223,6 +284,10 @@ export default function IngredientsSection({
           )
         })}
       </div>
+
+      {popover && (
+        <IngredientPopover ingredient={popover.ing} anchor={popover.anchor} recipeSlug={recipeSlug} onClose={closePopover} />
+      )}
     </section>
   )
 }

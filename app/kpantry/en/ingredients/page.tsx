@@ -1,5 +1,6 @@
 'use client'
 import { ChevronLeft } from 'lucide-react'
+import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import PageBanner from '@/components/kpantry/layout/PageBanner'
@@ -160,14 +161,27 @@ export default function IngredientsPage() {
             </button>
           )}
         </div>
-        <p style={{
-          fontFamily: 'Inter, sans-serif',
-          fontSize: 13,
-          color: '#6B6B6B',
-          margin: '2px 0 0',
-        }}>
-          Select the ingredients you have.
-        </p>
+        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12, margin: '2px 0 0' }}>
+          <p style={{
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 13,
+            color: '#6B6B6B',
+            margin: 0,
+          }}>
+            Select the ingredients you have.
+          </p>
+          {/* 재료가 무엇인지·어디서 사는지 — 이 화면은 선택용이라 정보는 가이드 페이지로 보낸다 */}
+          <Link href="/kpantry/en/ingredient-guide" style={{
+            flexShrink: 0,
+            fontFamily: 'Inter, sans-serif',
+            fontSize: 12,
+            fontWeight: 600,
+            color: 'var(--kp-accent)',
+            textDecoration: 'none',
+          }}>
+            Ingredient guide
+          </Link>
+        </div>
       </div>
 
       <div style={{ padding: '0 16px 12px' }}>

@@ -1,6 +1,7 @@
 'use client'
-import { MapPin, ShoppingCart, Store, X } from 'lucide-react'
+import { ShoppingCart, Store, X } from 'lucide-react'
 import { PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
+import MarketFinder from '@/components/kpantry/buy/MarketFinder'
 import { useState } from 'react'
 import { toggleShoppingItem, deleteShoppingItem, clearCheckedItems } from '@/lib/kpantry/saved'
 
@@ -324,65 +325,10 @@ export default function ShoppingListTab({ items, userId, onRefresh }: Props) {
         </div>
       )}
 
-      <div style={{
-        backgroundColor: 'var(--kp-accent-soft)',
-        borderRadius: 16,
-        padding: '16px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        border: '1px solid var(--kp-rule)',
-        marginBottom: 20,
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <MapPin size={20} strokeWidth={2} color="#C8102E" aria-hidden="true" />
-          <div>
-            <p style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 13,
-              fontWeight: 600,
-              color: 'var(--kp-accent)',
-              margin: 0,
-            }}>
-              Find Nearby Stores
-            </p>
-            <p style={{
-              fontFamily: 'Inter, sans-serif',
-              fontSize: 12,
-              color: '#9E9E9E',
-              margin: '2px 0 0',
-            }}>
-              Find Korean or Asian grocery stores near you.
-            </p>
-          </div>
-        </div>
-        <button
-          onClick={() => {
-            if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(pos => {
-                const { latitude, longitude } = pos.coords
-                window.open(
-                  `https://www.google.com/maps/search/Korean+grocery+store/@${latitude},${longitude},14z`,
-                  '_blank'
-                )
-              })
-            }
-          }}
-          style={{
-            flexShrink: 0,
-            padding: '10px 16px',
-            backgroundColor: 'var(--kp-accent)',
-            color: '#FFFFFF',
-            border: 'none',
-            borderRadius: 10,
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: 'pointer',
-          }}
-        >
-          Find Stores
-        </button>
+      {/* 매장 찾기 — 예전엔 위치 권한을 받아 좌표로 지도를 열었다(거부하면 아무 반응 없음).
+          이제 레시피·재료 가이드와 같은 위젯: Google Maps "near me" 검색 + 우편번호/도시 입력, 위치 권한 요청 없음 */}
+      <div style={{ marginBottom: 20 }}>
+        <MarketFinder placement="saved_tab" />
       </div>
     </div>
   )

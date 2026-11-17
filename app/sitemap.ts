@@ -107,6 +107,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.warn('[sitemap] blog_posts query failed; blog pages omitted')
   }
 
+  // K-Pantry — index 인 페이지만 넣는다: 앱 홈(/kpantry/en), 재료 가이드 허브·상세(서버 렌더링).
+  // 레시피 목록·상세, 재료 선택 화면은 클라이언트 렌더링 앱 화면이라 noindex 이고 여기에도 넣지 않는다.
+  let kpantryPages: MetadataRoute.Sitemap = []
+  try {
+    const { data } = await createAdminClient()
+      .from('pantry_ingredients')
+      .select('slug, buy_info_updated')
+      .not('slug', 'is', null)
+    kpantryPages = [
+      { url: `${BASE_URL}/kpantry/en`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8 },
+      { url: `${BASE_URL}/kpantry/en/ingredient-guide`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
+      ...(data ?? []).map((r: { slug: string; buy_info_updated: string | null }) => ({
+        url: `${BASE_URL}/kpantry/en/ingredient-guide/${r.slug}`,
+        lastModified: r.buy_info_updated ? new Date(r.buy_info_updated) : new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      })),
+    ]
+  } catch {
+    console.warn('[sitemap] pantry_ingredients query failed; kpantry pages omitted')
+  }
+
   return [
     { url: `${BASE_URL}/`,        lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
     { url: `${BASE_URL}/about`,   lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
@@ -130,6 +152,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${BASE_URL}/tools/subway-timer`,  lastModified: new Date(), changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/tools/krw-price-sense`, lastModified: new Date(), changeFrequency: 'daily',   priority: 0.7 },
     ...(INDEX_FREE_EPISODES ? freeEpisodes : []),
+    ...kpantryPages,
     ...blogListingPages,
     ...blogPages,
   ]
