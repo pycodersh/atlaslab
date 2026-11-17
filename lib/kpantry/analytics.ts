@@ -1,6 +1,7 @@
 /**
  * K-Pantry GA4 이벤트 — 루트 layout 이 심는 전역 gtag 를 부른다.
  * gtag 가 없으면(광고 차단·스크립트 로드 전·SSR) 조용히 무시한다. 절대 throw 하지 않는다.
+ * localhost 에서는 보내지 않는다(window.__kpEvents 에만 쌓는다).
  *
  * 이벤트 (GA4 관리 화면에서 buy_click·market_search 를 주요 이벤트로 표시할 것)
  *   buy_click               store, ingredient_slug, recipe_slug?, placement
@@ -19,9 +20,22 @@ declare global {
   }
 }
 
+/** 로컬 개발·테스트(localhost·127.0.0.1·[::1]·*.localhost)에서는 실제 GA 속성으로 보내지 않는다 */
+function isLocalHost(): boolean {
+  const h = window.location.hostname
+  return h === 'localhost' || h === '127.0.0.1' || h === '[::1]' || h === '::1' || h.endsWith('.localhost')
+}
+
 export function trackEvent(name: string, params: Params = {}) {
   try {
     if (typeof window === 'undefined' || typeof window.gtag !== 'function') return
+    if (isLocalHost()) {
+      // 검증용 — 전송 대신 콘솔과 window.__kpEvents 에 남긴다
+      const w = window as unknown as { __kpEvents?: unknown[] }
+      ;(w.__kpEvents ??= []).push([name, params])
+      console.debug('[kpantry ga:local]', name, params)
+      return
+    }
     const clean = Object.fromEntries(Object.entries(params).filter(([, v]) => v != null && v !== ''))
     window.gtag('event', name, clean)
   } catch {

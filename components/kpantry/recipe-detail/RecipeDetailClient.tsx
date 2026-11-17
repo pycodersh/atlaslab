@@ -15,6 +15,7 @@ import {
   getUserPantry,
 } from '@/lib/kpantry/recipes'
 import { getUserPlan, canAccess } from '@/lib/kpantry/subscription'
+import { fetchRecipeSteps } from '@/lib/kpantry/recipeSteps'
 import { createClient } from '@/lib/kpantry/supabase'
 import PaywallModal from '@/components/kpantry/paywall/PaywallModal'
 import AuthModal from '@/components/kpantry/auth/AuthModal'
@@ -54,6 +55,11 @@ export default function RecipeDetailClient({ slug }: Props) {
 
         // getRecipeDetail now queries by slug column
         const recipeData = await getRecipeDetail(slug)
+        // 잠긴 레시피 단계는 RLS 로 공개 키에 안 보인다(빈 배열) — 패스·구독이 있으면 서버 경로가 내준다
+        if (recipeData && !(recipeData.pantry_recipe_steps?.length)) {
+          const steps = await fetchRecipeSteps(slug)
+          if (steps) recipeData.pantry_recipe_steps = steps
+        }
         setRecipe(recipeData)
 
         if (recipeData?.id) {
