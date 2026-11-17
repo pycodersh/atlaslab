@@ -169,12 +169,14 @@ export default function IngredientsSection({
         })}
       </div>
 
-      <div style={{
-        display: 'grid',
+      {/* 세 구분 모두 DOM 에 둔다(안 보이는 탭은 hidden) — 서버 HTML·검색엔진에 재료 전부가 들어간다 */}
+      {TYPE_TABS.map(tab => (
+      <div key={tab.key} hidden={activeTab !== tab.key} style={{
+        display: activeTab === tab.key ? 'grid' : 'none',
         gridTemplateColumns: 'repeat(4, 1fr)',
         gap: 12,
       }}>
-        {byType[activeTab].map(ri => {
+        {byType[tab.key].map(ri => {
           const ing = ri.pantry_ingredients
           const isOwned = userPantryIds.includes(ing.id)
           const emoji = INGREDIENT_EMOJIS[ing.name] ?? '🥘'
@@ -284,6 +286,7 @@ export default function IngredientsSection({
           )
         })}
       </div>
+      ))}
 
       {popover && (
         <IngredientPopover ingredient={popover.ing} anchor={popover.anchor} recipeSlug={recipeSlug} onClose={closePopover} />

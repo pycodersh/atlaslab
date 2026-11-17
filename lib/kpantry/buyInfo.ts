@@ -1,4 +1,4 @@
-import { createClient as createSupabaseClient } from '@supabase/supabase-js'
+import { createPublicSupabase } from '@/lib/kpantry/publicSupabase'
 
 /**
  * K-Pantry "Where to Buy" — pantry_ingredients 의 구매 정보 컬럼(2026-11-17 추가)을 읽는다.
@@ -80,13 +80,7 @@ export function firstSentence(text: string | null, max = 150): string {
   return s.length <= max ? s : `${s.slice(0, max - 1).replace(/\s+\S*$/, '')}…`
 }
 
-function publicClient() {
-  return createSupabaseClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    { auth: { persistSession: false, autoRefreshToken: false } },
-  )
-}
+const publicClient = createPublicSupabase
 
 /** 가이드에 싣는 재료 — slug 가 있는 행(= 레시피에 연결된 85개) */
 export async function getGuideIngredients(): Promise<BuyInfo[]> {

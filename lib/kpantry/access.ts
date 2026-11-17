@@ -36,3 +36,9 @@ export const isFreeRecipe = (slug: string | null | undefined) => !!slug && FREE_
 /** 이 레시피를 열 수 있나 — 무료이거나 Pro 가 열려 있으면 */
 export const canOpenRecipe = (slug: string | null | undefined, unlocked: boolean) =>
   !RECIPE_LOCK_ENABLED || unlocked || isFreeRecipe(slug)
+
+/**
+ * 잠긴 조리 단계 자리의 클래스 — 서버 HTML 에도 나가고, 레시피 페이지의 페이월 구조화 데이터
+ * (hasPart.cssSelector)가 이 클래스를 가리킨다. 클라이언트·서버가 같은 값을 쓰도록 여기 둔다.
+ */
+export const LOCKED_STEPS_CLASS = 'kp-locked-steps'

@@ -2,13 +2,13 @@
 import { Lock, Play, ShoppingBasket } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import type { RecipePageData } from '@/lib/kpantry/recipePage'
 import HeroSection from '@/components/kpantry/recipe-detail/HeroSection'
 import NutritionBar from '@/components/kpantry/recipe-detail/NutritionBar'
 import IngredientsSection from '@/components/kpantry/recipe-detail/IngredientsSection'
 import StepsSection from '@/components/kpantry/recipe-detail/StepsSection'
 import RecipeBuySection from '@/components/kpantry/buy/RecipeBuySection'
 import {
-  getRecipeDetail,
   isRecipeSaved,
   toggleSaveRecipe,
   addToShoppingList,
@@ -20,71 +20,68 @@ import { createClient } from '@/lib/kpantry/supabase'
 import PaywallModal from '@/components/kpantry/paywall/PaywallModal'
 import AuthModal from '@/components/kpantry/auth/AuthModal'
 import UnlockModal from '@/components/kpantry/paywall/UnlockModal'
-import { canOpenRecipe, TOTAL_RECIPES } from '@/lib/kpantry/access'
+import { canOpenRecipe, LOCKED_STEPS_CLASS, TOTAL_RECIPES } from '@/lib/kpantry/access'
 import { KPANTRY_PRICE } from '@/lib/kpantry/purchase'
 import { useUnlocked } from '@/lib/kpantry/useUnlocked'
 
 interface Props {
-  /** 서버 컴포넌트가 존재 여부를 확인한 레시피 슬러그 */
-  slug: string
+  /** 서버(app/kpantry/en/recipes/[slug]/page.tsx)가 읽어 온 레시피 — 재료 전부, 조리 단계는 무료 레시피만(RLS) */
+  initialRecipe: RecipePageData
 }
 
-export default function RecipeDetailClient({ slug }: Props) {
+export default function RecipeDetailClient({ initialRecipe }: Props) {
   const router = useRouter()
+  const slug = initialRecipe.slug
 
-  const [recipe, setRecipe] = useState<any>(null)
+  // 하위 컴포넌트(Hero·Nutrition)는 예전처럼 느슨한 값을 받는다 — DB 의 null 을 그대로 넘긴다
+  const [recipe, setRecipe] = useState<any>(initialRecipe)
   // UUID for DB operations (save, shopping list)
-  const [recipeUuid, setRecipeUuid] = useState<string>('')
+  const recipeUuid = recipe.id
   const [saved, setSaved] = useState(false)
   const [userPantryIds, setUserPantryIds] = useState<string[]>([])
-  const [loading, setLoading] = useState(true)
   const [toastMsg, setToastMsg] = useState<string | null>(null)
   const [plan, setPlan] = useState<'free' | 'pro'>('free')
   const [showPaywall, setShowPaywall] = useState(false)
   const [showAuth, setShowAuth] = useState(false)
   const { isUnlocked, markUnlocked } = useUnlocked()
-  // 무료 10개가 아니고 Pro 도 아니면 재료·조리 단계를 가린다(확인 중엔 가리지 않고 기다린다)
+  // 재료는 누구에게나 보인다. 무료 10개가 아니면 조리 단계만 잠근다.
+  // 확인 중(null)에도 잠금 자리를 보여 준다 — 서버 HTML 과 같은 모양이라 깜빡이지 않는다
+  const stepsLocked = !canOpenRecipe(slug, false) && isUnlocked !== true
+  // 잠금 모달은 확인이 끝나 Pro 가 아닐 때만 띄운다
   const locked = isUnlocked === false && !canOpenRecipe(slug, false)
   const [showUnlock, setShowUnlock] = useState(true)
+  const steps: any[] = recipe.pantry_recipe_steps ?? []
 
+  // 로그인 사용자 정보 — 저장 여부·내 팬트리·플랜
   useEffect(() => {
-    async function load() {
+    let alive = true
+    ;(async () => {
       try {
-        const supabase = createClient()
-        const { data: { user } } = await supabase.auth.getUser()
+        const { data: { user } } = await createClient().auth.getUser()
+        if (!user || !alive) return
+        const [savedStatus, pantry, userPlan] = await Promise.all([
+          isRecipeSaved(recipeUuid, user.id),
+          getUserPantry(user.id),
+          getUserPlan(user.id),
+        ])
+        if (!alive) return
+        setSaved(savedStatus)
+        setUserPantryIds(pantry?.map((p: any) => p.ingredient_id) ?? [])
+        setPlan(userPlan)
+      } catch { /* 비로그인과 같게 보인다 */ }
+    })()
+    return () => { alive = false }
+  }, [recipeUuid])
 
-        // getRecipeDetail now queries by slug column
-        const recipeData = await getRecipeDetail(slug)
-        // 잠긴 레시피 단계는 RLS 로 공개 키에 안 보인다(빈 배열) — 패스·구독이 있으면 서버 경로가 내준다
-        if (recipeData && !(recipeData.pantry_recipe_steps?.length)) {
-          const steps = await fetchRecipeSteps(slug)
-          if (steps) recipeData.pantry_recipe_steps = steps
-        }
-        setRecipe(recipeData)
-
-        if (recipeData?.id) {
-          setRecipeUuid(recipeData.id)
-          if (user) {
-            const [savedStatus, pantry, userPlan] = await Promise.all([
-              isRecipeSaved(recipeData.id, user.id),
-              getUserPantry(user.id),
-              getUserPlan(user.id),
-            ])
-            setSaved(savedStatus)
-            setUserPantryIds(pantry?.map((p: any) => p.ingredient_id) ?? [])
-            setPlan(userPlan)
-          }
-        }
-      } catch {
-        // getRecipeDetail 은 행이 없거나 조회 실패 시 throw 한다.
-        // 잡지 않으면 "Loading recipe..." 상태로 영구히 멈춘다.
-        setRecipe(null)
-      } finally {
-        setLoading(false)
-      }
-    }
-    load()
-  }, [slug])
+  // 잠긴 레시피 단계는 서버 HTML·공개 키(RLS)에 없다 — 열 수 있게 되면 서버 경로로 받는다
+  useEffect(() => {
+    if (steps.length > 0 || stepsLocked) return
+    let alive = true
+    fetchRecipeSteps(slug).then(s => {
+      if (alive && s) setRecipe((r: any) => ({ ...r, pantry_recipe_steps: s }))
+    })
+    return () => { alive = false }
+  }, [slug, stepsLocked, steps.length])
 
   const handleToggleSave = async () => {
     const supabase = createClient()
@@ -118,25 +115,6 @@ export default function RecipeDetailClient({ slug }: Props) {
     setTimeout(() => setToastMsg(null), 2000)
   }
 
-  if (loading || (isUnlocked === null && !canOpenRecipe(slug, false))) {
-    return (
-      <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ fontFamily: 'Inter, sans-serif', color: '#9E9E9E' }}>Loading recipe...</p>
-      </div>
-    )
-  }
-
-  if (!recipe) {
-    return (
-      <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 12 }}>
-        <p style={{ fontFamily: 'Inter, sans-serif', color: '#1A1A1A', fontWeight: 600 }}>Recipe not found</p>
-        <button onClick={() => router.back()} style={{ fontFamily: 'Inter, sans-serif', color: 'var(--kp-accent)', background: 'none', border: 'none', cursor: 'pointer' }}>
-          Go back
-        </button>
-      </div>
-    )
-  }
-
   return (
     <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 120 }}>
       {/* PC 에서도 모바일 폭(430px) 한 줄로 가운데 — 아래 고정 액션 바와 같은 폭. 사진이 늘어나 흐려지지 않는다 */}
@@ -161,54 +139,59 @@ export default function RecipeDetailClient({ slug }: Props) {
           servings={recipe.servings}
         />
 
-        {locked ? (
-          <div style={{
-            margin: '8px 16px 24px', padding: '28px 20px', textAlign: 'center',
-            backgroundColor: '#FFFFFF', border: '1px solid var(--kp-rule)', borderRadius: 18,
-          }}>
-            <span style={{
-              width: 44, height: 44, borderRadius: 999, margin: '0 auto 12px',
-              backgroundColor: 'var(--kp-surface-muted)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+        <IngredientsSection
+          recipeIngredients={recipe.pantry_recipe_ingredients ?? []}
+          userPantryIds={userPantryIds}
+          onAddToShoppingList={handleAddToShoppingList}
+          recipeSlug={recipe.slug}
+        />
+
+        <RecipeBuySection
+          recipeSlug={recipe.slug}
+          ingredients={(recipe.pantry_recipe_ingredients ?? []).map((ri: any) => ri.pantry_ingredients).filter(Boolean)}
+        />
+
+        <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: 'var(--kp-rule)' }} />
+
+        {stepsLocked ? (
+          <section className={LOCKED_STEPS_CLASS} style={{ padding: '0 16px 20px' }} aria-labelledby="kp-steps-locked-h">
+            <h2 id="kp-steps-locked-h" style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 700, color: '#1A1A1A', margin: '0 0 12px' }}>
+              Steps
+            </h2>
+            <div style={{
+              padding: '28px 20px', textAlign: 'center',
+              backgroundColor: '#FFFFFF', border: '1px solid var(--kp-rule)', borderRadius: 18,
             }}>
-              <Lock size={20} strokeWidth={2} color="#1C1917" aria-hidden="true" />
-            </span>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#1C1917', margin: 0 }}>
-              Ingredients and steps are locked
-            </p>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#78716C', margin: '6px 0 16px', lineHeight: 1.5 }}>
-              Unlock all {TOTAL_RECIPES} recipes with a one-time Lifetime Pass.
-            </p>
-            <button
-              type="button"
-              onClick={() => setShowUnlock(true)}
-              style={{
-                padding: '12px 20px', backgroundColor: 'var(--kp-accent)', color: '#FFFFFF',
-                border: 'none', borderRadius: 12, fontFamily: 'Inter, sans-serif',
-                fontSize: 14, fontWeight: 700, cursor: 'pointer',
-              }}
-            >
-              Unlock Lifetime Access — {KPANTRY_PRICE}
-            </button>
-          </div>
+              <span style={{
+                width: 44, height: 44, borderRadius: 999, margin: '0 auto 12px',
+                backgroundColor: 'var(--kp-surface-muted)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <Lock size={20} strokeWidth={2} color="#1C1917" aria-hidden="true" />
+              </span>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#1C1917', margin: 0 }}>
+                Step-by-step instructions are locked
+              </p>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#78716C', margin: '6px 0 16px', lineHeight: 1.5 }}>
+                The ingredient list is free. Unlock the cooking steps for all {TOTAL_RECIPES} recipes with a one-time Lifetime Pass.
+              </p>
+              <button
+                type="button"
+                onClick={() => setShowUnlock(true)}
+                style={{
+                  padding: '12px 20px', backgroundColor: 'var(--kp-accent)', color: '#FFFFFF',
+                  border: 'none', borderRadius: 12, fontFamily: 'Inter, sans-serif',
+                  fontSize: 14, fontWeight: 700, cursor: 'pointer',
+                }}
+              >
+                Unlock Lifetime Access — {KPANTRY_PRICE}
+              </button>
+            </div>
+          </section>
+        ) : steps.length > 0 ? (
+          <StepsSection slug={recipe.slug} steps={steps} />
         ) : (
-          <>
-            <IngredientsSection
-              recipeIngredients={recipe.pantry_recipe_ingredients ?? []}
-              userPantryIds={userPantryIds}
-              onAddToShoppingList={handleAddToShoppingList}
-              recipeSlug={recipe.slug}
-            />
-
-            <RecipeBuySection
-              recipeSlug={recipe.slug}
-              ingredients={(recipe.pantry_recipe_ingredients ?? []).map((ri: any) => ri.pantry_ingredients).filter(Boolean)}
-            />
-
-            <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: 'var(--kp-rule)' }} />
-
-            <StepsSection slug={recipe.slug} steps={recipe.pantry_recipe_steps ?? []} />
-          </>
+          <p style={{ padding: '0 16px 20px', fontFamily: 'Inter, sans-serif', fontSize: 13, color: '#9E9E9E' }}>Loading steps…</p>
         )}
       </div>
 

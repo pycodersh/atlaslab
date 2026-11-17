@@ -107,14 +107,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     console.warn('[sitemap] blog_posts query failed; blog pages omitted')
   }
 
-  // K-Pantry — index 인 페이지만 넣는다: 앱 홈(/kpantry/en), 재료 가이드 허브·상세(서버 렌더링).
-  // 레시피 목록·상세, 재료 선택 화면은 클라이언트 렌더링 앱 화면이라 noindex 이고 여기에도 넣지 않는다.
+  // K-Pantry — index 인 페이지만 넣는다: 앱 홈(/kpantry/en), 재료 가이드 허브·상세, 레시피 상세(모두 서버 렌더링).
+  // 레시피 목록(/recipes)·재료 선택 화면은 클라이언트 렌더링 앱 화면이라 noindex 이고 여기에도 넣지 않는다.
   let kpantryPages: MetadataRoute.Sitemap = []
   try {
-    const { data } = await createAdminClient()
-      .from('pantry_ingredients')
-      .select('slug, buy_info_updated')
-      .not('slug', 'is', null)
+    const admin = createAdminClient()
+    const [{ data }, { data: recipes }] = await Promise.all([
+      admin.from('pantry_ingredients').select('slug, buy_info_updated').not('slug', 'is', null),
+      admin.from('pantry_recipes').select('slug').not('slug', 'is', null),
+    ])
     kpantryPages = [
       { url: `${BASE_URL}/kpantry/en`, lastModified: new Date(), changeFrequency: 'weekly' as const, priority: 0.8 },
       { url: `${BASE_URL}/kpantry/en/ingredient-guide`, lastModified: new Date(), changeFrequency: 'monthly' as const, priority: 0.7 },
@@ -124,9 +125,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: 'monthly' as const,
         priority: 0.6,
       })),
+      ...(recipes ?? []).map((r: { slug: string }) => ({
+        url: `${BASE_URL}/kpantry/en/recipes/${r.slug}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.6,
+      })),
     ]
   } catch {
-    console.warn('[sitemap] pantry_ingredients query failed; kpantry pages omitted')
+    console.warn('[sitemap] pantry query failed; kpantry pages omitted')
   }
 
   return [
