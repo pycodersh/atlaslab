@@ -35,16 +35,44 @@ type GumroadPurchase = {
 
 type VerifyOptions = { incrementUses?: boolean }
 
+/**
+ * 코드에 박아 둔 확인된 상품 ID — 상품 ID 는 비밀이 아니다. 환경 변수가 틀리거나 비어도 실제 구매자가 막히지 않게 한다.
+ * bundle: 2026-11-18 실제 구매 키로 licenses/verify 를 불러 확인(permalink kpatto-bundle, short id sqxiqk).
+ *   이 날 프로덕션 GUMROAD_BUNDLE_PRODUCT_ID 가 이 값과 달라 번들 구매자 키가 'invalid' 로 거절됐다.
+ * webapp: 아직 실제 키로 확인한 적 없음 — 환경 변수만 쓴다.
+ */
+const KNOWN_PRODUCT_IDS: Record<KPattoProduct, string[]> = {
+  webapp: [],
+  bundle: ['0XK5toUsH8zdEHZ4xqiDew=='],
+}
+
+/** 환경 변수는 쉼표로 여러 ID 를 받는다 */
+const ids = (...values: (string | undefined)[]) =>
+  values.flatMap(v => clean(v).split(',')).map(s => s.trim()).filter(Boolean)
+
 export async function verifyKPattoLicense(
   licenseKey: string,
   options: VerifyOptions = {},
 ): Promise<LicenseCheck<KPattoProduct>> {
-  const webappId = clean(process.env.GUMROAD_WEBAPP_PRODUCT_ID) || clean(process.env.GUMROAD_PRODUCT_ID)
-  return verifyAgainst(
-    [['webapp', webappId], ['bundle', clean(process.env.GUMROAD_BUNDLE_PRODUCT_ID)]],
-    licenseKey,
-    options,
-  )
+  const allowed: Record<KPattoProduct, string[]> = {
+    webapp: ids(process.env.GUMROAD_WEBAPP_PRODUCT_ID, process.env.GUMROAD_PRODUCT_ID),
+    bundle: ids(process.env.GUMROAD_BUNDLE_PRODUCT_ID),
+  }
+  const seen = new Set<string>()
+  const candidates: [KPattoProduct, string][] = []
+  for (const product of ['webapp', 'bundle'] as const) {
+    for (const id of [...KNOWN_PRODUCT_IDS[product], ...allowed[product]]) {
+      if (seen.has(id)) continue
+      seen.add(id)
+      candidates.push([product, id])
+    }
+  }
+  return verifyAgainst(candidates, licenseKey, options)
+}
+
+/** 모바일 메일에서 복사할 때 섞이는 공백·줄바꿈·제로폭 문자를 지우고 대문자로 — Gumroad 키는 16진수 대문자다 */
+export function normalizeLicenseKey(input: string): string {
+  return input.replace(/[\s​-‍⁠﻿]+/g, '').toUpperCase()
 }
 
 type GumroadSale = {

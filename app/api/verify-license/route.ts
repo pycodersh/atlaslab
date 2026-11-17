@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient as createServerClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { normalizePurchaseRef, verifyKPantryPurchase, verifyKPattoLicense } from '@/lib/kpatto/gumroad'
+import { normalizeLicenseKey, normalizePurchaseRef, verifyKPantryPurchase, verifyKPattoLicense } from '@/lib/kpatto/gumroad'
 import {
   createPass,
   KPANTRY_PASS_COOKIE,
@@ -21,7 +21,7 @@ type App = 'kpatto' | 'kpantry'
 const APPS = {
   kpatto: {
     cookie: PASS_COOKIE, read: readPass, verify: verifyKPattoLicense, recordLifetime: true,
-    normalize: (v: string) => v, minLength: 8,
+    normalize: normalizeLicenseKey, minLength: 8,
     invalid: 'Invalid license key. Please check your Gumroad receipt.',
     refunded: 'This purchase was refunded or disputed, so the key no longer unlocks the app.',
   },
