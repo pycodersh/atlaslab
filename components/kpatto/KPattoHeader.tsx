@@ -54,7 +54,7 @@ export function KPattoHeader() {
           </span>
         </Link>
 
-        {/* Pro 상태(🔑 키 입력 / ✨ Pro Lifetime) + Profile avatar */}
+        {/* Pro 상태(키 입력 / Pro Lifetime 뱃지) + Profile avatar */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
         <ProStatusPill />
         <Link href="/kpatto/profile" style={{ textDecoration: 'none' }}>
