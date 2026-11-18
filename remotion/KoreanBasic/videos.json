@@ -1,10 +1,10 @@
 {
   "korean-never-say-dangsin-neo": {
     "audio": "audio/korean-basic/dangsin-guide.mp3",
-    "timing": {"scenes": [[0.0, 4.99], [4.99, 9.84], [9.84, 14.85]], "total": 14.85},
+    "timing": {"scenes": [[0.0, 5.35], [5.35, 10.4], [10.4, 15.67]], "total": 15.67},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "당신 이름이 뭐예요?", "audio": "audio/korean-basic/lines/korean-never-say-dangsin-neo/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Whoa… are we fighting?"}, "correct": {"speaker": "A", "ko": "이름이 뭐예요?", "audio": "audio/korean-basic/lines/korean-never-say-dangsin-neo/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "너", "rom": "neo"}, {"ko": "당신", "rom": "dangsin"}], "en": "Never say “you”", "bg": "red"},
+    "thumb": {"lines": [{"ko": "너", "rom": "neo"}, {"ko": "당신", "rom": "dangsin"}], "en": "Never say “you”"},
     "voice": [[["en", "Two words for you, and both can sound rude:"], ["ko", "너."], ["ko", "당신."]], [["en", "Use a name with"], ["ko", "민호 씨."], ["en", "or a title:"], ["ko", "선생님."]], [["en", "Better still, drop you entirely:"], ["ko", "식사하셨어요?"]]],
     "hook": {
       "cue": { "label": "English:", "word": "YOU" },
@@ -32,9 +32,10 @@
 
   "korean-particle-euro-by-to-as": {
     "audio": "audio/korean-basic/korean-particle-euro-by-to-as.mp3",
+    "timing": {"scenes": [[0.0, 7.15], [7.15, 13.67], [13.67, 19.39]], "total": 19.39},
     "v2": true,
     "scene": {"background": "street", "wrong": {"speaker": "A", "ko": "버스에 가요.", "audio": "audio/korean-basic/lines/korean-particle-euro-by-to-as/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Into the bus…?"}, "correct": {"speaker": "A", "ko": "버스로 가요.", "audio": "audio/korean-basic/lines/korean-particle-euro-by-to-as/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "(으)로", "rom": "(eu)ro"}], "en": "By · To · As", "bg": "black"},
+    "thumb": {"lines": [{"ko": "(으)로", "rom": "(eu)ro"}], "en": "By · To · As"},
     "hook": {
       "cue": { "label": "English:", "word": "BY · TO · AS" },
       "cards": [{ "ko": "버스에 가요", "rom": "beoseu-e gayo" }, { "ko": "지하철으로", "rom": "jihacheol-euro" }],
@@ -57,18 +58,15 @@
       ],
       "slogan": "이걸로 주세요 works at every counter ✅"
     },
-    "narration": [
-      [0, "By bus, to the right, as a gift. Korean uses one particle."],
-      [4, "Say ro after a vowel or L, and uh-ro after other consonants."],
-      [8, "Pointing at a menu? Ee-gul-lo ju-seh-yo. This one, please!"]
-    ]
+    "voice": [[["en", "By bus, to the right, as a gift. Korean uses one particle:"], ["ko", "으로."]], [["en", "After a vowel or the L sound:"], ["ko", "버스로."], ["en", "After other consonants:"], ["ko", "손으로."]], [["en", "Pointing at a menu? Say:"], ["ko", "이걸로 주세요."]]]
   },
 
   "korean-have-you-ever-eo-boda": {
     "audio": "audio/korean-basic/korean-have-you-ever-eo-boda.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 8.65], [8.65, 13.15]], "total": 13.15},
     "v2": true,
     "scene": {"background": "home", "wrong": {"speaker": "A", "ko": "아침에 밥을 먹어 봤어요.", "audio": "audio/korean-basic/lines/korean-have-you-ever-eo-boda/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "You tried breakfast?"}, "correct": {"speaker": "A", "ko": "아침에 밥을 먹었어요.", "audio": "audio/korean-basic/lines/korean-have-you-ever-eo-boda/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "먹었어요", "rom": "meogeosseoyo"}, {"ko": "먹어 봤어요", "rom": "meogeo bwasseoyo"}], "en": "Ate vs. have tried", "bg": "black"},
+    "thumb": {"lines": [{"ko": "먹었어요", "rom": "meogeosseoyo"}, {"ko": "먹어 봤어요", "rom": "meogeo bwasseoyo"}], "en": "Ate vs. have tried"},
     "hook": {
       "cue": { "label": "English:", "word": "HAVE YOU EVER…?" },
       "cards": [{ "ko": "먹보다", "rom": "meokboda" }, { "ko": "아침을 먹어 봤어요", "rom": "routine breakfast" }],
@@ -91,18 +89,15 @@
       ],
       "slogan": "Add 한번 to make it sound friendly ✅"
     },
-    "narration": [
-      [0, "Did you eat kimchi? Or, have you ever tried it?"],
-      [4, "Add bo-da after the verb, and ate becomes have tried."],
-      [8, "In a shop, ask: ee-buh bwa-do dweh-yo? May I try this on?"]
-    ]
+    "voice": [[["en", "Did you eat it, or have you ever tried it?"]], [["en", "Add this after the verb:"], ["ko", "먹어 봤어요."], ["en", "I've tried it."]], [["en", "In a shop, ask:"], ["ko", "입어 봐도 돼요?"]]]
   },
 
   "korean-can-su-itda-eopda": {
     "audio": "audio/korean-basic/korean-can-su-itda-eopda.mp3",
+    "timing": {"scenes": [[0.0, 4.55], [4.55, 9.32], [9.32, 15.1]], "total": 15.1},
     "v2": true,
     "scene": {"background": "street", "wrong": {"speaker": "A", "ko": "가을 수 있어요.", "audio": "audio/korean-basic/lines/korean-can-su-itda-eopda/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Autumn…? (가을 = fall)"}, "correct": {"speaker": "A", "ko": "갈 수 있어요.", "audio": "audio/korean-basic/lines/korean-can-su-itda-eopda/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "nod"}},
-    "thumb": {"lines": [{"ko": "갈 수 있어요", "rom": "gal su isseoyo"}], "en": "I can go", "bg": "black"},
+    "thumb": {"lines": [{"ko": "갈 수 있어요", "rom": "gal su isseoyo"}], "en": "I can go"},
     "hook": {
       "cue": { "label": "English:", "word": "CAN I…?" },
       "cards": [{ "ko": "가을 수 있어요", "rom": "ga-eul su isseoyo" }, { "ko": "갈수있어요", "rom": "galsu-isseoyo" }],
@@ -125,18 +120,15 @@
       ],
       "slogan": "On signs: 가능 = can, 불가 = can’t ✅"
     },
-    "narration": [
-      [0, "Can I pay by card? Can I take photos? One pattern does it all."],
-      [4, "Can is su iss-uh-yo. Can't is su up-suh-yo."],
-      [8, "To sound softer, end with su iss-ul-kka-yo."]
-    ]
+    "voice": [[["en", "Can I pay by card? One pattern does it all."]], [["en", "Can:"], ["ko", "갈 수 있어요."], ["en", "Can't:"], ["ko", "갈 수 없어요."]], [["en", "To sound softer, ask:"], ["ko", "카드로 결제할 수 있을까요?"]]]
   },
 
   "korean-connecting-go-vs-myeonseo": {
     "audio": "audio/korean-basic/korean-connecting-go-vs-myeonseo.mp3",
+    "timing": {"scenes": [[0.0, 5.18], [5.18, 9.31], [9.31, 13.94]], "total": 13.94},
     "v2": true,
     "scene": {"background": "street", "wrong": {"speaker": "A", "ko": "걷고 전화했어요.", "audio": "audio/korean-basic/lines/korean-connecting-go-vs-myeonseo/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Walked first, then called?"}, "correct": {"speaker": "A", "ko": "걸으면서 전화했어요.", "audio": "audio/korean-basic/lines/korean-connecting-go-vs-myeonseo/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "nod"}},
-    "thumb": {"lines": [{"ko": "먹고", "rom": "meokgo"}, {"ko": "먹으면서", "rom": "meogeumyeonseo"}], "en": "And then vs. while", "bg": "cream"},
+    "thumb": {"lines": [{"ko": "먹고", "rom": "meokgo"}, {"ko": "먹으면서", "rom": "meogeumyeonseo"}], "en": "And then vs. while"},
     "hook": {
       "cue": { "label": "English:", "word": "AND THEN · WHILE" },
       "cards": [{ "ko": "걷고 전화했어요", "rom": "walked, then called" }, { "ko": "먹었고 봤어요", "rom": "meogeotgo bwasseoyo" }],
@@ -159,18 +151,15 @@
       ],
       "slogan": "“And then” → -고 · “while” → -(으)면서 ✅"
     },
-    "narration": [
-      [0, "And then, or while? Korean picks a different ending."],
-      [4, "Go means and then. Myun-suh means while, at the same time."],
-      [8, "Quick test: if and then fits, use go."]
-    ]
+    "voice": [[["en", "And then, or while? Korean picks a different ending."]], [["en", "And then:"], ["ko", "먹고."], ["en", "While:"], ["ko", "먹으면서."]], [["en", "Both at once:"], ["ko", "걸으면서 전화했어요."]]]
   },
 
   "korean-future-tense-eul-geoyeyo": {
     "audio": "audio/korean-basic/korean-future-tense-eul-geoyeyo.mp3",
+    "timing": {"scenes": [[0.0, 4.58], [4.58, 8.58], [8.58, 14.3]], "total": 14.3},
     "v2": true,
     "scene": {"background": "home", "wrong": {"speaker": "A", "ko": "제가 할 거예요.", "audio": "audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Is that your plan, or an offer?"}, "correct": {"speaker": "A", "ko": "제가 할게요.", "audio": "audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "갈 거예요", "rom": "gal geoyeyo"}], "en": "I’ll go", "bg": "black"},
+    "thumb": {"lines": [{"ko": "갈 거예요", "rom": "gal geoyeyo"}], "en": "I’ll go"},
     "hook": {
       "cue": { "label": "English:", "word": "WILL · GOING TO" },
       "cards": [{ "ko": "가을 거예요", "rom": "ga-eul geoyeyo" }, { "ko": "제가 할 거예요", "rom": "as an offer" }],
@@ -193,18 +182,15 @@
       ],
       "slogan": "Promising on the spot? Use -(으)ㄹ게요 ✅"
     },
-    "narration": [
-      [0, "Korean's future tense is one short ending: gul guh-yeh-yo."],
-      [4, "It covers plans, and guesses, like: it'll probably rain."],
-      [8, "Offering on the spot? Say: jeh-ga hal-geh-yo. I'll do it."]
-    ]
+    "voice": [[["en", "Korean's future tense is one short ending:"], ["ko", "갈 거예요."]], [["en", "It covers guesses too:"], ["ko", "비가 올 거예요."]], [["en", "Offering on the spot? Say:"], ["ko", "제가 할게요."]]]
   },
 
   "korean-an-vs-mot-negation": {
     "audio": "audio/korean-basic/korean-an-vs-mot-negation.mp3",
+    "timing": {"scenes": [[0.0, 5.43], [5.43, 10.04], [10.04, 16.6]], "total": 16.6},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "한국어를 안 해요.", "audio": "audio/korean-basic/lines/korean-an-vs-mot-negation/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "You refuse to speak it…?"}, "correct": {"speaker": "A", "ko": "한국어를 못 해요.", "audio": "audio/korean-basic/lines/korean-an-vs-mot-negation/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "안", "rom": "an"}, {"ko": "못", "rom": "mot"}], "en": "Don’t vs. can’t", "bg": "red"},
+    "thumb": {"lines": [{"ko": "안", "rom": "an"}, {"ko": "못", "rom": "mot"}], "en": "Don’t vs. can’t"},
     "hook": {
       "cue": { "label": "English:", "word": "I DON’T · I CAN’T" },
       "cards": [{ "ko": "한국어를 안 해요", "rom": "sounds like “I refuse”" }, { "ko": "안 공부해요", "rom": "an gongbuhaeyo" }],
@@ -227,18 +213,15 @@
       ],
       "slogan": "Turning something down? 못 sounds kinder ✅"
     },
-    "narration": [
-      [0, "I don't, or I can't? In Korean, the first syllable decides."],
-      [4, "Ahn means you choose not to. Mot means you can't."],
-      [8, "Turning down an invite? Mot sounds far more polite."]
-    ]
+    "voice": [[["en", "I don't, or I can't? The first syllable decides."]], [["en", "By choice:"], ["ko", "안 먹어요."], ["en", "Can't:"], ["ko", "못 먹어요."]], [["en", "Turning down an invite? This sounds kinder:"], ["ko", "오늘은 못 가요."]]]
   },
 
   "korean-particles-e-vs-eseo": {
     "audio": "audio/korean-basic/korean-particles-e-vs-eseo.mp3",
+    "timing": {"scenes": [[0.0, 6.84], [6.84, 12.26], [12.26, 16.41]], "total": 16.41},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "카페에 공부해요.", "audio": "audio/korean-basic/lines/korean-particles-e-vs-eseo/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Hmm, it sounds off…"}, "correct": {"speaker": "A", "ko": "카페에서 공부해요.", "audio": "audio/korean-basic/lines/korean-particles-e-vs-eseo/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "nod"}},
-    "thumb": {"lines": [{"ko": "에", "rom": "e"}, {"ko": "에서", "rom": "eseo"}], "en": "At · in", "bg": "red"},
+    "thumb": {"lines": [{"ko": "에", "rom": "e"}, {"ko": "에서", "rom": "eseo"}], "en": "At · in"},
     "hook": {
       "cue": { "label": "English:", "word": "AT · IN" },
       "cards": [{ "ko": "학교에서 가요", "rom": "hakgyo-eseo gayo" }, { "ko": "카페에 공부해요", "rom": "kape-e gongbuhaeyo" }],
@@ -261,17 +244,14 @@
       ],
       "slogan": "Action happening there? Use 에서 ✅"
     },
-    "narration": [
-      [0, "I'm at home. I study at home. Korean needs two particles."],
-      [4, "Eh, for being or going there. Eh-suh, for doing something there."],
-      [8, "Just ask: is something happening there?"]
-    ]
+    "voice": [[["en", "I'm at home. I study at home. Korean needs two particles."]], [["en", "Being there:"], ["ko", "집에 있어요."], ["en", "Doing something there:"], ["ko", "집에서 쉬어요."]], [["en", "Just ask: is something happening there?"]]]
   },
 
   "korean-syllable-structure-why-every-block-matters": {
     "audio": "audio/korean-basic/korean-syllable-structure-why-every-block-matters.mp3",
+    "timing": {"scenes": [[0.0, 5.8], [5.8, 11.49], [11.49, 16.03]], "total": 16.03},
     "v2": true,
-    "thumb": {"lines": [{"ko": "곰", "rom": "gom"}], "en": "One block, one syllable", "bg": "cream"},
+    "thumb": {"lines": [{"ko": "곰", "rom": "gom"}], "en": "One block, one syllable"},
     "hook": {
       "cue": { "label": "Letters:", "word": "ㄱ + ㅗ + ㅁ" },
       "cards": [{ "ko": "ㄱㅗㅁ", "rom": "g · o · m" }, { "ko": "ㄱ ㅏ", "rom": "g · a" }],
@@ -294,17 +274,14 @@
       ],
       "slogan": "ㅇ is silent on top, “ng” at the bottom ✅"
     },
-    "narration": [
-      [0, "Korean doesn't write letters in a line. It packs them into blocks."],
-      [4, "The vowel decides: tall vowels sit beside, flat vowels sit below."],
-      [8, "Read the whole block, and you're reading, not decoding."]
-    ]
+    "voice": [[["en", "Korean doesn't write letters in a line. It packs them into blocks."]], [["en", "Tall vowels sit beside:"], ["ko", "가."], ["en", "Flat vowels sit below:"], ["ko", "고."]], [["en", "Three letters, one block:"], ["ko", "곰."]]]
   },
 
   "how-long-to-learn-hangul": {
     "audio": "audio/korean-basic/how-long-to-learn-hangul.mp3",
+    "timing": {"scenes": [[0.0, 5.22], [5.22, 10.77], [10.77, 14.83]], "total": 14.83},
     "v2": true,
-    "thumb": {"lines": [{"ko": "한글", "rom": "hangeul"}], "en": "Days, not months", "bg": "cream"},
+    "thumb": {"lines": [{"ko": "한글", "rom": "hangeul"}], "en": "Days, not months"},
     "hook": {
       "cue": { "label": "Is Korean hard?", "word": "Hangul isn’t." },
       "cards": [{ "ko": "annyeong", "rom": "romanization crutch" }, { "ko": "ㅓ ㅏ ㅗ ㅜ", "rom": "one letter at a time" }],
@@ -327,18 +304,15 @@
       ],
       "slogan": "Drop romanization early ✅"
     },
-    "narration": [
-      [0, "How long does Hangul take? Days, not years."],
-      [4, "Read every letter within a week. Read fast in a few months."],
-      [8, "The trick? Drop romanization early, and read aloud."]
-    ]
+    "voice": [[["en", "How long does Hangul take? Days, not years."]], [["en", "Read every letter within a week. Read fast in a few months."]], [["en", "Your first word to read:"], ["ko", "한글."]]]
   },
 
   "formal-vs-casual-korean-when-to-drop-yo": {
     "audio": "audio/korean-basic/formal-vs-casual-korean-when-to-drop-yo.mp3",
+    "timing": {"scenes": [[0.0, 4.03], [4.03, 8.06], [8.06, 12.61]], "total": 12.61},
     "v2": true,
     "scene": {"background": "restaurant", "wrong": {"speaker": "A", "ko": "같이 먹어.", "audio": "audio/korean-basic/lines/formal-vs-casual-korean-when-to-drop-yo/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "A bit too casual…"}, "correct": {"speaker": "A", "ko": "같이 먹어요.", "audio": "audio/korean-basic/lines/formal-vs-casual-korean-when-to-drop-yo/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "먹어요", "rom": "meogeoyo"}, {"ko": "먹어", "rom": "meogeo"}], "en": "Polite vs. casual", "bg": "black"},
+    "thumb": {"lines": [{"ko": "먹어요", "rom": "meogeoyo"}, {"ko": "먹어", "rom": "meogeo"}], "en": "Polite vs. casual"},
     "hook": {
       "cue": { "label": "Politeness lives in", "word": "the ending" },
       "cards": [{ "ko": "먹어", "rom": "to someone older" }, { "ko": "좋아요 → 좋아", "rom": "switching mid-chat" }],
@@ -361,17 +335,14 @@
       ],
       "slogan": "Wait to be invited before dropping 요 ✅"
     },
-    "narration": [
-      [0, "In Korean, every sentence picks a politeness level."],
-      [4, "Yo keeps it polite. Drop it, and you're speaking casually."],
-      [8, "Default to yo, until someone invites you to drop it."]
-    ]
+    "voice": [[["en", "In Korean, every sentence picks a politeness level."]], [["en", "Polite:"], ["ko", "먹어요."], ["en", "Casual:"], ["ko", "먹어."]], [["en", "Stay polite until someone invites you to drop it."]]]
   },
 
   "why-korean-has-two-number-systems": {
     "audio": "audio/korean-basic/why-korean-has-two-number-systems.mp3",
+    "timing": {"scenes": [[0.0, 4.11], [4.11, 13.1], [13.1, 17.9]], "total": 17.9},
     "v2": true,
-    "thumb": {"lines": [{"ko": "하나", "rom": "hana"}, {"ko": "일", "rom": "il"}], "en": "Two ways to count", "bg": "black"},
+    "thumb": {"lines": [{"ko": "하나", "rom": "hana"}, {"ko": "일", "rom": "il"}], "en": "Two ways to count"},
     "hook": {
       "cue": { "label": "English:", "word": "ONE · TWO · THREE" },
       "cards": [{ "ko": "하나 개", "rom": "hana gae" }, { "ko": "삼십 천 원", "rom": "samsip cheon won" }],
@@ -394,18 +365,15 @@
       ],
       "slogan": "Count it? Native. Read it? Sino-Korean ✅"
     },
-    "narration": [
-      [0, "Korean has two sets of numbers, and you need both."],
-      [4, "Native numbers count things. Sino-Korean reads money and dates."],
-      [8, "Time mixes them: seh-shee sahm-ship-boon is three thirty."]
-    ]
+    "voice": [[["en", "Korean has two sets of numbers, and you need both."]], [["en", "Native numbers count things:"], ["ko", "하나, 둘, 셋."], ["en", "Sino-Korean reads money:"], ["ko", "일, 이, 삼."]], [["en", "Three thirty mixes them:"], ["ko", "세 시 삼십 분."]]]
   },
 
   "eun-neun-vs-i-ga-difference": {
     "audio": "audio/korean-basic/eun-neun-vs-i-ga-difference.mp3",
+    "timing": {"scenes": [[0.0, 5.04], [5.04, 11.6], [11.6, 16.86]], "total": 16.86},
     "v2": true,
     "scene": {"background": "home", "wrong": {"speaker": "A", "ko": "에마는 왔어요.", "audio": "audio/korean-basic/lines/eun-neun-vs-i-ga-difference/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "…and the others didn’t?"}, "correct": {"speaker": "A", "ko": "에마가 왔어요.", "audio": "audio/korean-basic/lines/eun-neun-vs-i-ga-difference/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "nod"}},
-    "thumb": {"lines": [{"ko": "이/가", "rom": "i/ga"}, {"ko": "은/는", "rom": "eun/neun"}], "en": "New vs. the topic", "bg": "black"},
+    "thumb": {"lines": [{"ko": "이/가", "rom": "i/ga"}, {"ko": "은/는", "rom": "eun/neun"}], "en": "New vs. the topic"},
     "hook": {
       "cue": { "label": "Who came?", "word": "누가 왔어요?" },
       "cards": [{ "ko": "에마는 왔어요", "rom": "as the answer" }, { "ko": "김치는 좋아해요", "rom": "no contrast meant" }],
@@ -428,17 +396,14 @@
       ],
       "slogan": "Notice them in phrases, don’t drill them ✅"
     },
-    "narration": [
-      [0, "Who came? Answer with ee-ga, not eun-neun."],
-      [4, "Ee-ga points at something new. Eun-neun sets the frame."],
-      [8, "Notice them in real sentences, instead of drilling rules."]
-    ]
+    "voice": [[["en", "Who came? Answer like this:"], ["ko", "에마가 왔어요."]], [["en", "New information takes"], ["ko", "이, 가."], ["en", "The topic takes"], ["ko", "은, 는."]], [["en", "Notice them in real sentences, instead of drilling rules."]]]
   },
 
   "is-korean-hard-to-learn-for-english-speakers": {
     "audio": "audio/korean-basic/is-korean-hard-to-learn-for-english-speakers.mp3",
+    "timing": {"scenes": [[0.0, 6.56], [6.56, 10.62], [10.62, 15.56]], "total": 15.56},
     "v2": true,
-    "thumb": {"lines": [{"ko": "한국어", "rom": "hangugeo"}], "en": "Is Korean hard?", "bg": "black"},
+    "thumb": {"lines": [{"ko": "한국어", "rom": "hangugeo"}], "en": "Is Korean hard?"},
     "hook": {
       "cue": { "label": "Is Korean hard?", "word": "Parts of it." },
       "cards": [{ "ko": "저는 먹었어요 점심을", "rom": "English word order" }, { "ko": "합니다 · 해요 · 반말", "rom": "every level at once" }],
@@ -461,18 +426,15 @@
       ],
       "slogan": "Pick the 요 form and use it everywhere ✅"
     },
-    "narration": [
-      [0, "Is Korean hard? The alphabet isn't. Grammar takes time."],
-      [4, "The verb goes last, and particles mark every role."],
-      [8, "Learn whole phrases, and stick to the polite yo form."]
-    ]
+    "voice": [[["en", "Is Korean hard? The alphabet isn't. Grammar takes time."]], [["en", "The verb goes last:"], ["ko", "저는 김치를 먹어요."]], [["en", "Learn whole phrases, and stick to the polite form."]]]
   },
 
   "korean-verb-conjugation-ayo-eoyo": {
     "audio": "audio/korean-basic/korean-verb-conjugation-ayo-eoyo.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 8.74], [8.74, 12.79]], "total": 12.79},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "커피 마시아요.", "audio": "audio/korean-basic/lines/korean-verb-conjugation-ayo-eoyo/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Masi-ayo…?"}, "correct": {"speaker": "A", "ko": "커피 마셔요.", "audio": "audio/korean-basic/lines/korean-verb-conjugation-ayo-eoyo/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "가요", "rom": "gayo"}, {"ko": "먹어요", "rom": "meogeoyo"}], "en": "-ayo vs. -eoyo", "bg": "black"},
+    "thumb": {"lines": [{"ko": "가요", "rom": "gayo"}, {"ko": "먹어요", "rom": "meogeoyo"}], "en": "-ayo vs. -eoyo"},
     "hook": {
       "cue": { "label": "English:", "word": "I GO · I EAT" },
       "cards": [{ "ko": "마시아요", "rom": "masi-ayo" }, { "ko": "보아요", "rom": "nobody says it" }],
@@ -495,17 +457,14 @@
       ],
       "slogan": "Drop 다, check one vowel ✅"
     },
-    "narration": [
-      [0, "One vowel decides every polite Korean verb ending."],
-      [4, "Ah or oh in the stem? Add ah-yo. Anything else? Uh-yo."],
-      [8, "And every ha-da verb simply becomes hae-yo."]
-    ]
+    "voice": [[["en", "One vowel decides every polite verb ending."]], [["en", "Bright vowels:"], ["ko", "가요."], ["en", "Everything else:"], ["ko", "먹어요."]], [["en", "And study becomes:"], ["ko", "공부해요."]]]
   },
 
   "what-k-drama-titles-teach-you-about-korean": {
     "audio": "audio/korean-basic/what-k-drama-titles-teach-you-about-korean.mp3",
+    "timing": {"scenes": [[0.0, 4.19], [4.19, 8.52], [8.52, 13.83]], "total": 13.83},
     "v2": true,
-    "thumb": {"lines": [{"ko": "사랑의 불시착", "rom": "sarang-ui bulsichak"}], "en": "Learn from drama titles", "bg": "black"},
+    "thumb": {"lines": [{"ko": "사랑의 불시착", "rom": "sarang-ui bulsichak"}], "en": "Learn from drama titles"},
     "hook": {
       "cue": { "label": "Learn from", "word": "K-drama titles" },
       "cards": [{ "ko": "사랑의", "rom": "said as written" }, { "ko": "응답하라", "rom": "copied into speech" }],
@@ -528,17 +487,14 @@
       ],
       "slogan": "Every title you know is a grammar lesson ✅"
     },
-    "narration": [
-      [0, "Your favorite K-drama titles are hidden grammar lessons."],
-      [4, "Sa-rang-eh links two nouns. Modifiers come before the noun."],
-      [8, "And mwo muh-gul-kka? means: what should we eat?"]
-    ]
+    "voice": [[["en", "Your favorite K-drama titles are hidden grammar lessons."]], [["ko", "사랑의 불시착."], ["en", "This particle links two nouns."]], [["en", "And this one means, what should we eat?"], ["ko", "뭐 먹을까?"]]]
   },
 
   "korean-vs-japanese-what-transfers": {
     "audio": "audio/korean-basic/korean-vs-japanese-what-transfers.mp3",
+    "timing": {"scenes": [[0.0, 6.68], [6.68, 12.71], [12.71, 16.97]], "total": 16.97},
     "v2": true,
-    "thumb": {"lines": [{"ko": "도서관", "rom": "doseogwan"}], "en": "What transfers from Japanese", "bg": "black"},
+    "thumb": {"lines": [{"ko": "도서관", "rom": "doseogwan"}], "en": "What transfers from Japanese"},
     "hook": {
       "cue": { "label": "Japanese speakers:", "word": "what carries over?" },
       "cards": [{ "ko": "애인", "rom": "not “mistress”" }, { "ko": "밥", "rom": "not “bapu”" }],
@@ -561,18 +517,15 @@
       ],
       "slogan": "Spend the time you save on sounds ✅"
     },
-    "narration": [
-      [0, "Speak Japanese? The grammar transfers. The sounds don't."],
-      [4, "Word order and particles carry over. Final consonants are new."],
-      [8, "Spend the time you save on pronunciation."]
-    ]
+    "voice": [[["en", "Speak Japanese? The grammar transfers. The sounds don't."]], [["en", "Many words carry over:"], ["ko", "도서관."], ["en", "But final consonants are new:"], ["ko", "밥."]], [["en", "Spend the time you save on pronunciation."]]]
   },
 
   "korean-irregular-verbs-seven-types": {
     "audio": "audio/korean-basic/korean-irregular-verbs-seven-types.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 11.97], [11.97, 17.25]], "total": 17.25},
     "v2": true,
     "scene": {"background": "street", "wrong": {"speaker": "A", "ko": "오늘 덥어요.", "audio": "audio/korean-basic/lines/korean-irregular-verbs-seven-types/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Deob-eoyo…?"}, "correct": {"speaker": "A", "ko": "오늘 더워요.", "audio": "audio/korean-basic/lines/korean-irregular-verbs-seven-types/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "nod"}},
-    "thumb": {"lines": [{"ko": "더워요", "rom": "deowoyo"}], "en": "It’s hot", "bg": "black"},
+    "thumb": {"lines": [{"ko": "더워요", "rom": "deowoyo"}], "en": "It’s hot"},
     "hook": {
       "cue": { "label": "Why does", "word": "덥다 → 더워요?" },
       "cards": [{ "ko": "덥어요", "rom": "deobeoyo" }, { "ko": "모르어요", "rom": "moreu-eoyo" }],
@@ -595,17 +548,14 @@
       ],
       "slogan": "One common word teaches each pattern ✅"
     },
-    "narration": [
-      [0, "Why is it duh-wuh-yo, not dub-uh-yo? Irregular verbs."],
-      [4, "Most B adjectives soften to woo. Reu verbs double the L."],
-      [8, "Learn one common word per type, and the pattern follows."]
-    ]
+    "voice": [[["en", "Why does hot sound like this?"], ["ko", "더워요."]], [["en", "Some stems soften:"], ["ko", "덥다, 더워요."], ["en", "Others double the L:"], ["ko", "모르다, 몰라요."]], [["en", "Learn one common word per type, and the pattern follows."]]]
   },
 
   "korean-two-number-systems": {
     "audio": "audio/korean-basic/korean-two-number-systems.mp3",
+    "timing": {"scenes": [[0.0, 4.84], [4.84, 10.48], [10.48, 15.49]], "total": 15.49},
     "v2": true,
-    "thumb": {"lines": [{"ko": "세 시", "rom": "se si"}, {"ko": "삼만 원", "rom": "samman won"}], "en": "Native vs. Sino-Korean", "bg": "cream"},
+    "thumb": {"lines": [{"ko": "세 시", "rom": "se si"}, {"ko": "삼만 원", "rom": "samman won"}], "en": "Native vs. Sino-Korean"},
     "hook": {
       "cue": { "label": "English:", "word": "THREE O’CLOCK" },
       "cards": [{ "ko": "삼 시", "rom": "sam si" }, { "ko": "이십 살", "rom": "age takes native" }],
@@ -628,18 +578,15 @@
       ],
       "slogan": "Big numbers group by 만, not 1,000 ✅"
     },
-    "narration": [
-      [0, "Three o'clock is seh-shee, not sahm-shee. Why?"],
-      [4, "Count things, hours, and age with native numbers."],
-      [8, "Money, minutes, and dates use Sino-Korean."]
-    ]
+    "voice": [[["en", "Three o'clock is"], ["ko", "세 시."], ["en", "not"], ["ko", "삼 시."]], [["en", "Count things, hours and age with native numbers:"], ["ko", "커피 한 잔."]], [["en", "Money and minutes use Sino-Korean:"], ["ko", "삼만 원."]]]
   },
 
   "korean-past-tense-explained": {
     "audio": "audio/korean-basic/korean-past-tense-explained.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 8.0], [8.0, 14.09]], "total": 14.09},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "저는 결혼해요.", "audio": "audio/korean-basic/lines/korean-past-tense-explained/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Congrats… today?!"}, "correct": {"speaker": "A", "ko": "저는 결혼했어요.", "audio": "audio/korean-basic/lines/korean-past-tense-explained/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "먹었어요", "rom": "meogeosseoyo"}], "en": "I ate", "bg": "black"},
+    "thumb": {"lines": [{"ko": "먹었어요", "rom": "meogeosseoyo"}], "en": "I ate"},
     "hook": {
       "cue": { "label": "English:", "word": "I ATE · I’M MARRIED" },
       "cards": [{ "ko": "결혼해요", "rom": "= getting married now" }, { "ko": "갔었어요", "rom": "not a “stronger” past" }],
@@ -662,18 +609,15 @@
       ],
       "slogan": "Use simple 갔어요 by default ✅"
     },
-    "narration": [
-      [0, "Korean past tense is one rule for every verb."],
-      [4, "Take the yo form, drop yo, and add ss-uh-yo."],
-      [8, "Married? Say gyul-hon-hae-ssuh-yo, in the past tense."]
-    ]
+    "voice": [[["en", "Korean past tense is one rule for every verb."]], [["ko", "가요."], ["en", "becomes"], ["ko", "갔어요."]], [["en", "Married? Say it in the past tense:"], ["ko", "결혼했어요."]]]
   },
 
   "korean-politeness-levels-explained": {
     "audio": "audio/korean-basic/korean-politeness-levels-explained.mp3",
+    "timing": {"scenes": [[0.0, 5.49], [5.49, 9.49], [9.49, 15.15]], "total": 15.15},
     "v2": true,
     "scene": {"background": "shop", "wrong": {"speaker": "A", "ko": "고마워.", "audio": "audio/korean-basic/lines/korean-politeness-levels-explained/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "A bit too casual…"}, "correct": {"speaker": "A", "ko": "고마워요.", "audio": "audio/korean-basic/lines/korean-politeness-levels-explained/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "해요", "rom": "haeyo"}], "en": "Your default level", "bg": "red"},
+    "thumb": {"lines": [{"ko": "해요", "rom": "haeyo"}], "en": "Your default level"},
     "hook": {
       "cue": { "label": "The golden rule:", "word": "start with 해요체" },
       "cards": [{ "ko": "반말", "rom": "to elders or staff" }, { "ko": "합니다체", "rom": "with friends" }],
@@ -696,17 +640,14 @@
       ],
       "slogan": "Wait for 말 놓으세요 before 반말 ✅"
     },
-    "narration": [
-      [0, "Korean has three politeness levels. Start with just one."],
-      [4, "Use the yo form with everyone, from strangers to staff."],
-      [8, "Switch to casual only when someone says: mal no-eu-seh-yo."]
-    ]
+    "voice": [[["en", "Korean has three politeness levels. Start with just one."]], [["en", "Use this form with everyone:"], ["ko", "어디 가요?"]], [["en", "Switch to casual only when someone says:"], ["ko", "말 놓으세요."]]]
   },
 
   "busan-dialect-vs-seoul-korean": {
     "audio": "audio/korean-basic/busan-dialect-vs-seoul-korean.mp3",
+    "timing": {"scenes": [[0.0, 5.71], [5.71, 10.66], [10.66, 15.37]], "total": 15.37},
     "v2": true,
-    "thumb": {"lines": [{"ko": "맞나?", "rom": "mat-na?"}, {"ko": "맞아?", "rom": "maja?"}], "en": "Busan vs. Seoul", "bg": "cream"},
+    "thumb": {"lines": [{"ko": "맞나?", "rom": "mat-na?"}, {"ko": "맞아?", "rom": "maja?"}], "en": "Busan vs. Seoul"},
     "hook": {
       "cue": { "label": "Heard in Busan:", "word": "뭐 하노?" },
       "cards": [{ "ko": "뭐 하노?", "rom": "copying it as a learner" }, { "ko": "와?", "rom": "hearing it as anger" }],
@@ -729,18 +670,15 @@
       ],
       "slogan": "Speak standard Korean, even in Busan ✅"
     },
-    "narration": [
-      [0, "Busan Korean sounds sharp. It's a melody, not anger."],
-      [4, "Questions end in na or no: mat-na? means really?"],
-      [8, "Learn to recognize it, but speak standard Korean."]
-    ]
+    "voice": [[["en", "Busan Korean sounds sharp. It's a melody, not anger."]], [["en", "Questions end differently:"], ["ko", "맞나?"], ["en", "In Seoul:"], ["ko", "맞아?"]], [["en", "Learn to recognize it, but speak standard Korean."]]]
   },
 
   "korean-sentence-structure-sov-why-the-verb-goes-last": {
     "audio": "audio/korean-basic/korean-sentence-structure-sov-why-the-verb-goes-last.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 8.52], [8.52, 15.06]], "total": 15.06},
     "v2": true,
     "scene": {"background": "home", "wrong": {"speaker": "A", "ko": "저는 가요 안.", "audio": "audio/korean-basic/lines/korean-sentence-structure-sov-why-the-verb-goes-last/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "…not what?"}, "correct": {"speaker": "A", "ko": "저는 안 가요.", "audio": "audio/korean-basic/lines/korean-sentence-structure-sov-why-the-verb-goes-last/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "nod"}},
-    "thumb": {"lines": [{"ko": "김치를 먹어요", "rom": "gimchi-reul meogeoyo"}], "en": "The verb goes last", "bg": "black"},
+    "thumb": {"lines": [{"ko": "김치를 먹어요", "rom": "gimchi-reul meogeoyo"}], "en": "The verb goes last"},
     "hook": {
       "cue": { "label": "English:", "word": "I EAT KIMCHI" },
       "cards": [{ "ko": "저는 가요 안", "rom": "“not” in the English spot" }, { "ko": "저 커피 마셔요", "rom": "particles dropped too early" }],
@@ -763,18 +701,15 @@
       ],
       "slogan": "Wait for the verb: it tells you what happened ✅"
     },
-    "narration": [
-      [0, "In Korean, the verb always comes last."],
-      [4, "I kimchi eat. Particles mark who does what."],
-      [8, "Making it negative? Ahn goes right before the verb."]
-    ]
+    "voice": [[["en", "In Korean, the verb always comes last."]], [["ko", "저는 김치를 먹어요."], ["en", "I, kimchi, eat."]], [["en", "Making it negative? Put this right before the verb:"], ["ko", "안 가요."]]]
   },
 
   "korean-object-particle-eul-reul": {
     "audio": "audio/korean-basic/korean-object-particle-eul-reul.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 10.29], [10.29, 14.41]], "total": 14.41},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "커피를 좋아요.", "audio": "audio/korean-basic/lines/korean-object-particle-eul-reul/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Hmm, it sounds off…"}, "correct": {"speaker": "A", "ko": "커피를 좋아해요.", "audio": "audio/korean-basic/lines/korean-object-particle-eul-reul/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "커피를", "rom": "keopi-reul"}, {"ko": "커피가", "rom": "keopi-ga"}], "en": "Object vs. subject", "bg": "black"},
+    "thumb": {"lines": [{"ko": "커피를", "rom": "keopi-reul"}, {"ko": "커피가", "rom": "keopi-ga"}], "en": "Object vs. subject"},
     "hook": {
       "cue": { "label": "English:", "word": "I LIKE COFFEE" },
       "cards": [{ "ko": "커피를 좋아요", "rom": "keopi-reul joayo" }, { "ko": "한국어를 공부를 해요", "rom": "two 을/를" }],
@@ -797,18 +732,15 @@
       ],
       "slogan": "Keep one 을/를 per clause ✅"
     },
-    "narration": [
-      [0, "I like coffee. Is it kuh-pee-reul, or kuh-pee-ga?"],
-      [4, "Reul goes with action verbs. Adjectives like jo-ta take ga."],
-      [8, "So: kuh-pee-reul jo-a-hae-yo, or kuh-pee-ga jo-a-yo."]
-    ]
+    "voice": [[["en", "I like coffee. Which particle?"]], [["en", "With an action verb:"], ["ko", "커피를 좋아해요."], ["en", "With an adjective:"], ["ko", "커피가 좋아요."]], [["en", "Keep one object particle per clause."]]]
   },
 
   "why-korean-has-no-articles": {
     "audio": "audio/korean-basic/why-korean-has-no-articles.mp3",
+    "timing": {"scenes": [[0.0, 5.7], [5.7, 11.0], [11.0, 15.75]], "total": 15.75},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "그 커피를 마셨어요.", "audio": "audio/korean-basic/lines/why-korean-has-no-articles/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Which coffee…?"}, "correct": {"speaker": "A", "ko": "커피를 마셨어요.", "audio": "audio/korean-basic/lines/why-korean-has-no-articles/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "nod"}},
-    "thumb": {"lines": [{"ko": "남자가", "rom": "namja-ga"}], "en": "No “a”, no “the”", "bg": "black"},
+    "thumb": {"lines": [{"ko": "남자가", "rom": "namja-ga"}], "en": "No “a”, no “the”"},
     "hook": {
       "cue": { "label": "English:", "word": "A · THE" },
       "cards": [{ "ko": "그 커피를 마셨어요", "rom": "그 isn’t “the”" }, { "ko": "사과 세 개들", "rom": "plural after a number" }],
@@ -831,17 +763,14 @@
       ],
       "slogan": "Use the bare noun: context does the rest ✅"
     },
-    "narration": [
-      [0, "Korean has no a, and no the. So don't force them in."],
-      [4, "New things take ee-ga. Things you point back to take guh."],
-      [8, "Most of the time, the bare noun is all you need."]
-    ]
+    "voice": [[["en", "Korean has no a, and no the. So don't force them in."]], [["en", "A man came:"], ["ko", "남자가 왔어요."], ["en", "The man:"], ["ko", "그 남자는."]], [["en", "Most of the time, the bare noun is all you need."]]]
   },
 
   "why-hangul-is-called-scientific-alphabet": {
     "audio": "audio/korean-basic/why-hangul-is-called-scientific-alphabet.mp3",
+    "timing": {"scenes": [[0.0, 5.52], [5.52, 11.59], [11.59, 16.19]], "total": 16.19},
     "v2": true,
-    "thumb": {"lines": [{"ko": "ㄱ → ㅋ", "rom": "g → k"}], "en": "Add a stroke", "bg": "cream"},
+    "thumb": {"lines": [{"ko": "ㄱ → ㅋ", "rom": "g → k"}], "en": "Add a stroke"},
     "hook": {
       "cue": { "label": "Hangul:", "word": "five shapes, two rules" },
       "cards": [{ "ko": "ㅋ ㅌ ㅍ ㅊ", "rom": "as unrelated shapes" }, { "ko": "훈민정음", "rom": "“UNESCO’s best alphabet”" }],
@@ -864,17 +793,14 @@
       ],
       "slogan": "Learn 5 shapes, not 24 random letters ✅"
     },
-    "narration": [
-      [0, "Hangul isn't 24 random shapes. It was designed."],
-      [4, "Add a stroke for a puff of air. Double a letter to tense it."],
-      [8, "Learn five mouth shapes, and the rest follow."]
-    ]
+    "voice": [[["en", "Hangul isn't twenty-four random shapes. It was designed."]], [["en", "Add a stroke for a puff of air:"], ["ko", "가, 카."], ["en", "Double it to tense it:"], ["ko", "까."]], [["en", "Learn five mouth shapes, and the rest follow."]]]
   },
 
   "korean-romanization-two-spellings": {
     "audio": "audio/korean-basic/korean-romanization-two-spellings.mp3",
+    "timing": {"scenes": [[0.0, 5.45], [5.45, 14.66], [14.66, 19.38]], "total": 19.38},
     "v2": true,
-    "thumb": {"lines": [{"ko": "부산", "rom": "Busan · Pusan"}], "en": "Two spellings", "bg": "cream"},
+    "thumb": {"lines": [{"ko": "부산", "rom": "Busan · Pusan"}], "en": "Two spellings"},
     "hook": {
       "cue": { "label": "Busan or", "word": "Pusan?" },
       "cards": [{ "ko": "박 = Park", "rom": "there’s no r" }, { "ko": "annyeonghaseyo", "rom": "romanization only" }],
@@ -897,17 +823,14 @@
       ],
       "slogan": "Check the Hangul, not the spelling ✅"
     },
-    "narration": [
-      [0, "Busan or Pusan? Same city, two spellings."],
-      [4, "Since 2000, it's officially Busan. Older books say Pusan."],
-      [8, "Learn Hangul, and spelling will never fool you."]
-    ]
+    "voice": [[["en", "Busan or Pusan? Same city, two spellings."]], [["en", "Since 2000, it's officially Busan. Older books say Pusan. In Korean:"], ["ko", "부산."]], [["en", "Learn Hangul, and spelling will never fool you."]]]
   },
 
   "how-to-type-korean-phone-computer": {
     "audio": "audio/korean-basic/how-to-type-korean-phone-computer.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 9.67], [9.67, 15.37]], "total": 15.37},
     "v2": true,
-    "thumb": {"lines": [{"ko": "두벌식", "rom": "dubeolsik"}], "en": "Type Korean", "bg": "black"},
+    "thumb": {"lines": [{"ko": "두벌식", "rom": "dubeolsik"}], "en": "Type Korean"},
     "hook": {
       "cue": { "label": "Type Korean in", "word": "two minutes" },
       "cards": [{ "ko": "천지인", "rom": "starting with 10-key" }, { "ko": "ㄱ + ㅏ + ㅁ", "rom": "building blocks yourself" }],
@@ -930,17 +853,14 @@
       ],
       "slogan": "Type in order; the blocks build themselves ✅"
     },
-    "narration": [
-      [0, "Typing Korean takes two minutes to set up."],
-      [4, "Pick the two-set keyboard. Consonants left, vowels right."],
-      [8, "Type letters in order, and the blocks build themselves."]
-    ]
+    "voice": [[["en", "Typing Korean takes two minutes to set up."]], [["en", "Pick the two-set keyboard. Consonants left, vowels right."]], [["en", "Type letters in order, and the blocks build themselves:"], ["ko", "감."]]]
   },
 
   "common-pronunciation-mistakes-korean-learners-make": {
     "audio": "audio/korean-basic/common-pronunciation-mistakes-korean-learners-make.mp3",
+    "timing": {"scenes": [[0.0, 5.63], [5.63, 9.63], [9.63, 14.87]], "total": 14.87},
     "v2": true,
-    "thumb": {"lines": [{"ko": "사다", "rom": "sada"}, {"ko": "싸다", "rom": "ssada"}], "en": "To buy vs. to be cheap", "bg": "black"},
+    "thumb": {"lines": [{"ko": "사다", "rom": "sada"}, {"ko": "싸다", "rom": "ssada"}], "en": "To buy vs. to be cheap"},
     "hook": {
       "cue": { "label": "English speakers:", "word": "7 common slips" },
       "cards": [{ "ko": "라면", "rom": "with an English R" }, { "ko": "밥", "rom": "with a puff at the end" }],
@@ -963,17 +883,14 @@
       ],
       "slogan": "Learn words as they’re said, not spelled ✅"
     },
-    "narration": [
-      [0, "Seven sounds trip up English speakers. Here are the big ones."],
-      [4, "Sa-da means to buy. Ssa-da means cheap. Tension matters."],
-      [8, "Tap the R like butter, and stop the final P: bap."]
-    ]
+    "voice": [[["en", "Seven sounds trip up English speakers. Here are the big ones."]], [["en", "To buy:"], ["ko", "사다."], ["en", "Cheap:"], ["ko", "싸다."]], [["en", "Stop the final sound, with no puff of air:"], ["ko", "밥."]]]
   },
 
   "korean-batchim-final-consonants-explained": {
     "audio": "audio/korean-basic/korean-batchim-final-consonants-explained.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 8.67], [8.67, 14.8]], "total": 14.8},
     "v2": true,
-    "thumb": {"lines": [{"ko": "한국말", "rom": "han-gung-mal"}], "en": "Batchim moves", "bg": "red"},
+    "thumb": {"lines": [{"ko": "한국말", "rom": "han-gung-mal"}], "en": "Batchim moves"},
     "hook": {
       "cue": { "label": "Why is it", "word": "han-gung-mal?" },
       "cards": [{ "ko": "밥", "rom": "releasing the p" }, { "ko": "한국어", "rom": "blocks kept apart" }],
@@ -996,18 +913,15 @@
       ],
       "slogan": "Close your lips and stop: 밥 ✅"
     },
-    "narration": [
-      [0, "Why does han-guk-mal sound like han-gung-mal? Batchim."],
-      [4, "A final consonant slides into a following vowel, or changes."],
-      [8, "And at the very end, just stop. No puff of air."]
-    ]
+    "voice": [[["en", "Why does this word change its sound?"], ["ko", "한국말."]], [["en", "A final consonant slides into a following vowel:"], ["ko", "음악."]], [["en", "And at the very end, just stop. No puff of air."]]]
   },
 
   "korean-topic-vs-subject-particle": {
     "audio": "audio/korean-basic/korean-topic-vs-subject-particle.mp3",
+    "timing": {"scenes": [[0.0, 5.04], [5.04, 11.63], [11.63, 17.38]], "total": 17.38},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "지수는 왔어요.", "audio": "audio/korean-basic/lines/korean-topic-vs-subject-particle/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Only Jisu, you mean?"}, "correct": {"speaker": "A", "ko": "지수가 왔어요.", "audio": "audio/korean-basic/lines/korean-topic-vs-subject-particle/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "nod"}},
-    "thumb": {"lines": [{"ko": "지수가", "rom": "jisu-ga"}, {"ko": "지수는", "rom": "jisu-neun"}], "en": "New vs. known", "bg": "red"},
+    "thumb": {"lines": [{"ko": "지수가", "rom": "jisu-ga"}, {"ko": "지수는", "rom": "jisu-neun"}], "en": "New vs. known"},
     "hook": {
       "cue": { "label": "English:", "word": "JISU CAME" },
       "cards": [{ "ko": "지수는 왔어요", "rom": "answering “who?”" }, { "ko": "한 남자는 살았어요", "rom": "first mention" }],
@@ -1030,17 +944,14 @@
       ],
       "slogan": "New → 이/가 · known or contrast → 은/는 ✅"
     },
-    "narration": [
-      [0, "Who came? Jee-su-ga wa-ssuh-yo. Not jee-su-neun."],
-      [4, "Ee-ga is for new info. Eun-neun is for known things."],
-      [8, "General truths take eun-neun: Korean food is spicy."]
-    ]
+    "voice": [[["en", "Who came? Answer like this:"], ["ko", "지수가 왔어요."]], [["en", "New information takes"], ["ko", "이, 가."], ["en", "Known things take"], ["ko", "은, 는."]], [["en", "General truths take the topic particle:"], ["ko", "한국 음식은 매워요."]]]
   },
 
   "korean-consonants-19-basic-sounds": {
     "audio": "audio/korean-basic/korean-consonants-19-basic-sounds.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 9.32], [9.32, 13.9]], "total": 13.9},
     "v2": true,
-    "thumb": {"lines": [{"ko": "ㄱ · ㅋ · ㄲ", "rom": "g · k · kk"}], "en": "Plain · aspirated · tense", "bg": "cream"},
+    "thumb": {"lines": [{"ko": "ㄱ · ㅋ · ㄲ", "rom": "g · k · kk"}], "en": "Plain · aspirated · tense"},
     "hook": {
       "cue": { "label": "Korean consonants", "word": "come in threes" },
       "cards": [{ "ko": "ㄹ = R", "rom": "an English R" }, { "ko": "사다 = 싸다", "rom": "plain = tense" }],
@@ -1063,17 +974,14 @@
       ],
       "slogan": "Four families, three sounds each ✅"
     },
-    "narration": [
-      [0, "Korean consonants come in families of three."],
-      [4, "Plain, aspirated with a puff, and tense with no air."],
-      [8, "Dal means moon. Ttal means daughter. Listen closely."]
-    ]
+    "voice": [[["en", "Korean consonants come in families of three."]], [["en", "Plain, aspirated, and tense:"], ["ko", "가, 카, 까."]], [["en", "Moon, and daughter:"], ["ko", "달, 딸."]]]
   },
 
   "korean-vowels-all-21-explained": {
     "audio": "audio/korean-basic/korean-vowels-all-21-explained.mp3",
+    "timing": {"scenes": [[0.0, 4.77], [4.77, 9.29], [9.29, 15.91]], "total": 15.91},
     "v2": true,
-    "thumb": {"lines": [{"ko": "서다", "rom": "seoda"}, {"ko": "소다", "rom": "soda"}], "en": "eo vs. o", "bg": "cream"},
+    "thumb": {"lines": [{"ko": "서다", "rom": "seoda"}, {"ko": "소다", "rom": "soda"}], "en": "eo vs. o"},
     "hook": {
       "cue": { "label": "21 vowels,", "word": "only 6 to memorize" },
       "cards": [{ "ko": "ㅓ = ㅗ", "rom": "eo vs o" }, { "ko": "ㅡ = ㅜ", "rom": "eu vs u" }],
@@ -1096,17 +1004,14 @@
       ],
       "slogan": "Six base vowels unlock all 21 ✅"
     },
-    "narration": [
-      [0, "Korean has 21 vowels, but you only memorize six."],
-      [4, "An extra stroke adds a y. Oh or oo in front adds a w."],
-      [8, "Round your lips only for oh: suh-da, then so-da."]
-    ]
+    "voice": [[["en", "Korean has twenty-one vowels, but you only memorize six."]], [["en", "An extra stroke adds a y sound:"], ["ko", "아, 야."]], [["en", "Round your lips only for the second one:"], ["ko", "서다, 소다."]]]
   },
 
   "how-to-read-hangul-in-one-day": {
     "audio": "audio/korean-basic/how-to-read-hangul-in-one-day.mp3",
+    "timing": {"scenes": [[0.0, 4.94], [4.94, 12.15], [12.15, 16.18]], "total": 16.18},
     "v2": true,
-    "thumb": {"lines": [{"ko": "가 · 고", "rom": "ga · go"}], "en": "Read Hangul in a day", "bg": "cream"},
+    "thumb": {"lines": [{"ko": "가 · 고", "rom": "ga · go"}], "en": "Read Hangul in a day"},
     "hook": {
       "cue": { "label": "Read Hangul in", "word": "one day" },
       "cards": [{ "ko": "ㅇ", "rom": "sounded at the start" }, { "ko": "ㄲ ㄸ ㅃ ㅆ ㅉ", "rom": "all on day one" }],
@@ -1129,19 +1034,15 @@
       ],
       "slogan": "Save tense letters for day two ✅"
     },
-    "narration": [
-      [0, "You can read Hangul in a single day. Here's how."],
-      [4, "Six vowels, then fourteen consonants. Then stack them."],
-      [8, "Your first real word? Bee-bim-bap."]
-    ]
+    "voice": [[["en", "You can read Hangul in a single day. Here's how."]], [["en", "Six vowels, then fourteen consonants. Then stack them:"], ["ko", "가, 고."]], [["en", "Your first real word:"], ["ko", "비빔밥."]]]
   },
 
   "korean-counters-gae-myeong-jan-byeong": {
     "audio": "audio/korean-basic/korean-counters-gae-myeong-jan-byeong.mp3",
+    "timing": {"scenes": [[0.0, 6.91], [6.91, 13.6], [13.6, 18.76]], "total": 18.76},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "두 커피 주세요.", "audio": "audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Two… coffee?"}, "correct": {"speaker": "A", "ko": "커피 두 잔 주세요.", "audio": "audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "nod"}},
-    "thumb": {"lines": [{"ko": "커피 두 잔", "rom": "keopi du jan"}], "en": "Two coffees", "bg": "cream"},
-    "timing": {"scenes": [[0.0, 6.36], [6.36, 12.62], [12.62, 17.57]], "total": 17.57},
+    "thumb": {"lines": [{"ko": "커피 두 잔", "rom": "keopi du jan"}], "en": "Two coffees"},
     "hook": {
       "cue": { "label": "English:", "word": "TWO COFFEES" },
       "cards": [{ "ko": "하나 개", "rom": "hana gae" }, { "ko": "두 커피", "rom": "English word order" }],
@@ -1173,9 +1074,9 @@
 
   "korean-prices-money-eolmayeyo": {
     "audio": "audio/korean-basic/korean-prices-money-eolmayeyo.mp3",
+    "timing": {"scenes": [[0.0, 4.61], [4.61, 11.61], [11.61, 16.02]], "total": 16.02},
     "v2": true,
-    "thumb": {"lines": [{"ko": "만 원", "rom": "man won"}], "en": "10,000 won", "bg": "cream"},
-    "timing": {"scenes": [[0.0, 4.28], [4.28, 10.74], [10.74, 14.98]], "total": 14.98},
+    "thumb": {"lines": [{"ko": "만 원", "rom": "man won"}], "en": "10,000 won"},
     "hook": {
       "cue": { "label": "English:", "word": "TEN THOUSAND" },
       "cards": [{ "ko": "십천 원", "rom": "sip-cheon won" }, { "ko": "일만 원", "rom": "ilman won" }],
@@ -1207,9 +1108,9 @@
 
   "korean-dates-days-of-week": {
     "audio": "audio/korean-basic/korean-dates-days-of-week.mp3",
+    "timing": {"scenes": [[0.0, 4.16], [4.16, 9.09], [9.09, 14.49]], "total": 14.49},
     "v2": true,
-    "thumb": {"lines": [{"ko": "유월", "rom": "yuwol"}, {"ko": "시월", "rom": "siwol"}], "en": "June · October", "bg": "red"},
-    "timing": {"scenes": [[0.0, 4.0], [4.0, 8.68], [8.68, 13.88]], "total": 13.88},
+    "thumb": {"lines": [{"ko": "유월", "rom": "yuwol"}, {"ko": "시월", "rom": "siwol"}], "en": "June · October"},
     "hook": {
       "cue": { "label": "English:", "word": "JUNE · OCTOBER" },
       "cards": [{ "ko": "육월", "rom": "yug-wol" }, { "ko": "십월", "rom": "sib-wol" }],
@@ -1241,10 +1142,10 @@
 
   "korean-age-sal-man-nai": {
     "audio": "audio/korean-basic/korean-age-sal-man-nai.mp3",
+    "timing": {"scenes": [[0.0, 4.0], [4.0, 11.15], [11.15, 16.88]], "total": 16.88},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "몇 살이에요?", "audio": "audio/korean-basic/lines/korean-age-sal-man-nai/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "That’s a bit direct…"}, "correct": {"speaker": "A", "ko": "나이가 어떻게 되세요?", "audio": "audio/korean-basic/lines/korean-age-sal-man-nai/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "스무 살", "rom": "seumu sal"}], "en": "I’m twenty", "bg": "cream"},
-    "timing": {"scenes": [[0.0, 4.0], [4.0, 10.55], [10.55, 16.0]], "total": 16.0},
+    "thumb": {"lines": [{"ko": "스무 살", "rom": "seumu sal"}], "en": "I’m twenty"},
     "hook": {
       "cue": { "label": "English:", "word": "I’M TWENTY" },
       "cards": [{ "ko": "이십 살", "rom": "isip sal" }, { "ko": "몇 살이에요?", "rom": "to an elder" }],
@@ -1276,10 +1177,10 @@
 
   "korean-requests-a-eo-juseyo": {
     "audio": "audio/korean-basic/korean-requests-a-eo-juseyo.mp3",
+    "timing": {"scenes": [[0.0, 4.04], [4.04, 9.09], [9.09, 15.19]], "total": 15.19},
     "v2": true,
     "scene": {"background": "street", "wrong": {"speaker": "A", "ko": "여기 세우세요.", "audio": "audio/korean-basic/lines/korean-requests-a-eo-juseyo/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Is that an order…?"}, "correct": {"speaker": "A", "ko": "여기 세워 주세요.", "audio": "audio/korean-basic/lines/korean-requests-a-eo-juseyo/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "nod"}},
-    "thumb": {"lines": [{"ko": "세워 주세요", "rom": "sewo juseyo"}], "en": "Please (do it for me)", "bg": "black"},
-    "timing": {"scenes": [[0.0, 4.0], [4.0, 8.72], [8.72, 14.67]], "total": 14.67},
+    "thumb": {"lines": [{"ko": "세워 주세요", "rom": "sewo juseyo"}], "en": "Please (do it for me)"},
     "hook": {
       "cue": { "label": "In a taxi:", "word": "STOP HERE" },
       "cards": [{ "ko": "여기 세우세요", "rom": "sounds like an order" }, { "ko": "찍어요 주세요", "rom": "an extra 요" }],
@@ -1311,10 +1212,10 @@
 
   "korean-because-aseo-vs-euni-kka": {
     "audio": "audio/korean-basic/korean-because-aseo-vs-euni-kka.mp3",
+    "timing": {"scenes": [[0.0, 4.55], [4.55, 9.66], [9.66, 16.15]], "total": 16.15},
     "v2": true,
     "scene": {"background": "cafe", "wrong": {"speaker": "A", "ko": "늦었으니까 죄송해요.", "audio": "audio/korean-basic/lines/korean-because-aseo-vs-euni-kka/scene-wrong.mp3"}, "reaction": {"speaker": "B", "expression": "awkward", "text": "Sounds like an excuse…"}, "correct": {"speaker": "A", "ko": "늦어서 죄송해요.", "audio": "audio/korean-basic/lines/korean-because-aseo-vs-euni-kka/scene-correct.mp3"}, "ending": {"speaker": "B", "expression": "smile"}},
-    "thumb": {"lines": [{"ko": "늦어서", "rom": "neujeoseo"}, {"ko": "추우니까", "rom": "chuunikka"}], "en": "Because: -아서 vs -(으)니까", "bg": "black"},
-    "timing": {"scenes": [[0.0, 4.12], [4.12, 8.89], [8.89, 15.06]], "total": 15.06},
+    "thumb": {"lines": [{"ko": "늦어서", "rom": "neujeoseo"}, {"ko": "추우니까", "rom": "chuunikka"}], "en": "Because: -아서 vs -(으)니까"},
     "hook": {
       "cue": { "label": "English:", "word": "BECAUSE" },
       "cards": [{ "ko": "비가 와서 가져가세요", "rom": "-아서 + a request" }, { "ko": "늦었으니까 죄송해요", "rom": "sounds like an excuse" }],
