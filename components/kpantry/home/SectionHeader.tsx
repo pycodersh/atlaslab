@@ -16,7 +16,7 @@ export default function SectionHeader({ title, desc, id }: Props) {
       <span aria-hidden="true" style={{ display: 'block', width: 32, height: 2, background: '#C8102E', borderRadius: 1, marginBottom: 12 }} />
       <h2 id={id} style={{
         fontFamily: 'Playfair Display, serif',
-        fontSize: 26,
+        fontSize: 22,
         fontWeight: 800,
         lineHeight: 1.18,
         letterSpacing: '-0.01em',
@@ -52,7 +52,7 @@ export function SectionButton({ href, children }: { href: string; children: Reac
   )
 }
 
-/** 세 구역 사이 — 넉넉한 여백 + 1px 헤어라인. 첫 구역은 선 없이 */
+/** 세 구역 사이 — 넉넉한 여백만. 구역 머리의 빨간 짧은 선이 구분을 맡아 위 헤어라인은 뺐다(2026-11-18) */
 export function sectionStyle(first = false): React.CSSProperties {
-  return { padding: first ? '36px 16px 44px' : '44px 16px', borderTop: first ? 'none' : '1px solid #E7E1D7' }
+  return { padding: first ? '36px 16px 44px' : '44px 16px' }
 }
