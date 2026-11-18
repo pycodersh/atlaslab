@@ -232,7 +232,7 @@ export const BUY_INFO = {
     label_hint: '"콩나물 / Kongnamul / Soybean Sprouts".',
     substitute: 'Mung bean sprouts from a regular store are thinner and cook in less time; the dish will be less nutty.',
     shelf_life: 'Fridge, in water or in the bag; 2–3 days.',
-    buy_query: null,
+    buy_query: null, weee_query: 'soybean sprouts',
   },
   Flour: {
     slug: 'flour', romanized: 'milgaru', store_level: 'common', price_tier: '$', ko_fill: '밀가루',
@@ -304,7 +304,7 @@ export const BUY_INFO = {
     label_hint: '"순두부 / Sundubu / Soft Tofu" (tube pack).',
     substitute: 'Silken tofu from a regular supermarket is the best stand-in.',
     shelf_life: 'Fridge; use within 2 days of opening.',
-    buy_query: null,
+    buy_query: null, weee_query: 'soft tofu tube',
   },
   'Fish Cake': {
     slug: 'fish-cake', romanized: 'eomuk', store_level: 'korean_asian', price_tier: '$$',
@@ -313,7 +313,7 @@ export const BUY_INFO = {
     label_hint: '"어묵 / Eomuk", "부산어묵", or "Fish Cake".',
     substitute: 'Japanese fish cakes from a Japanese or Asian market (satsuma-age, chikuwa) work well — slice them and use them the same way.',
     shelf_life: 'Fridge about 1 week; freezes well.',
-    buy_query: null,
+    buy_query: null, weee_query: 'korean fish cake',
   },
   'Glass Noodles': {
     slug: 'glass-noodles', romanized: 'dangmyeon', store_level: 'korean_asian', price_tier: '$',
@@ -331,7 +331,7 @@ export const BUY_INFO = {
     label_hint: '"무 / Mu / Korean Radish".',
     substitute: 'Daikon from a regular store works, with a slightly more watery, peppery taste.',
     shelf_life: 'Wrapped in the fridge; 1–2 weeks.',
-    buy_query: null,
+    buy_query: null, weee_query: 'korean radish',
   },
   'Seafood Mix': {
     slug: 'seafood-mix', romanized: 'haemul', store_level: 'regular', price_tier: '$$',
@@ -412,7 +412,7 @@ export const BUY_INFO = {
     label_hint: '"순대 / Sundae / Korean Sausage".',
     substitute: 'No substitute — skip it if you cannot find it.',
     shelf_life: 'Freezer for months; once heated, eat within a day.',
-    buy_query: null,
+    buy_query: null, weee_query: 'soondae',
   },
   'Perilla Oil': {
     slug: 'perilla-oil', romanized: 'deulgireum', store_level: 'korean_asian', price_tier: '$$$',
@@ -610,7 +610,7 @@ export const BUY_INFO = {
     label_hint: '"명태알 / Pollock Roe" or "알탕용".',
     substitute: 'Mentaiko from a Japanese market is pollock roe too and works well (it is pre-seasoned and a little spicy, so add less salt). Plain tarako is even closer.',
     shelf_life: 'Frozen for months; cook within a day of thawing.',
-    buy_query: null,
+    buy_query: null, weee_query: 'pollock roe',
   },
   'Fish Sauce': {
     slug: 'korean-fish-sauce', romanized: 'aekjeot', store_level: 'korean_asian', price_tier: '$$',
@@ -628,7 +628,7 @@ export const BUY_INFO = {
     label_hint: '"부추 / Buchu", "Garlic Chives", or "Chinese Chives".',
     substitute: 'Scallions, thinly sliced lengthwise — less garlicky.',
     shelf_life: 'Fridge in a damp paper towel; 3–4 days.',
-    buy_query: null,
+    buy_query: null, weee_query: 'garlic chives',
   },
   Ginger: {
     slug: 'ginger', romanized: 'saenggang', store_level: 'common', price_tier: '$',
@@ -664,7 +664,7 @@ export const BUY_INFO = {
     label_hint: '"연겨자 / Yeon-gyeoja / Korean Mustard".',
     substitute: 'Chinese hot mustard or English mustard powder. Yellow American mustard is too mild.',
     shelf_life: 'Fridge after opening.',
-    buy_query: null,
+    buy_query: null, weee_query: 'korean mustard',
   },
   Lettuce: {
     slug: 'lettuce-for-ssam', romanized: 'sangchu', store_level: 'common', price_tier: '$',

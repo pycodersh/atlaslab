@@ -2,7 +2,6 @@
 import { useCallback, useState } from 'react'
 import { ShoppingBag } from 'lucide-react'
 import IngredientPopover, { type PopoverIngredient } from '@/components/kpantry/buy/IngredientPopover'
-import { WHERE_TO_BUY_ID } from '@/components/kpantry/buy/RecipeBuySection'
 import { BuyStyles } from '@/components/kpantry/buy/BuyStyles'
 import { trackIngredientPopoverOpen } from '@/lib/kpantry/analytics'
 import type { PriceTier, StoreLevel } from '@/lib/kpantry/buyInfo'
@@ -31,8 +30,10 @@ interface IngredientsSectionProps {
   recipeIngredients: Ingredient[]
   userPantryIds?: string[]
   onAddToShoppingList?: (ingredientId: string, name: string) => void
-  /** 구매 팝오버·측정에 쓰는 레시피 슬러그. 주면 위에 "Where to buy" 링크와 재료 이름 팝오버가 켜진다 */
+  /** 구매 팝오버·측정에 쓰는 레시피 슬러그. 주면 재료 이름 팝오버가 켜진다 */
   recipeSlug?: string
+  /** 주면 위에 "Where to buy these ingredients" 링크가 생기고, 누르면 구매 시트를 연다 */
+  onOpenBuySheet?: (el: HTMLElement) => void
 }
 
 const TYPE_TABS = [
@@ -58,6 +59,7 @@ export default function IngredientsSection({
   userPantryIds = [],
   onAddToShoppingList,
   recipeSlug,
+  onOpenBuySheet,
 }: IngredientsSectionProps) {
   const [activeTab, setActiveTab] = useState<'essential' | 'recommended' | 'optional'>('essential')
   const [popover, setPopover] = useState<{ ing: PopoverIngredient; anchor: DOMRect } | null>(null)
@@ -82,10 +84,6 @@ export default function IngredientsSection({
     trackIngredientPopoverOpen({ ingredient_slug: ing.slug, recipe_slug: recipeSlug })
   }
 
-  const scrollToBuy = () => {
-    document.getElementById(WHERE_TO_BUY_ID)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-
   const byType = {
     essential: recipeIngredients.filter(ri => ri.type === 'essential'),
     recommended: recipeIngredients.filter(ri => ri.type === 'recommended'),
@@ -96,10 +94,10 @@ export default function IngredientsSection({
 
   return (
     <section style={{ padding: '0 16px 20px' }}>
-      {recipeSlug && (
+      {recipeSlug && <BuyStyles />}
+      {onOpenBuySheet && (
         <>
-          <BuyStyles />
-          <button type="button" className="kpb-link" onClick={scrollToBuy} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginBottom: 10, fontSize: 12 }}>
+          <button type="button" className="kpb-link" aria-haspopup="dialog" onClick={e => onOpenBuySheet(e.currentTarget)} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginBottom: 10, fontSize: 12 }}>
             <ShoppingBag size={13} strokeWidth={2} aria-hidden="true" />
             Where to buy these ingredients
           </button>
@@ -208,6 +206,11 @@ export default function IngredientsSection({
                     style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: 14 }} />
                 ) : (
                   <span>{emoji}</span>
+                )}
+
+                {/* 한인·아시안 마트에서 사야 하는 재료 — 좌측 상단 작은 점(우측 하단 + 버튼과 안 겹친다). 라벨은 달지 않는다 */}
+                {ing.store_level === 'korean_asian' && (
+                  <span className="kpb-dot" title="Korean or Asian market" />
                 )}
 
                 {isOwned ? (

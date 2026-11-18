@@ -53,6 +53,9 @@ export const STORE_GROUPS: { level: StoreLevel; title: string }[] = [
 
 export const PRICE_AS_OF = '2026'
 
+/** 링크가 하나도 없는 신선 재료 행에 링크 대신 보이는 회색 글씨 — 서버·클라이언트가 같이 쓰므로 여기 둔다 */
+export const FRESH_TEXT = 'Fresh — check the refrigerated section'
+
 export const GUIDE_BASE = '/kpantry/en/ingredient-guide'
 export const guideHref = (slug: string) => `${GUIDE_BASE}/${slug}`
 

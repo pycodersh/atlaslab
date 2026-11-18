@@ -2,13 +2,13 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ChevronLeft } from 'lucide-react'
-import StoreBadge from '@/components/kpantry/buy/StoreBadge'
-import BuyButtons, { AffiliateDisclosure } from '@/components/kpantry/buy/BuyButtons'
+import StoreLine from '@/components/kpantry/buy/StoreBadge'
+import BuyLinks, { AffiliateDisclosure } from '@/components/kpantry/buy/BuyButtons'
 import MarketFinder from '@/components/kpantry/buy/MarketFinder'
 import { BuyStyles } from '@/components/kpantry/buy/BuyStyles'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
 import {
-  GUIDE_BASE, firstSentence, getGuideIngredient, getGuideIngredients, guideHref, hasBuyLinks,
+  FRESH_TEXT, GUIDE_BASE, firstSentence, getGuideIngredient, getGuideIngredients, guideHref,
 } from '@/lib/kpantry/buyInfo'
 
 const BASE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com').replace(/^﻿/, '')
@@ -43,7 +43,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 }
 
-const SECTION_H = { fontSize: 20, margin: '0 0 8px' } as const
+const SECTION_H = { fontSize: 20, margin: '0 0 10px' } as const
+/** 섹션 사이 — 위 구분선 + 위아래 24px */
+const SECTION = { borderTop: '1px solid var(--kp-buy-rule)', padding: '24px 0' } as const
 
 export default async function IngredientGuideDetailPage({ params }: PageProps) {
   const { slug } = await params
@@ -65,8 +67,6 @@ export default async function IngredientGuideDetailPage({ params }: PageProps) {
       url: `${BASE_URL}${GUIDE_BASE}`,
     },
   }
-
-  const showBuy = info.store_level !== 'common' && hasBuyLinks(info)
 
   return (
     <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 24 }}>
@@ -100,37 +100,53 @@ export default async function IngredientGuideDetailPage({ params }: PageProps) {
           </div>
         </header>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        {/* 섹션마다 카드 대신 소제목 + 구분선(2026-11-18 2차) — 레시피 "Ingredients" 와 같은 문법 */}
+        <div>
           {/* 2. What it is */}
           {info.what_it_is && (
-            <section className="kpb-card">
+            <section style={SECTION}>
               <h2 className="kpb-h" style={SECTION_H}>What it is</h2>
               <p className="kpb-p">{info.what_it_is}</p>
             </section>
           )}
 
           {/* 3·4. Where to buy + How to pick */}
-          <section className="kpb-card">
+          <section style={SECTION}>
             <h2 className="kpb-h" style={SECTION_H}>Where to buy</h2>
-            {info.store_level && <StoreBadge level={info.store_level} price={info.price_tier} showAsOf />}
+            {info.store_level && <StoreLine level={info.store_level} price={info.price_tier} />}
             {(info.shopping_tip || info.label_hint) && (
               <>
-                <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, color: '#1C1917', margin: '16px 0 6px' }}>
-                  How to pick it at the store
-                </h3>
+                <h3 className="kpb-sub" style={{ fontSize: 15, margin: '18px 0 6px' }}>How to pick it at the store</h3>
                 {info.shopping_tip && <p className="kpb-p">{info.shopping_tip}</p>}
                 {info.label_hint && (
-                  <p className="kpb-p" style={{ marginTop: 8, padding: '10px 12px', background: 'var(--kp-bg)', borderRadius: 10, fontSize: 13 }}>
-                    <strong>On the label:</strong> {info.label_hint}
+                  <p className="kpb-p" style={{ marginTop: 8, fontSize: 13 }}>
+                    <strong style={{ color: 'var(--kp-buy-ink)' }}>On the label:</strong> {info.label_hint}
                   </p>
                 )}
               </>
             )}
+            {/* 7. 온라인 구매 — 텍스트 링크. common 은 링크 없이 한 줄 */}
+            {info.store_level === 'common' ? (
+              <p className="kpb-small" style={{ marginTop: 14 }}>Available at any grocery store.</p>
+            ) : (
+              <div style={{ marginTop: 16, display: 'flex', alignItems: 'baseline', gap: 16, flexWrap: 'wrap' }}>
+                <span className="kpb-small">Buy online:</span>
+                <BuyLinks
+                  buyQuery={info.buy_query}
+                  weeeQuery={info.weee_query}
+                  ingredientSlug={info.slug}
+                  ingredientName={info.name}
+                  placement="ingredient_page"
+                  emptyText={info.store_level === 'korean_asian' ? FRESH_TEXT : 'Most US supermarkets carry it.'}
+                />
+              </div>
+            )}
+            <AffiliateDisclosure />
           </section>
 
           {/* 5. 대체재 */}
           {info.substitute && (
-            <section className="kpb-card">
+            <section style={SECTION}>
               <h2 className="kpb-h" style={SECTION_H}>No Korean market nearby?</h2>
               <p className="kpb-p">{info.substitute}</p>
             </section>
@@ -138,41 +154,33 @@ export default async function IngredientGuideDetailPage({ params }: PageProps) {
 
           {/* 6. 보관 */}
           {info.shelf_life && (
-            <section className="kpb-card">
+            <section style={SECTION}>
               <h2 className="kpb-h" style={SECTION_H}>Storage</h2>
               <p className="kpb-p">{info.shelf_life}</p>
             </section>
           )}
 
-          {/* 7. 온라인 구매 — common 은 생략 */}
-          {info.store_level === 'common' ? (
-            <p className="kpb-small" style={{ padding: '0 4px' }}>Available at any grocery store.</p>
-          ) : showBuy && (
-            <section className="kpb-card">
-              <h2 className="kpb-h" style={SECTION_H}>Buy online</h2>
-              <p className="kpb-small" style={{ marginBottom: 10 }}>Search results open in a new tab.</p>
-              <BuyButtons query={info.buy_query!} weeeQuery={info.weee_query} ingredientSlug={info.slug} ingredientName={info.name} placement="ingredient_page" size="md" />
-              <AffiliateDisclosure />
-            </section>
-          )}
-
           {/* 8. 마트 찾기 */}
-          {info.store_level !== 'common' && <MarketFinder placement="ingredient_page" />}
+          {info.store_level !== 'common' && (
+            <div style={SECTION}>
+              <MarketFinder placement="ingredient_page" />
+            </div>
+          )}
 
           {/* 9. 이 재료를 쓰는 레시피 */}
           {recipes.length > 0 && (
-            <section style={{ marginTop: 8 }}>
-              <h2 className="kpb-h" style={{ ...SECTION_H, margin: '0 4px 12px' }}>
-                Recipes using {info.name} ({recipes.length})
+            <section style={SECTION}>
+              <h2 className="kpb-h" style={{ ...SECTION_H, marginBottom: 14 }}>
+                Recipes using {info.name} <span className="kpb-count" style={{ fontFamily: 'Inter, sans-serif' }}>{recipes.length}</span>
               </h2>
-              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 10 }}>
+              <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: 12 }}>
                 {recipes.map(r => (
                   <li key={r.slug}>
-                    <Link href={`/kpantry/en/recipes/${r.slug}`} className="kpb-card" style={{ display: 'block', padding: 0, overflow: 'hidden', textDecoration: 'none', height: '100%' }}>
+                    <Link href={`/kpantry/en/recipes/${r.slug}`} style={{ display: 'block', textDecoration: 'none' }}>
                       {r.hero_image_url ? (
-                        <img src={r.hero_image_url} alt="" loading="lazy" style={{ width: '100%', aspectRatio: '4 / 3', objectFit: 'cover', display: 'block' }} />
-                      ) : <span style={{ display: 'block', aspectRatio: '4 / 3', background: 'var(--kp-surface-muted)' }} />}
-                      <span style={{ display: 'block', padding: '8px 10px 10px' }}>
+                        <img src={r.hero_image_url} alt="" loading="lazy" style={{ width: '100%', aspectRatio: '4 / 3', objectFit: 'cover', display: 'block', borderRadius: 12 }} />
+                      ) : <span style={{ display: 'block', aspectRatio: '4 / 3', background: 'var(--kp-surface-muted)', borderRadius: 12 }} />}
+                      <span style={{ display: 'block', paddingTop: 8 }}>
                         <span style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600, color: '#1C1917', lineHeight: 1.3 }}>{r.name_en}</span>
                         <span className="kpb-small" style={{ display: 'block', marginTop: 2 }}>
                           {r.type === 'essential' ? 'Essential' : r.type === 'recommended' ? 'Recommended' : 'Optional'}
@@ -186,8 +194,8 @@ export default async function IngredientGuideDetailPage({ params }: PageProps) {
             </section>
           )}
 
-          <p className="kpb-small" style={{ padding: '8px 4px 0' }}>
-            Shopping info updated {info.buy_info_updated ?? '2026'}. Prices are relative US tiers, not exact prices.
+          <p className="kpb-small" style={{ padding: '20px 0 0', borderTop: '1px solid var(--kp-buy-rule)' }}>
+            Shopping info updated {info.buy_info_updated ?? '2026'}. Prices are relative US tiers (as of 2026), not exact prices.
           </p>
         </div>
       </article>

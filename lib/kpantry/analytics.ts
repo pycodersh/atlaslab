@@ -7,10 +7,11 @@
  *   buy_click               store, ingredient_slug, recipe_slug?, placement
  *   market_search           method (near_me / zip), market (korean / asian), placement
  *   ingredient_popover_open ingredient_slug, recipe_slug
+ *   buy_sheet_open          recipe_slug, trigger (banner / top_link)
  */
 
-export type BuyPlacement = 'recipe_section' | 'popover' | 'ingredient_page'
-export type MarketPlacement = 'recipe_section' | 'ingredient_page' | 'saved_tab'
+export type BuyPlacement = 'buy_sheet' | 'popover' | 'ingredient_page'
+export type MarketPlacement = 'buy_sheet' | 'ingredient_page' | 'saved_tab'
 
 type Params = Record<string, string | undefined>
 
@@ -54,4 +55,9 @@ export function trackMarketSearch(p: { method: 'near_me' | 'zip'; market: 'korea
 
 export function trackIngredientPopoverOpen(p: { ingredient_slug: string; recipe_slug?: string }) {
   trackEvent('ingredient_popover_open', p)
+}
+
+/** 레시피 상세의 구매 시트가 열릴 때 — 배너 또는 재료 위 "Where to buy these ingredients" 링크 */
+export function trackBuySheetOpen(p: { recipe_slug: string; trigger: 'banner' | 'top_link' }) {
+  trackEvent('buy_sheet_open', p)
 }

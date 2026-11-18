@@ -1,7 +1,9 @@
 'use client'
 import Link from 'next/link'
-import { STORE_GROUPS, guideHref, hasBuyLinks, type PriceTier, type StoreLevel } from '@/lib/kpantry/buyInfo'
-import BuyButtons, { AffiliateDisclosure } from './BuyButtons'
+import { ChevronRight } from 'lucide-react'
+import { useId, useState } from 'react'
+import { FRESH_TEXT, STORE_GROUPS, guideHref, type PriceTier, type StoreLevel } from '@/lib/kpantry/buyInfo'
+import BuyLinks, { AffiliateDisclosure } from './BuyButtons'
 import MarketFinder from './MarketFinder'
 import { BuyStyles } from './BuyStyles'
 
@@ -17,78 +19,92 @@ export interface RecipeBuyIngredient {
   weee_query?: string | null
 }
 
-export const WHERE_TO_BUY_ID = 'where-to-buy'
+/** 같은 재료가 여러 구분(essential·optional)에 들어가도 한 번만, 구매 정보가 있는 것만 */
+export function uniqueBuyIngredients(ingredients: RecipeBuyIngredient[]) {
+  return [...new Map(ingredients.filter(i => i.slug && i.store_level).map(i => [i.id, i])).values()]
+}
 
 /**
- * 레시피 상세 재료 목록 아래 — 이 레시피 재료를 살 곳별로 묶는다.
- * 한인·아시안 마트 묶음을 맨 위에 두고 재료마다 Amazon·Weee! 버튼, 그 아래 마트 찾기.
+ * 구매 시트 안 내용 — 레시피 "Ingredients" 섹션과 같은 문법(2026-11-18 2차):
+ * 소제목 + 회색 개수, 구분선 행(40px 썸네일 · 이름 · 회색 "고추장 · $$" · 오른쪽 텍스트 링크).
+ * 한인·아시안 마트 → 일반 마트 → (접힌) 어디서나 → 마트 찾기 순서.
  */
-export default function RecipeBuySection({ ingredients, recipeSlug }: { ingredients: RecipeBuyIngredient[]; recipeSlug: string }) {
-  // 같은 재료가 여러 구분(essential·optional)에 들어가도 한 번만
-  const unique = [...new Map(ingredients.filter(i => i.slug && i.store_level).map(i => [i.id, i])).values()]
-  if (unique.length === 0) return null
-
+export default function RecipeBuyContent({ ingredients, recipeSlug }: { ingredients: RecipeBuyIngredient[]; recipeSlug: string }) {
+  const unique = uniqueBuyIngredients(ingredients)
   const groups = STORE_GROUPS
+    .filter(g => g.level !== 'common')
     .map(g => ({ ...g, items: unique.filter(i => i.store_level === g.level) }))
     .filter(g => g.items.length > 0)
+  const common = unique.filter(i => i.store_level === 'common')
 
   return (
-    <section id={WHERE_TO_BUY_ID} style={{ padding: '0 16px 20px', scrollMarginTop: 16 }} aria-labelledby="kpb-wtb-h">
+    <div>
       <BuyStyles />
-      <h2 id="kpb-wtb-h" style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 700, color: '#1A1A1A', margin: '0 0 12px' }}>
-        Where to buy
-      </h2>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {groups.map(g => (
-          <div key={g.level} className="kpb-card" style={{ padding: '14px 14px 6px' }}>
-            <h3 style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '0 0 6px' }}>
-              <span className="kpb-badge" data-level={g.level}>{g.title}</span>
-              <span className="kpb-small">{g.items.length}</span>
-            </h3>
-
-            {g.level === 'common' ? (
-              <p className="kpb-p" style={{ fontSize: 13, padding: '2px 0 10px' }}>
-                {g.items.map((i, idx) => (
-                  <span key={i.id}>
-                    {idx > 0 && ', '}
-                    <Link href={guideHref(i.slug!)} style={{ color: 'inherit' }}>{i.name}</Link>
-                  </span>
-                ))}
-              </p>
-            ) : (
-              <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-                {g.items.map(i => (
-                  <li key={i.id} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 0', borderTop: '1px solid var(--kp-surface-muted)' }}>
-                    {i.image_url ? (
-                      <img src={i.image_url} alt="" width={36} height={36} style={{ width: 36, height: 36, borderRadius: 10, objectFit: 'cover', flexShrink: 0 }} />
-                    ) : <span style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--kp-surface-muted)', flexShrink: 0 }} />}
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <Link href={guideHref(i.slug!)} style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 600, color: '#1C1917', textDecoration: 'none' }}>
-                        {i.name}
-                      </Link>
-                      {/* 한국어 이름은 가격과 둘째 줄에 — 버튼 옆 좁은 칸에서 영어 이름 옆에 두면 "고 / 추장"으로 쪼개진다 */}
-                      {(i.name_ko || i.price_tier) && (
-                        <p className="kpb-small" style={{ whiteSpace: 'nowrap' }}>
-                          {i.name_ko && <span lang="ko">{i.name_ko}</span>}
-                          {i.name_ko && i.price_tier && ' · '}
-                          {i.price_tier}
-                        </p>
-                      )}
-                    </div>
-                    {g.level === 'korean_asian' && hasBuyLinks(i as { store_level: StoreLevel; buy_query: string | null }) && (
-                      <BuyButtons query={i.buy_query!} weeeQuery={i.weee_query} ingredientSlug={i.slug!} ingredientName={i.name} recipeSlug={recipeSlug} placement="recipe_section" />
+      {groups.map(g => (
+        <section key={g.level} className="kpb-group" aria-label={g.title}>
+          <h3 className="kpb-sub">{g.title} <span className="kpb-count">{g.items.length}</span></h3>
+          <ul className="kpb-rows">
+            {g.items.map(i => (
+              <li key={i.id} className="kpb-row">
+                {i.image_url
+                  ? <img src={i.image_url} alt="" width={40} height={40} className="kpb-thumb" />
+                  : <span className="kpb-thumb" />}
+                {/* 이름 줄과 링크가 한 줄에 안 들어가면(375px) 링크가 다음 줄로 내려간다 — 한국어 이름을 쪼개지 않는다 */}
+                <div className="kpb-row-main">
+                  <div style={{ minWidth: 0 }}>
+                    <Link href={guideHref(i.slug!)} className="kpb-row-name">{i.name}</Link>
+                    {(i.name_ko || i.price_tier) && (
+                      <p className="kpb-small" style={{ whiteSpace: 'nowrap' }}>
+                        {i.name_ko && <span lang="ko">{i.name_ko}</span>}
+                        {i.name_ko && i.price_tier && ' · '}
+                        {i.price_tier}
+                      </p>
                     )}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        ))}
+                  </div>
+                  <BuyLinks
+                    buyQuery={i.buy_query}
+                    weeeQuery={i.weee_query}
+                    ingredientSlug={i.slug!}
+                    ingredientName={i.name}
+                    recipeSlug={recipeSlug}
+                    placement="buy_sheet"
+                    emptyText={g.level === 'korean_asian' ? FRESH_TEXT : undefined}
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ))}
 
-        <AffiliateDisclosure />
-        <MarketFinder placement="recipe_section" headingLevel="h3" />
+      {common.length > 0 && <CommonGroup items={common} />}
+
+      <AffiliateDisclosure />
+      <div style={{ marginTop: 32 }}>
+        <MarketFinder placement="buy_sheet" headingLevel="h3" />
       </div>
+    </div>
+  )
+}
+
+/** 어디서나 사는 재료 — 기본 접힘, 펼치면 이름만 쉼표로 */
+function CommonGroup({ items }: { items: RecipeBuyIngredient[] }) {
+  const [open, setOpen] = useState(false)
+  const panelId = useId()
+  return (
+    <section className="kpb-group">
+      <button type="button" className="kpb-disclose" aria-expanded={open} aria-controls={panelId} onClick={() => setOpen(o => !o)}>
+        <span>At any grocery store <span className="kpb-count">· {items.length}</span></span>
+        <ChevronRight size={16} strokeWidth={2} color="#78716C" aria-hidden="true" />
+      </button>
+      <p id={panelId} hidden={!open} className="kpb-p" style={{ fontSize: 14, padding: '12px 0 0' }}>
+        {items.map((i, idx) => (
+          <span key={i.id}>
+            {idx > 0 && ', '}
+            <Link href={guideHref(i.slug!)} style={{ color: 'inherit' }}>{i.name}</Link>
+          </span>
+        ))}
+      </p>
     </section>
   )
 }

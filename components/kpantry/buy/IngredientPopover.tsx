@@ -2,9 +2,9 @@
 import Link from 'next/link'
 import { X } from 'lucide-react'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { firstSentence, guideHref, hasBuyLinks, type PriceTier, type StoreLevel } from '@/lib/kpantry/buyInfo'
-import BuyButtons from './BuyButtons'
-import StoreBadge from './StoreBadge'
+import { FRESH_TEXT, firstSentence, guideHref, type PriceTier, type StoreLevel } from '@/lib/kpantry/buyInfo'
+import BuyLinks from './BuyButtons'
+import StoreLine from './StoreBadge'
 import { BuyStyles } from './BuyStyles'
 
 export interface PopoverIngredient {
@@ -66,15 +66,16 @@ export default function IngredientPopover({ ingredient: ing, anchor, recipeSlug,
   return (
     <>
       <BuyStyles />
-      <div className="kpb-backdrop" data-sheet={sheet} onClick={onClose} aria-hidden="true" />
+      <div className="kpb-backdrop" data-dim={sheet} onClick={onClose} aria-hidden="true" />
       <div
         ref={ref}
         role="dialog"
         aria-modal={sheet}
         aria-label={`${ing.name}: where to buy`}
         tabIndex={-1}
-        className={`kpb-card ${sheet ? 'kpb-sheet' : 'kpb-pop'}`}
-        style={sheet ? undefined : { top: pos?.top ?? anchor.bottom + 8, left: pos?.left ?? 8, visibility: pos ? 'visible' : 'hidden', outline: 'none' }}
+        className={sheet ? 'kpb-sheet' : 'kpb-pop'}
+        data-mode={sheet ? 'bottom' : undefined}
+        style={sheet ? { padding: '8px 20px calc(20px + env(safe-area-inset-bottom))', display: 'block' } : { top: pos?.top ?? anchor.bottom + 8, left: pos?.left ?? 8, visibility: pos ? 'visible' : 'hidden', outline: 'none' }}
       >
         {sheet && <div className="kpb-grab" aria-hidden="true" />}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8 }}>
@@ -89,7 +90,7 @@ export default function IngredientPopover({ ingredient: ing, anchor, recipeSlug,
 
         {ing.store_level && (
           <div style={{ marginTop: 10 }}>
-            <StoreBadge level={ing.store_level} price={ing.price_tier} />
+            <StoreLine level={ing.store_level} price={ing.price_tier} compact />
           </div>
         )}
 
@@ -103,10 +104,11 @@ export default function IngredientPopover({ ingredient: ing, anchor, recipeSlug,
         <div style={{ marginTop: 12, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, flexWrap: 'wrap' }}>
           {ing.store_level === 'common' ? (
             <span className="kpb-small">Available at any grocery store</span>
-          ) : hasBuyLinks(ing) ? (
-            <BuyButtons query={ing.buy_query} weeeQuery={ing.weee_query} ingredientSlug={ing.slug} ingredientName={ing.name} recipeSlug={recipeSlug} placement="popover" />
-          ) : <span />}
-          <Link href={guideHref(ing.slug)} className="kpb-link">Learn more →</Link>
+          ) : (
+            <BuyLinks buyQuery={ing.buy_query} weeeQuery={ing.weee_query} ingredientSlug={ing.slug} ingredientName={ing.name} recipeSlug={recipeSlug} placement="popover"
+              emptyText={ing.store_level === 'korean_asian' ? FRESH_TEXT : undefined} />
+          )}
+          <Link href={guideHref(ing.slug)} className="kpb-link-muted" style={{ marginLeft: 'auto' }}>Learn more ›</Link>
         </div>
       </div>
     </>

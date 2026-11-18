@@ -1,41 +1,45 @@
 'use client'
-import { ExternalLink } from 'lucide-react'
 import { BUY_LINK_REL, buildAmazonIngredientUrl, buildWeeeIngredientUrl, isAffiliateActive } from '@/lib/kpantry/affiliate'
 import { trackBuyClick, type BuyPlacement } from '@/lib/kpantry/analytics'
 
 interface Props {
-  query: string
-  /** Weee! 는 긴 검색어에 약해서 따로 줄 수 있다 — 없으면 query */
+  /** Amazon 검색어 — 비면 Amazon 링크를 내지 않는다(신선 재료: Amazon 은 사실상 팔지 않는다) */
+  buyQuery?: string | null
+  /** Weee! 전용 짧은 검색어 — 비면 buyQuery 를 쓴다 */
   weeeQuery?: string | null
   ingredientSlug: string
+  ingredientName: string
   recipeSlug?: string
   placement: BuyPlacement
-  size?: 'sm' | 'md'
-  /** 화면 낭독기용 — "Buy Gochujang on Amazon" */
-  ingredientName: string
+  /** 링크가 하나도 없을 때 대신 보일 회색 글씨 — 신선 재료 행에만 준다 */
+  emptyText?: string
 }
 
-const STORES = [
-  { key: 'amazon', label: 'Amazon', build: buildAmazonIngredientUrl },
-  { key: 'weee', label: 'Weee!', build: buildWeeeIngredientUrl },
-] as const
+/**
+ * 구매 텍스트 링크 `Amazon ↗  Weee! ↗` — 새 탭, rel="noopener sponsored".
+ * buy_query 가 없고 weee_query 만 있으면 Weee! 만 나온다.
+ */
+export default function BuyLinks({ buyQuery, weeeQuery, ingredientSlug, ingredientName, recipeSlug, placement, emptyText }: Props) {
+  const links = [
+    buyQuery ? { key: 'amazon' as const, label: 'Amazon', href: buildAmazonIngredientUrl(buyQuery) } : null,
+    (weeeQuery || buyQuery) ? { key: 'weee' as const, label: 'Weee!', href: buildWeeeIngredientUrl((weeeQuery || buyQuery)!) } : null,
+  ].filter(Boolean) as { key: 'amazon' | 'weee'; label: string; href: string }[]
 
-/** Amazon·Weee! 검색 결과로 가는 버튼 한 쌍. 링크는 새 탭 + rel="noopener sponsored" */
-export default function BuyButtons({ query, weeeQuery, ingredientSlug, recipeSlug, placement, size = 'sm', ingredientName }: Props) {
+  if (links.length === 0) return emptyText ? <span className="kpb-fresh">{emptyText}</span> : null
+
   return (
-    <span style={{ display: 'inline-flex', gap: 6, flexWrap: 'wrap' }}>
-      {STORES.map(s => (
+    <span className="kpb-links">
+      {links.map(l => (
         <a
-          key={s.key}
-          href={s.build(s.key === 'weee' && weeeQuery ? weeeQuery : query)}
+          key={l.key}
+          href={l.href}
           target="_blank"
           rel={BUY_LINK_REL}
-          className={`kpb-btn kpb-btn-outline kpb-btn-${size}`}
-          aria-label={`Buy ${ingredientName} on ${s.label} (opens in a new tab)`}
-          onClick={() => trackBuyClick({ store: s.key, ingredient_slug: ingredientSlug, recipe_slug: recipeSlug, placement })}
+          className="kpb-link"
+          aria-label={`Buy ${ingredientName} on ${l.label} (opens in a new tab)`}
+          onClick={() => trackBuyClick({ store: l.key, ingredient_slug: ingredientSlug, recipe_slug: recipeSlug, placement })}
         >
-          {s.label}
-          <ExternalLink size={size === 'sm' ? 11 : 13} strokeWidth={2} aria-hidden="true" />
+          {l.label} <span aria-hidden="true">↗</span>
         </a>
       ))}
     </span>

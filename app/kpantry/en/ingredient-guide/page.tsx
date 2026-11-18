@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import HomeLink from '@/components/kpantry/layout/HomeLink'
-import StoreBadge from '@/components/kpantry/buy/StoreBadge'
+import StoreLine from '@/components/kpantry/buy/StoreBadge'
 import MarketFinder from '@/components/kpantry/buy/MarketFinder'
 import { BuyStyles } from '@/components/kpantry/buy/BuyStyles'
 import { DEFAULT_OPEN_GRAPH } from '@/lib/seo/site'
@@ -65,21 +65,22 @@ export default async function IngredientGuidePage() {
         </header>
 
         {[...sections].filter(([, list]) => list.length > 0).map(([title, list]) => (
-          <section key={title} style={{ marginBottom: 28 }}>
-            <h2 className="kpb-h" style={{ fontSize: 20, margin: '0 4px 12px' }}>{title}</h2>
-            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))', gap: 10 }}>
+          <section key={title} style={{ marginBottom: 32 }}>
+            {/* 카드 대신 소제목 + 회색 개수, 구분선 행(2026-11-18 2차) */}
+            <h2 className="kpb-sub" style={{ fontSize: 18, marginBottom: 8 }}>{title} <span className="kpb-count">{list.length}</span></h2>
+            <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 320px), 1fr))', columnGap: 28 }}>
               {list.map(ing => (
-                <li key={ing.id}>
-                  <Link href={guideHref(ing.slug)} className="kpb-card" style={{ display: 'flex', gap: 12, alignItems: 'center', padding: 12, textDecoration: 'none' }}>
+                <li key={ing.id} style={{ borderTop: '1px solid var(--kp-buy-rule)' }}>
+                  <Link href={guideHref(ing.slug)} style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 0', textDecoration: 'none' }}>
                     {ing.image_url ? (
-                      <img src={ing.image_url} alt="" width={52} height={52} loading="lazy" style={{ width: 52, height: 52, borderRadius: 12, objectFit: 'cover', flexShrink: 0 }} />
-                    ) : <span style={{ width: 52, height: 52, borderRadius: 12, background: 'var(--kp-surface-muted)', flexShrink: 0 }} />}
+                      <img src={ing.image_url} alt="" width={40} height={40} loading="lazy" className="kpb-thumb" />
+                    ) : <span className="kpb-thumb" />}
                     <span style={{ minWidth: 0 }}>
                       <span style={{ display: 'block', fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color: '#1C1917' }}>
                         {ing.name}
                         {ing.name_ko && <span lang="ko" className="kpb-small" style={{ marginLeft: 6, fontWeight: 400 }}>{ing.name_ko}</span>}
                       </span>
-                      {ing.store_level && <span style={{ display: 'block', marginTop: 4 }}><StoreBadge level={ing.store_level} price={ing.price_tier} /></span>}
+                      {ing.store_level && <span style={{ display: 'block', marginTop: 2 }}><StoreLine level={ing.store_level} price={ing.price_tier} compact /></span>}
                     </span>
                   </Link>
                 </li>
@@ -88,7 +89,9 @@ export default async function IngredientGuidePage() {
           </section>
         ))}
 
-        <MarketFinder placement="ingredient_page" />
+        <div style={{ borderTop: '1px solid var(--kp-buy-rule)', paddingTop: 24 }}>
+          <MarketFinder placement="ingredient_page" />
+        </div>
       </div>
     </div>
   )

@@ -9,6 +9,12 @@ export function createPublicSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!,
-    { auth: { persistSession: false, autoRefreshToken: false } },
+    {
+      auth: { persistSession: false, autoRefreshToken: false },
+      // force-static 페이지의 fetch 는 Next 데이터 캐시에 들어가고, 그 캐시는 빌드·배포를 넘어 남는다
+      // (2026-11-18 실측: DB 의 weee_query 를 고친 뒤 새로 빌드해도 옛 값이 나왔다).
+      // 응답은 캐시하지 않고 페이지 단위 ISR(revalidate)만 쓴다 — 빌드마다, 재생성마다 DB 를 새로 읽는다.
+      global: { fetch: (input, init) => fetch(input, { ...init, cache: 'no-store' }) },
+    },
   )
 }

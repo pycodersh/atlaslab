@@ -1,13 +1,16 @@
 'use client'
-import { Lock, Play, ShoppingBasket } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { Lock, ShoppingBasket } from 'lucide-react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import type { RecipePageData } from '@/lib/kpantry/recipePage'
 import HeroSection from '@/components/kpantry/recipe-detail/HeroSection'
 import NutritionBar from '@/components/kpantry/recipe-detail/NutritionBar'
 import IngredientsSection from '@/components/kpantry/recipe-detail/IngredientsSection'
 import StepsSection from '@/components/kpantry/recipe-detail/StepsSection'
-import RecipeBuySection from '@/components/kpantry/buy/RecipeBuySection'
+import RecipeBuyContent from '@/components/kpantry/buy/RecipeBuySection'
+import BuyBanner from '@/components/kpantry/buy/BuyBanner'
+import BuySheet from '@/components/kpantry/buy/BuySheet'
+import { trackBuySheetOpen } from '@/lib/kpantry/analytics'
 import {
   isRecipeSaved,
   toggleSaveRecipe,
@@ -51,6 +54,15 @@ export default function RecipeDetailClient({ initialRecipe }: Props) {
   const locked = isUnlocked === false && !canOpenRecipe(slug, false)
   const [showUnlock, setShowUnlock] = useState(true)
   const steps: any[] = recipe.pantry_recipe_steps ?? []
+
+  // 구매 시트 — 배너나 재료 위 링크로 연다. 닫히면 연 버튼으로 포커스를 돌려준다
+  const [buySheet, setBuySheet] = useState<{ returnTo: HTMLElement } | null>(null)
+  const buyIngredients = (recipe.pantry_recipe_ingredients ?? []).map((ri: any) => ri.pantry_ingredients).filter(Boolean)
+  const openBuySheet = (trigger: 'banner' | 'top_link') => (el: HTMLElement) => {
+    setBuySheet({ returnTo: el })
+    trackBuySheetOpen({ recipe_slug: slug, trigger })
+  }
+  const closeBuySheet = useCallback(() => setBuySheet(null), [])
 
   // 로그인 사용자 정보 — 저장 여부·내 팬트리·플랜
   useEffect(() => {
@@ -144,14 +156,11 @@ export default function RecipeDetailClient({ initialRecipe }: Props) {
           userPantryIds={userPantryIds}
           onAddToShoppingList={handleAddToShoppingList}
           recipeSlug={recipe.slug}
+          onOpenBuySheet={openBuySheet('top_link')}
         />
 
-        <RecipeBuySection
-          recipeSlug={recipe.slug}
-          ingredients={(recipe.pantry_recipe_ingredients ?? []).map((ri: any) => ri.pantry_ingredients).filter(Boolean)}
-        />
-
-        <div style={{ margin: '0 16px 20px', height: 1, backgroundColor: 'var(--kp-rule)' }} />
+        {/* 재료 → 조리 단계 흐름을 끊지 않게 구매 정보는 한 줄 배너로만 두고, 자세한 내용은 시트에서 */}
+        <BuyBanner ingredients={buyIngredients} onOpen={openBuySheet('banner')} />
 
         {stepsLocked ? (
           <section className={LOCKED_STEPS_CLASS} style={{ padding: '0 16px 20px' }} aria-labelledby="kp-steps-locked-h">
@@ -209,14 +218,15 @@ export default function RecipeDetailClient({ initialRecipe }: Props) {
         padding: '12px 16px',
         paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',
         display: 'flex',
-        gap: 10,
+        justifyContent: 'center',
         zIndex: 50,
       }}>
         <button
           onClick={() => router.push('/kpantry/en/ingredients')}
           style={{
-            flex: 1,
-            padding: '14px 10px',
+            width: '100%',
+            maxWidth: 320,
+            padding: '14px 16px',
             whiteSpace: 'nowrap',
             backgroundColor: '#FFFFFF',
             color: '#1A1A1A',
@@ -234,29 +244,13 @@ export default function RecipeDetailClient({ initialRecipe }: Props) {
         >
           <ShoppingBasket size={16} strokeWidth={2} aria-hidden="true" />I Have Ingredients
         </button>
-
-        <button
-          style={{
-            flex: 1,
-            padding: '14px 10px',
-            whiteSpace: 'nowrap',
-            backgroundColor: 'var(--kp-accent)',
-            color: '#FFFFFF',
-            border: 'none',
-            borderRadius: 14,
-            fontFamily: 'Inter, sans-serif',
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 6,
-          }}
-        >
-          <Play size={16} strokeWidth={2} aria-hidden="true" />Watch How to Cook
-        </button>
       </div>
+
+      {buySheet && (
+        <BuySheet title="Where to buy" onClose={closeBuySheet} returnFocusTo={buySheet.returnTo}>
+          <RecipeBuyContent ingredients={buyIngredients} recipeSlug={recipe.slug} />
+        </BuySheet>
+      )}
 
       {toastMsg && (
         <div style={{
