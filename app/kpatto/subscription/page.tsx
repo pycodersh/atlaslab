@@ -7,6 +7,7 @@ import { KPattoHeader } from '@/components/kpatto/KPattoHeader'
 import { KPattoUnlockPanel } from '@/components/kpatto/KPattoUnlockPanel'
 
 import { KP } from '@/lib/kpatto/theme'
+import { APP_MAX_WIDTH } from '@/lib/appLayout'
 const ACCENT = KP.primary
 const T1 = '#111111'
 const T2 = '#666666'
@@ -184,7 +185,7 @@ export default function KPattoSubscriptionPage() {
       ) : isPro ? (
         <ProView billingEnd={billingEnd} isCanceling={isCanceling} />
       ) : (
-        <div style={{ padding: '28px 20px 0', maxWidth: 480, margin: '0 auto' }}>
+        <div style={{ padding: '28px 20px 0', maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}>
           <KPattoUnlockPanel />
         </div>
       )}

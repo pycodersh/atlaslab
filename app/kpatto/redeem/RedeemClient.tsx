@@ -8,6 +8,7 @@ import { InstallAppButton } from '@/components/kpatto/InstallAppButton'
 import { unlockWithKey } from '@/lib/kpatto/license'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { KP } from '@/lib/kpatto/theme'
+import { APP_MAX_WIDTH } from '@/lib/appLayout'
 
 const T1 = '#111111'
 const T2 = '#6B6B6B'
@@ -41,7 +42,7 @@ export function RedeemClient() {
   return (
     <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 24}px + env(safe-area-inset-bottom, 0px))` }}>
       <KPattoHeader />
-      <div style={{ maxWidth: 480, margin: '0 auto', padding: '28px 20px 0', fontFamily: '"DM Sans", "Inter", system-ui, sans-serif' }}>
+      <div style={{ maxWidth: APP_MAX_WIDTH, margin: '0 auto', padding: '28px 20px 0', fontFamily: '"DM Sans", "Inter", system-ui, sans-serif' }}>
         <h1 style={{ fontSize: 26, fontWeight: 800, letterSpacing: '-.02em', color: T1, margin: '0 0 8px' }}>Unlock K-PATTO</h1>
         <p style={{ fontSize: 15, lineHeight: 1.6, color: T2, margin: '0 0 24px' }}>
           Bought the WebApp Pass or the Complete Bundle on Gumroad? Enter the license key from your receipt to unlock all 100 episodes. No account needed.

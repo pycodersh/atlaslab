@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import KPantryHeader from '@/components/kpantry/home/KPantryHeader'
-import HomeAnchorBar from '@/components/kpantry/home/HomeAnchorBar'
 import CookWithIngredientsCard from '@/components/kpantry/home/CookWithIngredientsCard'
 import PopularDishes from '@/components/kpantry/home/PopularDishes'
 import KoreanPantrySection from '@/components/kpantry/home/KoreanPantrySection'
@@ -24,7 +23,6 @@ export const revalidate = 3600
 const HERO_IMG = '/kpantry/home-hero.jpg'
 
 const HOME_CSS = `
-.kp-home { max-width: 1040px; margin: 0 auto; }
 .kp-hero { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #292524; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
 .kp-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .kp-hero-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.3) 45%, rgba(0,0,0,0) 75%); }
@@ -39,14 +37,14 @@ const HOME_CSS = `
 }
 `
 
-/** 홈 — 한 줄 헤더 · 상차림 사진 히어로 · 세 기능 빠른 이동 바, 그 아래 세 섹션 */
+/** 홈 — 한 줄 헤더 · 상차림 사진 히어로, 그 아래 동등한 세 기능 구역(가운데만 아이보리 밴드) */
 export default async function KPantryHomePage() {
   const home = await getHomeData()
 
   return (
     <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 24 }}>
       <style>{HOME_CSS}</style>
-      <div className="kp-home">
+      <div>
         <div style={{ padding: '0 16px' }}>
           <KPantryHeader />
 
@@ -60,9 +58,6 @@ export default async function KPantryHomePage() {
             </div>
           </section>
 
-          <div style={{ margin: '14px 0 32px' }}>
-            <HomeAnchorBar recipeCount={home.recipeCount} />
-          </div>
         </div>
 
         <CookWithIngredientsCard chips={home.haveChips} />

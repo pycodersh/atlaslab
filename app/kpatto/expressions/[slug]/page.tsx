@@ -18,6 +18,7 @@ import { versionedExpressionAudio } from '@/lib/kpatto/expression-audio'
 import { SaveActions } from '@/components/SaveActions'
 
 import { KP } from '@/lib/kpatto/theme'
+import { APP_MAX_WIDTH } from '@/lib/appLayout'
 export const dynamicParams = false
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
@@ -299,7 +300,7 @@ export default async function ExpressionPage({ params }: PageProps) {
         }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8,
-            padding: '0 16px', height: 52, maxWidth: 480, margin: '0 auto',
+            padding: '0 16px', height: 52, maxWidth: APP_MAX_WIDTH, margin: '0 auto',
           }}>
             <ExpressionBackButton />
             <span style={{ fontSize: 13, fontWeight: 700, color: T2, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
@@ -317,7 +318,7 @@ export default async function ExpressionPage({ params }: PageProps) {
           </div>
         </div>
 
-        <div style={{ maxWidth: 480, margin: '0 auto', padding: '0 20px' }}>
+        <div style={{ maxWidth: APP_MAX_WIDTH, margin: '0 auto', padding: '0 20px' }}>
 
           {/* ── Hero: pattern + meaning (compact) ── */}
           <div style={{ padding: '20px 0 16px' }}>

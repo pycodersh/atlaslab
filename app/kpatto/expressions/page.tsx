@@ -9,6 +9,7 @@ import {
 } from '@/lib/kpatto/expressions-config'
 
 import { KP } from '@/lib/kpatto/theme'
+import { APP_MAX_WIDTH } from '@/lib/appLayout'
 export const revalidate = 86400
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
@@ -80,7 +81,7 @@ export default async function ExpressionsHubPage() {
         <KPattoHeader />
 
         {/* Hero */}
-        <div style={{ padding: '28px 20px 20px', maxWidth: 480, margin: '0 auto' }}>
+        <div style={{ padding: '28px 20px 20px', maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}>
           <h1 style={{ fontSize: 26, fontWeight: 800, color: T1, letterSpacing: '-0.03em', margin: 0 }}>
             Essential Korean Patterns
           </h1>
@@ -90,7 +91,7 @@ export default async function ExpressionsHubPage() {
         </div>
 
         {/* Category chips */}
-        <div style={{ padding: '0 20px 16px', maxWidth: 480, margin: '0 auto' }}>
+        <div style={{ padding: '0 20px 16px', maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}>
           <div style={{ display: 'flex', gap: 8, overflowX: 'auto', scrollbarWidth: 'none' }}>
             {CATEGORIES.map(cat => (
               <Link
@@ -128,7 +129,7 @@ export default async function ExpressionsHubPage() {
                 href={`/kpatto/expressions/topic/${cat.key}`}
                 style={{
                   textDecoration: 'none', display: 'block',
-                  maxWidth: 480, margin: '0 auto',
+                  maxWidth: APP_MAX_WIDTH, margin: '0 auto',
                   padding: '16px 20px 8px',
                 }}
               >
@@ -156,7 +157,7 @@ export default async function ExpressionsHubPage() {
                   <Link
                     key={expr.id}
                     href={`/kpatto/expressions/${slug}`}
-                    style={{ textDecoration: 'none', display: 'block', maxWidth: 480, margin: '0 auto' }}
+                    style={{ textDecoration: 'none', display: 'block', maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}
                   >
                     <div style={{
                       padding: '14px 20px',
@@ -194,7 +195,7 @@ export default async function ExpressionsHubPage() {
         })}
 
         {/* Bottom CTA */}
-        <div style={{ padding: '32px 20px 0', maxWidth: 480, margin: '0 auto' }}>
+        <div style={{ padding: '32px 20px 0', maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}>
           <Link href="/kpatto/story" style={{
             display: 'block', textAlign: 'center', textDecoration: 'none',
             background: ACCENT, color: '#fff', borderRadius: 14,

@@ -8,6 +8,7 @@ import { AuthProvider } from '@/contexts/AuthContext'
 import { KPattoTabBar } from '@/components/kpatto/KPattoTabBar'
 import { LicenseToast } from '@/components/kpatto/LicenseToast'
 import { KPattoInstallPromptCatcher } from '@/components/kpatto/InstallAppButton'
+import { KPattoAppWidth } from '@/components/kpatto/KPattoAppWidth'
 
 const jakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -74,7 +75,7 @@ export default function KPattoLayout({ children }: { children: React.ReactNode }
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
               />
-              {children}
+              <KPattoAppWidth>{children}</KPattoAppWidth>
               <KPattoTabBar />
               <LicenseToast />
               <KPattoInstallPromptCatcher />

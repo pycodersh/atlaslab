@@ -8,7 +8,7 @@ import { InstallAppCard as Card } from '@/components/pwa/InstallAppCard'
  * 매니페스트: public/kpantry/manifest.webmanifest (app/kpantry/en/layout.tsx · app/kpantry/landing/page.tsx 에서 연결)
  * 안내 모달은 body 로 포털되어 --kp-* 변수 밖이라 색을 직접 쓴다(components/kpantry/ui/theme.ts 와 같은 값).
  */
-const THEME = { appName: 'K-Pantry', accent: '#C8102E', accentLight: '#FBEEF0' }
+const THEME = { appName: 'K-Pantry', accent: '#C8102E', accentLight: '#FBEEF0', accentBorder: '#F3C9D0' }
 
 export const KPantryInstallPromptCatcher = InstallPromptCatcher
 

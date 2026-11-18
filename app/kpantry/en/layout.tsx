@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import LegalLinks from '@/components/kpantry/layout/LegalLinks'
 import { KP_THEME_CSS } from '@/components/kpantry/ui/theme'
 import { InstallAppButton, KPantryInstallPromptCatcher } from '@/components/kpantry/InstallAppButton'
+import { APP_MAX_WIDTH } from '@/lib/appLayout'
 
 // 하위 화면(dishes·ingredients·recipes·saved·subscribe)은 서버 HTML 이 2~75단어인
 // 앱 내부 화면이라 기본값을 색인 제외로 둔다. 랜딩(page.tsx)만 index 로 되돌린다.
@@ -29,6 +30,8 @@ export default function KPantryLayout({
       {/* K-Pantry 화면의 주 글꼴 Inter — 사이트 공통 글꼴에서 빼고 여기서만 불러온다(React 가 <head> 로 올린다) */}
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" precedence="default" />
       <style>{KP_THEME_CSS}</style>
+      {/* PC 에서 K-PATTO 와 같은 표준 폭(768px)까지만 — 모든 K-Pantry 화면이 이 안에서 가운데 정렬된다 */}
+      <div style={{ maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}>
       {children}
       {/* 모든 K-Pantry 화면 맨 아래 — 레시피 상세 액션 바·재료 화면 CTA 바(하단 고정)에 가리지 않게 그만큼 띄운다 */}
       <footer style={{ padding: '8px 16px calc(96px + env(safe-area-inset-bottom))' }}>
@@ -39,6 +42,7 @@ export default function KPantryLayout({
         </div>
         <LegalLinks prefix="© Atlas Lab ·" />
       </footer>
+      </div>
       <KPantryInstallPromptCatcher />
     </div>
   )

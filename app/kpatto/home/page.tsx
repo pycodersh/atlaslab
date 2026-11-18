@@ -19,6 +19,7 @@ import type { KPattoExpression } from '@/data/kpatto/types'
 
 import { KP } from '@/lib/kpatto/theme'
 import { formatPatternTitle } from '@/lib/kpatto/pattern-format'
+import { APP_MAX_WIDTH } from '@/lib/appLayout'
 // ── 토큰 ──────────────────────────────────────────────────────────────────────
 const ACCENT = KP.primary
 const T1     = '#111111'
@@ -233,7 +234,7 @@ function HeroEpisodeCard({ ep }: { ep: ContinueEp }) {
             alt={ep.title}
             fill
             style={{ objectFit: 'cover', objectPosition: 'center center' }}
-            sizes="(max-width: 480px) 100vw, 480px"
+            sizes="(max-width: 768px) 100vw, 768px"
             priority
           />
 
@@ -691,7 +692,7 @@ export default function KPattoHomePage() {
       <div style={{ minHeight: '100vh', background: '#FFFFFF', paddingBottom: `calc(${KPATTO_TAB_BAR_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px))` }}>
         <KPattoHeader />
 
-        <div style={{ maxWidth: 480, margin: '0 auto' }}>
+        <div style={{ maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}>
           {/* [1] 히어로 에피소드 카드 (진행 없음 → EP01, 진행 있음 → 다음 화) */}
           <HeroEpisodeCard ep={continueEp} />
 

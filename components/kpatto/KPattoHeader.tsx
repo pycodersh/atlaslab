@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/AuthContext'
 import { ProStatusPill } from './ProStatusPill'
+import { APP_MAX_WIDTH } from '@/lib/appLayout'
 
 export function KPattoHeader() {
   const { user } = useAuth()
@@ -32,7 +33,7 @@ export function KPattoHeader() {
         justifyContent: 'space-between',
         padding: '0 20px',
         height: 56,
-        maxWidth: 480,
+        maxWidth: APP_MAX_WIDTH,
         margin: '0 auto',
       }}>
         {/* Logo */}

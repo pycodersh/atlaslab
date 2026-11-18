@@ -42,6 +42,7 @@ import {
   onExpressionPlayed,
   autoCompleteListenIfNoAudio,
 } from '@/lib/kpatto/round-state'
+import { READING_MAX_WIDTH } from '@/lib/appLayout'
 
 const EPISODE_POOLS: Record<string, RawQuestion[]> = {
   'kp-ep-001': EP001_POOL,
@@ -279,7 +280,8 @@ export function KPattoStoryClient({ id }: Props) {
     <div style={{
       minHeight: '100vh',
       paddingBottom: KPATTO_TAB_BAR_HEIGHT + 32,
-      maxWidth: 430,
+      // PC 읽기 폭 — 말풍선은 % 위치 · px 글자라 앱 폭(768)보다 좁게 둔다
+      maxWidth: READING_MAX_WIDTH,
       margin: '0 auto',
       background: '#FFFFFF',
     }}>

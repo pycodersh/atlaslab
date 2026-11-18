@@ -26,6 +26,7 @@ import UnlockModal from '@/components/kpantry/paywall/UnlockModal'
 import { canOpenRecipe, LOCKED_STEPS_CLASS, TOTAL_RECIPES } from '@/lib/kpantry/access'
 import { KPANTRY_PRICE } from '@/lib/kpantry/purchase'
 import { useUnlocked } from '@/lib/kpantry/useUnlocked'
+import { APP_MAX_WIDTH } from '@/lib/appLayout'
 
 interface Props {
   /** 서버(app/kpantry/en/recipes/[slug]/page.tsx)가 읽어 온 레시피 — 재료 전부, 조리 단계는 무료 레시피만(RLS) */
@@ -129,8 +130,8 @@ export default function RecipeDetailClient({ initialRecipe }: Props) {
 
   return (
     <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 120 }}>
-      {/* PC 에서도 모바일 폭(430px) 한 줄로 가운데 — 아래 고정 액션 바와 같은 폭. 사진이 늘어나 흐려지지 않는다 */}
-      <div style={{ maxWidth: 430, margin: '0 auto' }}>
+      {/* 폭은 K-Pantry 레이아웃의 표준 폭(lib/appLayout APP_MAX_WIDTH)을 따른다 — 아래 고정 액션 바도 같은 폭 */}
+      <div>
         <HeroSection
           nameEn={recipe.name_en}
           nameKo={recipe.name_ko}
@@ -212,7 +213,7 @@ export default function RecipeDetailClient({ initialRecipe }: Props) {
         left: '50%',
         transform: 'translateX(-50%)',
         width: '100%',
-        maxWidth: 430,
+        maxWidth: APP_MAX_WIDTH,
         backgroundColor: 'var(--kp-bg)',
         borderTop: '1px solid var(--kp-rule)',
         padding: '12px 16px',

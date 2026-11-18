@@ -1,10 +1,10 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Check, CookingPot } from 'lucide-react'
+import { Check } from 'lucide-react'
 import { writeSelectedIngredients } from '@/lib/kpantry/ingredients'
 import type { HomeIngredient } from '@/lib/kpantry/home'
-import SectionHeader, { HOME_SECTION_IDS, SECTION_SCROLL_MARGIN, SectionLink } from './SectionHeader'
+import SectionHeader, { HOME_SECTION_PAD, SectionLink } from './SectionHeader'
 
 const CSS = `
 .kp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -39,9 +39,9 @@ export default function CookWithIngredientsCard({ chips }: { chips: HomeIngredie
   }
 
   return (
-    <section id={HOME_SECTION_IDS.have} style={{ padding: '0 16px', scrollMarginTop: SECTION_SCROLL_MARGIN }} aria-labelledby="kp-sec-have-h">
+    <section style={{ padding: HOME_SECTION_PAD }} aria-labelledby="kp-sec-have-h">
       <style>{CSS}</style>
-      <SectionHeader id="kp-sec-have-h" icon={CookingPot} title="Cook with What I Have" desc="Tap what's in your fridge." />
+      <SectionHeader id="kp-sec-have-h" eyebrow="Fridge Match" title="Cook with What I Have" desc="Tap what's in your fridge." />
 
       <div className="kp-chips" role="group" aria-label="Ingredients you have">
         {chips.map(c => {

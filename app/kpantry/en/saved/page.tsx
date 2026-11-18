@@ -143,8 +143,8 @@ export default function SavedPage() {
             Your favorite recipes & shopping list
           </p>
         </div>
-        {/* 계정 — 홈 헤더의 프로필 버튼이 저장 아이콘으로 바뀌어서 Pro·라이선스 관리는 여기서 연다 */}
-        <Link href="/kpantry/en/subscribe" aria-label="Account" style={{
+        {/* 설정 — 홈 헤더의 프로필 아이콘과 같은 곳(라이선스 · 설치 · 약관) */}
+        <Link href="/kpantry/en/settings" aria-label="Settings" style={{
           width: 36, height: 36,
           borderRadius: '50%',
           backgroundColor: '#FFFFFF',

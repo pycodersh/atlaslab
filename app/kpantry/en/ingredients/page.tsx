@@ -19,6 +19,7 @@ import { getUserPlan, canAccess } from '@/lib/kpantry/subscription'
 import { createClient } from '@/lib/kpantry/supabase'
 import PaywallModal from '@/components/kpantry/paywall/PaywallModal'
 import AuthModal from '@/components/kpantry/auth/AuthModal'
+import { APP_MAX_WIDTH } from '@/lib/appLayout'
 
 // Clear — 튀지 않는 회색 글자 버튼. 호버 색은 인라인으로 못 줘서 클래스로 둔다
 const CLEAR_CSS = `
@@ -248,7 +249,7 @@ export default function IngredientsPage() {
           left: '50%',
           transform: 'translateX(-50%)',
           width: '100%',
-          maxWidth: 430,
+          maxWidth: APP_MAX_WIDTH,
           zIndex: 50,
           padding: '12px 16px',
           paddingBottom: 'calc(12px + env(safe-area-inset-bottom))',

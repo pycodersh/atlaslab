@@ -13,6 +13,7 @@ import type { KPattoLanguage } from '@/data/kpatto/types'
 import { useKPattoSubscription } from '@/lib/kpatto/subscription'
 import { LicenseStatusCard } from '@/components/kpatto/LicenseStatusCard'
 import { InstallAppButton } from '@/components/kpatto/InstallAppButton'
+import { SettingsCard, SettingsRowDivider, SettingsRowItem, SettingsSectionHeader } from '@/components/settings/SettingsKit'
 
 import { KP } from '@/lib/kpatto/theme'
 const T1     = '#111111'
@@ -21,69 +22,12 @@ const ACCENT = KP.primary
 const BORDER = '#E8E4DF'
 const ROW_DIV = '#F0EDE8'
 
-// ── Section header (amber left-line style) ─────────────────────────────────────
-function SectionHeader({ label }: { label: string }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '24px 16px 10px' }}>
-
-      <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', color: '#999999', textTransform: 'uppercase' }}>
-        {label}
-      </div>
-    </div>
-  )
-}
-
-// ── Card wrapper ──────────────────────────────────────────────────────────────
-function Card({ children }: { children: React.ReactNode }) {
-  return (
-    <div style={{
-      margin: '0 16px',
-      background: '#FFFFFF',
-      border: `1px solid ${BORDER}`,
-      borderRadius: 12,
-      overflow: 'hidden',
-      boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
-    }}>
-      {children}
-    </div>
-  )
-}
-
-function RowDivider() {
-  return <div style={{ height: 1, background: ROW_DIV, margin: '0 16px' }} />
-}
-
-// ── Row item ──────────────────────────────────────────────────────────────────
-function RowItem({
-  icon: Icon,
-  label,
-  value,
-  onClick,
-  danger,
-}: {
-  icon: React.ElementType
-  label: string
-  value?: string
-  onClick?: () => void
-  danger?: boolean
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      style={{
-        display: 'flex', alignItems: 'center', gap: 14,
-        width: '100%', padding: '14px 16px',
-        background: 'none', border: 'none', cursor: onClick ? 'pointer' : 'default',
-        fontFamily: 'inherit', textAlign: 'left',
-      }}
-    >
-      <Icon size={18} color={danger ? '#EF4444' : ACCENT} strokeWidth={1.8} style={{ flexShrink: 0 }} />
-      <span style={{ flex: 1, fontSize: 14, fontWeight: 600, color: danger ? '#EF4444' : T1 }}>{label}</span>
-      {value && <span style={{ fontSize: 13, color: T2, marginRight: 4 }}>{value}</span>}
-      {onClick && <ChevronRight size={15} color="#CCCCCC" strokeWidth={2} style={{ flexShrink: 0 }} />}
-    </button>
-  )
+// ── 설정 공용 부품(K-Pantry 설정과 같은 것) — components/settings/SettingsKit.tsx ──────────
+const SectionHeader = SettingsSectionHeader
+const Card = SettingsCard
+const RowDivider = SettingsRowDivider
+function RowItem(props: { icon: React.ElementType; label: string; value?: string; onClick?: () => void; danger?: boolean }) {
+  return <SettingsRowItem accent={ACCENT} {...props} />
 }
 
 // ── User profile card ─────────────────────────────────────────────────────────

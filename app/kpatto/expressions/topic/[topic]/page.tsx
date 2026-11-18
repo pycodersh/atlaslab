@@ -10,6 +10,7 @@ import {
 } from '@/lib/kpatto/expressions-config'
 
 import { KP } from '@/lib/kpatto/theme'
+import { APP_MAX_WIDTH } from '@/lib/appLayout'
 export const dynamicParams = false
 
 const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.atlaslabstudios.com'
@@ -116,7 +117,7 @@ export default async function TopicPage({ params }: PageProps) {
         }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8,
-            padding: '0 16px', height: 52, maxWidth: 480, margin: '0 auto',
+            padding: '0 16px', height: 52, maxWidth: APP_MAX_WIDTH, margin: '0 auto',
           }}>
             <Link href="/kpatto/expressions" style={{
               display: 'flex', alignItems: 'center', textDecoration: 'none',
@@ -137,7 +138,7 @@ export default async function TopicPage({ params }: PageProps) {
         </div>
 
         {/* Hero */}
-        <div style={{ padding: '28px 20px 20px', maxWidth: 480, margin: '0 auto' }}>
+        <div style={{ padding: '28px 20px 20px', maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}>
           <div style={{ marginBottom: 8 }}>
             <span style={{
               fontSize: 11, fontWeight: 800, color: ACCENT, letterSpacing: '0.06em',
@@ -170,7 +171,7 @@ export default async function TopicPage({ params }: PageProps) {
             <Link
               key={expr.id}
               href={`/kpatto/expressions/${slug}`}
-              style={{ textDecoration: 'none', display: 'block', maxWidth: 480, margin: '0 auto' }}
+              style={{ textDecoration: 'none', display: 'block', maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}
             >
               <div style={{
                 padding: '15px 20px',
@@ -203,7 +204,7 @@ export default async function TopicPage({ params }: PageProps) {
         })}
 
         {/* Category nav */}
-        <div style={{ padding: '32px 20px 0', maxWidth: 480, margin: '0 auto' }}>
+        <div style={{ padding: '32px 20px 0', maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}>
           <div style={{
             fontSize: 11, fontWeight: 800, color: T2,
             letterSpacing: '0.08em', textTransform: 'uppercase',
@@ -229,7 +230,7 @@ export default async function TopicPage({ params }: PageProps) {
         </div>
 
         {/* CTA */}
-        <div style={{ padding: '28px 20px 0', maxWidth: 480, margin: '0 auto' }}>
+        <div style={{ padding: '28px 20px 0', maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}>
           <Link href="/kpatto/story" style={{
             display: 'block', textAlign: 'center', textDecoration: 'none',
             background: ACCENT, color: '#fff', borderRadius: 14,
