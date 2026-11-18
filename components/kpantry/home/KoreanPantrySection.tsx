@@ -1,7 +1,8 @@
 import Link from 'next/link'
+import { ShoppingBasket } from 'lucide-react'
 import type { HomeIngredient } from '@/lib/kpantry/home'
 import { guideHref } from '@/lib/kpantry/buyInfo'
-import SectionHeader, { SectionDivider, SectionLink } from './SectionHeader'
+import SectionHeader, { HOME_SECTION_IDS, SECTION_SCROLL_MARGIN, SectionDivider, SectionLink } from './SectionHeader'
 
 const CSS = `
 .kp-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -25,10 +26,12 @@ const CSS = `
 export default function KoreanPantrySection({ tiles }: { tiles: HomeIngredient[] }) {
   if (tiles.length === 0) return null
   return (
-    <section style={{ padding: '0 16px' }} aria-labelledby="kp-sec-by">
+    <section style={{ padding: '0 16px' }} aria-labelledby="kp-sec-by-h">
       <style>{CSS}</style>
       <SectionDivider />
-      <SectionHeader id="kp-sec-by" num={3} title="Cook by ingredient" desc="Pick one ingredient and see what it makes." />
+      <div id={HOME_SECTION_IDS.by} style={{ scrollMarginTop: SECTION_SCROLL_MARGIN }}>
+        <SectionHeader id="kp-sec-by-h" icon={ShoppingBasket} title="Cook by Ingredient" desc="Pick one ingredient, see what it makes." />
+      </div>
 
       <ul className="kp-tiles" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
         {tiles.map(t => (
@@ -44,7 +47,7 @@ export default function KoreanPantrySection({ tiles }: { tiles: HomeIngredient[]
         ))}
       </ul>
 
-      <SectionLink href="/kpantry/en/ingredient-guide">See all ingredients</SectionLink>
+      <SectionLink href="/kpantry/en/ingredient-guide">Explore ingredient guide</SectionLink>
     </section>
   )
 }

@@ -1,8 +1,14 @@
 import Link from 'next/link'
+import type { LucideIcon } from 'lucide-react'
+
+/** 홈 세 섹션의 id — 빠른 이동 바(HomeAnchorBar)가 이 id 로 스크롤한다. 서버·클라이언트가 같이 쓰므로 여기 둔다 */
+export const HOME_SECTION_IDS = { have: 'kp-sec-have', browse: 'kp-sec-browse', by: 'kp-sec-by' } as const
+
+/** 섹션 머리가 화면 맨 위에 딱 붙지 않게 — 이동 바로 스크롤했을 때 위쪽 여백 */
+export const SECTION_SCROLL_MARGIN = 20
 
 interface Props {
-  /** 홈 "3가지 길" 카드와 같은 번호 — 섹션이 그 카드의 미리보기라는 걸 잇는다 */
-  num: 1 | 2 | 3
+  icon: LucideIcon
   title: string
   desc: string
   id?: string
@@ -16,23 +22,11 @@ export function SectionDivider() {
   return <div role="separator" style={{ borderTop: '1px solid rgba(231, 229, 228, 0.6)', margin: '32px 0' }} />
 }
 
-/** 카드·섹션 번호 — 레드 테두리 원 안의 숫자 */
-export function PathNumber({ num, size = 22 }: { num: 1 | 2 | 3; size?: number }) {
-  return (
-    <span aria-hidden="true" style={{
-      width: size, height: size, flexShrink: 0, borderRadius: '50%',
-      border: '1.5px solid #C8102E', color: '#C8102E',
-      display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-      fontFamily: 'Inter, sans-serif', fontSize: Math.round(size * 0.52), fontWeight: 700, lineHeight: 1,
-    }}>{num}</span>
-  )
-}
-
 /**
- * 홈 세 섹션 머리 — 번호 · 세리프 19px 굵은 제목 · 설명 13px 회색.
- * 다른 화면으로 가는 길은 섹션 맨 아래 텍스트 링크(SectionLink) 하나로 통일한다.
+ * 홈 세 섹션 머리 — 레드 17px 포인트 아이콘 · 세리프 19px 굵은 제목 · 짧은 설명 13px 회색.
+ * 아이콘은 위 빠른 이동 바의 같은 섹션 아이콘과 같다(냄비 · 불꽃 · 장바구니).
  */
-export default function SectionHeader({ num, title, desc, id }: Props) {
+export default function SectionHeader({ icon: Icon, title, desc, id }: Props) {
   return (
     <div style={{ marginBottom: 14 }}>
       <h2 id={id} style={{
@@ -44,22 +38,22 @@ export default function SectionHeader({ num, title, desc, id }: Props) {
         margin: 0,
         display: 'flex',
         alignItems: 'center',
-        gap: 8,
+        gap: 6,
       }}>
-        <PathNumber num={num} size={20} />
+        <Icon size={17} strokeWidth={2} color="#C8102E" aria-hidden="true" />
         {title}
       </h2>
-      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, lineHeight: 1.45, color: '#78716C', margin: '4px 0 0' }}>
+      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, lineHeight: 1.45, color: '#78716C', margin: '3px 0 0' }}>
         {desc}
       </p>
     </div>
   )
 }
 
-/** 섹션 맨 아래 텍스트 링크 `See all … →` — 예전 연한 알약 버튼 대신 */
+/** 섹션 맨 아래 텍스트 링크 — 섹션마다 행선지에 맞는 다른 문구 */
 export function SectionLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} className="kp-section-link" style={{
+    <Link href={href} style={{
       display: 'inline-block', marginTop: 14,
       fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 600, color: '#C8102E', textDecoration: 'none',
     }}>

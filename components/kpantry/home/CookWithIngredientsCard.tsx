@@ -1,10 +1,10 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Check } from 'lucide-react'
+import { Check, CookingPot } from 'lucide-react'
 import { writeSelectedIngredients } from '@/lib/kpantry/ingredients'
 import type { HomeIngredient } from '@/lib/kpantry/home'
-import SectionHeader, { SectionLink } from './SectionHeader'
+import SectionHeader, { HOME_SECTION_IDS, SECTION_SCROLL_MARGIN, SectionLink } from './SectionHeader'
 
 const CSS = `
 .kp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
@@ -39,9 +39,9 @@ export default function CookWithIngredientsCard({ chips }: { chips: HomeIngredie
   }
 
   return (
-    <section style={{ padding: '0 16px' }} aria-labelledby="kp-sec-have">
+    <section id={HOME_SECTION_IDS.have} style={{ padding: '0 16px', scrollMarginTop: SECTION_SCROLL_MARGIN }} aria-labelledby="kp-sec-have-h">
       <style>{CSS}</style>
-      <SectionHeader id="kp-sec-have" num={1} title="Cook with what I have" desc="Tap what's in your fridge, then find recipes you can make." />
+      <SectionHeader id="kp-sec-have-h" icon={CookingPot} title="Cook with What I Have" desc="Tap what's in your fridge." />
 
       <div className="kp-chips" role="group" aria-label="Ingredients you have">
         {chips.map(c => {
@@ -65,7 +65,7 @@ export default function CookWithIngredientsCard({ chips }: { chips: HomeIngredie
         Find recipes{picked.length > 0 ? ` (${picked.length})` : ''}
       </button>
 
-      <SectionLink href="/kpantry/en/ingredients">See all ingredients</SectionLink>
+      <SectionLink href="/kpantry/en/ingredients">Pick from all ingredients</SectionLink>
     </section>
   )
 }

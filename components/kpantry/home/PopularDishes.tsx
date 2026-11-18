@@ -1,10 +1,10 @@
 'use client'
 import Link from 'next/link'
-import { UtensilsCrossed } from 'lucide-react'
+import { Flame, UtensilsCrossed } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { getPopularRecipes } from '@/lib/kpantry/recipes'
 import { PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
-import SectionHeader, { SectionDivider, SectionLink } from './SectionHeader'
+import SectionHeader, { HOME_SECTION_IDS, SECTION_SCROLL_MARGIN, SectionDivider, SectionLink } from './SectionHeader'
 
 /**
  * 375px 에서 카드 약 2.3장이 보이는 폭 — 스크롤 띠가 화면 오른쪽 끝까지 뻗어서(아래 margin -16px)
@@ -32,10 +32,13 @@ export default function PopularDishes({ recipeCount }: { recipeCount: number | n
   if (dishes.length === 0) return null
 
   return (
-    <section style={{ padding: '0 16px' }}>
+    <section style={{ padding: '0 16px' }} aria-labelledby="kp-sec-browse-h">
       <style>{SCROLL_CSS}</style>
       <SectionDivider />
-      <SectionHeader num={2} title="Browse all recipes" desc="Start with the most-loved dishes." />
+      {/* 이동 바의 목적지는 구분선 아래 제목부터 */}
+      <div id={HOME_SECTION_IDS.browse} style={{ scrollMarginTop: SECTION_SCROLL_MARGIN }}>
+        <SectionHeader id="kp-sec-browse-h" icon={Flame} title="Popular Korean Dishes" desc="The most-loved dishes to start with." />
+      </div>
 
       {/* 섹션 좌우 여백(16px)을 상쇄해 화면 끝까지 스크롤되게, 첫·끝 카드는 다시 16px 띄운다 */}
       <div

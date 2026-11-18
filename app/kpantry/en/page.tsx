@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import KPantryHeader from '@/components/kpantry/home/KPantryHeader'
-import HomeHeroArt from '@/components/kpantry/home/HomeHeroArt'
-import HomePaths from '@/components/kpantry/home/HomePaths'
+import HomeAnchorBar from '@/components/kpantry/home/HomeAnchorBar'
 import CookWithIngredientsCard from '@/components/kpantry/home/CookWithIngredientsCard'
 import PopularDishes from '@/components/kpantry/home/PopularDishes'
 import KoreanPantrySection from '@/components/kpantry/home/KoreanPantrySection'
@@ -21,47 +20,48 @@ export const metadata: Metadata = {
 export const dynamic = 'force-static'
 export const revalidate = 3600
 
-/*
- * 히어로: 모바일은 글 → 그림(그림 위에 글을 겹치지 않는다), 768px 이상은 왼쪽 글 · 오른쪽 그림.
- * 폰에서도 그림 전체를 화면 폭(좌우 여백 없이)으로 — 375px 에서 0.59배라 선(1.3px 고정)이 뭉개지지 않아 자르지 않는다.
- */
+/** 배너 사진 — 한식 상차림 컷(1280×853). 바꾸려면 이 파일을 교체한다 */
+const HERO_IMG = '/kpantry/home-hero.jpg'
+
 const HOME_CSS = `
 .kp-home { max-width: 1040px; margin: 0 auto; }
-.kp-hero { display: grid; grid-template-columns: 1fr; gap: 8px; padding: 8px 4px 0; }
-.kp-hero-title { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; color: #1C1917; margin: 0; }
-.kp-hero-sub { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.5; color: #57534E; margin: 8px 0 0; }
-.kp-hero-art { overflow: hidden; margin: 0 -16px; }
+.kp-hero { position: relative; aspect-ratio: 16 / 9; border-radius: 16px; overflow: hidden; background: #292524; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+.kp-hero img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.kp-hero-shade { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.7) 0%, rgba(0,0,0,.3) 45%, rgba(0,0,0,0) 75%); }
+.kp-hero-copy { position: absolute; left: 0; right: 0; bottom: 0; padding: 0 16px 16px; }
+.kp-hero-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; line-height: 1.2; letter-spacing: -0.025em; color: #FFFFFF; margin: 0; text-shadow: 0 1px 6px rgba(0,0,0,.35); }
+.kp-hero-sub { font-family: Inter, sans-serif; font-size: 13px; line-height: 1.45; color: rgba(255,255,255,.85); margin: 4px 0 0; }
 @media (min-width: 768px) {
-  .kp-hero { grid-template-columns: 5fr 7fr; align-items: center; gap: 24px; padding-top: 24px; }
-  .kp-hero-title { font-size: 40px; }
-  .kp-hero-art { margin: 0; }
+  .kp-hero { aspect-ratio: 21 / 8; }
+  .kp-hero-copy { padding: 0 28px 26px; }
+  .kp-hero-title { font-size: 34px; }
+  .kp-hero-sub { font-size: 15px; }
 }
 `
 
-/** 홈 — 헤더 · 라인아트 히어로 · 3가지 길 카드, 그 아래 같은 번호의 미리보기 섹션 셋 */
+/** 홈 — 한 줄 헤더 · 상차림 사진 히어로 · 세 기능 빠른 이동 바, 그 아래 세 섹션 */
 export default async function KPantryHomePage() {
   const home = await getHomeData()
 
   return (
     <div style={{ backgroundColor: 'var(--kp-bg)', minHeight: '100vh', paddingBottom: 24 }}>
       <style>{HOME_CSS}</style>
-      <KPantryHeader />
       <div className="kp-home">
         <div style={{ padding: '0 16px' }}>
+          <KPantryHeader />
 
-          {/* 제목 · 부제가 그림보다 DOM 앞 — 그림은 SVG 라 글자가 먼저 그려진다 */}
+          {/* 사진 안 왼쪽 아래에 카피 — 아래쪽만 어둡게 깔아 흰 글씨를 읽히게 하고 위쪽 상차림은 그대로 보인다 */}
           <section className="kp-hero" aria-labelledby="kp-hero-title">
-            <div>
+            <img src={HERO_IMG} alt="" width={1280} height={853} fetchPriority="high" />
+            <div className="kp-hero-shade" aria-hidden="true" />
+            <div className="kp-hero-copy">
               <h2 id="kp-hero-title" className="kp-hero-title">What are you cooking today?</h2>
               <p className="kp-hero-sub">Three ways to find your next Korean meal.</p>
             </div>
-            <div className="kp-hero-art">
-              <HomeHeroArt />
-            </div>
           </section>
 
-          <div style={{ margin: '8px 0 36px' }}>
-            <HomePaths recipeCount={home.recipeCount} example={home.example} />
+          <div style={{ margin: '14px 0 32px' }}>
+            <HomeAnchorBar recipeCount={home.recipeCount} />
           </div>
         </div>
 
