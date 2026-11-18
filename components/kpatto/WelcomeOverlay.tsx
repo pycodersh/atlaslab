@@ -4,9 +4,13 @@ import { useEffect, useState } from 'react'
 
 // ── 타이밍 상수 ────────────────────────────────────────────────────────────────
 const SHOW_DURATION_MS = 2500  // 오버레이가 불투명하게 유지되는 시간
-const FADE_DURATION_MS = 400   // 페이드아웃 지속 시간
+const FADE_DURATION_MS = 600   // 페이드아웃 지속 시간 — 밝은 바탕이라 길게 녹아들게
 
-const BG = '#0d0d1a'
+// 한지 미색 — 딥 네이비는 앱의 흰 바탕과 끊겨 보였다(앱 화면 바탕은 #FFFFFF 라 페이드로 자연스럽게 이어진다)
+const BG = '#FAF8F5'
+const INK = '#2A2724'        // 딥 차콜 워드마크
+const RULE = '#E4DED5'       // 얇은 가로선
+const SLOGAN = '#8C8278'     // 웜 그레이 슬로건
 
 export function WelcomeOverlay() {
   // SSR에서는 false → 서버 HTML에 오버레이 없음 (SEO 목적)
@@ -49,10 +53,6 @@ export function WelcomeOverlay() {
           animation: kpatto-slideUp 0.6s ease-out 0.3s forwards;
           opacity: 0;
         }
-        .kpatto-su-2 {
-          animation: kpatto-slideUp 0.6s ease-out 0.5s forwards;
-          opacity: 0;
-        }
       `}</style>
 
       <div
@@ -60,6 +60,7 @@ export function WelcomeOverlay() {
         style={{
           position:       'fixed',
           inset:          0,
+          minHeight:      '100dvh',
           background:     BG,
           display:        'flex',
           flexDirection:  'column',
@@ -68,51 +69,41 @@ export function WelcomeOverlay() {
           gap:            0,
           zIndex:         9999,
           opacity:        fading ? 0 : 1,
-          transition:     fading ? `opacity ${FADE_DURATION_MS}ms ease` : 'none',
+          transition:     fading ? `opacity ${FADE_DURATION_MS}ms ease-out` : 'none',
           pointerEvents:  fading ? 'none' : 'auto',
+          padding:        '0 16px',
+          textAlign:      'center',
         }}
       >
-        {/* K-PATTO 로고 */}
+        {/* 1단 — K-PATTO 워드마크 (코랄 K + 딥 차콜, semibold) */}
         <div style={{
-          fontSize:      56,
-          fontWeight:    900,
-          letterSpacing: 8,
+          fontSize:      'clamp(40px, 13vw, 56px)',
+          fontWeight:    600,
+          letterSpacing: '0.12em',
           lineHeight:    1,
+          marginRight:   '-0.12em',  // 마지막 글자 뒤 자간만큼 당겨 시각 중앙을 맞춘다
         }}>
           <span style={{ color: '#FF5A36' }}>K</span>
-          <span style={{ color: '#ffffff' }}>-PATTO</span>
+          <span style={{ color: INK }}>-PATTO</span>
         </div>
 
-        {/* 구분선 */}
+        {/* 얇은 가로선 */}
         <div style={{
           width:      40,
           height:     1,
-          background: '#333',
-          margin:     '20px auto',
+          background: RULE,
+          margin:     '22px auto',
         }} />
 
-        {/* Repeat patterns through stories. */}
+        {/* 2단 — 슬로건 */}
         <p className="kpatto-su-1" style={{
           fontFamily: 'Georgia, serif',
           fontStyle:  'italic',
           fontSize:   18,
-          color:      '#aaa',
+          color:      SLOGAN,
           margin:     0,
         }}>
           Repeat patterns through stories.
-        </p>
-
-        {/* BUILD FLUENCY */}
-        <p className="kpatto-su-2" style={{
-          fontFamily:    'sans-serif',
-          fontSize:      12,
-          fontWeight:    400,
-          letterSpacing: 6,
-          color:         '#555',
-          margin:        0,
-          marginTop:     8,
-        }}>
-          BUILD FLUENCY
         </p>
       </div>
     </>
