@@ -61,3 +61,8 @@ export function trackIngredientPopoverOpen(p: { ingredient_slug: string; recipe_
 export function trackBuySheetOpen(p: { recipe_slug: string; trigger: 'banner' | 'top_link' }) {
   trackEvent('buy_sheet_open', p)
 }
+
+/** 홈 "3가지 길" 카드 클릭 — have(재료로 찾기) / browse(전체 레시피) / by_ingredient(재료 하나로) */
+export function trackHomePathClick(p: { path: 'have' | 'browse' | 'by_ingredient' }) {
+  trackEvent('home_path_click', p)
+}

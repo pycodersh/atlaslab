@@ -1,144 +1,50 @@
-'use client'
 import Link from 'next/link'
-import { ShoppingCart } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { getPantryEssentials } from '@/lib/kpantry/ingredients'
-import { getRecipeCountsByIngredient } from '@/lib/kpantry/recipes'
-import SectionHeader, { SectionDivider } from './SectionHeader'
-import SectionButton from './SectionButton'
+import type { HomeIngredient } from '@/lib/kpantry/home'
+import { guideHref } from '@/lib/kpantry/buyInfo'
+import SectionHeader, { SectionDivider, SectionLink } from './SectionHeader'
 
-/**
- * 한국 요리 필수 양념·재료 고정 8개(4열 × 2행). 아래 버튼은 같은 8개를 크게 보여 주는 /essentials 로.
- * 탭하면 /recipes?ingredient=<id> — 그 재료가 들어가는 레시피 목록(IngredientFilterView).
- * 'N recipes' 는 pantry_recipe_ingredients 에서 매번 센다(예전엔 손으로 적은 숫자였다).
- */
-const PANTRY_ESSENTIALS = [
-  { name: 'Gochugaru',  emoji: '🌶️' },
-  { name: 'Soy Sauce',  emoji: '🫙' },
-  { name: 'Sesame Oil', emoji: '🛢️' },
-  { name: 'Gochujang',  emoji: '🌶️' },
-  { name: 'Doenjang',   emoji: '🫙' },
-  { name: 'Kimchi',     emoji: '🥬' },
-  { name: 'Tofu',       emoji: '⬜' },
-  { name: 'Rice',       emoji: '🍚' },
-]
-
-// 테두리는 :hover·:focus-visible 로 바꿔야 해서 인라인이 아니라 클래스에 둔다
-const TILE_CSS = `
-.kp-pantry-tile { border: 1px solid #EFEDEB; transition: border-color 0.15s; }
-a.kp-pantry-tile:hover, a.kp-pantry-tile:focus-visible { border-color: #D6D3D1; }
-a.kp-pantry-tile:active { border-color: #C8102E; }
+const CSS = `
+.kp-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+@media (min-width: 640px) { .kp-tiles { grid-template-columns: repeat(4, 1fr); } }
+.kp-tile { display: flex; flex-direction: column; gap: 10px; padding: 12px; min-height: 104px; box-sizing: border-box; background: #FFFFFF;
+  border: 1px solid #E7E5E4; border-radius: 12px; text-decoration: none; transition: border-color .15s; }
+.kp-tile:hover, .kp-tile:focus-visible { border-color: #A8A29E; }
+.kp-tile:active { border-color: #C8102E; }
+.kp-tile-top { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.kp-tile-img { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; flex-shrink: 0; background: #F5F5F4; }
+.kp-tile-name { font-family: Inter, sans-serif; font-size: 13px; font-weight: 600; color: #292524; line-height: 1.25; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.kp-tile-n { font-family: 'Playfair Display', serif; font-size: 24px; font-weight: 700; color: #1C1917; line-height: 1; margin-top: auto; }
+.kp-tile-n small { font-family: Inter, sans-serif; font-size: 12px; font-weight: 500; color: #78716C; margin-left: 4px; }
 `
 
-type IngredientRow ={ id: string; name: string; image_url: string | null }
-
-export default function KoreanPantrySection() {
-  const [dbData, setDbData] = useState<IngredientRow[]>([])
-  const [counts, setCounts] = useState<Record<string, number>>({})
-
-  useEffect(() => {
-    async function load() {
-      const rows = (await getPantryEssentials(PANTRY_ESSENTIALS.map(i => i.name)).catch(() => [])) as IngredientRow[]
-      setDbData(rows)
-      setCounts(await getRecipeCountsByIngredient(rows.map(r => r.id)).catch(() => ({})))
-    }
-    load()
-  }, [])
-
-  // 고정 목록 순서를 지키고 DB 의 id · 사진 · 레시피 수를 붙인다
-  const items = PANTRY_ESSENTIALS.map(item => {
-    const row = dbData.find(d => d.name === item.name)
-    return { ...item, id: row?.id ?? null, imageUrl: row?.image_url ?? null, count: row ? counts[row.id] : undefined }
-  })
-
+/**
+ * 홈 섹션 3 — "Cook by ingredient". 재료 하나 → 그 재료로 만드는 레시피 수.
+ * 사각 타일(작은 사진 · 이름 · 큰 레시피 수) — 섹션 1의 둥근 고르기 칩과 모양부터 다르다(칩 = 고르기, 타일 = 이동).
+ * 누르면 그 재료의 가이드 페이지 — "Recipes using …" 목록이 있다. 서버 컴포넌트.
+ */
+export default function KoreanPantrySection({ tiles }: { tiles: HomeIngredient[] }) {
+  if (tiles.length === 0) return null
   return (
-    <section style={{ padding: '0 16px' }}>
+    <section style={{ padding: '0 16px' }} aria-labelledby="kp-sec-by">
+      <style>{CSS}</style>
       <SectionDivider />
-      <SectionHeader
-        icon={ShoppingCart}
-        title="Build Your Korean Pantry"
-        desc="Essential ingredients for Korean cooking."
-      />
-      <style>{TILE_CSS}</style>
+      <SectionHeader id="kp-sec-by" num={3} title="Cook by ingredient" desc="Pick one ingredient and see what it makes." />
 
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: 10,
-      }}>
-        {items.map(item => {
-          const tile = (
-            <>
-              {/* 1번 섹션 재료 칩과 같은 원형 — 48px, 흰 바탕, 얇은 테두리, 안쪽 4px 띄우고 사진도 원으로 */}
-              <span style={{
-                width: 48,
-                height: 48,
-                flexShrink: 0,
-                borderRadius: '50%',
-                backgroundColor: '#FFFFFF',
-                border: '1px solid rgba(231, 229, 228, 0.8)',
-                boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-                padding: 4,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginBottom: 6,
-              }}>
-                {item.imageUrl ? (
-                  <img src={item.imageUrl} alt="" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
-                ) : (
-                  <span aria-hidden="true" style={{ fontSize: 20, lineHeight: 1 }}>{item.emoji}</span>
-                )}
+      <ul className="kp-tiles" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+        {tiles.map(t => (
+          <li key={t.id}>
+            <Link href={guideHref(t.slug!)} className="kp-tile">
+              <span className="kp-tile-top">
+                {t.image_url ? <img src={t.image_url} alt="" className="kp-tile-img" loading="lazy" /> : <span className="kp-tile-img" />}
+                <span className="kp-tile-name">{t.name}</span>
               </span>
-              <span style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: 12,
-                fontWeight: 500,
-                color: '#292524',
-                textAlign: 'center',
-                lineHeight: 1.2,
-                width: '100%',
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-              }}>
-                {item.name}
-              </span>
-              <span style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: 11,
-                color: '#A8A29E',
-                marginTop: 2,
-                minHeight: 14,
-              }}>
-                {item.count != null ? `${item.count} recipe${item.count === 1 ? '' : 's'}` : ''}
-              </span>
-            </>
-          )
-          const tileStyle: React.CSSProperties = {
-            minWidth: 0,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            // 좌우는 4px — 375px 에서 타일이 78px 라 10px 씩 띄우면 'Gochugaru'·'Sesame Oil' 이 잘린다
-            padding: '10px 4px',
-            backgroundColor: '#FFFFFF',
-            borderRadius: 16,
-            boxShadow: '0 4px 20px rgba(0,0,0,0.03)',
-            textDecoration: 'none',
-          }
-          return item.id ? (
-            <Link key={item.name} href={`/kpantry/en/recipes?ingredient=${item.id}`} className="kp-pantry-tile" style={tileStyle}>
-              {tile}
+              <span className="kp-tile-n">{t.recipes}<small>{t.recipes === 1 ? 'recipe' : 'recipes'}</small></span>
             </Link>
-          ) : (
-            <div key={item.name} className="kp-pantry-tile" style={tileStyle}>{tile}</div>
-          )
-        })}
-      </div>
+          </li>
+        ))}
+      </ul>
 
-      <SectionButton href="/kpantry/en/essentials">View All 8 Essentials &amp; Dishes</SectionButton>
+      <SectionLink href="/kpantry/en/ingredient-guide">See all ingredients</SectionLink>
     </section>
   )
 }
