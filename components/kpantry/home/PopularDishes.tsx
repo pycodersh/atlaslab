@@ -4,7 +4,7 @@ import { UtensilsCrossed } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { getPopularRecipes } from '@/lib/kpantry/recipes'
 import { PLACEHOLDER_ICON } from '@/components/kpantry/ui/icon'
-import SectionHeader, { HOME_SECTION_PAD, SectionLink } from './SectionHeader'
+import SectionHeader, { SectionButton, sectionStyle } from './SectionHeader'
 
 /**
  * 375px 에서 카드 약 2.3장이 보이는 폭 — 스크롤 띠가 화면 오른쪽 끝까지 뻗어서(아래 margin -16px)
@@ -32,10 +32,9 @@ export default function PopularDishes({ recipeCount }: { recipeCount: number | n
   if (dishes.length === 0) return null
 
   return (
-    // 가운데 구역만 아이보리 밴드 — 카드 테두리 없이 배경 톤으로 세 구역을 나눈다
-    <section style={{ padding: HOME_SECTION_PAD, background: '#F6F0E6' }} aria-labelledby="kp-sec-browse-h">
+    <section style={sectionStyle()} aria-labelledby="kp-sec-browse-h">
       <style>{SCROLL_CSS}</style>
-      <SectionHeader id="kp-sec-browse-h" eyebrow={recipeCount ? `${recipeCount} Recipes` : 'All Recipes'} title="Popular Korean Dishes" desc="The most-loved dishes to start with." />
+      <SectionHeader id="kp-sec-browse-h" title="Popular Korean Dishes" desc="The most-loved dishes to start with." />
 
       {/* 섹션 좌우 여백(16px)을 상쇄해 화면 끝까지 스크롤되게, 첫·끝 카드는 다시 16px 띄운다 */}
       <div
@@ -102,7 +101,7 @@ export default function PopularDishes({ recipeCount }: { recipeCount: number | n
         ))}
       </div>
 
-      <SectionLink href="/kpantry/en/recipes">{recipeCount ? `See all ${recipeCount} recipes` : 'See all recipes'}</SectionLink>
+      <SectionButton href="/kpantry/en/recipes">{recipeCount ? `Browse All ${recipeCount} Recipes` : 'Browse All Recipes'}</SectionButton>
     </section>
   )
 }

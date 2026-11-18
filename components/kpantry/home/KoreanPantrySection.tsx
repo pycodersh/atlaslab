@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import type { HomeIngredient } from '@/lib/kpantry/home'
 import { guideHref } from '@/lib/kpantry/buyInfo'
-import SectionHeader, { HOME_SECTION_PAD, SectionLink } from './SectionHeader'
+import SectionHeader, { SectionButton, sectionStyle } from './SectionHeader'
 
 const CSS = `
 .kp-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -25,9 +25,9 @@ const CSS = `
 export default function KoreanPantrySection({ tiles }: { tiles: HomeIngredient[] }) {
   if (tiles.length === 0) return null
   return (
-    <section style={{ padding: HOME_SECTION_PAD }} aria-labelledby="kp-sec-by-h">
+    <section style={sectionStyle()} aria-labelledby="kp-sec-by-h">
       <style>{CSS}</style>
-      <SectionHeader id="kp-sec-by-h" eyebrow="By Ingredient" title="Cook by Ingredient" desc="Pick one ingredient, see what it makes." />
+      <SectionHeader id="kp-sec-by-h" title="Cook by Ingredient" desc="Pick one ingredient, see what it makes." />
 
       <ul className="kp-tiles" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
         {tiles.map(t => (
@@ -43,7 +43,7 @@ export default function KoreanPantrySection({ tiles }: { tiles: HomeIngredient[]
         ))}
       </ul>
 
-      <SectionLink href="/kpantry/en/ingredient-guide">Explore ingredient guide</SectionLink>
+      <SectionButton href="/kpantry/en/ingredient-guide">Explore Ingredient Guide</SectionButton>
     </section>
   )
 }

@@ -1,54 +1,58 @@
 import Link from 'next/link'
 
 interface Props {
-  /** 제목 위 작은 대문자 태그 — 기능의 성격(FRIDGE MATCH · 103 RECIPES · BY INGREDIENT). 번호·순서는 쓰지 않는다 */
-  eyebrow: string
   title: string
   desc: string
   id?: string
 }
 
 /**
- * 홈 세 섹션 머리 — 레드 대문자 아이브로우 · 세리프 제목 · 짧은 설명.
- * 세 기능은 동등하다: 번호·순서 표시 없이 아이브로우로 성격만 구분한다(2026-11-18).
+ * 홈 세 섹션 머리 — 제목 위 짧은 레드 포인트 바(32×2px) · 큰 세리프 제목 · 짧은 설명.
+ * 세 기능은 동등하다: 번호·대문자 라벨 없이 제목으로만 시작점을 잡는다(2026-11-18).
  */
-export default function SectionHeader({ eyebrow, title, desc, id }: Props) {
+export default function SectionHeader({ title, desc, id }: Props) {
   return (
-    <div style={{ marginBottom: 16 }}>
-      <p style={{
-        fontFamily: 'Inter, sans-serif', fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
-        textTransform: 'uppercase', color: '#C8102E', margin: '0 0 6px',
-      }}>
-        {eyebrow}
-      </p>
+    <div style={{ marginBottom: 18 }}>
+      <span aria-hidden="true" style={{ display: 'block', width: 32, height: 2, background: '#C8102E', borderRadius: 1, marginBottom: 12 }} />
       <h2 id={id} style={{
         fontFamily: 'Playfair Display, serif',
-        fontSize: 22,
-        fontWeight: 700,
-        lineHeight: 1.2,
+        fontSize: 26,
+        fontWeight: 800,
+        lineHeight: 1.18,
+        letterSpacing: '-0.01em',
         color: '#1A1A1A',
         margin: 0,
       }}>
         {title}
       </h2>
-      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, lineHeight: 1.45, color: '#78716C', margin: '4px 0 0' }}>
+      <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, lineHeight: 1.5, color: '#78716C', margin: '6px 0 0' }}>
         {desc}
       </p>
     </div>
   )
 }
 
-/** 섹션 맨 아래 텍스트 링크 — 섹션마다 행선지에 맞는 다른 문구 */
-export function SectionLink({ href, children }: { href: string; children: React.ReactNode }) {
+const BUTTON_CSS = `
+.kp-sec-btn { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; box-sizing: border-box; margin-top: 22px; padding: 14px 18px;
+  border-radius: 14px; background: #FFFFFF; border: 1px solid #D6D3D1; color: #1C1917; font-family: Inter, sans-serif; font-size: 15px; font-weight: 600;
+  text-decoration: none; transition: border-color .15s, color .15s; }
+.kp-sec-btn:hover, .kp-sec-btn:focus-visible { border-color: #C8102E; color: #C8102E; }
+@media (min-width: 640px) { .kp-sec-btn { width: auto; min-width: 280px; margin-left: auto; margin-right: auto; } }
+`
+
+/** 섹션 맨 아래 단일 진입 버튼 — 세 섹션이 같은 아웃라인 버튼 하나씩(텍스트 링크 대신) */
+export function SectionButton({ href, children }: { href: string; children: React.ReactNode }) {
   return (
-    <Link href={href} style={{
-      display: 'inline-block', marginTop: 16,
-      fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 600, color: '#C8102E', textDecoration: 'none',
-    }}>
-      {children} <span aria-hidden="true">→</span>
-    </Link>
+    <>
+      <style href="kp-sec-btn" precedence="default">{BUTTON_CSS}</style>
+      <Link href={href} className="kp-sec-btn">
+        {children} <span aria-hidden="true">→</span>
+      </Link>
+    </>
   )
 }
 
-/** 세 섹션의 세로 간격 — 카드 상자 대신 넉넉한 여백으로 구역을 나눈다 */
-export const HOME_SECTION_PAD = '40px 16px'
+/** 세 구역 사이 — 넉넉한 여백 + 1px 헤어라인. 첫 구역은 선 없이 */
+export function sectionStyle(first = false): React.CSSProperties {
+  return { padding: first ? '36px 16px 44px' : '44px 16px', borderTop: first ? 'none' : '1px solid #E7E1D7' }
+}

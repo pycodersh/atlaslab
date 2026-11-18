@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
-import LegalLinks from '@/components/kpantry/layout/LegalLinks'
+import KPantryFooter from '@/components/kpantry/layout/KPantryFooter'
 import { KP_THEME_CSS } from '@/components/kpantry/ui/theme'
-import { InstallAppButton, KPantryInstallPromptCatcher } from '@/components/kpantry/InstallAppButton'
+import { KPantryInstallPromptCatcher } from '@/components/kpantry/InstallAppButton'
 import { APP_MAX_WIDTH } from '@/lib/appLayout'
 
 // 하위 화면(dishes·ingredients·recipes·saved·subscribe)은 서버 HTML 이 2~75단어인
@@ -33,15 +33,8 @@ export default function KPantryLayout({
       {/* PC 에서 K-PATTO 와 같은 표준 폭(768px)까지만 — 모든 K-Pantry 화면이 이 안에서 가운데 정렬된다 */}
       <div style={{ maxWidth: APP_MAX_WIDTH, margin: '0 auto' }}>
       {children}
-      {/* 모든 K-Pantry 화면 맨 아래 — 레시피 상세 액션 바·재료 화면 CTA 바(하단 고정)에 가리지 않게 그만큼 띄운다 */}
-      <footer style={{ padding: '8px 16px calc(96px + env(safe-area-inset-bottom))' }}>
-        {/* 앱 설치 — 기기별(iOS·iPadOS 안내 / Android·PC 설치 창). 이미 설치된 창에서는 보이지 않는다 */}
-        {/* 서버 레이아웃이라 frame(함수)을 넘길 수 없다 — 가운데 정렬은 감싸는 div, 간격은 버튼 margin(숨으면 같이 사라진다) */}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <InstallAppButton variant="pill" style={{ fontFamily: 'Inter, sans-serif', marginBottom: 12 }} />
-        </div>
-        <LegalLinks prefix="© Atlas Lab ·" />
-      </footer>
+      {/* 맨 아래 설치 버튼 · 약관 — 홈에서는 빠진다(설정 화면에 있다) */}
+      <KPantryFooter />
       </div>
       <KPantryInstallPromptCatcher />
     </div>
