@@ -11,7 +11,7 @@ import type { KPattoExpression } from '@/data/kpatto/types'
 import { Check, ChevronRight } from 'lucide-react'
 
 import { KP } from '@/lib/kpatto/theme'
-import { episodeEmoji } from '@/lib/kpatto/episode-emoji'
+import { episodeIcon } from '@/lib/kpatto/episode-icon'
 import { formatPatternTitle } from '@/lib/kpatto/pattern-format'
 // ── 토큰 ──────────────────────────────────────────────────────────────────────
 const T1     = '#111111'
@@ -23,6 +23,7 @@ const BORDER = '#F3F4F6'   // gray-100 — 목록 구분선
 const GRAY500 = '#6B7280'  // gray-500 — 영문 뜻·비활성 칩 글자
 const PEACH  = '#FFF5F2'   // EP 헤더 카드 살구 틴트
 const SKY    = '#EEF6FF'   // EP 헤더 카드 블루 틴트
+const SKY_INK = '#3B82C4'  // 블루 틴트 카드 위 아이콘 색
 const BG     = '#FFFFFF'
 
 // 검색창과 동일한 좌우 여백 (padding: '12px 16px 0' 의 16에서 가져옴)
@@ -198,14 +199,13 @@ function EpGroupHeader({
         padding: `10px ${SIDE_PAD - 4}px 10px 10px`,
         display: 'flex', alignItems: 'center', gap: 10,
       }}>
-        {/* 상황 이모지 */}
+        {/* 상황 라인 아이콘 — 탭바와 같은 선 굵기(1.8), 카드 틴트에 맞춘 단색(살구=코랄 · 블루=스카이) */}
         <div aria-hidden style={{
           width: 34, height: 34, borderRadius: 10, flexShrink: 0,
           background: 'rgba(255,255,255,0.75)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 19, lineHeight: 1,
         }}>
-          {episodeEmoji(epNum, title)}
+          {(() => { const Icon = episodeIcon(epNum); return <Icon size={18} strokeWidth={1.8} color={tint === 'peach' ? ACCENT : SKY_INK} /> })()}
         </div>
 
         {/* EP 번호 + 한/영 제목 */}
