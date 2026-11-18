@@ -107,12 +107,14 @@ function WebtoonBubbleEl({
   showTrans,
   isActive,
   onHighlightTap,
+  onBubbleTap,
 }: {
   bubble: WebtoonBubble
   showKo: boolean
   showTrans: boolean
   isActive: boolean
   onHighlightTap?: (expressionId: number) => void
+  onBubbleTap?: (bubble: WebtoonBubble) => void
 }) {
   const meta = getBubbleMeta(bubble.bubbleKey)
   const sa = meta.safeArea
@@ -126,6 +128,11 @@ function WebtoonBubbleEl({
   const trFontSize = 'clamp(11px,2.9vw,13px)'
 
   const tappable = !!(bubble.expression_id && onHighlightTap)
+  // 말풍선 자체를 탭하면 그 대사만 재생(반복 탭 = 처음부터 다시). 하이라이트 표현은 자기 onClick 으로 팝업을 연다.
+  const playable = !!(bubble.audio_url && onBubbleTap)
+  const handleClick = playable
+    ? () => onBubbleTap!(bubble)
+    : tappable ? () => onHighlightTap!(bubble.expression_id!) : undefined
 
   const textOverlay = (
     <div
@@ -162,7 +169,9 @@ function WebtoonBubbleEl({
 
   return (
     <div
-      onClick={tappable ? () => onHighlightTap!(bubble.expression_id!) : undefined}
+      onClick={handleClick}
+      role={playable ? 'button' : undefined}
+      aria-label={playable ? `Play: ${bubble.korean}` : undefined}
       style={{
         position: 'absolute',
         left: `${bubble.xPct}%`,
@@ -170,8 +179,9 @@ function WebtoonBubbleEl({
         width: `${bubble.widthPct}%`,
         transform: bubble.rotation ? `rotate(${bubble.rotation}deg)` : undefined,
         overflow: 'visible',
-        cursor: tappable ? 'pointer' : undefined,
-        pointerEvents: tappable ? 'auto' : 'none',
+        cursor: handleClick ? 'pointer' : undefined,
+        pointerEvents: handleClick ? 'auto' : 'none',
+        WebkitTapHighlightColor: 'transparent',  // 회색 탭 상자 대신 재생 중 강조(아래 isActive)가 피드백
         filter: isActive
           ? 'drop-shadow(0 0 6px #f59e0b) drop-shadow(0 0 12px rgba(245,158,11,0.5))'
           : tappable && !isBodyOnly
@@ -222,6 +232,7 @@ function GapSection({
   showTrans,
   playingId,
   onHighlightTap,
+  onBubbleTap,
   fixedHeight,
 }: {
   section: WebtoonGapSection
@@ -229,6 +240,7 @@ function GapSection({
   showTrans: boolean
   playingId: string | null
   onHighlightTap?: (expressionId: number) => void
+  onBubbleTap?: (bubble: WebtoonBubble) => void
   fixedHeight?: number
 }) {
   return (
@@ -253,6 +265,7 @@ function GapSection({
             showTrans={showTrans}
             isActive={b.id === playingId}
             onHighlightTap={onHighlightTap}
+            onBubbleTap={onBubbleTap}
           />
         ))}
       </div>
@@ -542,6 +555,8 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
   const hasAudio = useMemo(() => allBubbles.some(b => b.audio_url), [allBubbles])
 
   const stopRef = useRef(false)
+  /** 말풍선 단독 재생 중인 bubbleId — 끊긴 전체 재생 루프가 뒤늦게 강조를 지우지 않게 한다 */
+  const soloRef = useRef<string | null>(null)
 
   // ── 외부 정지 신호 수신 (챌린지 상호작용·팝업 음성 → 루프 중단) ─────────────
   useEffect(() => {
@@ -550,6 +565,11 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
       isPlayingRef.current = false
       isPausedRef.current = false
       setIsPaused(false)
+      // 단독 재생이 멈췄으면 강조도 끈다(새 단독 재생은 바로 다시 켠다)
+      if (soloRef.current) {
+        soloRef.current = null
+        setPlayingId(null)
+      }
       // setIsPlaying/setPlayingId 는 루프 종료 시 일괄 처리
     })
     return () => setAudioStopListener(null)
@@ -637,8 +657,26 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
     isPausedRef.current = false
     setIsPlaying(false)
     setIsPaused(false)
-    setPlayingId(null)
+    if (!soloRef.current) setPlayingId(null)  // 말풍선 탭으로 끊긴 경우 그 말풍선 강조는 남긴다
   }, [allBubbles])  // isPlaying 제거 — isPlayingRef로 동기 가드
+
+  // ── 말풍선 탭 → 그 대사만 단독 재생 ─────────────────────────────────────────
+  // 전체 재생·다른 말풍선은 즉시 멈추고, 이 대사 하나만 현재 배속으로 재생한 뒤 끝난다.
+  // 같은 말풍선을 다시 탭하면 처음부터 다시(쉐도잉). 전체 재생은 끊긴 대사부터 다시 이어 들을 수 있다.
+  const handleBubbleTap = useCallback(async (b: WebtoonBubble) => {
+    if (!b.audio_url) return
+    stopAllAudio()  // 전체 재생 루프·이전 단독 재생 모두 종료(generation 증가)
+    const myGen = getAudioGeneration()
+    soloRef.current = b.id
+    setPlayingId(b.id)
+    onBubblePlay?.(b.id)
+    await tryPlayAudio(b.audio_url)
+    // 끝까지 들었거나 로드 실패 — 그 사이 다른 탭·정지가 없었을 때만 강조를 끈다
+    if (getAudioGeneration() === myGen && soloRef.current === b.id) {
+      soloRef.current = null
+      setPlayingId(null)
+    }
+  }, [onBubblePlay])
 
   // ── 하이라이트 팝업 ──────────────────────────────────────────────────────────
   const handleHighlightTap = useCallback(async (expressionId: number) => {
@@ -804,6 +842,7 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
                 showKo={showKo}
                 showTrans={showTrans}
                 playingId={playingId}
+                onBubbleTap={handleBubbleTap}
                 onHighlightTap={handleHighlightTap}
                 fixedHeight={fixedHeight}
               />
