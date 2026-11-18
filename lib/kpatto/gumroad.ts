@@ -39,10 +39,11 @@ type VerifyOptions = { incrementUses?: boolean }
  * 코드에 박아 둔 확인된 상품 ID — 상품 ID 는 비밀이 아니다. 환경 변수가 틀리거나 비어도 실제 구매자가 막히지 않게 한다.
  * bundle: 2026-11-18 실제 구매 키로 licenses/verify 를 불러 확인(permalink kpatto-bundle, short id sqxiqk).
  *   이 날 프로덕션 GUMROAD_BUNDLE_PRODUCT_ID 가 이 값과 달라 번들 구매자 키가 'invalid' 로 거절됐다.
- * webapp: 아직 실제 키로 확인한 적 없음 — 환경 변수만 쓴다.
+ * webapp: 2026-11-18 공개 상품 페이지(/l/kpatto-app, sku qozitt)의 상품 데이터에서 확인 — 번들 ID 를 같은 방법으로
+ *   뽑았을 때 실제 키 결과와 일치했다. 실제 WebApp 키로는 아직 검증 전(verify API 는 틀린 ID 에도 같은 오류를 준다).
  */
 const KNOWN_PRODUCT_IDS: Record<KPattoProduct, string[]> = {
-  webapp: [],
+  webapp: ['pXAsuE7SsrX2VtMVuXsfcQ=='],
   bundle: ['0XK5toUsH8zdEHZ4xqiDew=='],
 }
 
