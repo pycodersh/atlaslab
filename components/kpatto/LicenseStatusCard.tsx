@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react'
 import {
   deactivateLicense, fetchLicenseStatus, getLicenseState, LICENSE_EVENT, maskKey, renewLicenseNow, unlockWithKey,
 } from '@/lib/kpatto/license'
+import { Sparkles } from 'lucide-react'
 import { KP } from '@/lib/kpatto/theme'
 
 const T1 = '#111111'
@@ -20,7 +21,7 @@ type Status = { active: boolean; product?: string; exp?: number }
  * 쿠키만 지워지고 키가 남아 있으면 조용히 다시 받아 온다.
  *
  *  - 없음: "Unlock Lifetime Pro" · 키 입력 + Activate · 구매 링크
- *  - 있음: "🎉 Lifetime Pro Active" · 가린 키 · Deactivate / Transfer
+ *  - 있음: (✦ 선 아이콘) "Lifetime Pro Active" · 가린 키 · Deactivate / Transfer
  */
 export function LicenseStatusCard() {
   const [status, setStatus] = useState<Status | null>(null)
@@ -78,7 +79,11 @@ export function LicenseStatusCard() {
     const product = status.product === 'bundle' ? 'Complete Bundle' : 'WebApp Pass'
     return (
       <div style={{ ...card, background: KP.primaryLight, borderColor: KP.primaryBorder }}>
-        <div role="status" style={{ fontSize: 17, fontWeight: 800, color: T1, margin: '0 0 4px' }}>🎉 Lifetime Pro Active</div>
+        <div role="status" style={{ display: 'flex', alignItems: 'center', gap: 7, fontSize: 17, fontWeight: 800, color: T1, margin: '0 0 4px' }}>
+          {/* 설정 메뉴 아이콘과 같은 규격(18px · 선 1.8 · 코랄) */}
+          <Sparkles size={18} color={KP.primary} strokeWidth={1.8} aria-hidden="true" style={{ flexShrink: 0 }} />
+          Lifetime Pro Active
+        </div>
         <div style={{ fontSize: 13.5, color: T2, margin: '0 0 14px' }}>{product} · all 100 episodes unlocked in this browser</div>
 
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, background: '#fff', border: `1px solid ${KP.primaryBorder}`, borderRadius: 10, padding: '10px 12px', marginBottom: 14 }}>

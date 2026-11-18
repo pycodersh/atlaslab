@@ -83,6 +83,14 @@ const PILL_CSS = `
 .pwa-pill:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 `
 
+/* 소프트 버튼 — 브랜드 틴트 바탕 · 브랜드 테두리·글자 · 선 아이콘. 색은 CSS 변수로 앱 테마에서 받는다 */
+const SOFT_CSS = `
+.pwa-soft { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; height: 52px; border-radius: 12px; cursor: pointer; background: var(--pwa-light); color: var(--pwa-accent); border: 1px solid var(--pwa-border); font-family: inherit; font-size: 15.5px; font-weight: 700; transition: background-color .15s, border-color .15s; }
+.pwa-soft:hover { border-color: var(--pwa-accent); }
+.pwa-soft:active { filter: brightness(.97); }
+.pwa-soft:focus-visible { outline: 2px solid var(--pwa-accent); outline-offset: 2px; }
+`
+
 export type InstallTheme = {
   /** 안내 모달 제목·문구에 들어갈 앱 이름 */
   appName: string
@@ -90,11 +98,13 @@ export type InstallTheme = {
   accent: string
   /** 안내 모달 아이콘 바탕 */
   accentLight: string
+  /** soft 버튼 테두리 — 없으면 accent */
+  accentBorder?: string
 }
 
 export type InstallAppButtonProps = {
-  /** button = 꽉 찬 검은 버튼(앱 안), link = 글 줄 속 텍스트 링크(푸터), pill = 선 아이콘 + 아웃라인 필(이모지 없음), bare = 기본 스타일 없음(className 으로 꾸민다) */
-  variant?: 'button' | 'link' | 'pill' | 'bare'
+  /** button = 꽉 찬 검은 버튼(앱 안), soft = 브랜드 틴트 버튼 + 선 아이콘, link = 글 줄 속 텍스트 링크(푸터), pill = 선 아이콘 + 아웃라인 필(이모지 없음), bare = 기본 스타일 없음(className 으로 꾸민다) */
+  variant?: 'button' | 'soft' | 'link' | 'pill' | 'bare'
   /** 버튼을 감싸는 틀(카드 등) — 설치된 창에서는 틀째 사라진다 */
   frame?: (button: React.ReactNode) => React.ReactNode
   /** link 일 때 버튼 대신 쓸 문구 — 없으면 기기별 문구 */
@@ -143,7 +153,10 @@ export function InstallAppButton({ theme, variant = 'button', label, before, fra
     setGuide(true)
   }
 
-  const base: React.CSSProperties = variant === 'bare' || variant === 'pill' ? { cursor: 'pointer' } : variant === 'link'
+  const soft = variant === 'soft'
+  const base: React.CSSProperties = soft
+    ? ({ '--pwa-accent': theme.accent, '--pwa-light': theme.accentLight, '--pwa-border': theme.accentBorder ?? theme.accent } as React.CSSProperties)
+    : variant === 'bare' || variant === 'pill' ? { cursor: 'pointer' } : variant === 'link'
     ? {
         display: 'inline', padding: 0, margin: 0, background: 'none', border: 'none',
         font: 'inherit', fontWeight: 600, color: 'inherit',
@@ -161,13 +174,19 @@ export function InstallAppButton({ theme, variant = 'button', label, before, fra
       type="button"
       onClick={onClick}
       data-can-prompt={canPrompt || undefined}
-      className={variant === 'pill' ? ['pwa-pill', className].filter(Boolean).join(' ') : className}
+      className={variant === 'pill' || soft ? [soft ? 'pwa-soft' : 'pwa-pill', className].filter(Boolean).join(' ') : className}
       style={{ WebkitTapHighlightColor: 'transparent', ...base, ...style }}
     >
       {variant === 'pill' ? (
         <>
           {(() => { const Icon = PILL_ICON[platform]; return <Icon size={15} strokeWidth={1.75} aria-hidden="true" /> })()}
           {label ?? PLAIN_LABEL[platform]}
+        </>
+      ) : soft ? (
+        <>
+          {(() => { const Icon = PILL_ICON[platform]; return <Icon size={18} strokeWidth={1.8} aria-hidden="true" /> })()}
+          {/* 기기별 문구에서 앞 이모지만 뗀다 */}
+          {label ?? LABEL[platform].replace(/^\S+\s/, '')}
         </>
       ) : (label ?? LABEL[platform])}
     </button>
@@ -176,6 +195,7 @@ export function InstallAppButton({ theme, variant = 'button', label, before, fra
   return (
     <>
       {variant === 'pill' && <style href="pwa-pill" precedence="default">{PILL_CSS}</style>}
+      {soft && <style href="pwa-soft" precedence="default">{SOFT_CSS}</style>}
       {before}
       {frame ? frame(button) : button}
       {guide && <InstallGuide platform={platform} theme={theme} onClose={() => setGuide(false)} />}
