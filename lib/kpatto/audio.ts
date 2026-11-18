@@ -23,6 +23,32 @@ export function patternAudioUrl(episodeId: string, patternIndex: number): string
   return `/kpatto/audio/${ep}/${ep}-p${String(patternIndex + 1).padStart(3, '0')}.wav`
 }
 
+// ── Playback speed ─────────────────────────────────────────────────────────────
+// 학습자 요청: 대사가 빠르다 → 느린 듣기. 음원은 그대로, <audio>.playbackRate 로만 바꾼다(음높이는 브라우저가 유지).
+// 고른 배속은 localStorage 에 남겨 다음 대사·다음 에피소드·새로고침 후에도 이어진다.
+
+export const PLAYBACK_RATES = [1, 0.85, 0.75] as const
+export type PlaybackRate = (typeof PLAYBACK_RATES)[number]
+
+const RATE_KEY = 'kpatto_playback_rate'
+let playbackRate: PlaybackRate | null = null
+
+export function getPlaybackRate(): PlaybackRate {
+  if (playbackRate === null) {
+    let saved: number = 1
+    try { saved = Number(localStorage.getItem(RATE_KEY)) } catch { /* 저장소 막힘 → 기본값 */ }
+    playbackRate = (PLAYBACK_RATES as readonly number[]).includes(saved) ? (saved as PlaybackRate) : 1
+  }
+  return playbackRate
+}
+
+/** 지금 재생 중인 대사에도 바로 적용한다 */
+export function setPlaybackRate(rate: PlaybackRate) {
+  playbackRate = rate
+  try { localStorage.setItem(RATE_KEY, String(rate)) } catch { /* 이 탭에서만 유지 */ }
+  if (currentAudio) currentAudio.playbackRate = rate
+}
+
 // ── Singleton audio state ──────────────────────────────────────────────────────
 
 /** Currently playing Audio element. */
@@ -105,6 +131,7 @@ export async function tryPlayAudio(url: string): Promise<boolean> {
     stopCurrent()  // stops previous audio + resolves its pending Promise; no listener
     pendingResolve = resolve
     const audio = new Audio(url)
+    audio.playbackRate = getPlaybackRate()
     currentAudio = audio
     const done = (result: boolean) => {
       if (pendingResolve === resolve) {

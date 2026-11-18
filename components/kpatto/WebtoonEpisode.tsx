@@ -7,7 +7,7 @@ import type { WebtoonEpisodeData, WebtoonBubble, WebtoonGapSection, WebtoonPanel
 import type { KPattoExpression } from '@/data/kpatto/types'
 import bubblesData from '@/public/assets/bubbles/bubbles.json'
 import { BubbleSvg } from './BubbleSvg'
-import { tryPlayAudio, stopAllAudio, setAudioStopListener, getAudioGeneration, pauseAudio, resumeAudio } from '@/lib/kpatto/audio'
+import { tryPlayAudio, stopAllAudio, setAudioStopListener, getAudioGeneration, pauseAudio, resumeAudio, getPlaybackRate, setPlaybackRate, PLAYBACK_RATES, type PlaybackRate } from '@/lib/kpatto/audio'
 import { gapContainerStyle, panelImageWidth, panelJustify } from '@/lib/kpatto/webtoon-layout'
 import { fetchExpression } from '@/lib/kpatto/fetch-episode'
 import { ExpressionPopup } from './ExpressionPopup'
@@ -493,6 +493,14 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
   const [playingId, setPlayingId] = useState<string | null>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isPaused, setIsPaused] = useState(false)
+  // 저장된 배속은 마운트 후 읽는다(서버 렌더와 첫 화면을 맞추려고 1.0x 로 시작)
+  const [rate, setRate] = useState<PlaybackRate>(1)
+  useEffect(() => { setRate(getPlaybackRate()) }, [])
+  const cycleRate = useCallback(() => {
+    const next = PLAYBACK_RATES[(PLAYBACK_RATES.indexOf(rate) + 1) % PLAYBACK_RATES.length]
+    setPlaybackRate(next)
+    setRate(next)
+  }, [rate])
   const playIdxRef = useRef(0)
   const isPlayingRef = useRef(false)  // 연타 가드: state보다 먼저 갱신되는 동기 플래그
   const isPausedRef = useRef(false)   // 일시정지 중 — 재생 루프는 현재 대사에서 기다린다
@@ -701,6 +709,29 @@ export function WebtoonEpisode({ episode, episodeLabel, storyTitle, singleColumn
         </div>
 
         {/* Volume — only shown when episode has audio. 재생 중엔 일시정지, 일시정지 중엔 이어듣기 아이콘 */}
+        {/* Playback speed — 1.0x → 0.85x → 0.75x 순환, 느린 배속일 때 강조 */}
+        {hasAudio && (
+          <button
+            onClick={cycleRate}
+            aria-label={`재생 속도 ${rate === 1 ? '1.0' : rate}배 — 눌러서 바꾸기`}
+            title="Playback speed"
+            style={{
+              ...langBtnStyle(rate !== 1),
+              background: rate !== 1 ? '#EF4444' : '#F2F2F2',
+              color: rate !== 1 ? '#FFFFFF' : '#666666',
+              borderRadius: 999,
+              padding: '3px 8px',
+              fontSize: 11,
+              fontWeight: 700,
+              fontVariantNumeric: 'tabular-nums',
+              whiteSpace: 'nowrap',
+              flexShrink: 0,
+            }}
+          >
+            {rate === 1 ? '1.0x' : rate === 0.75 ? '0.75x Slow' : `${rate}x`}
+          </button>
+        )}
+
         {hasAudio && (
           <button
             onClick={handlePlayAll}
