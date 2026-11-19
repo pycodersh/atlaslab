@@ -3,6 +3,7 @@ import { BasicsThumb } from './KoreanBasic/BasicsThumb'
 import { DangerPronounsVideo, DANGER_PRONOUNS } from './KoreanBasic/DangerPronounsVideo'
 import { TemplateVideo, BASICS_VIDEO, videoLayout } from './KoreanBasic/TemplateVideo'
 import { BASICS_VIDEOS } from './KoreanBasic/videos'
+import { SLOW_READ_VIDEO, SLOW_READS, SlowReadVideo, slowReadLayout } from './SlowRead/SlowReadVideo'
 
 /**
  * Remotion CLI 진입점이 등록하는 컴포지션 목록 — 렌더는 package.json 의 render:* 스크립트로.
@@ -20,6 +21,16 @@ export function RemotionRoot() {
         height={BASICS_VIDEO.height}
         defaultProps={{ data: Object.values(BASICS_VIDEOS)[0], variant: 'keyword' as const }}
       />
+      {Object.keys(SLOW_READS).map(id => (
+        <Composition
+          key={id}
+          id={id}
+          component={SlowReadVideo}
+          defaultProps={{ id }}
+          {...SLOW_READ_VIDEO}
+          durationInFrames={slowReadLayout(id).total}
+        />
+      ))}
       {Object.entries(BASICS_VIDEOS).map(([slug, data]) => (
         <Composition
           key={slug}

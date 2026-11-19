@@ -1,0 +1,150 @@
+{
+ "slow-read-months": [
+  {
+   "file": "audio/slow-read/slow-read-months/01.mp3",
+   "total": 0.63,
+   "start": 0,
+   "end": 0.5
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/02.mp3",
+   "total": 0.74,
+   "start": 0,
+   "end": 0.578
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/03.mp3",
+   "total": 0.68,
+   "start": 0,
+   "end": 0.543
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/04.mp3",
+   "total": 0.85,
+   "start": 0,
+   "end": 0.665
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/05.mp3",
+   "total": 0.74,
+   "start": 0,
+   "end": 0.59
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/06.mp3",
+   "total": 0.74,
+   "start": 0,
+   "end": 0.57
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/07.mp3",
+   "total": 0.68,
+   "start": 0,
+   "end": 0.521
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/08.mp3",
+   "total": 0.68,
+   "start": 0,
+   "end": 0.53
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/09.mp3",
+   "total": 0.63,
+   "start": 0,
+   "end": 0.63
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/10.mp3",
+   "total": 0.85,
+   "start": 0,
+   "end": 0.657
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/11.mp3",
+   "total": 0.91,
+   "start": 0,
+   "end": 0.713
+  },
+  {
+   "file": "audio/slow-read/slow-read-months/12.mp3",
+   "total": 0.91,
+   "start": 0,
+   "end": 0.91
+  }
+ ],
+ "slow-read-hours": [
+  {
+   "file": "audio/slow-read/slow-read-hours/01.mp3",
+   "total": 0.85,
+   "start": 0,
+   "end": 0.669
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/02.mp3",
+   "total": 0.68,
+   "start": 0,
+   "end": 0.5
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/03.mp3",
+   "total": 0.85,
+   "start": 0,
+   "end": 0.85
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/04.mp3",
+   "total": 0.8,
+   "start": 0,
+   "end": 0.629
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/05.mp3",
+   "total": 0.91,
+   "start": 0,
+   "end": 0.727
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/06.mp3",
+   "total": 0.85,
+   "start": 0,
+   "end": 0.85
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/07.mp3",
+   "total": 0.85,
+   "start": 0,
+   "end": 0.85
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/08.mp3",
+   "total": 0.85,
+   "start": 0,
+   "end": 0.85
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/09.mp3",
+   "total": 0.8,
+   "start": 0,
+   "end": 0.658
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/10.mp3",
+   "total": 0.8,
+   "start": 0,
+   "end": 0.665
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/11.mp3",
+   "total": 0.91,
+   "start": 0,
+   "end": 0.91
+  },
+  {
+   "file": "audio/slow-read/slow-read-hours/12.mp3",
+   "total": 0.91,
+   "start": 0,
+   "end": 0.738
+  }
+ ]
+}

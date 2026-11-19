@@ -1,0 +1,38 @@
+{
+  "slow-read-months": {
+    "title": "Months in Korean",
+    "subtitle": "1 to 12",
+    "items": [
+      { "ko": "일월", "roman": "il-wol", "en": "January" },
+      { "ko": "이월", "roman": "i-wol", "en": "February" },
+      { "ko": "삼월", "roman": "sam-wol", "en": "March" },
+      { "ko": "사월", "roman": "sa-wol", "en": "April" },
+      { "ko": "오월", "roman": "o-wol", "en": "May" },
+      { "ko": "유월", "roman": "yu-wol", "en": "June", "highlight": true, "badge": "not 육월" },
+      { "ko": "칠월", "roman": "chil-wol", "en": "July" },
+      { "ko": "팔월", "roman": "pal-wol", "en": "August" },
+      { "ko": "구월", "roman": "gu-wol", "en": "September" },
+      { "ko": "시월", "roman": "si-wol", "en": "October", "highlight": true, "badge": "not 십월" },
+      { "ko": "십일월", "roman": "sib-il-wol", "en": "November" },
+      { "ko": "십이월", "roman": "sib-i-wol", "en": "December" }
+    ]
+  },
+  "slow-read-hours": {
+    "title": "Telling Time",
+    "subtitle": "1 to 12 o'clock",
+    "items": [
+      { "ko": "한 시", "roman": "han si", "en": "1 o'clock", "highlight": true, "badge": "not 하나 시" },
+      { "ko": "두 시", "roman": "du si", "en": "2 o'clock", "highlight": true, "badge": "not 둘 시" },
+      { "ko": "세 시", "roman": "se si", "en": "3 o'clock", "highlight": true, "badge": "not 셋 시" },
+      { "ko": "네 시", "roman": "ne si", "en": "4 o'clock", "highlight": true, "badge": "not 넷 시" },
+      { "ko": "다섯 시", "roman": "da-seot si", "en": "5 o'clock" },
+      { "ko": "여섯 시", "roman": "yeo-seot si", "en": "6 o'clock" },
+      { "ko": "일곱 시", "roman": "il-gop si", "en": "7 o'clock" },
+      { "ko": "여덟 시", "roman": "yeo-deol si", "en": "8 o'clock" },
+      { "ko": "아홉 시", "roman": "a-hop si", "en": "9 o'clock" },
+      { "ko": "열 시", "roman": "yeol si", "en": "10 o'clock" },
+      { "ko": "열한 시", "roman": "yeol-han si", "en": "11 o'clock" },
+      { "ko": "열두 시", "roman": "yeol-du si", "en": "12 o'clock" }
+    ]
+  }
+}
