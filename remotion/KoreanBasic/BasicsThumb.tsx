@@ -43,9 +43,10 @@ export function BasicsThumb({ data, variant }: { data: BasicsVideoData; variant:
 }
 
 /**
- * v2 목록 썸네일 — 한 가지 모양으로 통일(2026-11-18): 크림 배경(영상과 같은 #F7F5F2) + 왼쪽 두 캐릭터 펜화(먹선)
- * + 오른쪽 한국어 표현(먹색, 두 번째 표현만 레드) + 로마자 + 레드 배지(영문 뜻). 문구는 videos.json 의 thumb({ lines, en }).
- * 상황극이 없는 글도 같은 캐릭터를 둔다 — 목록이 한 톤으로 보이게.
+ * v2 목록 썸네일 — 크림 배경(영상과 같은 #F7F5F2) · 먹색 한국어(두 번째 표현만 레드) · 로마자 · 레드 배지(영문 뜻).
+ * 문구는 videos.json 의 thumb({ lines, en }). 구도는 영상과 맞춘다(2026-11-19):
+ *   scene 있는 글  영상에 두 캐릭터가 나오므로 왼쪽에 캐릭터 펜화, 오른쪽에 표현
+ *   scene 없는 글  캐릭터 없이 정중앙 정렬 타이포 카드 — 표현을 더 크게(에디토리얼)
  */
 const EN_FONT = "'DM Sans', sans-serif"
 
@@ -54,7 +55,28 @@ function ThumbV2({ data }: { data: BasicsVideoData }) {
   const t = data.thumb ?? { lines: [{ ko: data.contrast.cards[0].ko, rom: data.contrast.cards[0].rom }], en: data.hook.cue.word }
   const two = t.lines.length > 1
   const longest = Math.max(...t.lines.map(l => [...l.ko].length))
-  const size = Math.min(two ? 190 : 250, Math.floor(1000 / longest))
+  const withCast = !!data.scene
+  // 가운데 카드는 빈칸을 반 글자로 센다 — 'ㄱ · ㅋ · ㄲ' 처럼 띄어 쓴 낱자가 작아지지 않게
+  const width = Math.max(...t.lines.map(l => [...l.ko].reduce((n, ch) => n + (ch === ' ' ? 0.5 : 1), 0)))
+  const size = withCast ? Math.min(two ? 190 : 250, Math.floor(1000 / longest)) : Math.min(two ? 228 : 340, Math.floor(1560 / width))
+  const romSize = withCast ? (two ? 56 : 66) : two ? 62 : 76
+  const lines = t.lines.map((l, i) => (
+    <div key={i} style={{ textAlign: 'center' }}>
+      <div style={{ fontSize: size, fontWeight: 800, lineHeight: 1.05, letterSpacing: -2, whiteSpace: 'nowrap', color: i === 1 ? C2.red : C2.ink }}>{l.ko}</div>
+      <div style={{ marginTop: withCast ? 16 : 20, fontFamily: EN_FONT, fontSize: romSize, fontWeight: 500, color: C2.muted, whiteSpace: 'nowrap' }}>{l.rom}</div>
+    </div>
+  ))
+  const badge = (
+    <div style={{ marginTop: withCast ? 14 : 30, padding: withCast ? '16px 46px' : '18px 54px', borderRadius: 999, background: C2.red, color: '#fff', fontFamily: EN_FONT, fontSize: withCast ? 50 : 56, fontWeight: 700, whiteSpace: 'nowrap' }}>{t.en}</div>
+  )
+  if (!withCast) {
+    return (
+      <AbsoluteFill style={{ background: C2.bg, fontFamily: FONT, alignItems: 'center', justifyContent: 'center', gap: two ? 26 : 0 }}>
+        {lines}
+        {badge}
+      </AbsoluteFill>
+    )
+  }
   return (
     <AbsoluteFill style={{ background: C2.bg, fontFamily: FONT }}>
       <div style={{ position: 'absolute', left: 30, bottom: -60, display: 'flex', alignItems: 'flex-end' }}>
@@ -64,13 +86,8 @@ function ThumbV2({ data }: { data: BasicsVideoData }) {
         </div>
       </div>
       <div style={{ position: 'absolute', left: 860, right: 60, top: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 30 }}>
-        {t.lines.map((l, i) => (
-          <div key={i} style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: size, fontWeight: 800, lineHeight: 1.05, letterSpacing: -2, whiteSpace: 'nowrap', color: i === 1 ? C2.red : C2.ink }}>{l.ko}</div>
-            <div style={{ marginTop: 16, fontFamily: EN_FONT, fontSize: two ? 56 : 66, fontWeight: 500, color: C2.muted, whiteSpace: 'nowrap' }}>{l.rom}</div>
-          </div>
-        ))}
-        <div style={{ marginTop: 14, padding: '16px 46px', borderRadius: 999, background: C2.red, color: '#fff', fontFamily: EN_FONT, fontSize: 50, fontWeight: 700, whiteSpace: 'nowrap' }}>{t.en}</div>
+        {lines}
+        {badge}
       </div>
     </AbsoluteFill>
   )
