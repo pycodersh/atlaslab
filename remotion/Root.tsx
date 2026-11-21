@@ -2,6 +2,7 @@ import { Composition, Still } from 'remotion'
 import { BULL_BEAR, BullBearEconomy } from './BullBear/BullBearEconomy'
 import { BasicsThumb } from './KoreanBasic/BasicsThumb'
 import { PRO_ANALYST, ProAnalystBriefing } from './ProAnalyst/ProAnalystBriefing'
+import { PRO_LIGHT, ProAnalystLight } from './ProAnalyst/ProAnalystLight'
 import { DangerPronounsVideo, DANGER_PRONOUNS } from './KoreanBasic/DangerPronounsVideo'
 import { TemplateVideo, BASICS_VIDEO, videoLayout } from './KoreanBasic/TemplateVideo'
 import { BASICS_VIDEOS } from './KoreanBasic/videos'
@@ -18,6 +19,7 @@ export function RemotionRoot() {
       <Composition id="DangerPronouns" component={DangerPronounsVideo} {...DANGER_PRONOUNS} />
       <Composition id="BullBearEconomy" component={BullBearEconomy} {...BULL_BEAR} />
       <Composition id="ProAnalystBriefing" component={ProAnalystBriefing} {...PRO_ANALYST} />
+      <Composition id="ProAnalystLight" component={ProAnalystLight} {...PRO_LIGHT} />
       <Still
         id="BasicsThumb"
         component={BasicsThumb}

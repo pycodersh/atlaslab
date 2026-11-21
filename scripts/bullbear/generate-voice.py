@@ -16,16 +16,21 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import basics_typecast as tc  # noqa: E402
 
 ROOT = tc.ROOT
-# python generate-voice.py [bullbear|pro] — pro = ProAnalystBriefing(단독 애널리스트, Hyunmin)
+# 도윤 — shortform-studio voices.ts 의 「신뢰/정보형 나레이션」 남성. Hyunmin 보다 차분한 해설 톤
+tc.VOICES.setdefault('Doyun', 'tc_6a3350f8e5a50a4abe948fa8')
+
+# python generate-voice.py [bullbear|pro|pro-light]
+#   pro       = ProAnalystBriefing (다크, Hyunmin, 템포 1.0, 씬당 1클립)
+#   pro-light = ProAnalystLight    (에디토리얼, 도윤, 템포 0.93, 문장마다 1클립 — 문장 사이 숨은 컴포지션이 0.35초 넣는다)
 SETS = {
-    'bullbear': ('BullBear', 'bull-bear', {'bull': 'Hyunmin', 'bear': 'Eunkyung'}),
-    'pro': ('ProAnalyst', 'pro-analyst', {'analyst': 'Hyunmin'}),
+    'bullbear': ('BullBear/lines.json', 'bull-bear', 'BullBear/audio.generated.json', {'bull': 'Hyunmin', 'bear': 'Eunkyung'}, 1.0),
+    'pro': ('ProAnalyst/lines.json', 'pro-analyst', 'ProAnalyst/audio.generated.json', {'analyst': 'Hyunmin'}, 1.0),
+    'pro-light': ('ProAnalyst/lines-light.json', 'pro-analyst-light', 'ProAnalyst/audio-light.generated.json', {'analyst': 'Doyun'}, 0.93),
 }
-_comp, _audio, VOICE = SETS[sys.argv[1] if len(sys.argv) > 1 else 'bullbear']
-LINES = ROOT / 'remotion' / _comp / 'lines.json'
+_lines, _audio, _meta, VOICE, TEMPO = SETS[sys.argv[1] if len(sys.argv) > 1 else 'bullbear']
+LINES = ROOT / 'remotion' / _lines
 OUT_DIR = ROOT / 'public' / 'audio' / _audio
-META = ROOT / 'remotion' / _comp / 'audio.generated.json'
-TEMPO = 1.0
+META = ROOT / 'remotion' / _meta
 
 
 def probe(path: Path) -> tuple[float, float, float]:
@@ -46,6 +51,9 @@ def probe(path: Path) -> tuple[float, float, float]:
 
 def main() -> None:
     lines = json.loads(LINES.read_text(encoding='utf-8'))
+    # 씬 안에 sentences 가 있으면 문장마다 클립 하나 — meta 순서는 씬 → 문장 순으로 평평하게
+    if lines and 'sentences' in lines[0]:
+        lines = [{**s, 'who': l.get('who', 'analyst')} for l in lines for s in l['sentences']]
     need = sum(len(l.get('say') or l['text']) for l in lines if not tc.cached(l.get('say') or l['text'], VOICE[l.get('who', 'analyst')], TEMPO).exists())
     c = tc.credits()
     print(f"엔진 Typecast {tc.MODEL} 템포 {TEMPO} · {' '.join(f'{k}={v}' for k, v in VOICE.items())} · {len(lines)}줄 · 새로 쓸 크레딧 ≈{need} (남은 {c['total'] - c['used']})")
