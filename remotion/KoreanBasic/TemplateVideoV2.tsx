@@ -28,7 +28,7 @@ import {
   useVideoConfig,
 } from 'remotion'
 import { Background, type SceneBackground } from './scene/Backgrounds'
-import { Character, type Cast, type Expression, type Speaker } from './scene/Characters'
+import { Character, CHAR_ASPECT, type Cast, type Expression, type Speaker } from './scene/Characters'
 import type { BasicsVideoData, Tone } from './TemplateVideo'
 
 export const C2 = {
@@ -232,10 +232,10 @@ function OpeningScene({ scene, cast }: { scene: SceneData; cast?: Cast }) {
       </AbsoluteFill>
 
       {/* 캐릭터 — 아래는 화면 밖으로 잘린다(글자가 아니라 안전 영역 규칙과 무관) */}
-      <div style={{ position: 'absolute', top: CHAR_TOP, left: X_A - (CHAR_H * 400) / 560 / 2, opacity: aIn, transform: `translateX(${(1 - aIn) * -60}px)` }}>
+      <div style={{ position: 'absolute', top: CHAR_TOP, left: X_A - (CHAR_H * CHAR_ASPECT) / 2, opacity: aIn, transform: `translateX(${(1 - aIn) * -60}px)` }}>
         <Character who="A" expression={aExpr} since={aSince} height={CHAR_H} gesture={late ? cast?.aGesture : undefined} />
       </div>
-      <div style={{ position: 'absolute', top: CHAR_TOP, left: X_B - (CHAR_H * 400) / 560 / 2, opacity: bIn, transform: `translateX(${(1 - bIn) * 60}px)` }}>
+      <div style={{ position: 'absolute', top: CHAR_TOP, left: X_B - (CHAR_H * CHAR_ASPECT) / 2, opacity: bIn, transform: `translateX(${(1 - bIn) * 60}px)` }}>
         <Character who="B" expression={bExpr} since={bSince} height={CHAR_H} gesture={late ? cast?.bGesture : undefined} />
       </div>
 
