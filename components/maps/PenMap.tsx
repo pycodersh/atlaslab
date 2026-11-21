@@ -26,19 +26,12 @@ export type PenArea = { id: string; name: string; ll: LL; active?: boolean }
 
 const ART_URL = '/maps/penmap-v2.svg'
 let artPromise: Promise<string> | null = null
-const loadArt = () =>
+/** 펜화 그림 속(<svg> 껍데기를 뗀 안쪽). 좌표는 lib/maps/penmap 의 project() 와 같다 — 날씨 지도도 같이 쓴다 */
+export const loadArt = () =>
   (artPromise ??= fetch(ART_URL).then(r => r.text()).then(t => t.replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '')))
 
-type Cam = { cx: number; cy: number; upp: number } // 중심(지도 단위) · 화면 1px 당 지도 단위
-
-const MIN_UPP = 0.05
-const ease = (t: number) => 1 - Math.pow(1 - t, 3)
-
-const CSS = `
-.pm { position: relative; overflow: hidden; background: ${PAPER}; user-select: none; -webkit-user-select: none; }
-.pm svg.pm-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.pm.is-drag svg.pm-svg { cursor: grabbing; }
-.pm.is-pan svg.pm-svg { cursor: grab; touch-action: none; }
+/** 그림(.pm-art) 선 · 면 스타일 — 이 그림을 끼우는 곳은 이것도 같이 넣는다 */
+export const PEN_ART_CSS = `
 .pm-art path, .pm-art line { fill: none; stroke: ${LINE}; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
 /* 바다 = 흰색, 땅 = #F3F4F6 + 가는 선 #374151 하나 */
 .pm-art .pm-land { fill: ${LAND}; stroke-width: 1; }
@@ -51,6 +44,19 @@ const CSS = `
 .pm-art .pm-dist { stroke: #D1D5DB; stroke-width: .6; }
 .pm-art .pm-ripple path { stroke-width: .8; }.pm-art .pm-mtn path { stroke-width: .85; }
 .pm-art .pm-mtn .pm-hatch { stroke-width: .5; opacity: .7; }
+`
+
+type Cam = { cx: number; cy: number; upp: number } // 중심(지도 단위) · 화면 1px 당 지도 단위
+
+const MIN_UPP = 0.05
+const ease = (t: number) => 1 - Math.pow(1 - t, 3)
+
+const CSS = `
+.pm { position: relative; overflow: hidden; background: ${PAPER}; user-select: none; -webkit-user-select: none; }
+.pm svg.pm-svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.pm.is-drag svg.pm-svg { cursor: grabbing; }
+.pm.is-pan svg.pm-svg { cursor: grab; touch-action: none; }
+${PEN_ART_CSS}
 .pm .pm-lod-c { display: none; }
 .pm.is-detail .pm-lod-c { display: inline; }
 .pm.is-detail .pm-lod-n { display: none; }

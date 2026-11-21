@@ -107,6 +107,8 @@ export function WeatherForecast() {
         .wf-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin-bottom: 20px; align-items: start; }
         .wf-map-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px; }
         .wf-map { display: block; width: 100%; max-width: 440px; height: auto; margin: 0 auto; }
+        .wf-map-credit { margin: 4px 0 0; text-align: right; font-size: 9px; line-height: 1.3; color: #9CA3AF; }
+        .wf-map-credit a { color: inherit; }
         .wf-pin { cursor: pointer; outline: none; }
         .wf-pin-dot { fill: #94A3B8; stroke: #fff; stroke-width: 1.5; }
         .wf-pin.is-active .wf-pin-dot { fill: #2563EB; stroke-width: 2; }

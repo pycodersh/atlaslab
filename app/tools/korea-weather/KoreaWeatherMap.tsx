@@ -1,7 +1,20 @@
 'use client'
 
-import { COAST, JEJU_X, JEJU_Y, project } from '../KoreaRouteMap'
+import { useEffect, useState } from 'react'
 import { CITIES as MAP_CITIES } from '@/data/transitRoutes'
+import { NATIONAL, project as penProject } from '@/lib/maps/penmap'
+import { PEN_ART_CSS, loadArt } from '@/components/maps/PenMap'
+
+/**
+ * 지도 그림은 Hotspot Finder 와 같은 펜화 지도(public/maps/penmap-v2.svg — 해안선 · 제주 · 울릉도 등 섬 · 도 경계).
+ * 그림 좌표(1 단위 ≈ 100 m)는 너무 커서, 배지 · 점 크기를 예전처럼 두려고 K 로 나눈 「배지 단위」를 viewBox 로 쓴다.
+ *   전국 범위(NATIONAL) 폭이 322 단위가 되게 맞춰 — 예전 지도 폭과 같아 배지 글자 크기가 그대로다.
+ *   동쪽만 12 단위(≈ 0.22°) 더 보여 준다 — 동해안 배지(Gangneung · Gyeongju · Busan, °F 세 자리)가 틀 안에 들어오게.
+ */
+const K = NATIONAL.w / 322
+const VB = { x: NATIONAL.x / K, y: NATIONAL.y / K, w: 322 + 12, h: NATIONAL.h / K }
+const project = (lon: number, lat: number): [number, number] => { const [x, y] = penProject(lat, lon); return [x / K, y / K] }
+const MAP_CSS = `${PEN_ART_CSS}.wf-map .pm-lod-c { display: none; }`
 
 const LIGHTNING = new Set([1087, 1273, 1276, 1279, 1282])
 const SNOW = new Set([1066, 1069, 1072, 1114, 1117, 1168, 1171, 1204, 1207, 1210, 1213, 1216, 1219, 1222, 1225, 1237, 1249, 1252, 1255, 1258, 1261, 1264])
@@ -85,7 +98,7 @@ const PLACE: Record<string, Place> = {
   Seoul: { side: 'top', align: 'end', dx: 10, gap: 4 },
   Chuncheon: { side: 'top', align: 'end', dx: 30, gap: 16 },
   Sokcho: { side: 'right' },
-  Gangneung: { side: 'bottom', align: 'start', dx: -16 },
+  Gangneung: { side: 'bottom', align: 'start', dx: -16, gap: 26 },
   Daegu: { side: 'top', dx: -12, gap: 12 },
   Gyeongju: { side: 'bottom', align: 'start', dx: -18, gap: 4 },
   Busan: { side: 'right' },
@@ -101,10 +114,13 @@ const GAP = 6
 export type MapCity = { name: string; current: { temp: number; code: number; isDay: boolean; text: string } }
 
 export function KoreaWeatherMap({ cities, selected, onSelect, temp }: { cities: MapCity[]; selected: number; onSelect: (i: number) => void; temp: (c: number) => string }) {
+  const [art, setArt] = useState<string | null>(null)
+  useEffect(() => { let dead = false; loadArt().then(t => { if (!dead) setArt(t) }).catch(() => {}); return () => { dead = true } }, [])
   return (
-    <svg className="wf-map notranslate" viewBox="-6 24 322 350" role="group" aria-label="Map of Korea with current weather for ten cities. Not to scale.">
-      <polygon points={COAST} fill="#F3F1EC" stroke="#D6D3CC" strokeWidth="1.500" strokeLinejoin="round" />
-      <ellipse cx={JEJU_X} cy={JEJU_Y} rx="20" ry="10" fill="#F3F1EC" stroke="#D6D3CC" strokeWidth="1.500" />
+    <>
+    <style>{MAP_CSS}</style>
+    <svg className="wf-map notranslate" viewBox={`${VB.x} ${VB.y} ${VB.w} ${VB.h}`} role="group" aria-label="Map of South Korea with current weather for ten cities">
+      {art && <g className="pm-art" transform={`scale(${1 / K})`} aria-hidden="true" dangerouslySetInnerHTML={{ __html: art }} />}
       {/* 선택된 도시를 맨 마지막에 그려 다른 배지 위로 올라오게 한다 */}
       {cities.map((city, i) => ({ city, i })).sort((a, b) => Number(a.i === selected) - Number(b.i === selected)).map(({ city, i }) => {
         const place = MAP_CITIES.find(c => c.name.split(' / ')[0] === city.name)
@@ -139,5 +155,7 @@ export function KoreaWeatherMap({ cities, selected, onSelect, temp }: { cities: 
         )
       })}
     </svg>
+    <p className="wf-map-credit">Map data: Natural Earth · geoBoundaries · © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a></p>
+    </>
   )
 }

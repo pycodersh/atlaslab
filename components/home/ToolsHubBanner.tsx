@@ -23,7 +23,7 @@ const FEATURED: { id: ToolId; title: string; desc: string }[] = [
 const QUICK: { id: ToolId; label: string; sub: string }[] = [
   { id: 'krw-converter', label: 'KRW Calc', sub: 'Daily-rate converter' },
   { id: 'order-builder', label: 'K-Food', sub: 'Polite ordering phrases' },
-  { id: 'weather', label: 'Weather', sub: '7-day city forecasts' },
+  { id: 'weather', label: 'Weather', sub: '3-day city forecasts' },
   { id: 'holiday-calendar', label: 'Holidays', sub: 'Holiday & peak dates' },
   { id: 'size-units', label: 'Size & Units', sub: 'Shoe & clothing sizes' },
   { id: 'subway-timer', label: 'Subway 15m', sub: 'Free re-entry timer' },

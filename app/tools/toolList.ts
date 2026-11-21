@@ -9,7 +9,7 @@ export const TOOLS: Tool[] = [
   // 환율은 하루 한 번 갱신된다 — 'Real-time' 이라 쓰지 않는다
   { id: 'krw-converter', title: 'KRW Price Sense', desc: 'Daily-rate Won converter with street food & meal price benchmarks.', group: 'Survival' },
   { id: 'transit-guide', title: 'Intercity Transit Guide', desc: 'Compare KTX, flights, and buses with arrival hub connection tips.', group: 'Planning' },
-  { id: 'weather', title: 'Korea Weather', desc: '7-day forecasts for ten cities, with rain chances and what to wear.', group: 'Planning' },
+  { id: 'weather', title: 'Korea Weather', desc: '3-day forecasts for ten cities, with rain chances and what to wear.', group: 'Planning' },
   { id: 'kpop-calendar', title: 'K-Pop Event Calendar', desc: 'Upcoming concerts, global ticketing links, and arena venue guides.', group: 'Planning' },
   { id: 'world-time', title: 'Seoul & World Time', desc: 'Compare Seoul time with hometowns via interactive day/night cards.', group: 'Planning' },
   { id: 'hotspot-finder', title: 'Regional Hotspot Finder', desc: 'Curated walking clusters across Seoul and 10 regional cities with visual previews and instant transit tips.', group: 'Planning' },
