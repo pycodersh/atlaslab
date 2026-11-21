@@ -16,7 +16,8 @@
     "generate-audio": "tsx scripts/generate-audio.ts",
     "generate-shimmer": "tsx scripts/generate-shimmer.ts",
     "remotion:studio": "remotion studio remotion/index.ts",
-    "render:dangsin": "remotion render remotion/index.ts DangerPronouns out/remotion/dangsin.mp4"
+    "render:dangsin": "remotion render remotion/index.ts DangerPronouns out/remotion/dangsin.mp4",
+    "render:bullbear": "remotion render remotion/index.ts BullBearEconomy out/remotion/bull-bear-economy-crash.mp4"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.109.1",

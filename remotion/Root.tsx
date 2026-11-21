@@ -1,4 +1,5 @@
 import { Composition, Still } from 'remotion'
+import { BULL_BEAR, BullBearEconomy } from './BullBear/BullBearEconomy'
 import { BasicsThumb } from './KoreanBasic/BasicsThumb'
 import { DangerPronounsVideo, DANGER_PRONOUNS } from './KoreanBasic/DangerPronounsVideo'
 import { TemplateVideo, BASICS_VIDEO, videoLayout } from './KoreanBasic/TemplateVideo'
@@ -14,6 +15,7 @@ export function RemotionRoot() {
   return (
     <>
       <Composition id="DangerPronouns" component={DangerPronounsVideo} {...DANGER_PRONOUNS} />
+      <Composition id="BullBearEconomy" component={BullBearEconomy} {...BULL_BEAR} />
       <Still
         id="BasicsThumb"
         component={BasicsThumb}
