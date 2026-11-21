@@ -4,28 +4,28 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "맞나?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/busan-dialect-vs-seoul-korean/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "밥 뭇나?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/busan-dialect-vs-seoul-korean/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "어디 가노?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/busan-dialect-vs-seoul-korean/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "억수로",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/busan-dialect-vs-seoul-korean/ex-4.mp3"
   }
  ],
@@ -34,7 +34,7 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "서다 · 소다",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/common-pronunciation-mistakes-korean-learners-make/ex-1.mp3",
    "say": "서다, 소다"
   },
@@ -42,7 +42,7 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "그 · 구",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/common-pronunciation-mistakes-korean-learners-make/ex-2.mp3",
    "say": "그, 구"
   },
@@ -50,7 +50,7 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "사다 · 싸다",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/common-pronunciation-mistakes-korean-learners-make/ex-3.mp3",
    "say": "사다, 싸다"
   },
@@ -58,7 +58,7 @@
    "id": "ex-4",
    "kind": "example",
    "ko": "한국말 → [한궁말]",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/common-pronunciation-mistakes-korean-learners-make/ex-4.mp3",
    "say": "한국말"
   }
@@ -69,42 +69,41 @@
    "kind": "scene",
    "ko": "에마는 왔어요.",
    "file": "audio/korean-basic/lines/eun-neun-vs-i-ga-difference/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "에마가 왔어요.",
    "file": "audio/korean-basic/lines/eun-neun-vs-i-ga-difference/scene-correct.mp3",
-   "src": "reuse",
-   "from": "public/audio/korean-basic/lines/eun-neun-vs-i-ga-difference/ex-1.mp3"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "에마가 왔어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/eun-neun-vs-i-ga-difference/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "에마는 공부해요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/eun-neun-vs-i-ga-difference/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "친구가 왔어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/eun-neun-vs-i-ga-difference/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "그 친구는 미국 사람이에요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/eun-neun-vs-i-ga-difference/ex-4.mp3"
   }
  ],
@@ -114,20 +113,20 @@
    "kind": "scene",
    "ko": "같이 먹어.",
    "file": "audio/korean-basic/lines/formal-vs-casual-korean-when-to-drop-yo/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "같이 먹어요.",
    "file": "audio/korean-basic/lines/formal-vs-casual-korean-when-to-drop-yo/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "가요 · 먹어요 · 좋아요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/formal-vs-casual-korean-when-to-drop-yo/ex-1.mp3",
    "say": "가요, 먹어요, 좋아요"
   },
@@ -135,21 +134,21 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "갑니다",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/formal-vs-casual-korean-when-to-drop-yo/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "말 놓아도 될까요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/formal-vs-casual-korean-when-to-drop-yo/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "좋아",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/formal-vs-casual-korean-when-to-drop-yo/ex-4.mp3"
   }
  ],
@@ -158,7 +157,7 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "한 = ㅎ + ㅏ + ㄴ",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/how-long-to-learn-hangul/ex-1.mp3",
    "say": "한"
   },
@@ -166,7 +165,7 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "사람 · 학교 · 친구",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/how-long-to-learn-hangul/ex-2.mp3",
    "say": "사람, 학교, 친구"
   },
@@ -174,7 +173,7 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "신라 → [실라]",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/how-long-to-learn-hangul/ex-3.mp3",
    "say": "신라"
   },
@@ -182,7 +181,7 @@
    "id": "ex-4",
    "kind": "example",
    "ko": "좋다 → [조타]",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/how-long-to-learn-hangul/ex-4.mp3",
    "say": "좋다"
   }
@@ -192,7 +191,7 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "ㄱ + ㅏ = 가",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/how-to-read-hangul-in-one-day/ex-1.mp3",
    "say": "가"
   },
@@ -200,7 +199,7 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "ㄱ + ㅗ = 고",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/how-to-read-hangul-in-one-day/ex-2.mp3",
    "say": "고"
   },
@@ -208,7 +207,7 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "가 + ㅁ = 감",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/how-to-read-hangul-in-one-day/ex-3.mp3",
    "say": "감"
   },
@@ -216,7 +215,7 @@
    "id": "ex-4",
    "kind": "example",
    "ko": "비빔밥",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/how-to-read-hangul-in-one-day/ex-4.mp3"
   }
  ],
@@ -246,7 +245,7 @@
    "id": "ex-4",
    "kind": "example",
    "ko": "김치",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/how-to-type-korean-phone-computer/ex-4.mp3"
   }
  ],
@@ -255,28 +254,28 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "물 주세요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/is-korean-hard-to-learn-for-english-speakers/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "역 어떻게 가요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/is-korean-hard-to-learn-for-english-speakers/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "카페에서 점심 먹었어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/is-korean-hard-to-learn-for-english-speakers/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "저는 학생이에요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/is-korean-hard-to-learn-for-english-speakers/ex-4.mp3"
   }
  ],
@@ -286,44 +285,41 @@
    "kind": "scene",
    "ko": "몇 살이에요?",
    "file": "audio/korean-basic/lines/korean-age-sal-man-nai/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "나이가 어떻게 되세요?",
    "file": "audio/korean-basic/lines/korean-age-sal-man-nai/scene-correct.mp3",
-   "src": "reuse",
-   "from": "public/audio/korean-basic/lines/korean-age-sal-man-nai/ex-3.mp3"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "스무 살이에요.",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-age-sal-man-nai/s1-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-age-sal-man-nai/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "서른두 살이에요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-age-sal-man-nai/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "나이가 어떻게 되세요?",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-age-sal-man-nai/s3-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-age-sal-man-nai/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "만 25세",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-age-sal-man-nai/ex-4.mp3"
   }
  ],
@@ -333,41 +329,41 @@
    "kind": "scene",
    "ko": "한국어를 안 해요.",
    "file": "audio/korean-basic/lines/korean-an-vs-mot-negation/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "한국어를 못 해요.",
    "file": "audio/korean-basic/lines/korean-an-vs-mot-negation/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "오늘은 못 가요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-an-vs-mot-negation/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "매운 음식을 못 먹어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-an-vs-mot-negation/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "안 매워요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-an-vs-mot-negation/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "학생이 아니에요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-an-vs-mot-negation/ex-4.mp3"
   }
  ],
@@ -376,7 +372,7 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "옷 · 있 · 낮",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-batchim-final-consonants-explained/ex-1.mp3",
    "say": "옷, 있, 낮"
   },
@@ -384,7 +380,7 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "음악 → [으막]",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-batchim-final-consonants-explained/ex-2.mp3",
    "say": "음악"
   },
@@ -392,7 +388,7 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "좋아요 → [조아요]",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-batchim-final-consonants-explained/ex-3.mp3",
    "say": "좋아요"
   },
@@ -400,7 +396,7 @@
    "id": "ex-4",
    "kind": "example",
    "ko": "한국말 → [한궁말]",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-batchim-final-consonants-explained/ex-4.mp3",
    "say": "한국말"
   }
@@ -410,45 +406,42 @@
    "id": "scene-wrong",
    "kind": "scene",
    "ko": "늦었으니까 죄송해요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-because-aseo-vs-euni-kka/scene-wrong.mp3"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "늦어서 죄송해요.",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-because-aseo-vs-euni-kka/s2-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-because-aseo-vs-euni-kka/scene-correct.mp3"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "늦어서 죄송해요.",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-because-aseo-vs-euni-kka/s2-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-because-aseo-vs-euni-kka/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "와 주셔서 감사합니다.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-because-aseo-vs-euni-kka/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "추우니까 창문 닫아 주세요.",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-because-aseo-vs-euni-kka/s3-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-because-aseo-vs-euni-kka/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "시간 없으니까 택시 타자.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-because-aseo-vs-euni-kka/ex-4.mp3"
   }
  ],
@@ -458,41 +451,41 @@
    "kind": "scene",
    "ko": "가을 수 있어요.",
    "file": "audio/korean-basic/lines/korean-can-su-itda-eopda/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "갈 수 있어요.",
    "file": "audio/korean-basic/lines/korean-can-su-itda-eopda/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "카드로 결제할 수 있어요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-can-su-itda-eopda/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "여기서 사진을 찍을 수 있어요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-can-su-itda-eopda/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "짐을 맡길 수 있을까요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-can-su-itda-eopda/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "비가 올 수도 있어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-can-su-itda-eopda/ex-4.mp3"
   }
  ],
@@ -502,41 +495,41 @@
    "kind": "scene",
    "ko": "걷고 전화했어요.",
    "file": "audio/korean-basic/lines/korean-connecting-go-vs-myeonseo/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "걸으면서 전화했어요.",
    "file": "audio/korean-basic/lines/korean-connecting-go-vs-myeonseo/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "밥을 먹고 TV를 봤어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-connecting-go-vs-myeonseo/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "밥을 먹으면서 TV를 봤어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-connecting-go-vs-myeonseo/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "지하철을 타고 가요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-connecting-go-vs-myeonseo/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "음악을 들으면서 공부해요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-connecting-go-vs-myeonseo/ex-4.mp3"
   }
  ],
@@ -552,7 +545,7 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "자다 · 짜다",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-consonants-19-basic-sounds/ex-2.mp3",
    "say": "자다, 짜다"
   },
@@ -560,7 +553,7 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "달 · 딸",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-consonants-19-basic-sounds/ex-3.mp3",
    "say": "달, 딸"
   },
@@ -568,7 +561,7 @@
    "id": "ex-4",
    "kind": "example",
    "ko": "라면",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-consonants-19-basic-sounds/ex-4.mp3"
   }
  ],
@@ -578,43 +571,41 @@
    "kind": "scene",
    "ko": "두 커피 주세요.",
    "file": "audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "커피 두 잔 주세요.",
    "file": "audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/scene-correct.mp3",
-   "src": "reuse",
-   "from": "public/audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/ex-1.mp3"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "커피 두 잔 주세요.",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-counters-gae-myeong-jan-byeong/s3-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "두 명이에요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "맥주 한 병 주세요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "이거 세 개 주세요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/ex-4.mp3"
   }
  ],
@@ -623,29 +614,28 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "11월 15일",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-dates-days-of-week/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "오늘 며칠이에요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-dates-days-of-week/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "무슨 요일이에요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-dates-days-of-week/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "토요일에 예약하고 싶어요.",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-dates-days-of-week/s3-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-dates-days-of-week/ex-4.mp3"
   }
  ],
@@ -655,42 +645,41 @@
    "kind": "scene",
    "ko": "제가 할 거예요.",
    "file": "audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "제가 할게요.",
    "file": "audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/scene-correct.mp3",
-   "src": "reuse",
-   "from": "public/audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/ex-4.mp3"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "내일 갈 거예요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "먹을 거예요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "비가 올 거예요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "제가 할게요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/ex-4.mp3"
   }
  ],
@@ -700,41 +689,41 @@
    "kind": "scene",
    "ko": "아침에 밥을 먹어 봤어요.",
    "file": "audio/korean-basic/lines/korean-have-you-ever-eo-boda/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "아침에 밥을 먹었어요.",
    "file": "audio/korean-basic/lines/korean-have-you-ever-eo-boda/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "이거 한번 먹어 보세요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-have-you-ever-eo-boda/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "입어 봐도 돼요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-have-you-ever-eo-boda/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "한국에 가 본 적이 있어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-have-you-ever-eo-boda/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "김치 먹어 봤어요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-have-you-ever-eo-boda/ex-4.mp3"
   }
  ],
@@ -744,41 +733,41 @@
    "kind": "scene",
    "ko": "오늘 덥어요.",
    "file": "audio/korean-basic/lines/korean-irregular-verbs-seven-types/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "오늘 더워요.",
    "file": "audio/korean-basic/lines/korean-irregular-verbs-seven-types/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "더워요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-irregular-verbs-seven-types/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "몰라요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-irregular-verbs-seven-types/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "바빠요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-irregular-verbs-seven-types/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "이거 어때요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-irregular-verbs-seven-types/ex-4.mp3"
   }
  ],
@@ -788,42 +777,41 @@
    "kind": "scene",
    "ko": "커피를 좋아요.",
    "file": "audio/korean-basic/lines/korean-object-particle-eul-reul/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "커피를 좋아해요.",
    "file": "audio/korean-basic/lines/korean-object-particle-eul-reul/scene-correct.mp3",
-   "src": "reuse",
-   "from": "public/audio/korean-basic/lines/korean-object-particle-eul-reul/ex-2.mp3"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "김치를 먹어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-object-particle-eul-reul/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "커피를 좋아해요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-object-particle-eul-reul/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "시간이 없어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-object-particle-eul-reul/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "버스를 타요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-object-particle-eul-reul/ex-4.mp3"
   }
  ],
@@ -833,41 +821,41 @@
    "kind": "scene",
    "ko": "버스에 가요.",
    "file": "audio/korean-basic/lines/korean-particle-euro-by-to-as/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "버스로 가요.",
    "file": "audio/korean-basic/lines/korean-particle-euro-by-to-as/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "카드로 결제할게요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-particle-euro-by-to-as/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "이 주소로 가 주세요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-particle-euro-by-to-as/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "오른쪽으로 가세요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-particle-euro-by-to-as/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "이걸로 주세요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-particle-euro-by-to-as/ex-4.mp3"
   }
  ],
@@ -877,41 +865,41 @@
    "kind": "scene",
    "ko": "카페에 공부해요.",
    "file": "audio/korean-basic/lines/korean-particles-e-vs-eseo/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "카페에서 공부해요.",
    "file": "audio/korean-basic/lines/korean-particles-e-vs-eseo/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "집에 있어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-particles-e-vs-eseo/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "집에서 쉬어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-particles-e-vs-eseo/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "한국에서 왔어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-particles-e-vs-eseo/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "세 시에 만나요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-particles-e-vs-eseo/ex-4.mp3"
   }
  ],
@@ -921,20 +909,20 @@
    "kind": "scene",
    "ko": "저는 결혼해요.",
    "file": "audio/korean-basic/lines/korean-past-tense-explained/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "저는 결혼했어요.",
    "file": "audio/korean-basic/lines/korean-past-tense-explained/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "먹어요 → 먹었어요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-past-tense-explained/ex-1.mp3",
    "say": "먹어요, 먹었어요"
   },
@@ -942,7 +930,7 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "가요 → 갔어요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-past-tense-explained/ex-2.mp3",
    "say": "가요, 갔어요"
   },
@@ -950,7 +938,7 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "해요 → 했어요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-past-tense-explained/ex-3.mp3",
    "say": "해요, 했어요"
   },
@@ -958,7 +946,7 @@
    "id": "ex-4",
    "kind": "example",
    "ko": "결혼했어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-past-tense-explained/ex-4.mp3"
   }
  ],
@@ -968,42 +956,41 @@
    "kind": "scene",
    "ko": "고마워.",
    "file": "audio/korean-basic/lines/korean-politeness-levels-explained/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "고마워요.",
    "file": "audio/korean-basic/lines/korean-politeness-levels-explained/scene-correct.mp3",
-   "src": "reuse",
-   "from": "public/audio/korean-basic/lines/korean-politeness-levels-explained/ex-3.mp3"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "밥 먹었어요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-politeness-levels-explained/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "어디 가요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-politeness-levels-explained/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "고마워요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-politeness-levels-explained/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "말 놓으세요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-politeness-levels-explained/ex-4.mp3"
   }
  ],
@@ -1012,30 +999,28 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "오천 원",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-prices-money-eolmayeyo/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "만 오천 원",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-prices-money-eolmayeyo/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "삼만 오천 원",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-prices-money-eolmayeyo/s2-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-prices-money-eolmayeyo/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "이거 얼마예요?",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-prices-money-eolmayeyo/s3-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-prices-money-eolmayeyo/ex-4.mp3"
   }
  ],
@@ -1044,46 +1029,42 @@
    "id": "scene-wrong",
    "kind": "scene",
    "ko": "여기 세우세요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-requests-a-eo-juseyo/scene-wrong.mp3"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "여기 세워 주세요.",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-requests-a-eo-juseyo/s2-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-requests-a-eo-juseyo/scene-correct.mp3"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "여기 세워 주세요.",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-requests-a-eo-juseyo/s2-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-requests-a-eo-juseyo/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "덜 맵게 해 주세요.",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-requests-a-eo-juseyo/s3-2-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-requests-a-eo-juseyo/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "사진 좀 찍어 주세요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-requests-a-eo-juseyo/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "포장해 주세요.",
-   "src": "reuse",
-   "from": "out/remotion/vo/korean-requests-a-eo-juseyo/s3-4-ko.wav",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-requests-a-eo-juseyo/ex-4.mp3"
   }
  ],
@@ -1092,28 +1073,28 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "부산",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-romanization-two-spellings/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "김포",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-romanization-two-spellings/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "신라",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-romanization-two-spellings/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "사다 · 싸다",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-romanization-two-spellings/ex-4.mp3",
    "say": "사다, 싸다"
   }
@@ -1124,41 +1105,41 @@
    "kind": "scene",
    "ko": "저는 가요 안.",
    "file": "audio/korean-basic/lines/korean-sentence-structure-sov-why-the-verb-goes-last/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "저는 안 가요.",
    "file": "audio/korean-basic/lines/korean-sentence-structure-sov-why-the-verb-goes-last/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "저는 김치를 먹어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-sentence-structure-sov-why-the-verb-goes-last/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "저는 술을 안 마셔요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-sentence-structure-sov-why-the-verb-goes-last/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "제가 어제 산 차",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-sentence-structure-sov-why-the-verb-goes-last/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "어디 가요?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-sentence-structure-sov-why-the-verb-goes-last/ex-4.mp3"
   }
  ],
@@ -1167,7 +1148,7 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "가 · 너 · 지",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-syllable-structure-why-every-block-matters/ex-1.mp3",
    "say": "가, 너, 지"
   },
@@ -1175,7 +1156,7 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "고 · 누 · 스",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-syllable-structure-why-every-block-matters/ex-2.mp3",
    "say": "고, 누, 스"
   },
@@ -1183,7 +1164,7 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "곰 · 물 · 국",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-syllable-structure-why-every-block-matters/ex-3.mp3",
    "say": "곰, 물, 국"
   },
@@ -1191,7 +1172,7 @@
    "id": "ex-4",
    "kind": "example",
    "ko": "안녕하세요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-syllable-structure-why-every-block-matters/ex-4.mp3"
   }
  ],
@@ -1201,42 +1182,41 @@
    "kind": "scene",
    "ko": "지수는 왔어요.",
    "file": "audio/korean-basic/lines/korean-topic-vs-subject-particle/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "지수가 왔어요.",
    "file": "audio/korean-basic/lines/korean-topic-vs-subject-particle/scene-correct.mp3",
-   "src": "reuse",
-   "from": "public/audio/korean-basic/lines/korean-topic-vs-subject-particle/ex-1.mp3"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "지수가 왔어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-topic-vs-subject-particle/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "지수는 어제 왔어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-topic-vs-subject-particle/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "한국 음식은 매워요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-topic-vs-subject-particle/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "저는 커피가 좋아요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-topic-vs-subject-particle/ex-4.mp3"
   }
  ],
@@ -1245,28 +1225,28 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "커피 한 잔",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-two-number-systems/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "세 시 삼십 분",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-two-number-systems/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "스무 살",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-two-number-systems/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "삼만 원",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-two-number-systems/ex-4.mp3"
   }
  ],
@@ -1276,20 +1256,20 @@
    "kind": "scene",
    "ko": "커피 마시아요.",
    "file": "audio/korean-basic/lines/korean-verb-conjugation-ayo-eoyo/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "커피 마셔요.",
    "file": "audio/korean-basic/lines/korean-verb-conjugation-ayo-eoyo/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "가다 → 가요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-verb-conjugation-ayo-eoyo/ex-1.mp3",
    "say": "가다, 가요"
   },
@@ -1297,7 +1277,7 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "먹다 → 먹어요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-verb-conjugation-ayo-eoyo/ex-2.mp3",
    "say": "먹다, 먹어요"
   },
@@ -1305,7 +1285,7 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "마시다 → 마셔요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-verb-conjugation-ayo-eoyo/ex-3.mp3",
    "say": "마시다, 마셔요"
   },
@@ -1313,7 +1293,7 @@
    "id": "ex-4",
    "kind": "example",
    "ko": "공부하다 → 공부해요",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-verb-conjugation-ayo-eoyo/ex-4.mp3",
    "say": "공부하다, 공부해요"
   }
@@ -1330,7 +1310,7 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "ㅏ + ㅣ = ㅐ",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-vowels-all-21-explained/ex-2.mp3",
    "say": "애"
   },
@@ -1338,7 +1318,7 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "ㅗ + ㅏ = ㅘ",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-vowels-all-21-explained/ex-3.mp3",
    "say": "와"
   },
@@ -1346,7 +1326,7 @@
    "id": "ex-4",
    "kind": "example",
    "ko": "서다 · 소다",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-vowels-all-21-explained/ex-4.mp3",
    "say": "서다, 소다"
   }
@@ -1356,7 +1336,7 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "은/는",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-vs-japanese-what-transfers/ex-1.mp3",
    "say": "은, 는"
   },
@@ -1364,7 +1344,7 @@
    "id": "ex-2",
    "kind": "example",
    "ko": "이/가",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-vs-japanese-what-transfers/ex-2.mp3",
    "say": "이, 가"
   },
@@ -1372,14 +1352,14 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "도서관",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-vs-japanese-what-transfers/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "약속",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/korean-vs-japanese-what-transfers/ex-4.mp3"
   }
  ],
@@ -1388,28 +1368,28 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "사랑의 불시착",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/what-k-drama-titles-teach-you-about-korean/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "별에서 온 그대",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/what-k-drama-titles-teach-you-about-korean/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "김비서가 왜 그럴까",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/what-k-drama-titles-teach-you-about-korean/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "뭐 먹을까?",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/what-k-drama-titles-teach-you-about-korean/ex-4.mp3"
   }
  ],
@@ -1432,14 +1412,14 @@
    "id": "ex-3",
    "kind": "example",
    "ko": "ㅁ",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/why-hangul-is-called-scientific-alphabet/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "한",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/why-hangul-is-called-scientific-alphabet/ex-4.mp3"
   }
  ],
@@ -1449,41 +1429,41 @@
    "kind": "scene",
    "ko": "그 커피를 마셨어요.",
    "file": "audio/korean-basic/lines/why-korean-has-no-articles/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "커피를 마셨어요.",
    "file": "audio/korean-basic/lines/why-korean-has-no-articles/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "ex-1",
    "kind": "example",
    "ko": "책 읽었어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/why-korean-has-no-articles/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "남자가 왔어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/why-korean-has-no-articles/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "그 남자는 키가 컸어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/why-korean-has-no-articles/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "학생들이 왔어요.",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/why-korean-has-no-articles/ex-4.mp3"
   }
  ],
@@ -1492,28 +1472,28 @@
    "id": "ex-1",
    "kind": "example",
    "ko": "맥주 두 병",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/why-korean-has-two-number-systems/ex-1.mp3"
   },
   {
    "id": "ex-2",
    "kind": "example",
    "ko": "고양이 두 마리",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/why-korean-has-two-number-systems/ex-2.mp3"
   },
   {
    "id": "ex-3",
    "kind": "example",
    "ko": "세 시 삼십 분",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/why-korean-has-two-number-systems/ex-3.mp3"
   },
   {
    "id": "ex-4",
    "kind": "example",
    "ko": "삼만 원",
-   "src": "edge",
+   "src": "typecast",
    "file": "audio/korean-basic/lines/why-korean-has-two-number-systems/ex-4.mp3"
   }
  ],
@@ -1523,14 +1503,14 @@
    "kind": "scene",
    "ko": "당신 이름이 뭐예요?",
    "file": "audio/korean-basic/lines/korean-never-say-dangsin-neo/scene-wrong.mp3",
-   "src": "edge"
+   "src": "typecast"
   },
   {
    "id": "scene-correct",
    "kind": "scene",
    "ko": "이름이 뭐예요?",
    "file": "audio/korean-basic/lines/korean-never-say-dangsin-neo/scene-correct.mp3",
-   "src": "edge"
+   "src": "typecast"
   }
  ]
 }

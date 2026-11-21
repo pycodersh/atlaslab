@@ -25,6 +25,7 @@ import {
   useVideoConfig,
 } from 'remotion'
 import { TemplateVideoV2, SCENE_FRAMES, type SceneData } from './TemplateVideoV2'
+import type { Cast } from './scene/Characters'
 
 export const BASICS_VIDEO = {
   width: 1920,
@@ -65,6 +66,8 @@ export type BasicsVideoData = {
   scene?: SceneData
   /** v2 목록 썸네일 문구 — 한국어 핵심 표현 1~2개(두 번째는 레드) + 아래 영문 뜻 배지 */
   thumb?: { lines: { ko: string; rom: string }[]; en: string }
+  /** 글마다 고른 두 캐릭터의 표정 · 손짓 — 상황극 끝 장면과 목록 썸네일이 쓴다 */
+  cast?: Cast
 }
 type Lang = 'en' | 'ko'
 type KoCard = { ko: string; rom: string }

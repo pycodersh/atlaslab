@@ -80,9 +80,9 @@ function ThumbV2({ data }: { data: BasicsVideoData }) {
   return (
     <AbsoluteFill style={{ background: C2.bg, fontFamily: FONT }}>
       <div style={{ position: 'absolute', left: 30, bottom: -60, display: 'flex', alignItems: 'flex-end' }}>
-        <Character who="A" expression="smile" height={720} />
+        <Character who="A" expression={data.cast?.a ?? 'smile'} since={12} gesture={data.cast?.aGesture} height={720} />
         <div style={{ marginLeft: -70 }}>
-          <Character who="B" expression="smile" height={720} />
+          <Character who="B" expression={data.cast?.b ?? 'smile'} since={12} gesture={data.cast?.bGesture} height={720} />
         </div>
       </div>
       <div style={{ position: 'absolute', left: 860, right: 60, top: 0, bottom: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 30 }}>

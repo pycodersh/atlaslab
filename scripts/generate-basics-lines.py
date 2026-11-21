@@ -1,9 +1,8 @@
 """
 Basics 문장 음성 — remotion/KoreanBasic/lines.json 의 항목을 public/audio/korean-basic/lines/<slug>/<id>.mp3 로 만든다.
 
-  src: 'edge'   Edge-TTS ko-KR-SunHiNeural -5% 로 새로 만든다(say 가 있으면 그 글자를 읽는다).
-                기존 이중 보이스 조각(scripts/generate-basics-voiceover.py)과 같은 목소리 · 속도 · 무음 제거다.
-  src: 'reuse'  기존 조각(out/remotion/vo 의 무음 제거본 .wav)을 mp3 로 옮긴다 — 새로 만들지 않는다
+  src: 'typecast'  Typecast ssfm-v30 템포 0.9 로 만든다(say 가 있으면 그 글자를 읽는다) — 상황극 대사 Eunkyung, 예문 Hyunmin.
+                  2026-11-21 Edge-TTS SunHi 에서 바꿨다. scripts/basics_typecast.py 캐시 덕에 다시 돌려도 크레딧을 두 번 쓰지 않는다.
   src: 'skip'   파일 없음 → 본문 재생 버튼이 숨는다
 진행은 render-progress.json 의 audio 칸에 항목별 pending / done / failed — 다시 돌리면 done 이 아닌 것만 한다.
 끝나면 실제로 있는 파일만 remotion/KoreanBasic/line-audio.generated.json(문장 → 경로 · 길이)에 쓴다. 재생 버튼 · 영상이 이 파일을 읽는다.
@@ -75,7 +74,11 @@ class vo:
     tts = staticmethod(tts)
 
 
-VOICE = ('ko-KR-SunHiNeural', '-5%')  # 이중 보이스판 VOICES['ko'] 와 같다
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import basics_typecast as tc  # noqa: E402
+
+# 2026-11-21 Typecast ssfm-v30 템포 0.9 — 상황극 대사(캐릭터 A, 여성)는 Eunkyung, 예문은 Hyunmin
+VOICE_OF = {'scene': 'Eunkyung', 'example': 'Hyunmin'}
 LINES = ROOT / 'remotion' / 'KoreanBasic' / 'lines.json'
 MANIFEST = ROOT / 'remotion' / 'KoreanBasic' / 'line-audio.generated.json'
 PROGRESS = ROOT / 'render-progress.json'
@@ -84,10 +87,9 @@ def to_mp3(src: Path, out: Path) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
     vo.ffmpeg('-y', '-i', str(src), '-af', vo.TRIM, '-ar', '24000', '-ac', '1', '-b:a', '96k', str(out))
 
-async def make(text: str, out: Path) -> None:
+async def make(text: str, out: Path, kind: str) -> None:
     raw = out.with_suffix('.raw.mp3')
-    out.parent.mkdir(parents=True, exist_ok=True)
-    await vo.tts(text, raw, VOICE)
+    tc.synth(text, VOICE_OF[kind], raw)
     to_mp3(raw, out); raw.unlink()
 
 def load_progress():
@@ -103,8 +105,9 @@ async def main():
 
     if '--plan' in args:
         by = lambda k: [l for l in items if l['src'] == k]
-        print(f"엔진: Edge-TTS · {VOICE[0]} · rate {VOICE[1]} · 24kHz mono mp3 96k · 앞뒤 무음 제거(-50dB)")
-        print(f"범위: 글 {len(lines)}편 · 새로 {len(by('edge'))}개({sum(len(l.get('say', l['ko'])) for l in by('edge'))}자) · 재사용 {len(by('reuse'))}개 · 숨김 {len(by('skip'))}개")
+        c = tc.credits()
+        print(f"엔진: Typecast {tc.MODEL} · 템포 {tc.TEMPO} · 목소리 {VOICE_OF} · 키 …{tc.key()[-4:]} · {c['plan']} {c['used']:,}/{c['total']:,}")
+        print(f"범위: 글 {len(lines)}편 · Typecast {len(by('typecast'))}개({sum(len(l.get('say', l['ko'])) for l in by('typecast'))}자) · 숨김 {len(by('skip'))}개")
         print('매핑 전체: docs/basics-audio-mapping.md'); return
 
     if '--sample' in args:
@@ -114,7 +117,7 @@ async def main():
         d = ROOT / 'out' / 'remotion' / 'line-sample'
         for slug, seg, text, name in picks:
             to_mp3(ROOT / 'out' / 'remotion' / 'vo' / slug / f'{seg}.wav', d / f'{name}--existing.mp3')
-            await make(text, d / f'{name}--new.mp3')
+            await make(text, d / f'{name}--new.mp3', 'example')
             print(f"{text}  기존 {vo.duration(d / f'{name}--existing.mp3'):.2f}s · 새로 {vo.duration(d / f'{name}--new.mp3'):.2f}s")
         return
 
@@ -128,8 +131,7 @@ async def main():
         k = f"{j['slug']}/{j['id']}"; out = ROOT / 'public' / j['file']
         if prog['audio'][k] == 'done' and out.exists(): continue
         try:
-            if j['src'] == 'reuse': to_mp3(ROOT / j['from'], out)
-            else: await make(j.get('say', j['ko']), out)
+            await make(j.get('say', j['ko']), out, j['kind'])
             prog['audio'][k] = 'done'
         except BaseException as e:
             prog['audio'][k] = 'failed'; failed.append(f'{k}: {e}')

@@ -3,13 +3,13 @@ Basics 쇼트의 보이스오버 — remotion/KoreanBasic/videos.json 을 읽어
 전 항목이 이중 보이스판이다(2026-11-18 영어 한 목소리판 33편을 모두 옮겼다).
 
 voice  장면 3개 × [언어, 문장] 조각. 영어 해설은 en-US-ChristopherNeural(-10%, 학습자가 알아듣기 쉬운 속도),
-       한국어는 ko-KR-SunHiNeural(-5%, 또박또박한 표준 발음)로 조각마다 따로 만든 뒤 앞뒤 무음을 걷고 이어 붙인다.
+       한국어는 Typecast ssfm-v30 Hyunmin(템포 0.9, scripts/basics_typecast.py — 캐시가 있어 다시 돌려도 크레딧을 두 번 쓰지 않는다)으로 조각마다 따로 만든 뒤 앞뒤 무음을 걷고 이어 붙인다.
        한글이 든 문장은 반드시 ko 조각이다 — 영어 조각에 한글이 있으면 멈춘다(영어 목소리가 한글을 영어식으로 읽지 않게).
        장면 길이는 정하지 않는다 — 말이 끝나는 대로 다음 장면이 시작되고(최소 4초), 마지막에 여운을 둔다.
        그렇게 나온 장면별 [시작, 끝] 초와 전체 길이를 videos.json 의 그 항목 "timing" 에 써 넣는다.
        TemplateVideo 가 그 값으로 장면을 넘긴다. 오디오를 바꾸면 scripts/basics-speech-intervals.mjs 도 다시 돌린다.
 
-엔진: Edge-TTS(무료, 키 없음). 합치기는 정식 ffmpeg 빌드로 한다. Remotion 에 딸린 ffmpeg 는 silenceremove 가 빠진 축소판이다.
+엔진: 영어 Edge-TTS(무료, 키 없음) · 한국어 Typecast. 합치기는 정식 ffmpeg 빌드로 한다. Remotion 에 딸린 ffmpeg 는 silenceremove 가 빠진 축소판이다.
 
 실행: python scripts/generate-basics-voiceover.py            # 파일이 아직 없는 항목만
       python scripts/generate-basics-voiceover.py <slug> ...  # 지정한 항목을 다시 만든다
@@ -23,13 +23,16 @@ import subprocess
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import basics_typecast as tc  # noqa: E402
+
 import aiohttp
 import edge_tts
 
 # 1) 이중 보이스판
 VOICES = {
     'en': ('en-US-ChristopherNeural', '-10%'),  # 2026-11-18: +2% → -10%, 학습자가 알아듣기 쉽게
-    'ko': ('ko-KR-SunHiNeural', '-5%'),
+    'ko': ('typecast:Hyunmin', '0.9'),  # 2026-11-21: SunHi -5% → Typecast ssfm-v30 Hyunmin(scripts/basics_typecast.py)
 }
 LEAD = 0.35         # 장면이 열리고(페이드 10프레임) 말이 시작되기까지
 GAP_SAME = 0.18     # 같은 언어 조각 사이
@@ -91,7 +94,10 @@ async def tts(text: str, path: Path, voice: tuple[str, str]) -> None:
 async def clip(text: str, voice: tuple[str, str], stem: Path) -> tuple[Path, float]:
     """한 조각을 만들고 앞뒤 무음을 걷어 낸다 — 정한 자리에 말이 바로 시작되도록"""
     raw, wav = stem.with_suffix('.mp3'), stem.with_suffix('.wav')
-    await tts(text, raw, voice)
+    if voice[0].startswith('typecast:'):
+        tc.synth(text, voice[0].split(':', 1)[1], raw)
+    else:
+        await tts(text, raw, voice)
     ffmpeg('-y', '-i', str(raw), '-af', TRIM, '-ar', '24000', '-ac', '1', str(wav))
     return wav, duration(wav)
 

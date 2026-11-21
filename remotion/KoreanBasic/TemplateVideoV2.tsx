@@ -28,7 +28,7 @@ import {
   useVideoConfig,
 } from 'remotion'
 import { Background, type SceneBackground } from './scene/Backgrounds'
-import { Character, type Expression, type Speaker } from './scene/Characters'
+import { Character, type Cast, type Expression, type Speaker } from './scene/Characters'
 import type { BasicsVideoData, Tone } from './TemplateVideo'
 
 export const C2 = {
@@ -161,7 +161,7 @@ export function TemplateVideoV2({ data, layout }: { data: BasicsVideoData; layou
     <AbsoluteFill style={{ backgroundColor: C2.bg, fontFamily: KO, color: C2.ink }}>
       {scene && (
         <Sequence durationInFrames={SCENE_FRAMES} name="Opening">
-          <OpeningScene scene={scene} />
+          <OpeningScene scene={scene} cast={data.cast} />
         </Sequence>
       )}
       <Sequence from={offset} name="Voiceover">
@@ -198,7 +198,7 @@ const CHAR_TOP = 490
 const X_A = 600
 const X_B = 1320
 
-function OpeningScene({ scene }: { scene: SceneData }) {
+function OpeningScene({ scene, cast }: { scene: SceneData; cast?: Cast }) {
   const f = useCurrentFrame()
   const T = OPENING
   const bgIn = interpolate(f, [0, 18], [0, 1], clamp)
@@ -213,9 +213,12 @@ function OpeningScene({ scene }: { scene: SceneData }) {
   const wrongOut = interpolate(f, [T.correct - 6, T.correct + 4], [1, 0], clamp)
   const correctPop = usePop(T.correct + 2, 14)
 
-  const bExpr: Expression = f < T.reaction ? 'neutral' : f < T.smile ? scene.reaction.expression : scene.ending.expression
+  // 끝 표정은 글마다 고른 배역 표정(cast)이 있으면 그것 — 없으면 장면 데이터의 ending
+  const bExpr: Expression = f < T.reaction ? 'neutral' : f < T.smile ? scene.reaction.expression : (cast?.b ?? scene.ending.expression)
   const bSince = f < T.reaction ? f : f < T.smile ? f - T.reaction : f - T.smile
-  const aExpr: Expression = f < T.reaction ? 'neutral' : f < T.correct ? 'awkward' : 'smile'
+  const aExpr: Expression = f < T.reaction ? 'neutral' : f < T.correct ? 'awkward' : (cast?.a ?? 'smile')
+  const aSince = f < T.correct ? f : f - T.correct
+  const late = f >= T.correct
 
   const pos = (who: Speaker) => (who === 'A' ? X_A : X_B)
 
@@ -227,10 +230,10 @@ function OpeningScene({ scene }: { scene: SceneData }) {
 
       {/* 캐릭터 — 아래는 화면 밖으로 잘린다(글자가 아니라 안전 영역 규칙과 무관) */}
       <div style={{ position: 'absolute', top: CHAR_TOP, left: X_A - (CHAR_H * 400) / 560 / 2, opacity: aIn, transform: `translateX(${(1 - aIn) * -60}px)` }}>
-        <Character who="A" expression={aExpr} height={CHAR_H} />
+        <Character who="A" expression={aExpr} since={aSince} height={CHAR_H} gesture={late ? cast?.aGesture : undefined} />
       </div>
       <div style={{ position: 'absolute', top: CHAR_TOP, left: X_B - (CHAR_H * 400) / 560 / 2, opacity: bIn, transform: `translateX(${(1 - bIn) * 60}px)` }}>
-        <Character who="B" expression={bExpr} since={bSince} height={CHAR_H} />
+        <Character who="B" expression={bExpr} since={bSince} height={CHAR_H} gesture={late ? cast?.bGesture : undefined} />
       </div>
 
       {/* A 틀린 말 → 취소선 */}
