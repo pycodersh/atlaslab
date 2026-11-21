@@ -216,8 +216,9 @@ function OpeningScene({ scene, cast }: { scene: SceneData; cast?: Cast }) {
   const wrongOut = interpolate(f, [T.correct - 6, T.correct + 4], [1, 0], clamp)
   const correctPop = usePop(T.correct + 2, 14)
 
-  // 끝 표정은 글마다 고른 배역 표정(cast)이 있으면 그것 — 없으면 장면 데이터의 ending
-  const bExpr: Expression = f < T.reaction ? 'neutral' : f < T.smile ? scene.reaction.expression : (cast?.b ?? scene.ending.expression)
+  // B 는 영상에서 반응(당황) → 정답 뒤 끄덕 · 미소(장면 데이터의 ending)로 흐른다.
+  // cast.b 는 목록 썸네일 한 장에서 상황을 보여 주는 표정이라 영상 끝 장면에는 쓰지 않는다
+  const bExpr: Expression = f < T.reaction ? 'neutral' : f < T.smile ? scene.reaction.expression : scene.ending.expression
   const bSince = f < T.reaction ? f : f < T.smile ? f - T.reaction : f - T.smile
   const aExpr: Expression = f < T.reaction ? 'neutral' : f < T.correct ? 'awkward' : (cast?.a ?? 'smile')
   const aSince = f < T.correct ? f : f - T.correct

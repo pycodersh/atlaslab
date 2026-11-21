@@ -73,5 +73,6 @@ export function Character({
   )
 }
 
-/** 글마다 고르는 배역 표정 — videos.json 의 cast. 표정이 그림(emotionOf)까지 정한다 */
+/** 글마다 고르는 배역 표정 — videos.json 의 cast. 표정이 그림(emotionOf)까지 정한다.
+ *  a 는 영상 끝 장면과 썸네일, b 는 썸네일에만 쓴다(영상의 B 는 반응 → 장면 ending 으로 흐른다) */
 export type Cast = { a: Expression; b: Expression; aGesture?: Gesture; bGesture?: Gesture }
