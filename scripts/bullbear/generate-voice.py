@@ -26,6 +26,7 @@ SETS = {
     'bullbear': ('BullBear/lines.json', 'bull-bear', 'BullBear/audio.generated.json', {'bull': 'Hyunmin', 'bear': 'Eunkyung'}, 1.0),
     'pro': ('ProAnalyst/lines.json', 'pro-analyst', 'ProAnalyst/audio.generated.json', {'analyst': 'Hyunmin'}, 1.0),
     'pro-light': ('ProAnalyst/lines-light.json', 'pro-analyst-light', 'ProAnalyst/audio-light.generated.json', {'analyst': 'Doyun'}, 0.93),
+    'ipo': ('Ipo/lines.json', 'ipo-liquidity', 'Ipo/audio.generated.json', {'analyst': 'Doyun'}, 0.93),
 }
 _lines, _audio, _meta, VOICE, TEMPO = SETS[sys.argv[1] if len(sys.argv) > 1 else 'bullbear']
 LINES = ROOT / 'remotion' / _lines

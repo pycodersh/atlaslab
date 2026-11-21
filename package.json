@@ -19,7 +19,8 @@
     "render:dangsin": "remotion render remotion/index.ts DangerPronouns out/remotion/dangsin.mp4",
     "render:bullbear": "remotion render remotion/index.ts BullBearEconomy out/remotion/bull-bear-economy-crash.mp4",
     "render:pro-analyst": "remotion render remotion/index.ts ProAnalystBriefing out/remotion/pro-analyst-briefing.mp4",
-    "render:pro-light": "remotion render remotion/index.ts ProAnalystLight out/remotion/pro-analyst-light.mp4"
+    "render:pro-light": "remotion render remotion/index.ts ProAnalystLight out/remotion/pro-analyst-light.mp4",
+    "render:ipo": "remotion render remotion/index.ts IpoLiquidityShock out/remotion/ipo-liquidity-shock.mp4"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.109.1",
