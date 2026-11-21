@@ -113,25 +113,31 @@ export function WeatherForecast() {
         .wf-pin-ping { fill: #2563EB; pointer-events: none; transform-box: fill-box; transform-origin: center; animation: wf-ping 1.6s cubic-bezier(0,0,.2,1) infinite; }
         @keyframes wf-ping { from { transform: scale(1); opacity: .5; } to { transform: scale(2.6); opacity: 0; } }
         @media (prefers-reduced-motion: reduce) { .wf-pin-ping { animation: none; opacity: .2; transform: scale(1.8); } }
-        /* 도시 라벨 — [도시명 · 아이콘 · 기온] 글자만(캡슐 · 테두리 · 그림자 없음).
-           얇은 흰 후광(text-shadow · 아이콘은 drop-shadow)으로 해안선 · 도 경계 위에서도 읽힌다.
+        /* 도시 라벨 — 1행 도시명, 2행 [아이콘 · 기온]. 글자만(캡슐 · 테두리 · 그림자 없음).
+           얇은 흰 외곽선(text-shadow · 아이콘은 drop-shadow)으로 해안선 · 도 경계 위에서도 읽힌다.
            지도 SVG 안(foreignObject)이라 px 은 지도 좌표 단위다 — 지도 폭에 따라 함께 커지고 작아진다.
            상자(.wf-label)의 빈 자리는 클릭을 받지 않아 옆 도시 점을 가리지 않는다. */
         .wf-label { display: flex; align-items: center; height: 100%; pointer-events: none; }
         .wf-label.is-end { justify-content: flex-end; }
         .wf-label.is-center { justify-content: center; }
         .wf-badge {
-          pointer-events: auto; display: inline-flex; align-items: center; gap: 3px; box-sizing: border-box; height: 18px;
+          pointer-events: auto; display: inline-flex; flex-direction: column; align-items: flex-start; box-sizing: border-box;
           padding: 0 1px; white-space: nowrap; border-radius: 3px;
           font: 500 12px/14px "DM Sans", Inter, system-ui, sans-serif;
           text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 3px #fff;
         }
+        .wf-badge.is-end { align-items: flex-end; }
+        .wf-badge.is-center { align-items: center; }
+        .wf-pin-wx { display: inline-flex; align-items: center; gap: 2px; margin-top: 1px; }
         .wf-badge svg { flex: none; filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 1px #fff); }
-        .wf-pin-name { font-weight: 600; color: #374151; }
-        .wf-pin-temp { font-weight: 700; color: #111827; }
+        .wf-pin-name { font-weight: 600; color: #1E293B; }
+        .wf-pin-temp { font-size: 11.5px; font-weight: 700; }
+        /* 기온 — 영하 쿨 블루(선택 색 #2563EB 와 헷갈리지 않게 한 톤 다른 sky), 영상 웜 앰버(흰 바탕 대비 4.5:1 넘는 톤) */
+        .wf-pin-temp.is-cold { color: #0369A1; }
+        .wf-pin-temp.is-warm { color: #B45309; }
         .wf-pin-lead { stroke: #9CA3AF; stroke-width: 1; }
-        /* 선택된 도시만 — 블루 점 · 굵은 블루 글씨 */
-        .wf-pin.is-active .wf-pin-name, .wf-pin.is-active .wf-pin-temp { color: #1D4ED8; font-weight: 800; }
+        /* 선택된 도시만 — 큰 블루 점 + 펄스, 도시명 · 기온 모두 굵은 블루 */
+        .wf-pin.is-active .wf-pin-name, .wf-pin.is-active .wf-pin-temp { color: #2563EB; font-weight: 800; }
         .wf-pin.is-active .wf-pin-lead { stroke: #2563EB; }
         .wf-pin:focus-visible .wf-badge { outline: 2px solid #2563EB; outline-offset: 1px; }
         @media (hover: hover) { .wf-pin:not(.is-active):hover .wf-pin-name { color: #1D4ED8; } .wf-pin:not(.is-active):hover .wf-pin-dot { fill: #2563EB; } }

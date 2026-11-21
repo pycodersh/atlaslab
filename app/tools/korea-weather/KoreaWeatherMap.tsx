@@ -71,21 +71,23 @@ const BAR: Record<Kind, string> = {
 export const barTone = (code: number) => BAR[kindOf(code)]
 
 /**
- * 라벨 [도시명 · 아이콘 · 기온] 을 점의 어느 쪽에 둘지. 바탕 상자 없는 글자 + 흰 후광이라 해안선 위에서도 읽힌다.
- *   left / right — 점 옆 같은 높이(GAP 만큼 띄움). 되도록 이쪽 — [점] 도시명 아이콘 기온.
- *   top / bottom — 점 위·아래(gap 만큼 띄움). align 은 라벨의 어느 끝을 점 x + dx 에 맞출지(center 가 기본).
- *     옆자리가 이웃 도시 점 · 라벨이나 지도 오른쪽 끝과 부딪히는 곳만(Seoul · Chuncheon · Daegu · Gyeongju) 쓰고, 짧은 세로 연결선을 그린다.
- * 값은 라벨 상자를 실측해 서로 · 다른 점과 안 겹치고 지도 틀 밖으로 안 나가게 맞췄다(2026-11-21, 펜화 지도 · °F 세 자리 · 선택 상태 굵은 글씨까지).
- *   Gangneung 라벨은 오른쪽 — 바로 아래 울릉도를 가리지 않는다.
+ * 라벨은 두 줄 — 1행 도시명, 2행 [날씨 아이콘 + 기온]. 바탕 상자 없는 글자 + 흰 외곽선이라 해안선 위에서도 읽힌다.
+ * 점의 어느 쪽에 둘지:
+ *   left / right — 점 옆, 두 줄 가운데가 점 높이(dy 로 위아래 미세 조정). 왼쪽이면 두 줄을 오른쪽 끝(점 쪽)에 맞춘다.
+ *   top / bottom — 점 위·아래(gap 만큼 띄움). align 은 라벨의 어느 끝을 점 x + dx 에 맞출지(center 가 기본). 짧은 세로 연결선을 그린다.
+ * 값은 라벨 상자를 실측해 서로 · 다른 점과 안 겹치고 지도 틀 밖으로 안 나가게 맞췄다(2026-11-21, 두 줄 · °F 세 자리 · 선택 상태 굵은 글씨까지).
+ *   Sokcho · Gangneung — 둘 다 오른쪽, Gangneung 을 6 단위 내려 Sokcho 2행과 띄운다(울릉도는 라벨보다 동쪽이라 안 가린다).
+ *   Chuncheon — 오른쪽은 Gangneung 점, 왼쪽은 Seoul 라벨이라 점 위로.
+ *   Daegu 왼쪽 · Gyeongju 오른쪽 · Busan 오른쪽 — 세 라벨이 서로 다른 쪽 · 높이라 안 닿는다.
  */
-type Place = { side: 'left' | 'right' | 'top' | 'bottom'; align?: 'start' | 'center' | 'end'; dx?: number; gap?: number }
+type Place = { side: 'left' | 'right' | 'top' | 'bottom'; align?: 'start' | 'center' | 'end'; dx?: number; dy?: number; gap?: number }
 const PLACE: Record<string, Place> = {
-  Seoul: { side: 'top', align: 'end', dx: 10, gap: 4 },
-  Chuncheon: { side: 'top', align: 'end', dx: 30, gap: 16 },
+  Seoul: { side: 'left' },
+  Chuncheon: { side: 'top', gap: 6 },
   Sokcho: { side: 'right' },
-  Gangneung: { side: 'right' },
-  Daegu: { side: 'top', dx: -12, gap: 12 },
-  Gyeongju: { side: 'bottom', align: 'start', dx: -18, gap: 4 },
+  Gangneung: { side: 'right', dy: 6 },
+  Daegu: { side: 'left' },
+  Gyeongju: { side: 'right' },
   Busan: { side: 'right' },
   Jeonju: { side: 'left' },
   Yeosu: { side: 'left' },
@@ -93,7 +95,7 @@ const PLACE: Record<string, Place> = {
 }
 // 라벨은 HTML 이라 글자 폭만큼만 차지한다 — 이 상자(foreignObject) 안에서 쪽에 맞춰 붙는다. 빈 자리는 클릭을 받지 않는다
 const BOX_W = 150
-const BOX_H = 18
+const BOX_H = 32
 const GAP = 6
 
 export type MapCity = { name: string; current: { temp: number; code: number; isDay: boolean; text: string } }
@@ -107,14 +109,16 @@ export function KoreaWeatherMap({ cities, selected, onSelect, temp }: { cities: 
         if (!place) return null
         const [x, y] = project(place.lon, place.lat)
         const active = i === selected
-        const { side, align = 'center', dx = 0, gap = GAP } = PLACE[city.name]
+        const { side, align = 'center', dx = 0, dy = 0, gap = GAP } = PLACE[city.name]
         const vertical = side === 'top' || side === 'bottom'
         const ax = x + dx
         const left = side === 'left' ? x - GAP - BOX_W : side === 'right' ? x + GAP
           : align === 'start' ? ax : align === 'end' ? ax - BOX_W : ax - BOX_W / 2
-        const top = side === 'top' ? y - gap - BOX_H : side === 'bottom' ? y + gap : y - BOX_H / 2
+        const top = side === 'top' ? y - gap - BOX_H : side === 'bottom' ? y + gap : y - BOX_H / 2 + dy
         const justify = side === 'left' ? 'end' : side === 'right' ? 'start' : align
         const r = active ? 5 : 3
+        // 기온 색 — 영하는 쿨 블루, 영상은 웜 앰버(°C 기준)
+        const tone = city.current.temp < 0 ? 'is-cold' : 'is-warm'
         return (
           <g key={city.name} className={`wf-pin${active ? ' is-active' : ''}`} role="button" tabIndex={0} aria-pressed={active}
             aria-label={`${city.name}, ${city.current.text}, ${temp(city.current.temp)}`} onClick={() => onSelect(i)}
@@ -124,10 +128,12 @@ export function KoreaWeatherMap({ cities, selected, onSelect, temp }: { cities: 
             <circle className="wf-pin-dot" cx={x} cy={y} r={r} />
             <foreignObject x={left} y={top} width={BOX_W} height={BOX_H}>
               <div className={`wf-label is-${justify}`}>
-                <span className="wf-badge">
+                <span className={`wf-badge is-${justify}`}>
                   <span className="wf-pin-name">{city.name}</span>
-                  <WeatherIcon code={city.current.code} isDay={city.current.isDay} size={14} />
-                  <span className="wf-pin-temp">{temp(city.current.temp)}</span>
+                  <span className="wf-pin-wx">
+                    <WeatherIcon code={city.current.code} isDay={city.current.isDay} size={13} />
+                    <span className={`wf-pin-temp ${tone}`}>{temp(city.current.temp)}</span>
+                  </span>
                 </span>
               </div>
             </foreignObject>
