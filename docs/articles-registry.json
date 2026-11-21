@@ -1,13 +1,13 @@
 {
   "_readme": "Check this list before planning a new article (docs/CONTENT_GUIDELINES.md). Rebuild: npx tsx scripts/build-articles-registry.ts",
-  "generated_at": "2026-11-08T06:56:41.167Z",
+  "generated_at": "2026-11-21T04:17:27.064Z",
   "counts": {
     "Active": {
-      "Phrases": 51,
+      "Phrases": 54,
       "Basics": 37,
-      "Explore Korea": 9,
-      "Food": 70,
-      "Life": 51
+      "Explore Korea": 53,
+      "Food": 77,
+      "Life": 62
     },
     "Planned": {
       "Explore Korea": 1,
@@ -20,6 +20,72 @@
     }
   },
   "articles": [
+    {
+      "id": "2ca29da9-c432-433b-9cef-542c74869c1e",
+      "category": "Phrases",
+      "title": "Tteokbokki, Fish Cakes and \"For Here or To Go?\": Ordering at a Korean 분식집",
+      "slug": "order-tteokbokki-eomuk-bunsikjip-korean",
+      "url": "/blog/en/k-patto/order-tteokbokki-eomuk-bunsikjip-korean",
+      "target_keywords": [
+        "Korean phrases",
+        "street food Korean",
+        "polite Korean",
+        "tteokbokki",
+        "eating out"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-21",
+      "summary": "Order tteokbokki and fish cakes like a local at a Korean snack bar: one sentence for the whole order, how to answer 먹고 갈 거예요, 싸 갈 거예요?, and how to ask for less spicy, with 이랑, 인분 and 덜 맵게 explained.",
+      "db_category": "Real-Life Korean",
+      "overhauled": false,
+      "subCategories": [
+        "phrases/survival"
+      ]
+    },
+    {
+      "id": "1f3e55fd-51b7-4a48-831a-127ee52ff6e4",
+      "category": "Phrases",
+      "title": "\"Did You Eat?\" Isn't an Invitation: The Korean Greeting That Means \"How Are You?\"",
+      "slug": "korean-did-you-eat-greeting-bap-meogeosseo",
+      "url": "/blog/en/k-patto/korean-did-you-eat-greeting-bap-meogeosseo",
+      "target_keywords": [
+        "Korean phrases",
+        "Korean greetings",
+        "banmal",
+        "Korean culture",
+        "everyday Korean"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-21",
+      "summary": "Why Koreans greet each other with 밥 먹었어? (Did you eat?), how to answer without expecting a free lunch, the polite versions for elders and coworkers, and the casual endings -게? and -잖아 from a real exchange.",
+      "db_category": "Real-Life Korean",
+      "overhauled": false,
+      "subCategories": [
+        "phrases/social"
+      ]
+    },
+    {
+      "id": "589bf6ea-a168-4519-b21c-cdda22c2fdfe",
+      "category": "Phrases",
+      "title": "How to Ask for an Unworn, Brand New Item When Shopping in Korea",
+      "slug": "ask-for-brand-new-item-korean-shopping",
+      "url": "/blog/en/k-patto/ask-for-brand-new-item-korean-shopping",
+      "target_keywords": [
+        "Korean phrases",
+        "shopping Korean",
+        "polite Korean",
+        "Seoul shopping",
+        "new item"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "How to politely ask Korean shop staff for a fresh, unworn item instead of the display piece, with a breakdown of 말고, -해 볼게요 and 이걸로 계산해 주세요, plus the stock words you'll hear in Myeongdong, Seongsu and Hongdae.",
+      "db_category": "Real-Life Korean",
+      "overhauled": false,
+      "subCategories": [
+        "phrases/survival"
+      ]
+    },
     {
       "id": "d9c297c8-83ff-40ca-9bc4-7eb200218ab7",
       "category": "Phrases",
@@ -1826,6 +1892,1019 @@
       ]
     },
     {
+      "id": "0e976eff-c1b1-4ebd-a87d-7dc133496b9f",
+      "category": "Explore Korea",
+      "title": "Central Seoul in One Day: Namdaemun Market, Myeongdong, N Seoul Tower and DDP",
+      "slug": "seoul-n-seoul-tower-myeongdong-namdaemun-ddp",
+      "url": "/blog/en/k-patto/seoul-n-seoul-tower-myeongdong-namdaemun-ddp",
+      "target_keywords": [
+        "seoul",
+        "myeongdong",
+        "n seoul tower",
+        "namdaemun market",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day walk through central Seoul: Namdaemun Market in the morning, Myeongdong's shops and street food, N Seoul Tower on Namsan for the view, and DDP and Cheonggyecheon after dark, with a course map and transport tips.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "04044566-9581-4eef-8830-728bb2092197",
+      "category": "Explore Korea",
+      "title": "Jeonju in One Day: Hanok Village, Gyeonggijeon Shrine and Nambu Night Market",
+      "slug": "jeonju-hanok-village-gyeonggijeon-nambu-night-market",
+      "url": "/blog/en/k-patto/jeonju-hanok-village-gyeonggijeon-nambu-night-market",
+      "target_keywords": [
+        "jeonju",
+        "jeonju hanok village",
+        "gyeonggijeon",
+        "nambu night market",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day walk through Jeonju: Jaman Mural Village on the hillside, the tiled roofs of Jeonju Hanok Village, Gyeonggijeon Shrine and Nambu Market's weekend night market, with a course map, fees and transport.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "5c77ba52-7dcd-4046-b901-afda5172efce",
+      "category": "Explore Korea",
+      "title": "Gangneung in One Day: Sea Fan Trail, ARTE Museum, Anmok Coffee Street and Jungang Market",
+      "slug": "gangneung-anmok-coffee-street-jeongdongjin-sea-fan-trail",
+      "url": "/blog/en/k-patto/gangneung-anmok-coffee-street-jeongdongjin-sea-fan-trail",
+      "target_keywords": [
+        "gangneung",
+        "jeongdongjin",
+        "anmok beach",
+        "east coast korea",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day route around Gangneung on Korea's east coast: the cliffside Sea Fan Trail at Jeongdongjin, ARTE Museum's digital art, Anmok Beach's coffee street and Jungang Market, with a course map, hours, fees and transport.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "b66b74b0-469d-4808-b534-ce14bf69396d",
+      "category": "Explore Korea",
+      "title": "Gangnam and Jamsil in One Day: Apgujeong, Starfield Library, Lotte World Tower and Seokchon Lake",
+      "slug": "seoul-gangnam-coex-starfield-lotte-world-tower-seokchon",
+      "url": "/blog/en/k-patto/seoul-gangnam-coex-starfield-lotte-world-tower-seokchon",
+      "target_keywords": [
+        "seoul",
+        "gangnam",
+        "lotte world tower",
+        "starfield library",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day route south of the Han River: Apgujeong Rodeo Street's shops, Starfield Library inside COEX, the view from Lotte World Tower's Seoul Sky and a sunset walk around Seokchon Lake, with a course map and transport tips.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "d142d693-ade2-440e-b5a7-8142ee806647",
+      "category": "Explore Korea",
+      "title": "Sokcho in One Day: Yeonggeumjeong, Seoraksan Cable Car, Sokcho Eye and the Fishery Market",
+      "slug": "sokcho-seoraksan-cable-car-fishery-market-yeonggeumjeong",
+      "url": "/blog/en/k-patto/sokcho-seoraksan-cable-car-fishery-market-yeonggeumjeong",
+      "target_keywords": [
+        "sokcho",
+        "seoraksan",
+        "sokcho eye",
+        "east coast korea",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day route around Sokcho: sunrise at Yeonggeumjeong pavilion, the Seoraksan cable car up to Gwongeumseong, the Sokcho Eye Ferris wheel by the beach and dinner at the Tourist and Fishery Market, with a course map.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "56c1834d-d237-4d61-afd1-c7ca926f9cae",
+      "category": "Explore Korea",
+      "title": "Daegu in One Day: Dongseongno, Kim Gwangseok Street, Apsan Observatory and Seomun Night Market",
+      "slug": "daegu-seomun-night-market-kim-gwangseok-apsan",
+      "url": "/blog/en/k-patto/daegu-seomun-night-market-kim-gwangseok-apsan",
+      "target_keywords": [
+        "daegu",
+        "seomun market",
+        "dongseongno",
+        "apsan",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day route through Daegu: downtown Dongseongno and the Spark Land rooftop Ferris wheel, the Kim Gwangseok mural street, the Apsan cable car to the observatory at sunset and Seomun Night Market, with a course map.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "8d33d817-4e96-44cc-86a6-8ef6c2d169e4",
+      "category": "Explore Korea",
+      "title": "Yeouido and Yongsan in One Day: The Hyundai Seoul, Hangang Park, National Museum and Hannam-dong",
+      "slug": "seoul-yeouido-hangang-park-national-museum-hannam",
+      "url": "/blog/en/k-patto/seoul-yeouido-hangang-park-national-museum-hannam",
+      "target_keywords": [
+        "seoul",
+        "yeouido",
+        "han river",
+        "national museum of korea",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day route along the Han River: The Hyundai Seoul and Yeouido Hangang Park on Yeouido, the National Museum of Korea in Yongsan, and Hannam-dong's designer shops and cafes, with a course map and transport tips.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "7455a2a2-93d0-4372-a023-1668b29d1780",
+      "category": "Explore Korea",
+      "title": "Yeosu in One Day: Odongdo, the Maritime Cable Car, Yi Sun-sin Square and Nangman Pocha",
+      "slug": "yeosu-cable-car-odongdo-nangman-pocha",
+      "url": "/blog/en/k-patto/yeosu-cable-car-odongdo-nangman-pocha",
+      "target_keywords": [
+        "yeosu",
+        "odongdo",
+        "yeosu cable car",
+        "south coast korea",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day walk around Yeosu's harbour: Odongdo island's forest paths, the maritime cable car over the sea to Dolsan, Yi Sun-sin Square and its food street, and seafood at the Nangman Pocha tents after dark, with a course map.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "e3f1fc56-9c2c-40f1-aabb-c504252690c4",
+      "category": "Explore Korea",
+      "title": "Andong in One Day: Hahoe Folk Village, Jjimdak Alley and Woryeonggyo Bridge",
+      "slug": "andong-hahoe-village-woryeonggyo-jjimdak",
+      "url": "/blog/en/k-patto/andong-hahoe-village-woryeonggyo-jjimdak",
+      "target_keywords": [
+        "andong",
+        "hahoe folk village",
+        "andong jjimdak",
+        "woryeonggyo",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day route around Andong: the UNESCO-listed Hahoe Folk Village in a bend of the river, Andong jjimdak in the old market's chicken alley and the wooden Woryeonggyo Bridge lit up at night, with a course map and transport.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "820b31cd-42bb-4791-938f-acd1ec295783",
+      "category": "Explore Korea",
+      "title": "Hongdae, Yeonnam-dong and Mangwon Market: A Western Seoul Walk",
+      "slug": "seoul-hongdae-yeonnam-mangwon-market-walk",
+      "url": "/blog/en/k-patto/seoul-hongdae-yeonnam-mangwon-market-walk",
+      "target_keywords": [
+        "seoul",
+        "hongdae",
+        "yeonnam-dong",
+        "mangwon market",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day walk through western Seoul: the Gyeongui Line Forest Trail in Yeonnam-dong, Hongdae's busking street, the quieter cafe lanes of Sangsu and Hapjeong, and Mangwon Market for an early dinner, with a course map.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "0e586d84-aa58-4714-b970-a9ffd7cc6598",
+      "category": "Explore Korea",
+      "title": "Chuncheon in One Day: LEGOLAND Korea and Myeongdong Dakgalbi Street",
+      "slug": "chuncheon-legoland-dakgalbi-street",
+      "url": "/blog/en/k-patto/chuncheon-legoland-dakgalbi-street",
+      "target_keywords": [
+        "chuncheon",
+        "legoland korea",
+        "dakgalbi",
+        "day trip from seoul",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-14",
+      "summary": "A one-day trip to Chuncheon: LEGOLAND Korea on its lake island, then dinner at Myeongdong Dakgalbi Street downtown, with a course map, getting there from Seoul and how to pair it with Nami Island.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "24932d44-0699-47b0-aaa0-bfd2a328c3a3",
+      "category": "Explore Korea",
+      "title": "Grand InterContinental Seoul Parnas: COEX on Your Doorstep, the Airport Bus at the Door",
+      "slug": "grand-intercontinental-seoul-parnas-review",
+      "url": "/blog/en/k-patto/grand-intercontinental-seoul-parnas-review",
+      "target_keywords": [
+        "Seoul",
+        "Gangnam",
+        "Samseong",
+        "COEX",
+        "IHG",
+        "Airport Access",
+        "Family Friendly"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A renovated 550-room landmark linked to COEX Mall, Parnas Mall and Samseong Station, with airport buses at the entrance: getting there, which room to book, Club InterContinental, a COEX day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "469b0b81-46f2-4275-b92e-d87053d4e4d0",
+      "category": "Explore Korea",
+      "title": "Josun Palace Seoul Gangnam: Korean Art Deco and Old-School Grandeur in the Sky",
+      "slug": "josun-palace-seoul-gangnam-review",
+      "url": "/blog/en/k-patto/josun-palace-seoul-gangnam-review",
+      "target_keywords": [
+        "Seoul",
+        "Gangnam",
+        "Yeoksam",
+        "Luxury",
+        "Art Deco",
+        "Marriott Bonvoy",
+        "Michelin"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "Josun Palace, a Luxury Collection Hotel, high in the Centerfield towers on Teheran-ro: getting there, Korean Art Deco rooms and which to book, Constans and Eatanic Garden, a Gangnam K-beauty day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "c2a33034-c62d-4439-94d2-4d51eeae8613",
+      "category": "Explore Korea",
+      "title": "JW Marriott Hotel Seoul: The Best-Connected Base in Gangnam",
+      "slug": "jw-marriott-hotel-seoul-review",
+      "url": "/blog/en/k-patto/jw-marriott-hotel-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Gangnam",
+        "Banpo",
+        "Express Bus Terminal",
+        "Shinsegae",
+        "Marriott Bonvoy",
+        "Fitness"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 376-room luxury hotel linked to Express Bus Terminal Station (Lines 3, 7 and 9) and Shinsegae Gangnam: getting there, which room to book, Marquis Fitness Club and Flavors, a Banpo fountain evening plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "a7445557-8e0e-4c31-bde3-a53f529ef965",
+      "category": "Explore Korea",
+      "title": "Park Hyatt Seoul: Granite, Glass, and Quiet Luxury Above Samseong",
+      "slug": "park-hyatt-seoul-review",
+      "url": "/blog/en/k-patto/park-hyatt-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Gangnam",
+        "Samseong",
+        "COEX",
+        "Luxury",
+        "Design Hotel",
+        "Business"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 185-room glass tower right outside Samseong Station Exit 1, facing COEX: getting there, the granite bathrooms and which room to book, The Timber House and Cornerstone, a COEX day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "2f079c4a-d3d1-4b5f-b531-5d6cb9f2da94",
+      "category": "Explore Korea",
+      "title": "Signiel Seoul: Sleeping Above the Clouds in Lotte World Tower",
+      "slug": "signiel-seoul-review",
+      "url": "/blog/en/k-patto/signiel-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Jamsil",
+        "Luxury",
+        "Lotte World Tower",
+        "City View",
+        "Seokchon Lake",
+        "Michelin"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "Korea's highest hotel rooms on floors 76–101 of Lotte World Tower in Jamsil: getting there, which room to book, STAY and Bicena dining, a Seoul Sky and Lotte World day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "4f919853-a1cd-40f6-86f5-0734f8720b7d",
+      "category": "Explore Korea",
+      "title": "Banyan Tree Club & Spa Seoul: A Resort Hidden on Namsan",
+      "slug": "banyan-tree-club-spa-seoul-review",
+      "url": "/blog/en/k-patto/banyan-tree-club-spa-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Namsan",
+        "Resort",
+        "Spa",
+        "Private Pool",
+        "Couples",
+        "N Seoul Tower"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "An all-suite, 50-room urban resort on the slopes of Namsan with in-room relaxation pools and N Seoul Tower views: getting there, which suite to book, the spa and Oasis pool, a Namsan wellness day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "70c3ef92-7e91-42cd-8df2-637fdbc3f444",
+      "category": "Explore Korea",
+      "title": "Conrad Seoul: Big Rooms, River Views, and the Easiest Airport Run in Yeouido",
+      "slug": "conrad-seoul-review",
+      "url": "/blog/en/k-patto/conrad-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Yeouido",
+        "IFC Mall",
+        "Han River",
+        "Hilton Honors",
+        "Airport Access",
+        "Business"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 434-room luxury tower inside the IFC complex, linked underground to Yeouido Station (Lines 5 and 9): getting there, which room to book, 37 Grill & Bar and Zest, a Han River day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "c34dd9f2-fe4a-4903-af4c-820364d5dbcc",
+      "category": "Explore Korea",
+      "title": "Fairmont Ambassador Seoul: Red Steel, River Views, and The Hyundai Downstairs",
+      "slug": "fairmont-ambassador-seoul-review",
+      "url": "/blog/en/k-patto/fairmont-ambassador-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Yeouido",
+        "Han River",
+        "The Hyundai Seoul",
+        "Luxury",
+        "Shopping",
+        "City View"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 308-room luxury hotel in Yeouido's Parc.1 complex, linked underground to The Hyundai Seoul: getting there, which room to book, dining and the Mariposa bar, a Han River day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "3e5023da-875d-45ec-affe-45b24622ee5b",
+      "category": "Explore Korea",
+      "title": "Hotel Naru Seoul – MGallery: An Infinity Pool Above the Han River",
+      "slug": "hotel-naru-seoul-mgallery-review",
+      "url": "/blog/en/k-patto/hotel-naru-seoul-mgallery-review",
+      "target_keywords": [
+        "Seoul",
+        "Mapo",
+        "Han River",
+        "Infinity Pool",
+        "Accor",
+        "Boutique",
+        "River View"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 196-room riverside design hotel by Mapo Bridge with Han River, Bamseom and Yeouido views: getting there, which room to book, the infinity pool and Voisin, a Mapo and Hongdae day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "7272aac9-73ac-40aa-abea-844a054b4674",
+      "category": "Explore Korea",
+      "title": "Mondrian Seoul Itaewon: Rooftop Nights and Boutique Style in Seoul's Most Global Neighbourhood",
+      "slug": "mondrian-seoul-itaewon-review",
+      "url": "/blog/en/k-patto/mondrian-seoul-itaewon-review",
+      "target_keywords": [
+        "Seoul",
+        "Itaewon",
+        "Hannam-dong",
+        "Boutique",
+        "Rooftop Bar",
+        "Nightlife",
+        "Design Hotel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 295-room design hotel between Itaewon, Gyeongnidan-gil and Hannam-dong: getting there, which room to book, the Privilege rooftop bar and Altitude pool, an Itaewon and Hannam day-to-night plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "2e174c2c-17d4-40ed-a481-9789e917353b",
+      "category": "Explore Korea",
+      "title": "The Shilla Seoul: Korea's Grande Dame on the Slopes of Namsan",
+      "slug": "the-shilla-seoul-review",
+      "url": "/blog/en/k-patto/the-shilla-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Namsan",
+        "Jangchung-dong",
+        "Luxury",
+        "Heritage",
+        "Michelin",
+        "Duty Free"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "Seoul's benchmark luxury hotel in leafy Jangchung-dong: getting there, which room to book, Urban Island and La Yeon, a Namsan and Dongdaemun day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "47af74e1-3782-468e-8bee-8d6203d95bb7",
+      "category": "Explore Korea",
+      "title": "The Westin Josun Seoul: A Century of Hospitality Between City Hall and Myeongdong",
+      "slug": "westin-josun-seoul-review",
+      "url": "/blog/en/k-patto/westin-josun-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Myeongdong",
+        "City Hall",
+        "Heritage",
+        "Marriott Bonvoy",
+        "Business",
+        "Walkable"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "Korea's oldest hotel name, beside the Hwangudan altar in Sogong-dong: getting there, which room to book, Aria buffet and the hotel's dining, a palace and Myeongdong day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "e54993bd-64c7-4f46-a896-cdca5d562002",
+      "category": "Explore Korea",
+      "title": "Andaz Seoul Gangnam: Lifestyle Luxury at Apgujeong's Front Door",
+      "slug": "andaz-seoul-gangnam-review",
+      "url": "/blog/en/k-patto/andaz-seoul-gangnam-review",
+      "target_keywords": [
+        "Seoul",
+        "Gangnam",
+        "Apgujeong",
+        "Garosu-gil",
+        "K-Beauty",
+        "World of Hyatt",
+        "Design Hotel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 241-room Hyatt lifestyle hotel steps from Apgujeong Station (Line 3): getting there, which room to book, Jogakbo and The Summer House pool, a Garosu-gil and K-beauty day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "f9a0c95f-8f2d-4e69-937d-551058b4a512",
+      "category": "Explore Korea",
+      "title": "L7 Hongdae by LOTTE: A Rooftop Pool Above Seoul's Liveliest Station",
+      "slug": "l7-hongdae-by-lotte-review",
+      "url": "/blog/en/k-patto/l7-hongdae-by-lotte-review",
+      "target_keywords": [
+        "Seoul",
+        "Hongdae",
+        "Rooftop Pool",
+        "Value",
+        "Lotte",
+        "Airport Access",
+        "Nightlife"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 340-room lifestyle hotel steps from Hongik Univ. Station (AREX and Line 2): getting there, which room to book, the rooftop pool and bar, a Hongdae day plan with a Discover Seoul Pass, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "e46cbcb2-2bbd-4203-94dc-020f0af549df",
+      "category": "Explore Korea",
+      "title": "Paradise Hotel Busan: Haeundae's Beachfront Classic with an Ocean Spa",
+      "slug": "paradise-hotel-busan-review",
+      "url": "/blog/en/k-patto/paradise-hotel-busan-review",
+      "target_keywords": [
+        "Busan",
+        "Haeundae",
+        "Beach Resort",
+        "Ocean View",
+        "Spa",
+        "Family Friendly",
+        "Hot Spring"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 529-room oceanfront resort directly on Haeundae Beach: getting there, which room to book, Cimer ocean spa and the outdoor pools, On the Plate buffet, a Haeundae day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "367d9a20-e0c3-47b9-bf32-9507cbea0126",
+      "category": "Explore Korea",
+      "title": "Parnas Hotel Jeju: A 110-Metre Infinity Pool on the Jungmun Cliffs",
+      "slug": "parnas-hotel-jeju-review",
+      "url": "/blog/en/k-patto/parnas-hotel-jeju-review",
+      "target_keywords": [
+        "Jeju",
+        "Jungmun",
+        "Seogwipo",
+        "Ocean Resort",
+        "Infinity Pool",
+        "Beach",
+        "Family Friendly"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 307-room clifftop resort in Jeju's Jungmun Resort area with a path down to Jungmun Saekdal Beach: getting there, which room to book, the 110-metre infinity pool, a Jungmun and south-coast day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "de112a7c-2fc9-4a02-adf9-a6687612d2b5",
+      "category": "Explore Korea",
+      "title": "RYSE, Autograph Collection: Hongdae's Design Hotel for Street Culture and Late Nights",
+      "slug": "ryse-autograph-collection-seoul-review",
+      "url": "/blog/en/k-patto/ryse-autograph-collection-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Hongdae",
+        "Yeonnam-dong",
+        "Design Hotel",
+        "Rooftop Bar",
+        "Marriott Bonvoy",
+        "Nightlife"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 272-room design hotel on Yanghwa-ro, a few minutes from Hongik Univ. Station (AREX and Line 2): getting there, which room to book, CHARR and the Side Note Club rooftop bar, a Hongdae and Yeonnam day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "8526cd83-4e7b-4ce7-bda9-e63393aa53e1",
+      "category": "Explore Korea",
+      "title": "Signiel Busan: Lotte's Flagship Luxury Inside Haeundae's LCT Tower",
+      "slug": "signiel-busan-review",
+      "url": "/blog/en/k-patto/signiel-busan-review",
+      "target_keywords": [
+        "Busan",
+        "Haeundae",
+        "Luxury",
+        "Ocean View",
+        "Infinity Pool",
+        "LCT",
+        "Lotte"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A 260-room luxury hotel in the LCT Landmark Tower at the east end of Haeundae Beach: getting there, which room to book, Salon de Signiel and the infinity pool, a BUSAN X the SKY and yacht day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "f7e96ff2-4548-4c0b-8e02-d384aa887018",
+      "category": "Explore Korea",
+      "title": "Gyeongju in One Day: Bulguksa, Royal Tombs, Cheomseongdae and Wolji Pond at Night",
+      "slug": "gyeongju-one-day-itinerary-bulguksa-daereungwon",
+      "url": "/blog/en/k-patto/gyeongju-one-day-itinerary-bulguksa-daereungwon",
+      "target_keywords": [
+        "gyeongju",
+        "gyeongju itinerary",
+        "bulguksa",
+        "day trip from seoul",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A one-day Gyeongju itinerary: Bulguksa Temple in the morning, then a walk from Hwangnidan-gil past the Silla royal tombs and Cheomseongdae to Donggung Palace and Wolji Pond after dark, with a course map, fees and hours.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "f93baa90-3390-4072-ab78-0cc33bd5db5c",
+      "category": "Explore Korea",
+      "title": "Gyeongbokgung, Bukchon and Changdeokgung: A One-Day Palace and Hanok Walk in Seoul",
+      "slug": "seoul-palaces-bukchon-walk-gyeongbokgung-changdeokgung",
+      "url": "/blog/en/k-patto/seoul-palaces-bukchon-walk-gyeongbokgung-changdeokgung",
+      "target_keywords": [
+        "gyeongbokgung",
+        "bukchon hanok village",
+        "changdeokgung",
+        "seoul itinerary",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "Walk Seoul's royal quarter in one day: Gyeongbokgung and the guard ceremony, the Bukchon Hanok Village Red Zone rules, Changdeokgung's Secret Garden tour, and Ikseon-dong for the evening, with a course map, fees and hours.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "5decef4b-de4c-44ac-aec6-2696b0f06827",
+      "category": "Explore Korea",
+      "title": "Busan East Coast in One Day: Haedong Yonggungsa, Haeundae and the Gwangalli Drone Show",
+      "slug": "busan-east-coast-haeundae-gwangalli-haedong-yonggungsa",
+      "url": "/blog/en/k-patto/busan-east-coast-haeundae-gwangalli-haedong-yonggungsa",
+      "target_keywords": [
+        "busan",
+        "haeundae",
+        "gwangalli",
+        "haedong yonggungsa",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A one-day route along Busan's east coast: Haedong Yonggungsa temple on the sea rocks in the morning, Haeundae Beach in the afternoon and Gwangalli for the Saturday drone show, with a course map, hours and transport.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "1f19c8f8-19de-4480-ae1f-140426486fde",
+      "category": "Explore Korea",
+      "title": "Busan's Old Town and Yeongdo in One Day: Gamcheon, Jagalchi Market and Huinnyeoul",
+      "slug": "busan-old-town-gamcheon-jagalchi-huinnyeoul",
+      "url": "/blog/en/k-patto/busan-old-town-gamcheon-jagalchi-huinnyeoul",
+      "target_keywords": [
+        "busan",
+        "gamcheon culture village",
+        "jagalchi market",
+        "yeongdo",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A one-day route through Busan's old port: the painted hillside of Gamcheon Culture Village, lunch at Jagalchi fish market and a sunset walk at Huinnyeoul Culture Village on Yeongdo, with a course map and transport tips.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "28e86d78-8575-4886-b622-18187404c966",
+      "category": "Explore Korea",
+      "title": "East Jeju in One Day: Seongsan Ilchulbong and Hamdeok Beach",
+      "slug": "east-jeju-seongsan-ilchulbong-hamdeok-beach",
+      "url": "/blog/en/k-patto/east-jeju-seongsan-ilchulbong-hamdeok-beach",
+      "target_keywords": [
+        "jeju",
+        "seongsan ilchulbong",
+        "hamdeok beach",
+        "jeju itinerary",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "Plan a day on Jeju's east coast: climb Seongsan Ilchulbong, the volcanic crater on the island's eastern tip, then drive or ride back along the coast to the turquoise water of Hamdeok Beach, with a course map, hours and tips.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "b4876e82-3887-416e-9561-5cceac783e59",
+      "category": "Explore Korea",
+      "title": "Jeju South and Jeju City in One Day: Osulloc Tea Museum, Soesokkak and Dongmun Night Market",
+      "slug": "jeju-osulloc-soesokkak-dongmun-market",
+      "url": "/blog/en/k-patto/jeju-osulloc-soesokkak-dongmun-market",
+      "target_keywords": [
+        "jeju",
+        "osulloc tea museum",
+        "soesokkak",
+        "dongmun market",
+        "korea travel"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-13",
+      "summary": "A one-day loop on Jeju: green tea fields at the Osulloc Tea Museum, the jade river gorge of Soesokkak near Seogwipo, and dinner at Dongmun Market's night market in Jeju City, with a course map, hours and costs.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "4347acb4-3fc3-443e-927f-16a7feb69b37",
+      "category": "Explore Korea",
+      "title": "Gyeongwonjae by Walkerhill: Sleeping in a Traditional Hanok Palace Amid a Futuristic Skyline",
+      "slug": "gyeongwonjae-ambassador-incheon-review",
+      "url": "/blog/en/k-patto/gyeongwonjae-ambassador-incheon-review",
+      "target_keywords": [
+        "Songdo",
+        "Hanok",
+        "Luxury",
+        "Traditional",
+        "Incheon Airport",
+        "Ondol"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-12",
+      "summary": "A 30-room hanok hotel inside Songdo Central Park, 25 minutes from Incheon Airport: which room to book, the Sura breakfast, a walkable half-day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "45df98c4-3a49-4741-8293-ad584591819c",
+      "category": "Explore Korea",
+      "title": "Oakwood Premier Incheon: Panoramic Penthouse Views and Full Residential Comfort",
+      "slug": "oakwood-premier-incheon-review",
+      "url": "/blog/en/k-patto/oakwood-premier-incheon-review",
+      "target_keywords": [
+        "Songdo",
+        "Skyline View",
+        "Kitchen",
+        "Residence",
+        "Family",
+        "Incheon Airport"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-12",
+      "summary": "Serviced residences high in Songdo's Posco Tower: full kitchens, in-suite washers, which suite to book, Panoramic 65 on the top floor, and honest pros and cons for families and long stays.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "34d4bebb-f369-4b97-bdba-02547756ed73",
+      "category": "Explore Korea",
+      "title": "Sheraton Grand Incheon: Central Park Frontage and Reliable 5-Star Hospitality",
+      "slug": "sheraton-grand-incheon-review",
+      "url": "/blog/en/k-patto/sheraton-grand-incheon-review",
+      "target_keywords": [
+        "Songdo",
+        "Marriott",
+        "Central Park",
+        "Club Lounge",
+        "Indoor Pool",
+        "Incheon Airport"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-12",
+      "summary": "A full-service Marriott hotel one crosswalk from Songdo Central Park: park view vs city view, club level, the indoor pool and sauna, a half-day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "abb56fc5-74b2-4683-8ab7-15568ffb38db",
+      "category": "Explore Korea",
+      "title": "Four Seasons Hotel Seoul: Royal Palaces, Modern Elegance, and Hidden Cocktail Dens",
+      "slug": "four-seasons-hotel-seoul-review",
+      "url": "/blog/en/k-patto/four-seasons-hotel-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Luxury",
+        "Gwanghwamun",
+        "Palace View",
+        "Charles H",
+        "Spa",
+        "Michelin"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-12",
+      "summary": "Ultra-luxury at Gwanghwamun, minutes from Gyeongbokgung Palace: which room to book, Charles H. and Michelin-starred Yu Yuan, the Korean bathhouse, a walkable half-day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "cb773557-eae2-449b-b730-f70383006c71",
+      "category": "Explore Korea",
+      "title": "L'Escape Hotel Seoul: Parisian Romance, Velvet Aesthetics, and Vintage Nightlife",
+      "slug": "lescape-hotel-seoul-review",
+      "url": "/blog/en/k-patto/lescape-hotel-seoul-review",
+      "target_keywords": [
+        "Seoul",
+        "Myeongdong",
+        "Boutique",
+        "Vintage",
+        "Cocktail Bar",
+        "Pet Friendly",
+        "Namdaemun"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-12",
+      "summary": "Jacques Garcia's Belle Époque boutique hotel between Namdaemun Market and Myeongdong: which room to book, Marque d'Amour on the 26th floor, a walkable half-day plan, and honest pros and cons.",
+      "db_category": "Hotels",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/hotels"
+      ]
+    },
+    {
+      "id": "92605291-923a-4eb0-8fc6-f959e2221b89",
+      "category": "Explore Korea",
+      "title": "Best Ski Resorts Near Seoul: Vivaldi Park vs. Yongpyong vs. High1 (Shuttles & Rental Guide)",
+      "slug": "best-ski-resorts-near-seoul-vivaldi-yongpyong-high1",
+      "url": "/blog/en/k-patto/best-ski-resorts-near-seoul-vivaldi-yongpyong-high1",
+      "target_keywords": [
+        "Ski",
+        "Winter",
+        "Vivaldi Park",
+        "Yongpyong",
+        "High1",
+        "Gangwon",
+        "Day Trip"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-12",
+      "summary": "Comparing South Korea’s top three winter ski resorts for international travelers—including shuttle bus pickup points in Seoul, beginner slopes, family snow parks, and all-in-one rental packages.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "15245a10-275e-4100-80b2-8bead4dcffc3",
+      "category": "Explore Korea",
+      "title": "DMZ Tours from Seoul: Updated Rules, Best Half-Day Options & Booking Tips",
+      "slug": "dmz-tours-from-seoul-guide-rules-booking",
+      "url": "/blog/en/k-patto/dmz-tours-from-seoul-guide-rules-booking",
+      "target_keywords": [
+        "DMZ",
+        "Day Trip",
+        "Paju",
+        "Third Tunnel",
+        "Dora Observatory",
+        "JSA",
+        "Seoul Tours"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-12",
+      "summary": "Everything international travelers need to know before visiting the Korean Demilitarized Zone—including current JSA access rules, mandatory passport checks, and the best half-day tours with suspension bridges.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "eb94f011-8154-46d6-ae10-5a017458f25b",
+      "category": "Explore Korea",
+      "title": "Gocheok Sky Dome Concert Guide: Guil Station, Seats, Bags and Getting Home",
+      "slug": "gocheok-sky-dome-concert-guide-seoul",
+      "url": "/blog/en/k-patto/gocheok-sky-dome-concert-guide-seoul",
+      "target_keywords": [
+        "gocheok sky dome",
+        "k-pop concert seoul",
+        "guil station",
+        "concert tickets korea"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-08",
+      "summary": "A foreign fan's survival guide to Gocheok Sky Dome in Seoul: which Line 1 train to take, passport ticket pickup, seat views, lockers and how to beat the crowd at Guil Station after a concert.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
+      "id": "24f3c7c9-9938-47f8-96fc-626adbf76e31",
+      "category": "Explore Korea",
+      "title": "KSPO Dome Concert Guide: Getting There, Tickets, Bags and Getting Home",
+      "slug": "kspo-dome-concert-guide-seoul",
+      "url": "/blog/en/k-patto/kspo-dome-concert-guide-seoul",
+      "target_keywords": [
+        "kspo dome",
+        "k-pop concert seoul",
+        "olympic park seoul",
+        "concert tickets korea"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-08",
+      "summary": "A foreign fan's survival guide to KSPO Dome in Seoul: Olympic Park Station exits, passport ticket pickup, bag limits, lockers, food and the fastest way home after a concert.",
+      "db_category": "Places",
+      "overhauled": false,
+      "subCategories": [
+        "explore-korea/places"
+      ]
+    },
+    {
       "id": "4affc119-3870-42e7-949f-9f47b83cd346",
       "category": "Explore Korea",
       "title": "Seoul Itinerary for First-Timers: 3, 4 and 5 Days (2026 Guide)",
@@ -2024,6 +3103,153 @@
       "subCategories": [
         "explore-korea/places",
         "life/getting-around"
+      ]
+    },
+    {
+      "id": "5f3cf24a-612c-493e-b417-add91a5d809c",
+      "category": "Food",
+      "title": "Bingsu and Beyond: A Guide to Korean Desserts",
+      "slug": "bingsu-korean-desserts-guide",
+      "url": "/blog/en/k-pantry/bingsu-korean-desserts-guide",
+      "target_keywords": [
+        "bingsu",
+        "korean desserts",
+        "patbingsu",
+        "korean cafe"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-21",
+      "summary": "Bingsu is Korea's milky shaved-ice dessert, made to share. Here are the main flavors, what they cost, and the other Korean sweets worth trying, from yakgwa to injeolmi.",
+      "db_category": "Cooking Basics",
+      "overhauled": true,
+      "subCategories": [
+        "food/culture"
+      ]
+    },
+    {
+      "id": "24ac9c88-adf5-44d5-88e6-3cf9287fb70d",
+      "category": "Food",
+      "title": "Gluten-Free Korean Food: Allergy Tips for Ordering and Cooking",
+      "slug": "gluten-free-korean-food-allergy-guide",
+      "url": "/blog/en/k-pantry/gluten-free-korean-food-allergy-guide",
+      "target_keywords": [
+        "gluten free korean food",
+        "food allergies korea",
+        "celiac travel korea",
+        "korean food"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-21",
+      "summary": "Korean food hides wheat in soy sauce and gochujang, shellfish in kimchi and sesame almost everywhere. Here's what's usually safe, what to ask, and the Korean phrases that help.",
+      "db_category": "Cooking Basics",
+      "overhauled": true,
+      "subCategories": [
+        "food/culture"
+      ]
+    },
+    {
+      "id": "20b46e94-4cc5-46ae-a2e7-98d77b28c640",
+      "category": "Food",
+      "title": "Kimjang: Korea's Kimchi-Making Season, Explained",
+      "slug": "kimjang-korean-kimchi-making-season",
+      "url": "/blog/en/k-pantry/kimjang-korean-kimchi-making-season",
+      "target_keywords": [
+        "kimjang",
+        "kimchi making",
+        "korean culture",
+        "korean food"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-21",
+      "summary": "Kimjang is the late-autumn day Korean families make a winter's worth of kimchi together. Here's how it works, what goes into it, and how to try a small version at home.",
+      "db_category": "Cooking Basics",
+      "overhauled": true,
+      "subCategories": [
+        "food/culture"
+      ]
+    },
+    {
+      "id": "1cba0f7c-7522-4bb6-9dbf-110118d38041",
+      "category": "Food",
+      "title": "Banchan Meal Prep: A Week of Korean Side Dishes in 90 Minutes",
+      "slug": "korean-banchan-meal-prep-guide",
+      "url": "/blog/en/k-pantry/korean-banchan-meal-prep-guide",
+      "target_keywords": [
+        "banchan meal prep",
+        "korean side dishes",
+        "meal prep",
+        "korean food"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-21",
+      "summary": "Korean home cooks make banchan in batches so weeknight dinners are just rice and one hot dish. Here's which side dishes keep longest, a 90-minute cooking order, and how to store them.",
+      "db_category": "Cooking Basics",
+      "overhauled": true,
+      "subCategories": [
+        "food/culture"
+      ]
+    },
+    {
+      "id": "595cfb6f-ca94-4f7c-9a94-edf0ca0ccd66",
+      "category": "Food",
+      "title": "Birthday Seaweed Soup and Other Korean Food Superstitions",
+      "slug": "miyeokguk-birthday-soup-food-superstitions",
+      "url": "/blog/en/k-pantry/miyeokguk-birthday-soup-food-superstitions",
+      "target_keywords": [
+        "miyeokguk",
+        "korean birthday",
+        "korean superstitions",
+        "korean food culture"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-21",
+      "summary": "Koreans eat miyeokguk, seaweed soup, on their birthday to honor their mother, but never before an exam. Here's why, plus the other food customs tied to luck, weddings and moving day.",
+      "db_category": "Cooking Basics",
+      "overhauled": true,
+      "subCategories": [
+        "food/dishes"
+      ]
+    },
+    {
+      "id": "7b287fd9-d876-4831-828f-d0cc519a7dae",
+      "category": "Food",
+      "title": "Seollal Food: Tteokguk, Jeon and the Korean New Year Table",
+      "slug": "seollal-food-tteokguk-jeon-guide",
+      "url": "/blog/en/k-pantry/seollal-food-tteokguk-jeon-guide",
+      "target_keywords": [
+        "seollal food",
+        "tteokguk",
+        "korean new year",
+        "lunar new year food"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-21",
+      "summary": "Korean Lunar New Year starts with a bowl of tteokguk, rice cake soup. Here's what else goes on the Seollal table, what each dish means, and which ones are easy to make at home.",
+      "db_category": "Cooking Basics",
+      "overhauled": true,
+      "subCategories": [
+        "food/culture"
+      ]
+    },
+    {
+      "id": "f8e86ba0-c14a-48ab-ac80-49801109fe64",
+      "category": "Food",
+      "title": "What Do Koreans Eat for Breakfast? From Rice to Street Toast",
+      "slug": "what-koreans-eat-for-breakfast",
+      "url": "/blog/en/k-pantry/what-koreans-eat-for-breakfast",
+      "target_keywords": [
+        "korean breakfast",
+        "korean street toast",
+        "korean food culture",
+        "korean food"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-21",
+      "summary": "A traditional Korean breakfast is rice, soup and side dishes, the same as any other meal. Here's what Koreans actually eat in the morning today, where travelers can find it, and easy versions to make at home.",
+      "db_category": "Cooking Basics",
+      "overhauled": true,
+      "subCategories": [
+        "food/street"
       ]
     },
     {
@@ -3510,6 +4736,250 @@
       ]
     },
     {
+      "id": "cb875a40-fb0c-425c-a027-ba4f0e20c150",
+      "category": "Life",
+      "title": "How Foreigners Can Buy K-Pop Concert Tickets in Korea: Interpark Global, Yes24, Melon & Weverse Guide",
+      "slug": "how-foreigners-buy-kpop-concert-tickets-korea",
+      "url": "/blog/en/k-patto/how-foreigners-buy-kpop-concert-tickets-korea",
+      "target_keywords": [
+        "K-Pop",
+        "Concert Tickets",
+        "NOL World",
+        "Interpark Global",
+        "Yes24",
+        "Melon Ticket",
+        "Weverse"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-12",
+      "summary": "A step-by-step guide to booking official K-pop concert tickets in South Korea from abroad—covering global ticketing sites, Weverse fanclub presale verification, passport ID rules, and arena hotel tips.",
+      "db_category": "Korean Culture",
+      "overhauled": false,
+      "subCategories": [
+        "life/essentials"
+      ]
+    },
+    {
+      "id": "7e00c6c4-9396-4fb9-8d67-5ea1dbc57e34",
+      "category": "Life",
+      "title": "K-Drama Clichés Decoded: The Wrist Grab, the Piggyback and the Envelope of Money",
+      "slug": "k-drama-cliches-decoded",
+      "url": "/blog/en/k-patto/k-drama-cliches-decoded",
+      "target_keywords": [
+        "k-drama",
+        "k-drama tropes",
+        "korean pop culture",
+        "korean culture",
+        "chaebol"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "Why K-dramas keep using the wrist grab, the piggyback ride, the chaebol mother's envelope and the truck of doom, and what each trope says about Korean family, class and romance.",
+      "db_category": "Korean Culture",
+      "overhauled": true,
+      "subCategories": [
+        "life/essentials"
+      ]
+    },
+    {
+      "id": "8f5cde94-ed86-4c1c-937e-74ab5d855533",
+      "category": "Life",
+      "title": "Why Everyone Eats in K-Dramas: Ramyeon Invitations, Soju Tents and Lunchbox Love",
+      "slug": "k-drama-food-scenes-explained",
+      "url": "/blog/en/k-patto/k-drama-food-scenes-explained",
+      "target_keywords": [
+        "k-drama",
+        "korean food culture",
+        "ramyeon",
+        "korean pop culture",
+        "korean culture"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "What the famous food scenes in Korean dramas really mean, from \"want to eat ramyeon?\" to tent-bar soju and homemade lunchboxes, and how to cook the dishes yourself.",
+      "db_category": "Korean Culture",
+      "overhauled": true,
+      "subCategories": [
+        "life/essentials"
+      ]
+    },
+    {
+      "id": "aa1f5b83-7476-4bef-a46a-8b4be16fc91b",
+      "category": "Life",
+      "title": "Why K-Drama OSTs Hit So Hard: Inside Korea's Soundtrack Industry",
+      "slug": "k-drama-ost-industry-explained",
+      "url": "/blog/en/k-patto/k-drama-ost-industry-explained",
+      "target_keywords": [
+        "k-drama ost",
+        "korean music",
+        "k-drama",
+        "korean pop culture",
+        "korean culture"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "How Korean drama soundtracks are released in parts, why the ballad always drops at the emotional peak, and how OSTs became their own corner of the K-pop music business.",
+      "db_category": "Korean Culture",
+      "overhauled": true,
+      "subCategories": [
+        "life/essentials"
+      ]
+    },
+    {
+      "id": "ee8a601c-7c70-40e8-ad02-b0d901e61d00",
+      "category": "Life",
+      "title": "K-Pop Lightsticks Explained: Why Every Group Has Its Own and How Light Shows Work",
+      "slug": "kpop-lightsticks-explained",
+      "url": "/blog/en/k-patto/kpop-lightsticks-explained",
+      "target_keywords": [
+        "kpop lightstick",
+        "k-pop concert",
+        "kpop fandom",
+        "korean pop culture",
+        "korean culture"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "What official K-pop lightsticks are, how stadiums control thousands of them at once, why fans collect every version, and how to pair and use one at a concert in Korea.",
+      "db_category": "Korean Culture",
+      "overhauled": true,
+      "subCategories": [
+        "life/essentials"
+      ]
+    },
+    {
+      "id": "954372d0-6440-4182-bdd0-add18800ca48",
+      "category": "Life",
+      "title": "Birthday Cafes, Subway Ads and Coffee Trucks: Inside K-Pop Fandom Support Culture",
+      "slug": "kpop-fandom-support-culture",
+      "url": "/blog/en/k-patto/kpop-fandom-support-culture",
+      "target_keywords": [
+        "kpop fandom",
+        "birthday cafe",
+        "kpop subway ads",
+        "korean pop culture",
+        "korean culture"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "How K-pop fans celebrate idols with birthday cafes, subway station ads, coffee trucks and group worldbuilding, and how visitors can find and join these events in Seoul.",
+      "db_category": "Korean Culture",
+      "overhauled": true,
+      "subCategories": [
+        "life/getting-around"
+      ]
+    },
+    {
+      "id": "9679c088-80fa-49c0-ba31-d35375ab2c2b",
+      "category": "Life",
+      "title": "Rain, Stairs and Class Rage: The Aesthetics of Korean Thrillers",
+      "slug": "korean-thriller-films-social-satire",
+      "url": "/blog/en/k-patto/korean-thriller-films-social-satire",
+      "target_keywords": [
+        "korean movies",
+        "korean thriller",
+        "parasite",
+        "korean cinema",
+        "korean culture"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "Why Korean thrillers and social satires feel so distinctive, from the stairs and basements of Parasite to rain-soaked crime scenes, and what they reveal about class, competition and justice in Korea.",
+      "db_category": "Korean Culture",
+      "overhauled": true,
+      "subCategories": [
+        "life/essentials"
+      ]
+    },
+    {
+      "id": "5e67392b-e8d3-4d2b-847e-31c737a37ced",
+      "category": "Life",
+      "title": "Ondol and Floor Living: Why Koreans Sit, Eat and Sleep Close to the Ground",
+      "slug": "ondol-korean-floor-living-culture",
+      "url": "/blog/en/k-patto/ondol-korean-floor-living-culture",
+      "target_keywords": [
+        "ondol",
+        "korean home culture",
+        "floor seating korea",
+        "living in korea",
+        "korean culture"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "How Korea's heated ondol floors shaped a whole way of living, from taking off shoes and sitting on cushions to sleeping on a yo, and what visitors should know in Korean homes and restaurants.",
+      "db_category": "Korean Culture",
+      "overhauled": true,
+      "subCategories": [
+        "life/etiquette"
+      ]
+    },
+    {
+      "id": "905db951-a1e6-4a3c-9cb4-2148b9472634",
+      "category": "Life",
+      "title": "Jeong (정): The Korean Bond That Grows Between People Over Time",
+      "slug": "jeong-korean-emotional-bond",
+      "url": "/blog/en/k-patto/jeong-korean-emotional-bond",
+      "target_keywords": [
+        "jeong",
+        "korean culture",
+        "korean values",
+        "korean words",
+        "living in korea"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "What jeong means in Korean culture, how it shows up in free extras, shared food and long friendships, the phrases built around it, and how visitors can recognize and return it.",
+      "db_category": "Korean Culture",
+      "overhauled": true,
+      "subCategories": [
+        "life/essentials"
+      ]
+    },
+    {
+      "id": "3a74abee-2faa-4cab-a08f-56025fa59890",
+      "category": "Life",
+      "title": "Ppalli-Ppalli Nation: How Korea Built a Life Where Everything Arrives by Dawn",
+      "slug": "ppalli-ppalli-dawn-delivery-korea",
+      "url": "/blog/en/k-patto/ppalli-ppalli-dawn-delivery-korea",
+      "target_keywords": [
+        "ppalli ppalli",
+        "dawn delivery korea",
+        "korean culture",
+        "living in korea",
+        "korean society"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "Where Korea's \"hurry, hurry\" culture comes from, how it created dawn delivery, same-day everything and lightning-fast public services, and what that speed costs and gives back.",
+      "db_category": "Korean Culture",
+      "overhauled": true,
+      "subCategories": [
+        "life/essentials"
+      ]
+    },
+    {
+      "id": "8024930f-9f62-47aa-8100-b2ac8b96dc35",
+      "category": "Life",
+      "title": "PC Bang Culture: Inside Korea's 24-Hour Gaming Cafes",
+      "slug": "pc-bang-korean-gaming-cafe-culture",
+      "url": "/blog/en/k-patto/pc-bang-korean-gaming-cafe-culture",
+      "target_keywords": [
+        "pc bang",
+        "korean gaming",
+        "esports korea",
+        "korean youth culture",
+        "korean culture"
+      ],
+      "status": "Active",
+      "last_updated": "2026-11-10",
+      "summary": "How Korea's PC bangs became social hubs for gamers, why they serve full meals at your seat, how to pay and log in as a visitor, and what they reveal about Korean esports and youth culture.",
+      "db_category": "Korean Culture",
+      "overhauled": true,
+      "subCategories": [
+        "life/etiquette"
+      ]
+    },
+    {
       "id": "d168a989-5fa7-43fc-aebd-abe26e6821a6",
       "category": "Life",
       "title": "Korea Arrival Card and K-ETA: Who Needs What (2026 Guide)",
@@ -4004,7 +5474,7 @@
     {
       "id": "3a184070-f54d-4663-9ace-432f916bb6d8",
       "category": "Life",
-      "title": "How to Book and Ride the KTX or SRT as a Foreigner",
+      "title": "How to Book and Ride the KTX as a Foreigner (SRT Is Now Part of KTX)",
       "slug": "how-to-book-ktx-tickets-foreigner",
       "url": "/blog/en/k-patto/how-to-book-ktx-tickets-foreigner",
       "target_keywords": [
@@ -4015,7 +5485,7 @@
       ],
       "status": "Active",
       "last_updated": "2026-10-03",
-      "summary": "Book Korea's high-speed trains as a tourist: KTX vs SRT, the Korail website and app vs station counters, seat types including standing tickets, luggage space and boarding.",
+      "summary": "Book Korea's high-speed trains as a tourist: what changed when SRT merged into KTX in September 2026, Seoul Station vs Suseo, the Korail website and Korail+ app, seat types including standing tickets, luggage space and boarding.",
       "db_category": "Korean Culture",
       "overhauled": true,
       "subCategories": [
@@ -4607,7 +6077,7 @@
       "summary": "How hanbok rental works near Gyeongbokgung, free palace entry in hanbok, and etiquette.",
       "url": null,
       "status": "Planned",
-      "last_updated": "2026-11-08"
+      "last_updated": "2026-11-21"
     },
     {
       "id": "planned-myeongdong-shopping",
@@ -4622,7 +6092,7 @@
       "summary": "Where to shop, exchange money and claim tax refunds in Myeongdong.",
       "url": null,
       "status": "Planned",
-      "last_updated": "2026-11-08"
+      "last_updated": "2026-11-21"
     },
     {
       "id": "planned-ikseon-dong",
@@ -4637,7 +6107,7 @@
       "summary": "A short guide to Ikseon-dong hanok alleys, cafes and crowd-free timing.",
       "url": null,
       "status": "Planned",
-      "last_updated": "2026-11-08"
+      "last_updated": "2026-11-21"
     },
     {
       "id": "fa61cba4-8869-43ac-b205-62a3c1ecd534",
@@ -7509,26 +8979,6 @@
       ]
     },
     {
-      "id": "b1aff418-b485-4950-9713-6866df9140ed",
-      "category": "Uncategorized",
-      "title": "Sagol-Guk: Bone Broth Soup Korean Style",
-      "slug": "sagol-guk-bone-broth-soup",
-      "url": null,
-      "target_keywords": [
-        "korean-food",
-        "recipe",
-        "soup"
-      ],
-      "status": "Deprecated",
-      "last_updated": "2026-08-11",
-      "summary": "A complete step-by-step guide to making Sagol-Guk — Bone Broth Soup Korean Style at home.",
-      "db_category": null,
-      "overhauled": false,
-      "subCategories": [
-        "basics/grammar"
-      ]
-    },
-    {
       "id": "b0505474-e28b-466f-b796-ccdbdd55fdb0",
       "category": "Uncategorized",
       "title": "Korean Holiday Foods: What Koreans Eat on Chuseok and Seollal",
@@ -7542,6 +8992,26 @@
       "status": "Deprecated",
       "last_updated": "2026-08-11",
       "summary": "An inside look at korean holiday foods: what koreans eat on chuseok and seollal and what it reveals about Korean society and identity.",
+      "db_category": null,
+      "overhauled": false,
+      "subCategories": [
+        "basics/grammar"
+      ]
+    },
+    {
+      "id": "b1aff418-b485-4950-9713-6866df9140ed",
+      "category": "Uncategorized",
+      "title": "Sagol-Guk: Bone Broth Soup Korean Style",
+      "slug": "sagol-guk-bone-broth-soup",
+      "url": null,
+      "target_keywords": [
+        "korean-food",
+        "recipe",
+        "soup"
+      ],
+      "status": "Deprecated",
+      "last_updated": "2026-08-11",
+      "summary": "A complete step-by-step guide to making Sagol-Guk — Bone Broth Soup Korean Style at home.",
       "db_category": null,
       "overhauled": false,
       "subCategories": [
