@@ -1,6 +1,5 @@
 'use client'
 import { useCallback, useState } from 'react'
-import { ShoppingBag } from 'lucide-react'
 import IngredientPopover, { type PopoverIngredient } from '@/components/kpantry/buy/IngredientPopover'
 import { BuyStyles } from '@/components/kpantry/buy/BuyStyles'
 import { trackIngredientPopoverOpen } from '@/lib/kpantry/analytics'
@@ -32,8 +31,6 @@ interface IngredientsSectionProps {
   onAddToShoppingList?: (ingredientId: string, name: string) => void
   /** 구매 팝오버·측정에 쓰는 레시피 슬러그. 주면 재료 이름 팝오버가 켜진다 */
   recipeSlug?: string
-  /** 주면 위에 "Where to buy these ingredients" 링크가 생기고, 누르면 구매 시트를 연다 */
-  onOpenBuySheet?: (el: HTMLElement) => void
 }
 
 const TYPE_TABS = [
@@ -59,7 +56,6 @@ export default function IngredientsSection({
   userPantryIds = [],
   onAddToShoppingList,
   recipeSlug,
-  onOpenBuySheet,
 }: IngredientsSectionProps) {
   const [activeTab, setActiveTab] = useState<'essential' | 'recommended' | 'optional'>('essential')
   const [popover, setPopover] = useState<{ ing: PopoverIngredient; anchor: DOMRect } | null>(null)
@@ -95,14 +91,6 @@ export default function IngredientsSection({
   return (
     <section style={{ padding: '0 16px 20px' }}>
       {recipeSlug && <BuyStyles />}
-      {onOpenBuySheet && (
-        <>
-          <button type="button" className="kpb-link" aria-haspopup="dialog" onClick={e => onOpenBuySheet(e.currentTarget)} style={{ display: 'inline-flex', alignItems: 'center', gap: 5, marginBottom: 10, fontSize: 12 }}>
-            <ShoppingBag size={13} strokeWidth={2} aria-hidden="true" />
-            Where to buy these ingredients
-          </button>
-        </>
-      )}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
         <h2 style={{
           fontFamily: 'Inter, sans-serif',

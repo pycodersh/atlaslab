@@ -8,7 +8,7 @@ import NutritionBar from '@/components/kpantry/recipe-detail/NutritionBar'
 import IngredientsSection from '@/components/kpantry/recipe-detail/IngredientsSection'
 import StepsSection from '@/components/kpantry/recipe-detail/StepsSection'
 import RecipeBuyContent from '@/components/kpantry/buy/RecipeBuySection'
-import BuyBanner from '@/components/kpantry/buy/BuyBanner'
+import BuyEntryButton, { BuySummary } from '@/components/kpantry/buy/BuyBanner'
 import BuySheet from '@/components/kpantry/buy/BuySheet'
 import { trackBuySheetOpen } from '@/lib/kpantry/analytics'
 import {
@@ -59,7 +59,7 @@ export default function RecipeDetailClient({ initialRecipe }: Props) {
   // 구매 시트 — 배너나 재료 위 링크로 연다. 닫히면 연 버튼으로 포커스를 돌려준다
   const [buySheet, setBuySheet] = useState<{ returnTo: HTMLElement } | null>(null)
   const buyIngredients = (recipe.pantry_recipe_ingredients ?? []).map((ri: any) => ri.pantry_ingredients).filter(Boolean)
-  const openBuySheet = (trigger: 'banner' | 'top_link') => (el: HTMLElement) => {
+  const openBuySheet = (trigger: 'button') => (el: HTMLElement) => {
     setBuySheet({ returnTo: el })
     trackBuySheetOpen({ recipe_slug: slug, trigger })
   }
@@ -157,11 +157,10 @@ export default function RecipeDetailClient({ initialRecipe }: Props) {
           userPantryIds={userPantryIds}
           onAddToShoppingList={handleAddToShoppingList}
           recipeSlug={recipe.slug}
-          onOpenBuySheet={openBuySheet('top_link')}
         />
 
         {/* 재료 → 조리 단계 흐름을 끊지 않게 구매 정보는 한 줄 배너로만 두고, 자세한 내용은 시트에서 */}
-        <BuyBanner ingredients={buyIngredients} onOpen={openBuySheet('banner')} />
+        <BuyEntryButton onOpen={openBuySheet('button')} />
 
         {stepsLocked ? (
           <section className={LOCKED_STEPS_CLASS} style={{ padding: '0 16px 20px' }} aria-labelledby="kp-steps-locked-h">
@@ -249,6 +248,7 @@ export default function RecipeDetailClient({ initialRecipe }: Props) {
 
       {buySheet && (
         <BuySheet title="Where to buy" onClose={closeBuySheet} returnFocusTo={buySheet.returnTo}>
+          <BuySummary ingredients={buyIngredients} />
           <RecipeBuyContent ingredients={buyIngredients} recipeSlug={recipe.slug} />
         </BuySheet>
       )}

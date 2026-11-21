@@ -14,7 +14,8 @@ const CSS = `
 
 /**
  * 홈 섹션 1 — "Cook with What I Have". 냉장고 재료 미리보기(레시피 등장 수 상위 8) — 홈에서는 고르지 않는다.
- * 칩도, 아래 버튼도 전체 재료 선택 화면(/kpantry/en/ingredients)으로 간다. 서버 컴포넌트.
+ * 칩을 누르면 그 재료가 이미 고른 상태로 재료 선택 화면이 열린다(?ids=<id>).
+ * 아래 버튼은 아무것도 고르지 않은 빈 상태로 연다(?fresh=1 — 이 기기의 지난 선택도 불러오지 않는다). 서버 컴포넌트.
  */
 export default function CookWithIngredientsCard({ chips }: { chips: HomeIngredient[] }) {
   return (
@@ -25,7 +26,7 @@ export default function CookWithIngredientsCard({ chips }: { chips: HomeIngredie
       <ul className="kp-chips" aria-label="Ingredients you can pick" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
         {chips.map(c => (
           <li key={c.id}>
-            <Link href="/kpantry/en/ingredients" className="kp-chip">
+            <Link href={`/kpantry/en/ingredients?ids=${c.id}`} className="kp-chip" aria-label={`Start with ${c.name}`}>
               <span className="kp-chip-img">{c.image_url && <img src={c.image_url} alt="" loading="lazy" />}</span>
               {c.name}
             </Link>
@@ -33,7 +34,7 @@ export default function CookWithIngredientsCard({ chips }: { chips: HomeIngredie
         ))}
       </ul>
 
-      <SectionButton href="/kpantry/en/ingredients">Select Your Ingredients</SectionButton>
+      <SectionButton href="/kpantry/en/ingredients?fresh=1">Select Your Ingredients</SectionButton>
     </section>
   )
 }

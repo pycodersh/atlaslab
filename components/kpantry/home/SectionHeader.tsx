@@ -7,13 +7,17 @@ interface Props {
 }
 
 /**
- * 홈 세 섹션 머리 — 제목 위 짧은 레드 포인트 바(32×2px) · 큰 세리프 제목 · 짧은 설명.
- * 세 기능은 동등하다: 번호·대문자 라벨 없이 제목으로만 시작점을 잡는다(2026-11-18).
+ * 홈 세 섹션 머리 — 에디토리얼 2단 구분선 · 세리프 제목 · 짧은 설명.
+ * 구분선: 컨테이너 전체 폭 1px 웜그레이(#DFDAD2) 위, 왼쪽 시작점에 44×3px 브랜드 레드 바가 겹친다(2026-11-21).
+ * 세 기능은 동등하다: 번호·대문자 라벨 없이 제목으로만 시작점을 잡는다.
  */
 export default function SectionHeader({ title, desc, id }: Props) {
   return (
     <div style={{ marginBottom: 18 }}>
-      <span aria-hidden="true" style={{ display: 'block', width: 32, height: 2, background: '#C8102E', borderRadius: 1, marginBottom: 12 }} />
+      <div aria-hidden="true" style={{ position: 'relative', height: 3, marginBottom: 18 }}>
+        <span style={{ position: 'absolute', left: 0, right: 0, top: 1, height: 1, background: '#DFDAD2' }} />
+        <span style={{ position: 'absolute', left: 0, top: 0, width: 44, height: 3, background: '#C8102E' }} />
+      </div>
       <h2 id={id} style={{
         fontFamily: 'Playfair Display, serif',
         fontSize: 22,
@@ -52,7 +56,10 @@ export function SectionButton({ href, children }: { href: string; children: Reac
   )
 }
 
-/** 세 구역 사이 — 넉넉한 여백만. 구역 머리의 빨간 짧은 선이 구분을 맡아 위 헤어라인은 뺐다(2026-11-18) */
+/**
+ * 세 구역 사이 — 구분선은 각 구역 머리(SectionHeader)가 그린다.
+ * 아래 여백 48px: 구역 맨 아래 버튼과 다음 구역 구분선 사이를 넉넉히(2026-11-21).
+ */
 export function sectionStyle(first = false): React.CSSProperties {
-  return { padding: first ? '36px 16px 44px' : '44px 16px' }
+  return { padding: first ? '32px 16px 48px' : '0 16px 48px' }
 }

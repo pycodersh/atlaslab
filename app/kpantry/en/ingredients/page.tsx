@@ -46,11 +46,14 @@ export default function IngredientsPage() {
       const all = await getIngredients()
       setAllIngredients(all ?? [])
 
-      // 처음 선택: URL(결과 화면 Edit 에서 돌아옴) > 이 기기에서 마지막으로 고른 것 > 계정에 저장된 pantry
-      const urlIds = parseIngredientIds(new URLSearchParams(window.location.search).get('ids'))
-      const localIds = readSelectedIngredients()
+      // 처음 선택: URL ?ids=(홈 재료 칩 · 결과 화면 Edit) > 이 기기에서 마지막으로 고른 것 > 계정에 저장된 pantry
+      // ?fresh=1(홈 "Select Your Ingredients" 버튼)은 아무것도 고르지 않은 빈 상태로 시작한다
+      const params = new URLSearchParams(window.location.search)
+      const fresh = params.get('fresh') === '1'
+      const urlIds = parseIngredientIds(params.get('ids'))
+      const localIds = fresh ? [] : readSelectedIngredients()
       const [pantryIds, userPlan] = await Promise.all([
-        user ? loadPantry(user.id) : Promise.resolve<string[]>([]),
+        user && !fresh ? loadPantry(user.id) : Promise.resolve<string[]>([]),
         getUserPlan(user?.id),
       ])
       // 목록에서 빠진 재료(레시피 없음·정리된 중복)가 예전 선택에 남아 있으면 버린다 — 개수만 세고 칩은 안 보이는 상태를 막는다
