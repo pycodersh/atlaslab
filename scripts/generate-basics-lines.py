@@ -83,14 +83,19 @@ LINES = ROOT / 'remotion' / 'KoreanBasic' / 'lines.json'
 MANIFEST = ROOT / 'remotion' / 'KoreanBasic' / 'line-audio.generated.json'
 PROGRESS = ROOT / 'render-progress.json'
 
-def to_mp3(src: Path, out: Path) -> None:
+# 상황극 대사 앞에 붙이는 무음 — 영상이 그만큼 일찍 튼다(TemplateVideoV2 OPENING.preroll 6프레임과 같다).
+# 브라우저가 오디오를 시작하며 앞을 먹어도 무음이 먹히고 첫 음절은 남는다
+PREROLL = 0.2
+
+def to_mp3(src: Path, out: Path, pad: float = 0) -> None:
     out.parent.mkdir(parents=True, exist_ok=True)
-    vo.ffmpeg('-y', '-i', str(src), '-af', vo.TRIM, '-ar', '24000', '-ac', '1', '-b:a', '96k', str(out))
+    af = vo.TRIM + (f',adelay={int(pad * 1000)}:all=1' if pad else '')
+    vo.ffmpeg('-y', '-i', str(src), '-af', af, '-ar', '24000', '-ac', '1', '-b:a', '96k', str(out))
 
 async def make(text: str, out: Path, kind: str) -> None:
     raw = out.with_suffix('.raw.mp3')
     tc.synth(text, VOICE_OF[kind], raw)
-    to_mp3(raw, out); raw.unlink()
+    to_mp3(raw, out, pad=PREROLL if kind == 'scene' else 0); raw.unlink()
 
 def load_progress():
     return json.loads(PROGRESS.read_text('utf-8')) if PROGRESS.exists() else {}

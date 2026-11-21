@@ -7,7 +7,7 @@ voice  장면 3개 × [언어, 문장] 조각. 영어 해설은 en-US-Christophe
        한글이 든 문장은 반드시 ko 조각이다 — 영어 조각에 한글이 있으면 멈춘다(영어 목소리가 한글을 영어식으로 읽지 않게).
        장면 길이는 정하지 않는다 — 말이 끝나는 대로 다음 장면이 시작되고(최소 4초), 마지막에 여운을 둔다.
        그렇게 나온 장면별 [시작, 끝] 초와 전체 길이를 videos.json 의 그 항목 "timing" 에 써 넣는다.
-       TemplateVideo 가 그 값으로 장면을 넘긴다. 오디오를 바꾸면 scripts/basics-speech-intervals.mjs 도 다시 돌린다.
+       TemplateVideo 가 그 값으로 장면을 넘긴다.
 
 엔진: 영어 Edge-TTS(무료, 키 없음) · 한국어 Typecast. 합치기는 정식 ffmpeg 빌드로 한다. Remotion 에 딸린 ffmpeg 는 silenceremove 가 빠진 축소판이다.
 

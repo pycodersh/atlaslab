@@ -47,12 +47,12 @@
   "scene-wrong": {
    "ko": "에마는 왔어요.",
    "src": "audio/korean-basic/lines/eun-neun-vs-i-ga-difference/scene-wrong.mp3",
-   "dur": 1.25
+   "dur": 1.45
   },
   "scene-correct": {
    "ko": "에마가 왔어요.",
    "src": "audio/korean-basic/lines/eun-neun-vs-i-ga-difference/scene-correct.mp3",
-   "dur": 1.22
+   "dur": 1.42
   },
   "ex-1": {
    "ko": "에마가 왔어요.",
@@ -79,12 +79,12 @@
   "scene-wrong": {
    "ko": "같이 먹어.",
    "src": "audio/korean-basic/lines/formal-vs-casual-korean-when-to-drop-yo/scene-wrong.mp3",
-   "dur": 1.26
+   "dur": 1.46
   },
   "scene-correct": {
    "ko": "같이 먹어요.",
    "src": "audio/korean-basic/lines/formal-vs-casual-korean-when-to-drop-yo/scene-correct.mp3",
-   "dur": 1.13
+   "dur": 1.33
   },
   "ex-1": {
    "ko": "가요 · 먹어요 · 좋아요",
@@ -184,12 +184,12 @@
   "scene-wrong": {
    "ko": "몇 살이에요?",
    "src": "audio/korean-basic/lines/korean-age-sal-man-nai/scene-wrong.mp3",
-   "dur": 0.87
+   "dur": 1.07
   },
   "scene-correct": {
    "ko": "나이가 어떻게 되세요?",
    "src": "audio/korean-basic/lines/korean-age-sal-man-nai/scene-correct.mp3",
-   "dur": 1.65
+   "dur": 1.85
   },
   "ex-1": {
    "ko": "스무 살이에요.",
@@ -216,12 +216,12 @@
   "scene-wrong": {
    "ko": "한국어를 안 해요.",
    "src": "audio/korean-basic/lines/korean-an-vs-mot-negation/scene-wrong.mp3",
-   "dur": 1.25
+   "dur": 1.45
   },
   "scene-correct": {
    "ko": "한국어를 못 해요.",
    "src": "audio/korean-basic/lines/korean-an-vs-mot-negation/scene-correct.mp3",
-   "dur": 1.37
+   "dur": 1.57
   },
   "ex-1": {
    "ko": "오늘은 못 가요.",
@@ -270,12 +270,12 @@
   "scene-wrong": {
    "ko": "늦었으니까 죄송해요.",
    "src": "audio/korean-basic/lines/korean-because-aseo-vs-euni-kka/scene-wrong.mp3",
-   "dur": 2.18
+   "dur": 2.38
   },
   "scene-correct": {
    "ko": "늦어서 죄송해요.",
    "src": "audio/korean-basic/lines/korean-because-aseo-vs-euni-kka/scene-correct.mp3",
-   "dur": 2.04
+   "dur": 2.24
   },
   "ex-1": {
    "ko": "늦어서 죄송해요.",
@@ -302,12 +302,12 @@
   "scene-wrong": {
    "ko": "가을 수 있어요.",
    "src": "audio/korean-basic/lines/korean-can-su-itda-eopda/scene-wrong.mp3",
-   "dur": 1.17
+   "dur": 1.37
   },
   "scene-correct": {
    "ko": "갈 수 있어요.",
    "src": "audio/korean-basic/lines/korean-can-su-itda-eopda/scene-correct.mp3",
-   "dur": 1.09
+   "dur": 1.29
   },
   "ex-1": {
    "ko": "카드로 결제할 수 있어요?",
@@ -334,12 +334,12 @@
   "scene-wrong": {
    "ko": "걷고 전화했어요.",
    "src": "audio/korean-basic/lines/korean-connecting-go-vs-myeonseo/scene-wrong.mp3",
-   "dur": 1.25
+   "dur": 1.45
   },
   "scene-correct": {
    "ko": "걸으면서 전화했어요.",
    "src": "audio/korean-basic/lines/korean-connecting-go-vs-myeonseo/scene-correct.mp3",
-   "dur": 1.73
+   "dur": 1.93
   },
   "ex-1": {
    "ko": "밥을 먹고 TV를 봤어요.",
@@ -383,12 +383,12 @@
   "scene-wrong": {
    "ko": "두 커피 주세요.",
    "src": "audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/scene-wrong.mp3",
-   "dur": 1.13
+   "dur": 1.33
   },
   "scene-correct": {
    "ko": "커피 두 잔 주세요.",
    "src": "audio/korean-basic/lines/korean-counters-gae-myeong-jan-byeong/scene-correct.mp3",
-   "dur": 1.73
+   "dur": 1.93
   },
   "ex-1": {
    "ko": "커피 두 잔 주세요.",
@@ -437,12 +437,12 @@
   "scene-wrong": {
    "ko": "제가 할 거예요.",
    "src": "audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/scene-wrong.mp3",
-   "dur": 1.26
+   "dur": 1.46
   },
   "scene-correct": {
    "ko": "제가 할게요.",
    "src": "audio/korean-basic/lines/korean-future-tense-eul-geoyeyo/scene-correct.mp3",
-   "dur": 1.57
+   "dur": 1.77
   },
   "ex-1": {
    "ko": "내일 갈 거예요.",
@@ -469,12 +469,12 @@
   "scene-wrong": {
    "ko": "아침에 밥을 먹어 봤어요.",
    "src": "audio/korean-basic/lines/korean-have-you-ever-eo-boda/scene-wrong.mp3",
-   "dur": 1.9
+   "dur": 2.1
   },
   "scene-correct": {
    "ko": "아침에 밥을 먹었어요.",
    "src": "audio/korean-basic/lines/korean-have-you-ever-eo-boda/scene-correct.mp3",
-   "dur": 1.82
+   "dur": 2.02
   },
   "ex-1": {
    "ko": "이거 한번 먹어 보세요.",
@@ -501,12 +501,12 @@
   "scene-wrong": {
    "ko": "오늘 덥어요.",
    "src": "audio/korean-basic/lines/korean-irregular-verbs-seven-types/scene-wrong.mp3",
-   "dur": 1.03
+   "dur": 1.23
   },
   "scene-correct": {
    "ko": "오늘 더워요.",
    "src": "audio/korean-basic/lines/korean-irregular-verbs-seven-types/scene-correct.mp3",
-   "dur": 1.11
+   "dur": 1.31
   },
   "ex-1": {
    "ko": "더워요",
@@ -533,12 +533,12 @@
   "scene-wrong": {
    "ko": "커피를 좋아요.",
    "src": "audio/korean-basic/lines/korean-object-particle-eul-reul/scene-wrong.mp3",
-   "dur": 1.27
+   "dur": 1.47
   },
   "scene-correct": {
    "ko": "커피를 좋아해요.",
    "src": "audio/korean-basic/lines/korean-object-particle-eul-reul/scene-correct.mp3",
-   "dur": 1.49
+   "dur": 1.69
   },
   "ex-1": {
    "ko": "김치를 먹어요.",
@@ -565,12 +565,12 @@
   "scene-wrong": {
    "ko": "버스에 가요.",
    "src": "audio/korean-basic/lines/korean-particle-euro-by-to-as/scene-wrong.mp3",
-   "dur": 1.1
+   "dur": 1.3
   },
   "scene-correct": {
    "ko": "버스로 가요.",
    "src": "audio/korean-basic/lines/korean-particle-euro-by-to-as/scene-correct.mp3",
-   "dur": 1.01
+   "dur": 1.21
   },
   "ex-1": {
    "ko": "카드로 결제할게요.",
@@ -597,12 +597,12 @@
   "scene-wrong": {
    "ko": "카페에 공부해요.",
    "src": "audio/korean-basic/lines/korean-particles-e-vs-eseo/scene-wrong.mp3",
-   "dur": 1.3
+   "dur": 1.5
   },
   "scene-correct": {
    "ko": "카페에서 공부해요.",
    "src": "audio/korean-basic/lines/korean-particles-e-vs-eseo/scene-correct.mp3",
-   "dur": 1.55
+   "dur": 1.75
   },
   "ex-1": {
    "ko": "집에 있어요.",
@@ -629,12 +629,12 @@
   "scene-wrong": {
    "ko": "저는 결혼해요.",
    "src": "audio/korean-basic/lines/korean-past-tense-explained/scene-wrong.mp3",
-   "dur": 1.55
+   "dur": 1.75
   },
   "scene-correct": {
    "ko": "저는 결혼했어요.",
    "src": "audio/korean-basic/lines/korean-past-tense-explained/scene-correct.mp3",
-   "dur": 1.45
+   "dur": 1.65
   },
   "ex-1": {
    "ko": "먹어요 → 먹었어요",
@@ -661,12 +661,12 @@
   "scene-wrong": {
    "ko": "고마워.",
    "src": "audio/korean-basic/lines/korean-politeness-levels-explained/scene-wrong.mp3",
-   "dur": 0.62
+   "dur": 0.82
   },
   "scene-correct": {
    "ko": "고마워요.",
    "src": "audio/korean-basic/lines/korean-politeness-levels-explained/scene-correct.mp3",
-   "dur": 0.88
+   "dur": 1.08
   },
   "ex-1": {
    "ko": "밥 먹었어요?",
@@ -715,12 +715,12 @@
   "scene-wrong": {
    "ko": "여기 세우세요.",
    "src": "audio/korean-basic/lines/korean-requests-a-eo-juseyo/scene-wrong.mp3",
-   "dur": 1.09
+   "dur": 1.29
   },
   "scene-correct": {
    "ko": "여기 세워 주세요.",
    "src": "audio/korean-basic/lines/korean-requests-a-eo-juseyo/scene-correct.mp3",
-   "dur": 1.96
+   "dur": 2.16
   },
   "ex-1": {
    "ko": "여기 세워 주세요.",
@@ -769,12 +769,12 @@
   "scene-wrong": {
    "ko": "저는 가요 안.",
    "src": "audio/korean-basic/lines/korean-sentence-structure-sov-why-the-verb-goes-last/scene-wrong.mp3",
-   "dur": 1.74
+   "dur": 1.94
   },
   "scene-correct": {
    "ko": "저는 안 가요.",
    "src": "audio/korean-basic/lines/korean-sentence-structure-sov-why-the-verb-goes-last/scene-correct.mp3",
-   "dur": 1.22
+   "dur": 1.42
   },
   "ex-1": {
    "ko": "저는 김치를 먹어요.",
@@ -823,12 +823,12 @@
   "scene-wrong": {
    "ko": "지수는 왔어요.",
    "src": "audio/korean-basic/lines/korean-topic-vs-subject-particle/scene-wrong.mp3",
-   "dur": 1.37
+   "dur": 1.57
   },
   "scene-correct": {
    "ko": "지수가 왔어요.",
    "src": "audio/korean-basic/lines/korean-topic-vs-subject-particle/scene-correct.mp3",
-   "dur": 1.72
+   "dur": 1.92
   },
   "ex-1": {
    "ko": "지수가 왔어요.",
@@ -877,12 +877,12 @@
   "scene-wrong": {
    "ko": "커피 마시아요.",
    "src": "audio/korean-basic/lines/korean-verb-conjugation-ayo-eoyo/scene-wrong.mp3",
-   "dur": 1.14
+   "dur": 1.34
   },
   "scene-correct": {
    "ko": "커피 마셔요.",
    "src": "audio/korean-basic/lines/korean-verb-conjugation-ayo-eoyo/scene-correct.mp3",
-   "dur": 1.54
+   "dur": 1.74
   },
   "ex-1": {
    "ko": "가다 → 가요",
@@ -982,12 +982,12 @@
   "scene-wrong": {
    "ko": "그 커피를 마셨어요.",
    "src": "audio/korean-basic/lines/why-korean-has-no-articles/scene-wrong.mp3",
-   "dur": 1.88
+   "dur": 2.08
   },
   "scene-correct": {
    "ko": "커피를 마셨어요.",
    "src": "audio/korean-basic/lines/why-korean-has-no-articles/scene-correct.mp3",
-   "dur": 1.5
+   "dur": 1.7
   },
   "ex-1": {
    "ko": "책 읽었어요.",
@@ -1036,12 +1036,12 @@
   "scene-wrong": {
    "ko": "당신 이름이 뭐예요?",
    "src": "audio/korean-basic/lines/korean-never-say-dangsin-neo/scene-wrong.mp3",
-   "dur": 1.35
+   "dur": 1.54
   },
   "scene-correct": {
    "ko": "이름이 뭐예요?",
    "src": "audio/korean-basic/lines/korean-never-say-dangsin-neo/scene-correct.mp3",
-   "dur": 1.04
+   "dur": 1.24
   }
  }
 }

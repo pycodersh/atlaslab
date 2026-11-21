@@ -164,7 +164,8 @@ export function TemplateVideoV2({ data, layout }: { data: BasicsVideoData; layou
           <OpeningScene scene={scene} cast={data.cast} />
         </Sequence>
       )}
-      <Sequence from={offset} name="Voiceover">
+      {/* 오디오는 미리 마운트해 둔다 — 장면이 열리는 순간 불러오면 첫 재생에서 첫 음절이 잘린다 */}
+      <Sequence from={offset} name="Voiceover" premountFor={Math.max(1, Math.min(offset, 60))}>
         <Audio src={staticFile(data.audio)} volume={1} />
       </Sequence>
       <Sequence from={scenes[0].from} durationInFrames={scenes[0].dur} name="Hook">
@@ -191,6 +192,8 @@ export const OPENING = {
   smile: 165, // 5.5s B 미소
   end: SCENE_FRAMES, // 7.5s
   voiceLead: 3, // 말풍선이 뜨고 음성이 나오기까지
+  /** 대사 파일 앞에 넣은 무음(0.2초) — 브라우저가 재생을 시작하며 먹는 앞부분이 무음이 되게. 그만큼 일찍 튼다 */
+  preroll: 6,
 } as const
 
 const CHAR_H = 640
@@ -251,10 +254,11 @@ function OpeningScene({ scene, cast }: { scene: SceneData; cast?: Cast }) {
         <span style={{ fontSize: 84, fontWeight: 800, letterSpacing: -1, color: C2.red, whiteSpace: 'nowrap' }}>{scene.correct.ko}</span>
       </Bubble>
 
-      <Sequence from={T.wrong + T.voiceLead} name="Wrong line">
+      {/* 대사 오디오는 장면 시작부터 미리 마운트하고(premountFor), 0.2초 무음이 붙은 파일을 그만큼 일찍 튼다 — 말이 시작되는 시점은 그대로 */}
+      <Sequence from={T.wrong + T.voiceLead - T.preroll} premountFor={T.wrong + T.voiceLead - T.preroll} name="Wrong line">
         <Audio src={staticFile(scene.wrong.audio)} />
       </Sequence>
-      <Sequence from={T.correct + T.voiceLead} name="Correct line">
+      <Sequence from={T.correct + T.voiceLead - T.preroll} premountFor={T.correct + T.voiceLead - T.preroll} name="Correct line">
         <Audio src={staticFile(scene.correct.audio)} />
       </Sequence>
     </AbsoluteFill>
