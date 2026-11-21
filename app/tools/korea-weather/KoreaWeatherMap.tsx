@@ -1,20 +1,7 @@
 'use client'
 
-import { useEffect, useState } from 'react'
 import { CITIES as MAP_CITIES } from '@/data/transitRoutes'
-import { NATIONAL, project as penProject } from '@/lib/maps/penmap'
-import { PEN_ART_CSS, loadArt } from '@/components/maps/PenMap'
-
-/**
- * 지도 그림은 Hotspot Finder 와 같은 펜화 지도(public/maps/penmap-v2.svg — 해안선 · 제주 · 울릉도 등 섬 · 도 경계).
- * 그림 좌표(1 단위 ≈ 100 m)는 너무 커서, 배지 · 점 크기를 예전처럼 두려고 K 로 나눈 「배지 단위」를 viewBox 로 쓴다.
- *   전국 범위(NATIONAL) 폭이 322 단위가 되게 맞춰 — 예전 지도 폭과 같아 배지 글자 크기가 그대로다.
- *   동쪽만 12 단위(≈ 0.22°) 더 보여 준다 — 동해안 배지(Gangneung · Gyeongju · Busan, °F 세 자리)가 틀 안에 들어오게.
- */
-const K = NATIONAL.w / 322
-const VB = { x: NATIONAL.x / K, y: NATIONAL.y / K, w: 322 + 12, h: NATIONAL.h / K }
-const project = (lon: number, lat: number): [number, number] => { const [x, y] = penProject(lat, lon); return [x / K, y / K] }
-const MAP_CSS = `${PEN_ART_CSS}.wf-map .pm-lod-c { display: none; }`
+import { KoreaPenSvg, penXY as project } from '@/components/maps/KoreaPenSvg'
 
 const LIGHTNING = new Set([1087, 1273, 1276, 1279, 1282])
 const SNOW = new Set([1066, 1069, 1072, 1114, 1117, 1168, 1171, 1204, 1207, 1210, 1213, 1216, 1219, 1222, 1225, 1237, 1249, 1252, 1255, 1258, 1261, 1264])
@@ -84,43 +71,36 @@ const BAR: Record<Kind, string> = {
 export const barTone = (code: number) => BAR[kindOf(code)]
 
 /**
- * 배지 [도시명 · 아이콘 · 기온] 을 점의 어느 쪽에 둘지.
- *   left / right — 점 옆 같은 높이(GAP 만큼 띄움).
- *   top / bottom — 점 위·아래(gap 만큼 띄움). align 은 배지의 어느 끝을 점 x + dx 에 맞출지(center 가 기본).
- *     위·아래 배지는 점과 떨어져 있어서 짧은 세로 연결선을 그린다.
- * 값은 지도에서 배지 상자를 실측해 서로 · 다른 점과 안 겹치고 지도 틀(viewBox) 밖으로 안 나가게 맞췄다(2026-11-12, °F 세 자리까지 여유).
- *   viewBox 를 넓히면 지도 전체가 줄어 폰에서 배지 글자가 10px 대로 작아지므로, 틀은 그대로 두고 배지를 안쪽으로 들였다.
- *   Seoul · Jeonju 는 왼쪽 바다가 좁아 점 위로, Gangneung · Gyeongju 는 오른쪽 끝을 넘어 점 아래로 둔다.
- *   Chuncheon 은 위쪽이되 오른쪽 끝을 점 바로 오른쪽에 맞춰 Sokcho 점 · 배지와 띄운다.
+ * 라벨 [도시명 · 아이콘 · 기온] 을 점의 어느 쪽에 둘지. 바탕 상자 없는 글자 + 흰 후광이라 해안선 위에서도 읽힌다.
+ *   left / right — 점 옆 같은 높이(GAP 만큼 띄움). 되도록 이쪽 — [점] 도시명 아이콘 기온.
+ *   top / bottom — 점 위·아래(gap 만큼 띄움). align 은 라벨의 어느 끝을 점 x + dx 에 맞출지(center 가 기본).
+ *     옆자리가 이웃 도시 점 · 라벨이나 지도 오른쪽 끝과 부딪히는 곳만(Seoul · Chuncheon · Daegu · Gyeongju) 쓰고, 짧은 세로 연결선을 그린다.
+ * 값은 라벨 상자를 실측해 서로 · 다른 점과 안 겹치고 지도 틀 밖으로 안 나가게 맞췄다(2026-11-21, 펜화 지도 · °F 세 자리 · 선택 상태 굵은 글씨까지).
+ *   Gangneung 라벨은 오른쪽 — 바로 아래 울릉도를 가리지 않는다.
  */
 type Place = { side: 'left' | 'right' | 'top' | 'bottom'; align?: 'start' | 'center' | 'end'; dx?: number; gap?: number }
 const PLACE: Record<string, Place> = {
   Seoul: { side: 'top', align: 'end', dx: 10, gap: 4 },
   Chuncheon: { side: 'top', align: 'end', dx: 30, gap: 16 },
   Sokcho: { side: 'right' },
-  Gangneung: { side: 'bottom', align: 'start', dx: -16, gap: 26 },
+  Gangneung: { side: 'right' },
   Daegu: { side: 'top', dx: -12, gap: 12 },
   Gyeongju: { side: 'bottom', align: 'start', dx: -18, gap: 4 },
   Busan: { side: 'right' },
-  Jeonju: { side: 'top', align: 'end', dx: 10 },
+  Jeonju: { side: 'left' },
   Yeosu: { side: 'left' },
   Jeju: { side: 'right' },
 }
-// 배지는 HTML 이라 글자 폭만큼만 차지한다 — 이 상자(foreignObject) 안에서 쪽에 맞춰 붙는다. 빈 자리는 클릭을 받지 않는다
+// 라벨은 HTML 이라 글자 폭만큼만 차지한다 — 이 상자(foreignObject) 안에서 쪽에 맞춰 붙는다. 빈 자리는 클릭을 받지 않는다
 const BOX_W = 150
-const BOX_H = 24
+const BOX_H = 18
 const GAP = 6
 
 export type MapCity = { name: string; current: { temp: number; code: number; isDay: boolean; text: string } }
 
 export function KoreaWeatherMap({ cities, selected, onSelect, temp }: { cities: MapCity[]; selected: number; onSelect: (i: number) => void; temp: (c: number) => string }) {
-  const [art, setArt] = useState<string | null>(null)
-  useEffect(() => { let dead = false; loadArt().then(t => { if (!dead) setArt(t) }).catch(() => {}); return () => { dead = true } }, [])
   return (
-    <>
-    <style>{MAP_CSS}</style>
-    <svg className="wf-map notranslate" viewBox={`${VB.x} ${VB.y} ${VB.w} ${VB.h}`} role="group" aria-label="Map of South Korea with current weather for ten cities">
-      {art && <g className="pm-art" transform={`scale(${1 / K})`} aria-hidden="true" dangerouslySetInnerHTML={{ __html: art }} />}
+    <KoreaPenSvg className="wf-map" ariaLabel="Map of South Korea with current weather for ten cities">
       {/* 선택된 도시를 맨 마지막에 그려 다른 배지 위로 올라오게 한다 */}
       {cities.map((city, i) => ({ city, i })).sort((a, b) => Number(a.i === selected) - Number(b.i === selected)).map(({ city, i }) => {
         const place = MAP_CITIES.find(c => c.name.split(' / ')[0] === city.name)
@@ -134,7 +114,7 @@ export function KoreaWeatherMap({ cities, selected, onSelect, temp }: { cities: 
           : align === 'start' ? ax : align === 'end' ? ax - BOX_W : ax - BOX_W / 2
         const top = side === 'top' ? y - gap - BOX_H : side === 'bottom' ? y + gap : y - BOX_H / 2
         const justify = side === 'left' ? 'end' : side === 'right' ? 'start' : align
-        const r = active ? 6 : 3
+        const r = active ? 5 : 3
         return (
           <g key={city.name} className={`wf-pin${active ? ' is-active' : ''}`} role="button" tabIndex={0} aria-pressed={active}
             aria-label={`${city.name}, ${city.current.text}, ${temp(city.current.temp)}`} onClick={() => onSelect(i)}
@@ -154,8 +134,6 @@ export function KoreaWeatherMap({ cities, selected, onSelect, temp }: { cities: 
           </g>
         )
       })}
-    </svg>
-    <p className="wf-map-credit">Map data: Natural Earth · geoBoundaries · © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a></p>
-    </>
+    </KoreaPenSvg>
   )
 }

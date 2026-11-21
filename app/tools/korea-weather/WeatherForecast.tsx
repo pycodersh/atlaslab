@@ -106,40 +106,35 @@ export function WeatherForecast() {
         .wf-units button[aria-pressed="true"] { background: #111827; color: #fff; }
         .wf-top { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; margin-bottom: 20px; align-items: start; }
         .wf-map-card { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 12px; }
-        .wf-map { display: block; width: 100%; max-width: 440px; height: auto; margin: 0 auto; }
-        .wf-map-credit { margin: 4px 0 0; text-align: right; font-size: 9px; line-height: 1.3; color: #9CA3AF; }
-        .wf-map-credit a { color: inherit; }
+        .wf-map { max-width: 440px; margin: 0 auto; }
         .wf-pin { cursor: pointer; outline: none; }
-        .wf-pin-dot { fill: #94A3B8; stroke: #fff; stroke-width: 1.5; }
+        .wf-pin-dot { fill: #6B7280; stroke: #fff; stroke-width: 1.5; }
         .wf-pin.is-active .wf-pin-dot { fill: #2563EB; stroke-width: 2; }
         .wf-pin-ping { fill: #2563EB; pointer-events: none; transform-box: fill-box; transform-origin: center; animation: wf-ping 1.6s cubic-bezier(0,0,.2,1) infinite; }
         @keyframes wf-ping { from { transform: scale(1); opacity: .5; } to { transform: scale(2.6); opacity: 0; } }
         @media (prefers-reduced-motion: reduce) { .wf-pin-ping { animation: none; opacity: .2; transform: scale(1.8); } }
-        /* 배경 없는 라벨 — 흰 번짐 그림자로 지도 위에서도 또렷하게 읽힌다 */
-        /* 도시 배지 — [도시명 · 아이콘 · 기온] 을 둥근 캡슐 하나로 묶는다.
-           Tailwind 로 치면 rounded-full bg-white/95 border-neutral-200 shadow-sm px-2.5 py-1,
-           도시명 text-xs font-medium text-neutral-700, 기온 text-xs font-bold text-neutral-900.
+        /* 도시 라벨 — [도시명 · 아이콘 · 기온] 글자만(캡슐 · 테두리 · 그림자 없음).
+           얇은 흰 후광(text-shadow · 아이콘은 drop-shadow)으로 해안선 · 도 경계 위에서도 읽힌다.
            지도 SVG 안(foreignObject)이라 px 은 지도 좌표 단위다 — 지도 폭에 따라 함께 커지고 작아진다.
            상자(.wf-label)의 빈 자리는 클릭을 받지 않아 옆 도시 점을 가리지 않는다. */
         .wf-label { display: flex; align-items: center; height: 100%; pointer-events: none; }
         .wf-label.is-end { justify-content: flex-end; }
         .wf-label.is-center { justify-content: center; }
         .wf-badge {
-          pointer-events: auto; display: inline-flex; align-items: center; gap: 4px; box-sizing: border-box; height: 24px;
-          padding: 4px 10px; border-radius: 9999px; white-space: nowrap;
-          background: rgba(255,255,255,.95); border: 1px solid #E5E5E5; box-shadow: 0 1px 2px rgba(0,0,0,.05);
-          font: 500 12px/14px "DM Sans", Inter, system-ui, sans-serif; transition: border-color .15s, background-color .15s;
+          pointer-events: auto; display: inline-flex; align-items: center; gap: 3px; box-sizing: border-box; height: 18px;
+          padding: 0 1px; white-space: nowrap; border-radius: 3px;
+          font: 500 12px/14px "DM Sans", Inter, system-ui, sans-serif;
+          text-shadow: 0 0 1px #fff, 0 0 2px #fff, 0 0 2px #fff, 0 0 3px #fff;
         }
-        .wf-badge svg { flex: none; }
-        .wf-pin-name { font-weight: 500; color: #404040; }
-        .wf-pin-temp { font-weight: 700; color: #171717; }
-        .wf-pin-lead { stroke: #94A3B8; stroke-width: 1; }
-        /* 선택된 도시 — 파란 테두리 + 연한 블루 바탕 */
-        .wf-pin.is-active .wf-badge { background: #EFF6FF; border-color: #3B82F6; }
-        .wf-pin.is-active .wf-pin-name { color: #1D4ED8; font-weight: 600; }
-        .wf-pin.is-active .wf-pin-lead { stroke: #3B82F6; }
+        .wf-badge svg { flex: none; filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 1px #fff); }
+        .wf-pin-name { font-weight: 600; color: #374151; }
+        .wf-pin-temp { font-weight: 700; color: #111827; }
+        .wf-pin-lead { stroke: #9CA3AF; stroke-width: 1; }
+        /* 선택된 도시만 — 블루 점 · 굵은 블루 글씨 */
+        .wf-pin.is-active .wf-pin-name, .wf-pin.is-active .wf-pin-temp { color: #1D4ED8; font-weight: 800; }
+        .wf-pin.is-active .wf-pin-lead { stroke: #2563EB; }
         .wf-pin:focus-visible .wf-badge { outline: 2px solid #2563EB; outline-offset: 1px; }
-        @media (hover: hover) { .wf-pin:not(.is-active):hover .wf-badge { border-color: #93C5FD; } }
+        @media (hover: hover) { .wf-pin:not(.is-active):hover .wf-pin-name { color: #1D4ED8; } .wf-pin:not(.is-active):hover .wf-pin-dot { fill: #2563EB; } }
         .wf-units button:focus-visible, .wf-retry:focus-visible { outline: 2px solid #C8102E; outline-offset: 2px; }
 
         .wf-panel { background: #fff; border: 1px solid #E5E7EB; border-radius: 12px; padding: 24px; }
@@ -172,8 +167,9 @@ export function WeatherForecast() {
 
         @media (min-width: 768px) {
           .wf-top { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); }
-          .wf-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); overflow: visible; }
-          .wf-day { padding: 12px 6px; }
+          /* 예보 카드(3일)가 위 Across Korea 그리드 전체 폭을 똑같이 나눠 채운다 */
+          .wf-week { display: grid; grid-template-columns: repeat(var(--wf-days, 3), minmax(0, 1fr)); gap: 16px; overflow: visible; }
+          .wf-day { padding: 16px 12px; }
         }
         @media (max-width: 767px) { .wf-panel { padding: 20px; } }
       `}</style>
@@ -227,7 +223,7 @@ export function WeatherForecast() {
 
           <div key={`week-${selected}-${unit}`}>
             <h2 className="wf-section-title">{city.days.length}-Day Forecast</h2>
-            <div className="wf-week" tabIndex={0} role="group" aria-label={`${city.days.length}-day forecast`}>
+            <div className="wf-week" tabIndex={0} role="group" aria-label={`${city.days.length}-day forecast`} style={{ '--wf-days': city.days.length } as React.CSSProperties}>
               {city.days.map((day, i) => {
                 return (
                   <article key={day.date} className="wf-day">
