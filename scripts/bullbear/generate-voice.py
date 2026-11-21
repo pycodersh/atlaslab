@@ -16,10 +16,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 import basics_typecast as tc  # noqa: E402
 
 ROOT = tc.ROOT
-LINES = ROOT / 'remotion' / 'BullBear' / 'lines.json'
-OUT_DIR = ROOT / 'public' / 'audio' / 'bull-bear'
-META = ROOT / 'remotion' / 'BullBear' / 'audio.generated.json'
-VOICE = {'bull': 'Hyunmin', 'bear': 'Eunkyung'}
+# python generate-voice.py [bullbear|pro] — pro = ProAnalystBriefing(단독 애널리스트, Hyunmin)
+SETS = {
+    'bullbear': ('BullBear', 'bull-bear', {'bull': 'Hyunmin', 'bear': 'Eunkyung'}),
+    'pro': ('ProAnalyst', 'pro-analyst', {'analyst': 'Hyunmin'}),
+}
+_comp, _audio, VOICE = SETS[sys.argv[1] if len(sys.argv) > 1 else 'bullbear']
+LINES = ROOT / 'remotion' / _comp / 'lines.json'
+OUT_DIR = ROOT / 'public' / 'audio' / _audio
+META = ROOT / 'remotion' / _comp / 'audio.generated.json'
 TEMPO = 1.0
 
 
@@ -41,18 +46,18 @@ def probe(path: Path) -> tuple[float, float, float]:
 
 def main() -> None:
     lines = json.loads(LINES.read_text(encoding='utf-8'))
-    need = sum(len(l.get('say') or l['text']) for l in lines if not tc.cached(l.get('say') or l['text'], VOICE[l['who']], TEMPO).exists())
+    need = sum(len(l.get('say') or l['text']) for l in lines if not tc.cached(l.get('say') or l['text'], VOICE[l.get('who', 'analyst')], TEMPO).exists())
     c = tc.credits()
-    print(f"엔진 Typecast {tc.MODEL} 템포 {TEMPO} · 황소=Hyunmin 곰=Eunkyung · {len(lines)}줄 · 새로 쓸 크레딧 ≈{need} (남은 {c['total'] - c['used']})")
+    print(f"엔진 Typecast {tc.MODEL} 템포 {TEMPO} · {' '.join(f'{k}={v}' for k, v in VOICE.items())} · {len(lines)}줄 · 새로 쓸 크레딧 ≈{need} (남은 {c['total'] - c['used']})")
     if need > c['total'] - c['used']:
         raise SystemExit('크레딧 부족')
     meta = []
     for i, l in enumerate(lines, 1):
         out = OUT_DIR / f'{i:02d}.mp3'
-        fresh = tc.synth(l.get('say') or l['text'], VOICE[l['who']], out, TEMPO)
+        fresh = tc.synth(l.get('say') or l['text'], VOICE[l.get('who', 'analyst')], out, TEMPO)
         total, start, end = probe(out)
-        meta.append({'file': f'audio/bull-bear/{i:02d}.mp3', 'total': total, 'start': start, 'end': end})
-        print(f"{i:02d} {l['who']:4} {'new ' if fresh else 'cache'} {total:5.2f}s  [{start:.2f}–{end:.2f}]")
+        meta.append({'file': f'audio/{_audio}/{i:02d}.mp3', 'total': total, 'start': start, 'end': end})
+        print(f"{i:02d} {l.get('who', 'analyst'):7} {'new ' if fresh else 'cache'} {total:5.2f}s  [{start:.2f}–{end:.2f}]")
     META.write_text(json.dumps(meta, ensure_ascii=False, indent=1), encoding='utf-8')
     print('합계', round(sum(m['end'] - m['start'] for m in meta), 2), '초(무음 제외)')
 
